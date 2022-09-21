@@ -1,3 +1,2 @@
-1. DbContext в отдельной сборке
-
+п»ї1. DbContext Рё WebApi РІ РґСЂСѓРіРѕР№ СЃР±РѕСЂРєРµ 
 2. Mediatr command + query + event

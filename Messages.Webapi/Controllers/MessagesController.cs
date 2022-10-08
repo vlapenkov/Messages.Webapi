@@ -1,8 +1,13 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using MediatR;
+using Messages.Common;
 using Messages.Domain;
 using Messages.Webapi.Commands;
+using Messages.Webapi.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,62 +18,81 @@ using System.Threading.Tasks;
 
 namespace Messages.Webapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route( "api/[controller]" )]
     [ApiController]
     public class MessagesController : ControllerBase
     {
         private MessagesRepository _repo;
         private MessageTypeFactory _factory;
         private IMediator _mediator;
+        private ILogger _logger;
 
-        public MessagesController(MessagesRepository repo, MessageTypeFactory factory, IMediator mediator)
+        public MessagesController(MessagesRepository repo, MessageTypeFactory factory, IMediator mediator, ILogger<MessagesController> logger)
         {
             _repo = repo;
             _factory = factory;
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<string> Get(string messageType = "MessageType1Processor")
+        public async Task<IEnumerable<MessageDto>> Get(string messageType = "MessageType1Processor")
         {
 
-           var messages  =await _mediator.Send(new GetMessagesByOrganizationQuery { ReceiverId = 1 });
-
-           
-                      
-            Console.WriteLine("Main thread");
-            var messageProcessor = _factory.GetProcessorByName(messageType);
+            _logger.LogWarning( "Предупреждение системы" );
 
 
-
-            var result = messages
-                .Select(message => messageProcessor.Process(message)).ToArray();
-
+            //  throw new EntityNotFoundException( "Тестовое сообщение1" );
+            //throw new TneErrorException( "Тест не работает" );
 
 
-            var jsonString = JsonSerializer.Serialize<IEnumerable<object>>(result);
+            throw new ValidationException( new[] { new ValidationFailure( "propertyName1", "errorMessage1" ) ,
+            new ValidationFailure( "propertyName2", "errorMessage2" ) } );
 
-            return jsonString;
+
+            var messages = await _mediator.Send( new GetMessagesByOrganizationQuery { ReceiverId = 1 } );
+
+            return messages.Select( message => new MessageDto
+            {
+                Id = message.Id,
+                Name = message.Name,
+                Description = message.Description
+            } );
+
+            /*
+                        var messageProcessor = _factory.GetProcessorByName( messageType );
+
+
+
+                        var result = messages
+                            .Select( message => messageProcessor.Process( message ) ).ToArray( );
+
+
+
+                        var jsonString = JsonSerializer.Serialize<IEnumerable<object>>( result );
+
+                        return jsonString; */
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet( "{id}" )]
         public async Task<IActionResult> GetMessage(int id)
         {
+            throw new TneErrorException( "Тест не работает" );
 
-            return Ok(id);
+            return Ok( id );
         }
 
         [HttpPost]
-        [Route("/{senderId}/{receiverId}")]
-        public async Task<IActionResult> PostBook( Message messageDto)
+        [Route( "/{senderId}/{receiverId}" )]
+        public async Task<IActionResult> PostBook(Message messageDto)
         {
 
-            return Ok(messageDto);
+            return Ok( messageDto );
 
 
         }
 
-        
+
     }
 }

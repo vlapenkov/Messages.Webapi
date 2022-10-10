@@ -7,7 +7,7 @@ namespace Messages.Spa
 {
     public interface IMessagesServices
     {
-        [Get( "/api/Messages" )]
+        [Get( "/api/v1/Messages" )]
         Task<IEnumerable<MessageDto>> Get();
     }
 }

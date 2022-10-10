@@ -22,6 +22,7 @@ namespace Messages.Spa.Controllers
         [HttpGet]
         public async Task<IEnumerable<MessageDto>> GetMessages()
         {
+            //            throw new Exception( "Som etext" );
             var result = await _messagesServices.Get( );
             return result;
         }

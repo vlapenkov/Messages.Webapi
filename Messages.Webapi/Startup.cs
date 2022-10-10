@@ -4,7 +4,7 @@ using MediatR;
 using Messages.Common;
 using Messages.Domain;
 using Messages.Infrastructure;
-
+using Messages.Spa;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,54 +41,7 @@ namespace Messages.Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddProblemDetails(
-                options =>
-                {
-                    options.IncludeExceptionDetails = (ctx, ex) => !Env.IsDevelopment( );
-
-                    options.Map<ValidationException>(
-
-                           delegate (ValidationException exception)
-                           {
-
-                               var result = new ValidationProblemDetails( exception.Errors
-                .GroupBy( x => x.PropertyName )
-                .ToDictionary(
-                    x => x.Key,
-                    x => x.Select( x => x.ErrorMessage )
-                    .ToArray( ) ) )
-                               {
-                                   Title = "Ошибка",
-                                   Type = nameof( ValidationException ),
-                                   Status = StatusCodes.Status400BadRequest
-                               };
-
-                               return result;
-                           }
-                    );
-
-                    options.Map<TneErrorException>( exception => new ProblemDetails
-                    {
-                        Type = "TneErrorException",
-                        Title = "Ошибка",
-                        Detail = exception.Message,
-                        Status = StatusCodes.Status500InternalServerError
-                    } );
-
-                    options.Map<Exception>( exception => new ProblemDetails
-                    {
-                        Type = "TneErrorException",
-                        Title = "Ошибка",
-                        Detail = exception.Message,
-                        Status = StatusCodes.Status500InternalServerError
-                    } );
-
-
-                }
-
-                );
-
-
+            services.AddErrorHandling( Env );
 
             services.AddDbContext<MessagesDbContext>( options =>
               options.UseSqlServer( Configuration.GetConnectionString( "DefaultConnection" ) )
@@ -103,15 +56,7 @@ namespace Messages.Webapi
             services.AddScoped<MessagesRepository>( );
             services.AddSingleton<MessageTypeFactory>( );
 
-            services.AddControllers(
-                opts =>
-                {
-                    opts.ModelBinderProviders.Insert( 0, new MessageTypeModelBinderProvider( ) );
-
-                } ).AddJsonOptions( options =>
-                  {
-                      options.JsonSerializerOptions.WriteIndented = true;
-                  } ); ;
+            services.AddControllers(); 
             services.AddSwaggerGen( );
         }
 
@@ -142,13 +87,13 @@ namespace Messages.Webapi
                  endpoints.MapControllers( );
              } );
 
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>( ).CreateScope( ))
-            {
-                var context = serviceScope.ServiceProvider.GetService<MessagesDbContext>( );
+            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>( ).CreateScope( ))
+            //{
+            //    var context = serviceScope.ServiceProvider.GetService<MessagesDbContext>( );
 
-                context.Database.Migrate( );
+            //    context.Database.Migrate( );
 
-            }
+            //}
         }
     }
 }

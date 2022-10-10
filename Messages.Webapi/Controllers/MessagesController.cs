@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Messages.Webapi.Controllers
 {
-    [Route( "api/[controller]" )]
+    [Route( "api/v1/[controller]" )]
     [ApiController]
     public class MessagesController : ControllerBase
     {
@@ -41,16 +41,15 @@ namespace Messages.Webapi.Controllers
 
             _logger.LogWarning( "Предупреждение системы" );
 
+          
+            throw new RkErrorException( "Тестовое сообщение1" );
 
-            //  throw new EntityNotFoundException( "Тестовое сообщение1" );
-            //throw new TneErrorException( "Тест не работает" );
+                        /*  
+                                    throw new ValidationException( new[] { new ValidationFailure( "propertyName1", "errorMessage1" ) ,
+                                    new ValidationFailure( "propertyName2", "errorMessage2" ) } );
+                        */
 
-
-            throw new ValidationException( new[] { new ValidationFailure( "propertyName1", "errorMessage1" ) ,
-            new ValidationFailure( "propertyName2", "errorMessage2" ) } );
-
-
-            var messages = await _mediator.Send( new GetMessagesByOrganizationQuery { ReceiverId = 1 } );
+                        var messages = await _mediator.Send( new GetMessagesByOrganizationQuery { ReceiverId = 1 } );
 
             return messages.Select( message => new MessageDto
             {
@@ -59,26 +58,13 @@ namespace Messages.Webapi.Controllers
                 Description = message.Description
             } );
 
-            /*
-                        var messageProcessor = _factory.GetProcessorByName( messageType );
-
-
-
-                        var result = messages
-                            .Select( message => messageProcessor.Process( message ) ).ToArray( );
-
-
-
-                        var jsonString = JsonSerializer.Serialize<IEnumerable<object>>( result );
-
-                        return jsonString; */
 
         }
 
         [HttpGet( "{id}" )]
         public async Task<IActionResult> GetMessage(int id)
         {
-            throw new TneErrorException( "Тест не работает" );
+            throw new RkErrorException( "Тест не работает" );
 
             return Ok( id );
         }

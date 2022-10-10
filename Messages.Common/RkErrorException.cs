@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Messages.Common
 {
-    public class TneErrorException : Exception
+    public class RkErrorException : Exception
     {
-        public TneErrorException(string message) : base( message )
+        public RkErrorException(string message) : base( message )
         { }
     }
 }

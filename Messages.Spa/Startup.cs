@@ -26,27 +26,8 @@ namespace Messages.Spa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddProblemDetails( options =>
-            {
-                options.IncludeExceptionDetails = (ctx, ex) => !Env.IsDevelopment( );
-
-                options.Map<ValidationApiException>(
-                       delegate (ValidationApiException exception)
-                       {
-                           return new ValidationProblemDetails
-                           ( exception.Content.Errors )
-                           {
-
-                               Title = exception.Content.Title,
-                               Detail = exception.Content.Detail,
-                               Instance = exception.Content.Instance,
-                               Status = exception.Content.Status,
-                               Type = exception.Content.Type
-                           };
-                       }
-                );
-            }
-        );
+            services.AddErrorHandling( Env );
+        
             services.AddControllersWithViews( );
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles( configuration =>
@@ -54,9 +35,10 @@ namespace Messages.Spa
                  configuration.RootPath = "ClientApp/dist";
              } );
 
-            services.AddSwaggerGen( );
+            services.AddSwaggerGen( );                        
 
-            services.AddRefitClient<IMessagesServices>( ).ConfigureHttpClient( c => c.BaseAddress = new System.Uri( "http://localhost:5100" ) );
+            services.AddRefitClient<IMessagesServices>( )
+                                .ConfigureHttpClient( c => c.BaseAddress = new System.Uri( Configuration["Services:Messages:BaseUrl"] ) );
             //.AddHttpMessageHandler<mvc.services.AccessTokenHandler>( )
             //.AddHttpMessageHandler<ErrorMessageHandler>( );
         }
@@ -65,21 +47,14 @@ namespace Messages.Spa
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseProblemDetails( );
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Error");
-            //}
+           
 
             app.UseSwagger( );
 
 
             app.UseSwaggerUI( c =>
             {
-                c.SwaggerEndpoint( "/swagger/v1/swagger.json", "My API V1" );
+                c.SwaggerEndpoint( "/swagger/v1/swagger.json", "Messages service V1" );
             } );
 
             app.UseStaticFiles( );

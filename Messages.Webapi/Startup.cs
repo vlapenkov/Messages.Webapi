@@ -4,6 +4,7 @@ using MediatR;
 using Messages.Common;
 using Messages.Domain;
 using Messages.Infrastructure;
+using Messages.Interfaces;
 using Messages.Spa;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,19 +43,18 @@ namespace Messages.Webapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddErrorHandling( Env );
+                        
 
-            services.AddDbContext<MessagesDbContext>( options =>
-              options.UseSqlServer( Configuration.GetConnectionString( "DefaultConnection" ) )
-             );
-
-            services.AddDbContext<ITransientDbContext, MessagesDbContext>( options =>
-              options.UseSqlServer( Configuration.GetConnectionString( "DefaultConnection" ) ),
-             ServiceLifetime.Transient
-             );
+            services.AddDbContext<AppDbContext>(           
+           options =>  options
+           .UseNpgsql(Configuration.GetConnectionString("SqlConnection"))
+           .UseLowerCaseNamingConvention()          
+           .UseLazyLoadingProxies()
+          );
 
             services.AddMediatR( Assembly.GetExecutingAssembly( ) );
-            services.AddScoped<MessagesRepository>( );
-            services.AddSingleton<MessageTypeFactory>( );
+            //services.AddScoped<IRepository<>,Repo>( );
+            //services.AddSingleton<MessageTypeFactory>( );
 
             services.AddControllers(); 
             services.AddSwaggerGen( );

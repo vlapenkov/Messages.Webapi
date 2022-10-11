@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messages.Webapi", "Messages.Webapi\Messages.Webapi.csproj", "{171A2C05-AE8B-4813-A51B-2F4AD118EA4D}"
 EndProject
@@ -20,7 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messages.Common", "Messages.Common\Messages.Common.csproj", "{6C830F08-5265-4CD8-8DB9-A0404BF9590E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Spa", "Messages.Spa\Messages.Spa.csproj", "{67C48A4A-8B58-4C8F-B38E-D2E5DCF41D0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messages.Spa", "Messages.Spa\Messages.Spa.csproj", "{67C48A4A-8B58-4C8F-B38E-D2E5DCF41D0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Interfaces", "Messages.Interfaces\Messages.Interfaces.csproj", "{19C94B65-5B41-421D-9657-B99373D2D742}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Logic", "Messages.Logic\Messages.Logic.csproj", "{9F8B927A-BF72-418C-A8EF-F3688A58B3CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +52,14 @@ Global
 		{67C48A4A-8B58-4C8F-B38E-D2E5DCF41D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C48A4A-8B58-4C8F-B38E-D2E5DCF41D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67C48A4A-8B58-4C8F-B38E-D2E5DCF41D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19C94B65-5B41-421D-9657-B99373D2D742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C94B65-5B41-421D-9657-B99373D2D742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C94B65-5B41-421D-9657-B99373D2D742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C94B65-5B41-421D-9657-B99373D2D742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F8B927A-BF72-418C-A8EF-F3688A58B3CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8B927A-BF72-418C-A8EF-F3688A58B3CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8B927A-BF72-418C-A8EF-F3688A58B3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8B927A-BF72-418C-A8EF-F3688A58B3CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

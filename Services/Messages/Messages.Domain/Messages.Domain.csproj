@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Messages.Common\Messages.Common.csproj" />
+    <ProjectReference Include="..\..\..\Messages.Common\Messages.Common.csproj" />
   </ItemGroup>
 
 

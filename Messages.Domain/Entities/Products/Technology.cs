@@ -9,6 +9,7 @@ namespace Messages.Domain.Models.Products
     /// </summary>
     public class Technology : BaseProduct
     {
+        private Technology() { }
         public Technology(int catalogSectionId, string name, string description, ICollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
         {
         }

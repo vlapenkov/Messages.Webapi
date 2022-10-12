@@ -11,18 +11,25 @@ namespace Messages.Domain.Models
     {
         int? _requestedHashCode;
 
-        long _Id;
-        public virtual long Id
-        {
-            get
-            {
-                return _Id;
-            }
-            protected set
-            {
-                _Id = value;
-            }
-        }
+        //public BaseEntity(long id)
+        //{
+        //    Id = id;
+        //}
+
+        public  long Id { get; protected set; }
+
+        //private long _Id;
+        //public virtual long Id
+        //{
+        //    get
+        //    {
+        //        return _Id;
+        //    }
+        //    protected set
+        //    {
+        //        _Id = value;
+        //    }
+        //}
 
 
         public bool IsTransient()

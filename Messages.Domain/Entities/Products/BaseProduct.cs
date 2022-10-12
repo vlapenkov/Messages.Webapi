@@ -8,9 +8,10 @@ namespace Messages.Domain.Models.Products
     /// <summary>
     /// Базовый класс для всех продуктов/услуг/технологий
     /// </summary>
-    public class BaseProduct : BaseEntity
+    public abstract class BaseProduct : BaseEntity
     {
-        public BaseProduct(int catalogSectionId,  string name, string description, ICollection<AttributeValue> attributeValues)
+        protected BaseProduct() { }
+        public BaseProduct(long catalogSectionId,  string name, string description, ICollection<AttributeValue> attributeValues)
         {
             CatalogSectionId = catalogSectionId;          
             Name = name;
@@ -18,7 +19,7 @@ namespace Messages.Domain.Models.Products
             AttributeValues = attributeValues;
         }
 
-        public int CatalogSectionId { get; protected set; }
+        public long CatalogSectionId { get; protected set; }
         public virtual CatalogSection CatalogSection { get;  }
 
         [StringLength(512)]

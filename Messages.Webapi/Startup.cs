@@ -47,10 +47,12 @@ namespace Messages.Webapi
 
             services.AddDbContext<AppDbContext>(           
            options =>  options
-           .UseNpgsql(Configuration.GetConnectionString("SqlConnection"))
+           .UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
            .UseLowerCaseNamingConvention()          
            .UseLazyLoadingProxies()
           );
+
+            services.AddScoped<IUnitOfWork, AppDbContext>();
 
             services.AddMediatR( Assembly.GetExecutingAssembly( ) );
             //services.AddScoped<IRepository<>,Repo>( );

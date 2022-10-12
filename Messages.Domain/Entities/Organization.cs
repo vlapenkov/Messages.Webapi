@@ -10,9 +10,10 @@ namespace Messages.Domain.Models
     /// </summary>
     public class Organization :BaseEntity
     {
-        private Organization() { }
-        public Organization(long id, string name, string fullName, string ogrn, string inn, string kpp):base()
+      //  private Organization() { }
+        public Organization(long id, string name, string fullName, string ogrn, string inn, string kpp)
         {
+            Id = id;
             Name = name;
             FullName = fullName;
             Ogrn = ogrn;

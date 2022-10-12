@@ -11,7 +11,7 @@ namespace Messages.Domain.Models.Products
     public class Product : BaseProduct
     {
         private Product() { }
-        public Product(int catalogSectionId, string name, string description, ICollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        public Product(int catalogSectionId, string name, string description, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
         {
         }
 

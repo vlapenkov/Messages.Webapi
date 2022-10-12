@@ -10,7 +10,7 @@ namespace Messages.Domain.Models.Products
     public class ServiceProduct : BaseProduct
     {
         private ServiceProduct() { }
-        public ServiceProduct(int catalogSectionId, string name, string description, ICollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        public ServiceProduct(int catalogSectionId, string name, string description, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
         {
         }
     }

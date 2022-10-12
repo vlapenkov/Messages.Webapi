@@ -17,15 +17,23 @@ namespace Messages.Domain.Models
             Name = name;
         }
 
+        /// <summary>Родительский id раздела</summary>
         public long? ParentCatalogSectionId { get; private set; }
 
         public virtual CatalogSection Parent { get; }
 
+
+        /// <summary>Наименование раздела</summary>
         [StringLength(1024)]
         public string Name { get; private set; }
 
-        public virtual List<CatalogSection> Children { get; }
+        /// <summary>Разделы внутри текущего</summary>
+        private readonly List<CatalogSection> _children;
+        public virtual IReadOnlyCollection<CatalogSection> Children => _children;
 
-        public virtual List<BaseProduct> Products { get; }
+        //public virtual List<CatalogSection> Children { get; }
+
+        private readonly List<BaseProduct> _products;
+        public virtual IReadOnlyCollection<BaseProduct> Products => _products;
     }
 }

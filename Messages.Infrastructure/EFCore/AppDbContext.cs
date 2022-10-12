@@ -2,16 +2,12 @@
 using Messages.Domain.Models.Products;
 using Messages.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Messages.Infrastructure
+namespace Messages.Infrastructure.EFCore
 {
-    public class AppDbContext : DbContext, IUnitOfWork
+    public class AppDbContext : DbContext, IAppDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -19,21 +15,19 @@ namespace Messages.Infrastructure
 
 
         public DbSet<Organization> Organizations { get; set; }
-
         public DbSet<ProductAttribute> Attributes { get; set; }
-
         public DbSet<AttributeValue> AttributeValues { get; set; }
+
+        public DbSet<CatalogSection> CatalogSections { get; set; }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ServiceProduct> ServiceProducts { get; set; }
         public DbSet<Technology> TechnologyProducts { get; set; }
 
-              
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder.UseLazyLoadingProxies();
 
-            
 
             builder.Entity<BaseProduct>(entity =>
             {
@@ -48,7 +42,8 @@ namespace Messages.Infrastructure
 
             });
 
-            builder.Entity<CatalogSection>(entity => {
+            builder.Entity<CatalogSection>(entity =>
+            {
                 entity.HasOne(self => self.Parent)
                     .WithMany(self => self.Children)
                     .HasForeignKey(self => self.ParentCatalogSectionId)
@@ -56,14 +51,15 @@ namespace Messages.Infrastructure
 
                 entity.HasMany(self => self.Products)
                    .WithOne(self => self.CatalogSection)
-                   .HasForeignKey(self => self.CatalogSectionId);                   
+                   .HasForeignKey(self => self.CatalogSectionId);
             });
 
-            builder.Entity<AttributeValue>(entity => {
+            builder.Entity<AttributeValue>(entity =>
+            {
                 entity.HasOne(self => self.Attribute)
                     .WithMany()
                     .HasForeignKey(self => self.AttributeId);
-                    
+
             });
 
             Seed(builder);
@@ -72,8 +68,15 @@ namespace Messages.Infrastructure
         protected virtual void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Organization>().HasData(
-          new Organization(1,"Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001")          
+          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001")
           );
+
+            modelBuilder.Entity<ProductAttribute>().HasData(
+        new ProductAttribute(1,"Вес"),
+        new ProductAttribute(2, "Длина"),
+        new ProductAttribute(3, "Ширина"),
+        new ProductAttribute(4, "Цвет")
+        );
 
         }
 

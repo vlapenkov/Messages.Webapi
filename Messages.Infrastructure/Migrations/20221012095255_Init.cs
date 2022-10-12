@@ -21,7 +21,7 @@ namespace Messages.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "catalogsection",
+                name: "catalogsections",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
@@ -31,11 +31,11 @@ namespace Messages.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_catalogsection", x => x.id);
+                    table.PrimaryKey("pk_catalogsections", x => x.id);
                     table.ForeignKey(
-                        name: "fk_catalogsection_catalogsection_catalogsectionid",
+                        name: "fk_catalogsections_catalogsections_catalogsectionid",
                         column: x => x.parentcatalogsectionid,
-                        principalTable: "catalogsection",
+                        principalTable: "catalogsections",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -73,9 +73,9 @@ namespace Messages.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_baseproduct", x => x.id);
                     table.ForeignKey(
-                        name: "fk_baseproduct_catalogsection_catalogsectionid",
+                        name: "fk_baseproduct_catalogsections_catalogsectionid",
                         column: x => x.catalogsectionid,
-                        principalTable: "catalogsection",
+                        principalTable: "catalogsections",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -128,8 +128,8 @@ namespace Messages.Infrastructure.Migrations
                 column: "catalogsectionid");
 
             migrationBuilder.CreateIndex(
-                name: "ix_catalogsection_parentcatalogsectionid",
-                table: "catalogsection",
+                name: "ix_catalogsections_parentcatalogsectionid",
+                table: "catalogsections",
                 column: "parentcatalogsectionid");
         }
 
@@ -148,7 +148,7 @@ namespace Messages.Infrastructure.Migrations
                 name: "baseproduct");
 
             migrationBuilder.DropTable(
-                name: "catalogsection");
+                name: "catalogsections");
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Messages.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Messages.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221012095255_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,28 +147,6 @@ namespace Messages.Infrastructure.Migrations
                         .HasName("pk_attributes");
 
                     b.ToTable("attributes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "Вес"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Name = "Длина"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Name = "Ширина"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Name = "Цвет"
-                        });
                 });
 
             modelBuilder.Entity("Messages.Domain.Models.Products.BaseProduct", b =>

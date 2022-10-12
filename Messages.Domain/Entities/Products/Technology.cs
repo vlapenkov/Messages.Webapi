@@ -10,7 +10,7 @@ namespace Messages.Domain.Models.Products
     public class Technology : BaseProduct
     {
         private Technology() { }
-        public Technology(int catalogSectionId, string name, string description, ICollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        public Technology(int catalogSectionId, string name, string description, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
         {
         }
     }

@@ -1,6 +1,6 @@
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
-using Messages.Common;
+using Messages.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 
-namespace Messages.Spa
+namespace Messages.WebApi
 {
     public static class StartupExtensions
     {

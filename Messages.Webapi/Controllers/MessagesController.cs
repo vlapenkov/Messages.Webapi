@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using MediatR;
 using Messages.Common;
+using Messages.Common.Exceptions;
 using Messages.Domain;
 using Messages.Domain.Models;
 using Messages.Webapi.Dto;

@@ -39,6 +39,9 @@ namespace Messages.Spa
 
             services.AddRefitClient<IMessagesServices>( )
                                 .ConfigureHttpClient( c => c.BaseAddress = new System.Uri( Configuration["Services:Messages:BaseUrl"] ) );
+
+            services.AddRefitClient<ISectionsServices>()
+                                .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(Configuration["Services:Messages:BaseUrl"]));
             //.AddHttpMessageHandler<mvc.services.AccessTokenHandler>( )
             //.AddHttpMessageHandler<ErrorMessageHandler>( );
         }

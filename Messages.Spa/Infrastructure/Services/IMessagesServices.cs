@@ -1,5 +1,4 @@
-﻿using Messages.Webapi.Dto;
-using Refit;
+﻿using Refit;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +7,6 @@ namespace Messages.Spa
     public interface IMessagesServices
     {
         [Get( "/api/v1/Messages" )]
-        Task<IEnumerable<MessageDto>> Get();
+        Task Get();
     }
 }

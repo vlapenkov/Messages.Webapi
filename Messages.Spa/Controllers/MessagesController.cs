@@ -1,14 +1,9 @@
-﻿using Messages.Webapi.Dto;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Messages.Spa.Controllers
 {
-    [Route( "api/[controller]" )]
+    [Route("api/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
     {
@@ -20,11 +15,11 @@ namespace Messages.Spa.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<MessageDto>> GetMessages()
+        public async Task GetMessages()
         {
             //            throw new Exception( "Som etext" );
-            var result = await _messagesServices.Get( );
-            return result;
+            await _messagesServices.Get();
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Messages.Domain.Models
     /// </summary>
     public  class ProductAttribute :BaseEntity
     {
-        //private ProductAttribute() {}
+      // private ProductAttribute() {}
 
         public ProductAttribute(long id, string name)
         {             

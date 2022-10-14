@@ -10,6 +10,8 @@ using Messages.Domain.Models;
 using Messages.Common;
 using Microsoft.EntityFrameworkCore;
 using Messages.Common.Exceptions;
+using FluentValidation;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Messages.Logic.SectionsNS.Commands.CreateSectionCommand
 {
@@ -18,28 +20,52 @@ namespace Messages.Logic.SectionsNS.Commands.CreateSectionCommand
 
         private readonly IAppDbContext _dbContext;
 
-        private readonly IRepository<CatalogSection> _catalogRepository;
+        private readonly IValidator<CreateSectionCommand> _validator;
 
-        public CreateSectionCommandHandler(IAppDbContext dbContext, IRepository<CatalogSection> catalogRepository)
+        public CreateSectionCommandHandler(IAppDbContext dbContext, IValidator<CreateSectionCommand> validator)
         {
             _dbContext = dbContext;
 
-            _catalogRepository = catalogRepository;
+            _validator = validator;
         }
 
-        public async Task<long> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
+        public async Task<long> Handle(CreateSectionCommand command, CancellationToken cancellationToken)
         {
-            var catalogSection  = new CatalogSection(request.ParentSectionId, request.Name);            
+           var validationResult = await _validator.ValidateAsync(command);
 
-           var doublesByNameExists = await _dbContext.CatalogSections.AnyAsync(catalog => catalog.Name == request.Name);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
 
-            if (doublesByNameExists) throw new RkErrorException($"Раздел с наименованием {request.Name} уже существует"); ;
+            await ValidateSection(command);
+
+            var catalogSection  = new CatalogSection(command.ParentSectionId, command.Name);       
 
             _dbContext.CatalogSections.Add(catalogSection);
 
             await _dbContext.SaveChangesAsync();
 
             return catalogSection.Id;
+
+        }
+
+        /// <summary>
+        /// Проверки на уровне бизнес -логики
+        /// </summary>        
+        public async Task ValidateSection(CreateSectionCommand command) {
+
+            var doublesByNameExists = await _dbContext.CatalogSections.AnyAsync(catalog => catalog.Name == command.Name);
+
+            if (doublesByNameExists) throw new RkErrorException($"Раздел с наименованием {command.Name} уже существует");
+
+            if (command.ParentSectionId != null)
+            {
+                bool parentIdSectionExists = await _dbContext.CatalogSections.AnyAsync(catalog => catalog.Id == command.ParentSectionId);
+
+                if (!parentIdSectionExists) throw new RkErrorException($"Родительского раздела  {command.ParentSectionId} не существует");
+            }
+
 
         }
     }

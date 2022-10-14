@@ -1,13 +1,16 @@
 using AutoMapper;
+using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using MediatR;
 using Messages.Infrastructure.EFCore;
 using Messages.Interfaces;
 using Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
 using Messages.Logic.SectionsNS.Mappings;
+using Messages.Logic.SectionsNS.Validations;
 using Messages.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,6 +56,8 @@ namespace Messages.Webapi
             services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
 
             services.AddAutoMapper(typeof(SectionsMappingProfile).GetTypeInfo().Assembly);
+
+            services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
 
             services.AddControllers();
 

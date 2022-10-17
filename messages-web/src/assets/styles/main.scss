@@ -1,0 +1,36 @@
+@import '_variables.scss';
+
+$distance-props: (
+  'm': 'margin',
+  'p': 'padding',
+);
+$direction-props: (
+  't': 'top',
+  'b': 'bottom',
+  'l': 'left',
+  'r': 'right',
+);
+
+@each $class, $prop in $distance-props {
+  @each $size-name, $value in $sizes {
+    .#{$class}__#{$size-name} {
+      #{$prop}: $value;
+    }
+
+    @each $dname, $dval in $direction-props {
+      .#{$class}__#{$dname}_#{$size-name} {
+        #{$prop}-#{$dval}: $value;
+      }
+    }
+
+    .#{$class}__h_#{$size-name} {
+      #{$prop}-left: $value;
+      #{$prop}-right: $value;
+    }
+
+    .#{$class}__v_#{$size-name} {
+      #{$prop}-top: $value;
+      #{$prop}-bottom: $value;
+    }
+  }
+}

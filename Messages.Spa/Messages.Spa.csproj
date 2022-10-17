@@ -27,6 +27,10 @@
     <Folder Include="DelegatingHandlers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Messages.Common\Messages.Common.csproj" />
+  </ItemGroup>
+
 
   
 </Project>

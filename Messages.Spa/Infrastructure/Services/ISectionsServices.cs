@@ -7,11 +7,17 @@ namespace Messages.Spa
 {
     public interface ISectionsServices
     {
+        /// <summary>Создать раздел</summary>         
         [Post("/api/v1/Sections")]
         Task<long> CreateSection([Body] CreateSectionRequest request);
 
-        [Get("/api/v1/Sections")]
-        Task<IReadOnlyCollection<SectionDto>> GetSections([Query] long? parentSectionId);
+        /// <summary>Получить список разделов </summary>
+        [Get("/api/v1/Sections/list")]
+        Task<IReadOnlyCollection<SectionDto>> GetSectionsAsList([Query] long? parentSectionId);
+
+        /// <summary>Получить дерево разделов </summary>
+        [Get("/api/v1/Sections/tree")]
+        Task<SectionTreeNode> GetSectionsAsTree([Query] long? parentSectionId);
 
     }
 }

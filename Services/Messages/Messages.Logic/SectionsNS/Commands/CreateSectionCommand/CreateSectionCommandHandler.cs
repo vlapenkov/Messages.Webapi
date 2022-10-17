@@ -1,17 +1,11 @@
 ﻿using MediatR;
 using Messages.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Messages.Domain.Models;
-using Messages.Common;
 using Microsoft.EntityFrameworkCore;
 using Messages.Common.Exceptions;
 using FluentValidation;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Messages.Logic.SectionsNS.Commands.CreateSectionCommand
 {

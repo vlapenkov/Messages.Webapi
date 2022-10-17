@@ -1,26 +1,36 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Hellang.Middleware.ProblemDetails;
+using Messages.Spa;
 
-namespace Messages.Spa
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddErrorHandling(builder.Environment);
+builder.Services.AddControllersWithViews();
+builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClients(builder.Configuration);
+// Add services to the container.
+
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+app.UseProblemDetails();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Messages service V1");
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
 }
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
+
+app.MapFallbackToFile("index.html"); ;
+
+app.Run();

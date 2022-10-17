@@ -9,79 +9,75 @@ namespace Messages.Domain.Models
     /// </summary>
     public class BaseEntity
     {
-        int? _requestedHashCode;
+        long _id;
 
-        //public BaseEntity(long id)
-        //{
-        //    Id = id;
-        //}
-
-        public  long Id { get; protected set; }
-
-        //private long _Id;
-        //public virtual long Id
-        //{
-        //    get
-        //    {
-        //        return _Id;
-        //    }
-        //    protected set
-        //    {
-        //        _Id = value;
-        //    }
-        //}
-
-
-        public bool IsTransient()
+        /// <summary>
+        /// Gets or sets the entity identifier
+        /// </summary>
+        public virtual long Id
         {
-            return this.Id == default(long);
+            get
+            {
+                return _id;
+            }
+            protected set
+            {
+                _id = value;
+            }
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is BaseEntity))
+            return Equals(obj as BaseEntity);
+        }
+
+        private static bool IsTransient(BaseEntity obj)
+        {
+            return obj != null && Equals(obj.Id, default(long));
+        }
+
+        private Type GetUnproxiedType()
+        {
+            return GetType();
+        }
+
+        public virtual bool Equals(BaseEntity other)
+        {
+            if (other == null)
                 return false;
 
-            if (Object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, other))
                 return true;
 
-            if (this.GetType() != obj.GetType())
-                return false;
+            if (!IsTransient(this) &&
+                !IsTransient(other) &&
+                Equals(Id, other.Id))
+            {
+                var otherType = other.GetUnproxiedType();
+                var thisType = GetUnproxiedType();
+                return thisType.IsAssignableFrom(otherType) ||
+                       otherType.IsAssignableFrom(thisType);
+            }
 
-            BaseEntity item = (BaseEntity)obj;
-
-            if (item.IsTransient() || this.IsTransient())
-                return false;
-            else
-                return item.Id == this.Id;
+            return false;
         }
 
         public override int GetHashCode()
         {
-            if (!IsTransient())
-            {
-                if (!_requestedHashCode.HasValue)
-                    _requestedHashCode = this.Id.GetHashCode() ^ 31; // XOR for random distribution (http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx)
-
-                return _requestedHashCode.Value;
-            }
-            else
+            if (Equals(Id, default(int)))
                 return base.GetHashCode();
-
+            return Id.GetHashCode();
         }
-        public static bool operator ==(BaseEntity left, BaseEntity right)
+
+        public static bool operator ==(BaseEntity x, BaseEntity y)
         {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null)) ? true : false;
-            else
-                return left.Equals(right);
+            return Equals(x, y);
         }
 
-        public static bool operator !=(BaseEntity left, BaseEntity right)
+        public static bool operator !=(BaseEntity x, BaseEntity y)
         {
-            return !(left == right);
+            return !(x == y);
         }
 
-        
     }
 }

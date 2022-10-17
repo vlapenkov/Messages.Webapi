@@ -14,6 +14,9 @@ namespace Messages.Spa.Controllers
             _messagesServices = messagesServices;
         }
 
+        /// <summary>        /// 
+        /// </summary>
+        
         [HttpGet]
         public async Task GetMessages()
         {

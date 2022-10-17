@@ -68,7 +68,8 @@ namespace Messages.Infrastructure.EFCore
         protected virtual void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Organization>().HasData(
-          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001")
+          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001"),
+          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001")
           );
 
             modelBuilder.Entity<ProductAttribute>().HasData(

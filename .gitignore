@@ -36,6 +36,9 @@ bld/
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 
+# JetBrains IDE's
+.idea/
+
 # Visual Studio Code
 
 .vscode/

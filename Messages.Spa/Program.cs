@@ -1,14 +1,12 @@
 using Hellang.Middleware.ProblemDetails;
 using Messages.Spa;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
-
 builder.Services.AddControllersWithViews();
 
 // In production, the Angular files will be served from this directory
@@ -19,6 +17,7 @@ builder.Services.AddSpaStaticFiles(configuration =>
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClients(builder.Configuration);
+
 
 var app = builder.Build();
 app.UseProblemDetails();

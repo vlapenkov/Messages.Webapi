@@ -2,13 +2,14 @@ using Messages.Webapi.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
-using AutoMapper;
+using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using MediatR;
 using Messages.Infrastructure.EFCore;
 using Messages.Interfaces;
 using Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
 using Messages.Logic.SectionsNS.Mappings;
+using Messages.Logic.SectionsNS.Validations;
 using Messages.WebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,15 +19,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
-builder.Services.AddDbContext<AppDbContext>(
+builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
     options => options
         .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
         .UseLowerCaseNamingConvention()
         .UseLazyLoadingProxies()
 );
 
-builder.Services.AddScoped<IAppDbContext,AppDbContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+builder.Services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
 builder.Services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
 builder.Services.AddAutoMapper(typeof(SectionsMappingProfile).GetTypeInfo().Assembly);
 builder.Services.AddControllers();

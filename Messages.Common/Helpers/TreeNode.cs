@@ -17,15 +17,13 @@ namespace Messages.Common.Helpers
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
 
-        #region PrivateMembers
-
-        private  IList<TreeNode<T>> _children = new List<TreeNode<T>>();
+        #region Private Members       
         
         /// <summary> Данные узла </summary>
         public virtual T Data { get; private set; }
 
         /// <summary> Дочерние элементы </summary>
-        public virtual IEnumerable<TreeNode<T>> Children => _children;
+        public List<TreeNode<T>> Children { get; private set; } = new List<TreeNode<T>>();
 
         /// <summary> Родительский элемент </summary>
         [JsonIgnore]
@@ -40,8 +38,9 @@ namespace Messages.Common.Helpers
             if (child==null) throw new ArgumentNullException(nameof(child));
             
             child.Parent = this;
-            
-            _children.Add(child);
+           
+            Children.Add(child);
         }
+       
     }
 }

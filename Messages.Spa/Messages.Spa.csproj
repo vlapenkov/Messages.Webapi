@@ -23,6 +23,10 @@
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Messages.Common\Messages.Common.csproj" />
+  </ItemGroup>
+
 
   
 </Project>

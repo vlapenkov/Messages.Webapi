@@ -26,11 +26,20 @@ namespace Messages.Spa.Controllers
             return await _sectionsServices.CreateSection(request);
         }
 
-        [HttpGet]
-        public async Task<IReadOnlyCollection<SectionDto>> GetSections([FromQuery] long? parentSectionId)
+        [HttpGet("list")]
+        public async Task<IReadOnlyCollection<SectionDto>> GetSectionsAsList([FromQuery] long? parentSectionId)
         {
 
-            return await _sectionsServices.GetSections(parentSectionId);
+            return await _sectionsServices.GetSectionsAsList(parentSectionId);
+        }
+
+        [HttpGet("tree")]
+        public async Task<SectionTreeNode> GetSectionsAsTree([FromQuery] long? parentSectionId)
+        {
+
+            var result = await _sectionsServices.GetSectionsAsTree(parentSectionId);
+
+            return result;
         }
     }
 }

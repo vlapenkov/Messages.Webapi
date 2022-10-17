@@ -32,6 +32,7 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+    'import/prefer-default-export': 'off',
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'error',
     'no-shadow': 'off',

@@ -1,23 +1,15 @@
 using Hellang.Middleware.ProblemDetails;
 using Messages.Spa;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
 builder.Services.AddControllersWithViews();
-
-// In production, the Angular files will be served from this directory
-builder.Services.AddSpaStaticFiles(configuration =>
-{
-    configuration.RootPath = "ClientApp/dist";
-});
-
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClients(builder.Configuration);
+// Add services to the container.
 
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 app.UseProblemDetails();
@@ -27,30 +19,18 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Messages service V1");
 });
 
-app.UseStaticFiles();
-
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseSpaStaticFiles();
 }
 
+app.UseStaticFiles();
 app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller}/{action=Index}/{id?}");
-});
 
-app.UseSpa(spa =>
-{
-    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-    // see https://go.microsoft.com/fwlink/?linkid=864501
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
 
-    spa.Options.SourcePath = "ClientApp";
+app.MapFallbackToFile("index.html"); ;
 
-    if (app.Environment.IsDevelopment())
-    {
-        //      spa.UseAngularCliServer( npmScript: "start" );
-    }
-});
+app.Run();

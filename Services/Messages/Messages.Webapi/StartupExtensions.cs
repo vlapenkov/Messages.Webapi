@@ -44,15 +44,15 @@ namespace Messages.WebApi
                     options.Map<RkErrorException>(exception => new ProblemDetails
                     {
                         Type = nameof(RkErrorException),
-                        Title = "Ошибка",
+                        Title = "Ошибка логики",
                         Detail = exception.Message,
                         Status = StatusCodes.Status500InternalServerError
                     });
 
                     options.Map<Exception>(exception => new ProblemDetails
                     {
-                        Type = "TneErrorException",
-                        Title = "Ошибка",
+                        Type = nameof(Exception),
+                        Title = "Ошибка приложения",
                         Detail = exception.Message,
                         Status = StatusCodes.Status500InternalServerError
                     });

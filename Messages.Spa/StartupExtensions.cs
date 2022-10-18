@@ -1,5 +1,6 @@
 ﻿using Hellang.Middleware.ProblemDetails;
 using Messages.Spa.DelegatingHandlers;
+using Messages.Spa.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,6 +57,11 @@ namespace Messages.Spa
             services.AddRefitClient<ISectionsServices>()
                 .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
                 .AddHttpMessageHandler<AuthHeaderPropagationHandler>();
+
+            services.AddRefitClient<IProductsService>()
+               .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
+               .AddHttpMessageHandler<AuthHeaderPropagationHandler>();
+
             return services;
         }
 

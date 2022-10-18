@@ -1,6 +1,7 @@
+import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import App from './App.vue';
+import { harlemState } from './plugins/harlem.plugin';
 import router from './router';
-import { harlemState } from './tools/plugins/harlem.plugin';
 
-createApp(App).use(router).use(harlemState).mount('#app');
+createApp(App).use(router).use(harlemState).use(PrimeVue).mount('#app');

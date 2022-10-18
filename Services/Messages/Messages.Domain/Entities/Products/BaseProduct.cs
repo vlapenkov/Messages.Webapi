@@ -21,6 +21,13 @@ namespace Messages.Domain.Models.Products
             
         }
 
+        public BaseProduct(long catalogSectionId, string name, string description)
+        {
+            CatalogSectionId = catalogSectionId;
+            Name = name;
+            Description = description;
+        }
+
         /// <summary>Раздел каталога</summary>
         public long CatalogSectionId { get; protected set; }
         public virtual CatalogSection CatalogSection { get;  }

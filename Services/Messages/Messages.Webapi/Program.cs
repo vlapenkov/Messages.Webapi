@@ -13,7 +13,7 @@ using Messages.Logic.SectionsNS.Validations;
 using Messages.WebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using Messages.Logic.ProductsNS.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +29,7 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
 builder.Services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
-builder.Services.AddAutoMapper(typeof(SectionsMappingProfile).GetTypeInfo().Assembly);
+builder.Services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.WebHost.UseTneSerilog();

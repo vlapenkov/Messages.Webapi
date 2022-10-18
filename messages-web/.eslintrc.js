@@ -15,7 +15,9 @@ module.exports = {
   },
   rules: {
     'no-console':
-      process.env.NODE_ENV === 'production' ? ['error', { allow: ['warn', 'error'] }] : 'warn',
+      process.env.NODE_ENV === 'production'
+        ? ['error', { allow: ['warn', 'error'] }]
+        : ['warn', { allow: ['warn', 'error'] }],
     'no-debugger': 'error',
     'vue/component-api-style': ['error', ['script-setup', 'composition']],
     'vue/component-name-in-template-casing': [
@@ -33,6 +35,7 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    'no-param-reassign': ['error', { props: false }],
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'error',
     'no-shadow': 'off',
@@ -55,4 +58,3 @@ module.exports = {
     },
   ],
 };
-

@@ -40,6 +40,8 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
   },
   settings: {
     'import/resolver': {

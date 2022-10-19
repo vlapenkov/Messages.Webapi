@@ -13,9 +13,11 @@ export class HandlerBuilder<TInput, TOutput> {
     return new HandlerPair(this.handler, next);
   }
 
-  decorate(
-    fn: (arg: HandlerBase<TInput, TOutput>) => HandlerDecoratorBase<TInput, TOutput>,
-  ): HandlerDecoratorBase<TInput, TOutput> {
+  decorate<TInputNew = TInput, TOutputNew = TOutput>(
+    fn: (
+      arg: HandlerBase<TInput, TOutput>,
+    ) => HandlerDecoratorBase<TInputNew, TOutputNew, TInput, TOutput>,
+  ): HandlerDecoratorBase<TInputNew, TOutputNew, TInput, TOutput> {
     return fn(this.handler);
   }
 
@@ -25,5 +27,13 @@ export class HandlerBuilder<TInput, TOutput> {
 
   static command<TOut, TIn extends ICommand<TOut>>(handler: CommandHandlerBase<TOut, TIn>) {
     return new HandlerBuilder(handler);
+  }
+
+  getHandler() {
+    return this.handler;
+  }
+
+  buildFunction(): (arg: TInput) => TOutput {
+    return (arg: TInput) => this.handler.handle(arg);
   }
 }

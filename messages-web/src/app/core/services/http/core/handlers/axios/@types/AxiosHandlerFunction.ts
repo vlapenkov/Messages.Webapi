@@ -1,6 +1,3 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosPromise } from 'axios';
 
-export type AxiosHandlerFunction<Tin, TOut, D> = (
-  arg: Tin,
-  http: AxiosInstance,
-) => Promise<AxiosResponse<TOut, D>>;
+export type AxiosHandlerFunction<Tin, TOut> = (arg: Tin, http: AxiosInstance) => AxiosPromise<TOut>;

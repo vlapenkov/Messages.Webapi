@@ -1,14 +1,15 @@
 import { HandlerBase } from '@/app/core/services/cqrs/base/HandlerBase';
-import { AxiosResponse } from 'axios';
+import { AxiosPromise } from 'axios';
 import { http } from '../../http.service';
 import { AxiosHandlerFunction } from './@types/AxiosHandlerFunction';
 
-export class AxiosHandler<Tin, TOut, D> extends HandlerBase<Tin, Promise<AxiosResponse<TOut, D>>> {
-  constructor(private fn: AxiosHandlerFunction<Tin, TOut, D>) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class AxiosHandler<Tin, TOut> extends HandlerBase<Tin, AxiosPromise<TOut>> {
+  constructor(private fn: AxiosHandlerFunction<Tin, TOut>) {
     super();
   }
 
-  handle(input: Tin): Promise<AxiosResponse<TOut, D>> {
+  handle(input: Tin): AxiosPromise<TOut> {
     return this.fn(input, http);
   }
 }

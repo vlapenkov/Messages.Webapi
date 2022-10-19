@@ -1,4 +1,4 @@
-import { HandlerBase } from '@/app/core/services/cqrs/base/HandlerBase';
+import { HandlerBase } from '@/app/core/cqrs/base/HandlerBase';
 import { AxiosPromise } from 'axios';
 import { http } from '../../http.service';
 import { AxiosHandlerFunction } from './@types/AxiosHandlerFunction';

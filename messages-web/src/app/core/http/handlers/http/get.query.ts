@@ -1,4 +1,4 @@
-import { IQuery } from '@/app/core/services/cqrs/base/@types/IQuery';
+import { IQuery } from '@/app/core/cqrs/base/@types/IQuery';
 import { AxiosQuery } from '../axios/axios.query';
 import { UrlGetter } from './@types/UrlGetter';
 

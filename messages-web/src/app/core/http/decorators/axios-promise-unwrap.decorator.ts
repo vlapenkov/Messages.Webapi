@@ -1,5 +1,5 @@
 import { AxiosPromise, HttpStatusCode } from 'axios';
-import { HandlerDecoratorBase } from '../../../cqrs/base/HandlerDecoratorBase';
+import { HandlerDecoratorBase } from '../../cqrs/base/HandlerDecoratorBase';
 import { ErrorResult } from '../results/error.result';
 import { HttpResult } from '../results/http-result';
 import { Ok } from '../results/ok.result';

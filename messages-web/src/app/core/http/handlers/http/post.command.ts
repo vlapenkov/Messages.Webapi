@@ -1,4 +1,4 @@
-import { ICommand } from '@/app/core/services/cqrs/base/@types/ICommand';
+import { ICommand } from '@/app/core/cqrs/base/@types/ICommand';
 import { AxiosCommand } from '../axios/axios.command';
 import { UrlGetter } from './@types/UrlGetter';
 

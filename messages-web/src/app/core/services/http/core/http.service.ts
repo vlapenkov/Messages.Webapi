@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { keycloakToken } from '../../../services/keycloak.service';
+import { keycloakToken } from '../../../../services/keycloak.service';
 
-export const httpApi = axios.create({
+export const http = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
 });
-httpApi.interceptors.request.use(
+http.interceptors.request.use(
   (config) => {
     const token = keycloakToken.value;
     if (token != null && config.headers != null) {

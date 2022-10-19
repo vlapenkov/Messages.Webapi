@@ -33,7 +33,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/app/core/services/http/core/handlers/http/put.commandts",
+    "src/app/core/services/http/core/handlers/http/put.commandts"
   ],
   "exclude": [
     "node_modules"

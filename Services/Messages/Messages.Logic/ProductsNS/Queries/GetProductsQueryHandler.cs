@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Messages.Domain.Models.Products;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Messages.Logic.CommonNS.Dto;
 using Messages.Logic.ProductsNS.Dto;
 using Microsoft.EntityFrameworkCore;

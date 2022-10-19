@@ -1,5 +1,5 @@
 ﻿using Messages.Domain.Models;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

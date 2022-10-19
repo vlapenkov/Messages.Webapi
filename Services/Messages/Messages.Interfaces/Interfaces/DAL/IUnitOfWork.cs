@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Messages.Interfaces
+namespace Messages.Interfaces.Interfaces.DAL
 {
     public interface IUnitOfWork
     {

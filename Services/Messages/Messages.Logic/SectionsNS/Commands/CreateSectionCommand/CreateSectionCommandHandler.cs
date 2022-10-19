@@ -1,11 +1,11 @@
 ﻿using MediatR;
-using Messages.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 using Messages.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Messages.Common.Exceptions;
 using FluentValidation;
+using Messages.Interfaces.Interfaces.DAL;
 
 namespace Messages.Logic.SectionsNS.Commands.CreateSectionCommand
 {

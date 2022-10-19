@@ -23,6 +23,7 @@ namespace Messages.WebApi
             services.AddProblemDetails(options =>
                 {
                     //TODO: (ctx, ex) => env.IsDevelopment()
+                   // options.IncludeExceptionDetails = (ctx, ex) => env.IsDevelopment();
                     options.IncludeExceptionDetails = (ctx, ex) => false;
 
                     options.Map<ValidationException>(

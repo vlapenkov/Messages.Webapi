@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 
-namespace Messages.Interfaces
+namespace Messages.Interfaces.Interfaces.DAL
 {
     public interface IAppDbContext
     {
         DbSet<Organization> Organizations { get; }
         DbSet<ProductAttribute> Attributes { get; }
         DbSet<AttributeValue> AttributeValues { get; }
-        DbSet<CatalogSection> CatalogSections { get;  }
+        DbSet<CatalogSection> CatalogSections { get; }
 
-        DbSet<Product> Products { get;  }
+        DbSet<Product> Products { get; }
         DbSet<ServiceProduct> ServiceProducts { get; }
-        DbSet<Technology> TechnologyProducts { get;  }
+        DbSet<Technology> TechnologyProducts { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

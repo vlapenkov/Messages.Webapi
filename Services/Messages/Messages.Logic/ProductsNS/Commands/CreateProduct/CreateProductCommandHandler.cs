@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Messages.Domain.Models;
 using Messages.Domain.Models.Products;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Messages.Logic.ProductsNS.Dto;
 using System;
 using System.Collections.Generic;

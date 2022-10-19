@@ -1,2 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IModel {}
+export const modelMarker = Symbol('--model-marker');
+
+export interface IModel {
+  [modelMarker]: never;
+}

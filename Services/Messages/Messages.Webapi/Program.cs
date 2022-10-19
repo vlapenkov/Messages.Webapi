@@ -1,19 +1,12 @@
-using Messages.Webapi.Extensions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
-using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
-using MediatR;
 using Messages.Infrastructure.EFCore;
-using Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
-using Messages.Logic.SectionsNS.Mappings;
-using Messages.Logic.SectionsNS.Validations;
-using Messages.WebApi;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Messages.Logic.ProductsNS.Mappings;
 using Messages.Interfaces.Interfaces.DAL;
+using Messages.Webapi.Extensions;
+using Messages.WebApi;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +19,8 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
         .UseLazyLoadingProxies()
 );
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-builder.Services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
-builder.Services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
-builder.Services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
+builder.Services.RegisterDependencies();
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.WebHost.UseTneSerilog();

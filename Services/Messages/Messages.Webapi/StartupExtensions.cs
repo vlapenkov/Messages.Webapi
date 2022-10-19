@@ -1,17 +1,40 @@
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
+using MediatR;
 using Messages.Common.Exceptions;
+using Messages.Infrastructure.EFCore;
+using Messages.Interfaces.Interfaces.DAL;
+using Messages.Logic.ProductsNS.Commands.CreateProduct;
+using Messages.Logic.ProductsNS.Mappings;
+using Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
+using Messages.Logic.SectionsNS.Validations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Messages.WebApi
 {
     public static class StartupExtensions
     {
+        /// <summary>
+        /// Загруза внутренних зависимостей
+        /// </summary>
+        /// <param name="services"></param>
+        public static void RegisterDependencies(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
+            services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
+
+            services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
+            services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
+        }
+
         /// <summary>
         /// Обработка ошибок рефит на фронте
         /// </summary>

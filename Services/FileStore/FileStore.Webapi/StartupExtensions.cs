@@ -1,5 +1,5 @@
 ﻿using FileStore.Infrastructure.EFCore;
-using FileStore.Interfaces;
+using FileStore.Interfaces.Interfaces;
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Messages.Common.Exceptions;

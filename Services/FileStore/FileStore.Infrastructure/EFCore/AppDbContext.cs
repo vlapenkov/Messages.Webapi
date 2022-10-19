@@ -1,5 +1,5 @@
 ﻿using FileStore.Domain;
-using FileStore.Interfaces;
+using FileStore.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;

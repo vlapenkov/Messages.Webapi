@@ -1,6 +1,6 @@
 ﻿using FileStore.Domain;
 using FileStore.Infrastructure.EFCore;
-using FileStore.Interfaces;
+using FileStore.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -37,13 +37,14 @@ namespace FileStore.Infrastructure.EFCore
         public async Task AddAsync(T entity)
         {
             await _dataContext.Set<T>().AddAsync(entity);
-            await _dataContext.SaveChangesAsync();
+
+        //    await _dataContext.SaveChangesAsync();
 
         }
 
         public async Task UpdateAsync(T entity)
         {
-            await _dataContext.SaveChangesAsync();
+         //   await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
@@ -51,7 +52,9 @@ namespace FileStore.Infrastructure.EFCore
             _dataContext.Set<T>().Remove(entity);
         }
 
-
+        public async Task SaveChangesAsync() {
+            await _dataContext.SaveChangesAsync();           
+        }
     }
 
 }

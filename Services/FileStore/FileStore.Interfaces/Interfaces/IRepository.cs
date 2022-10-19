@@ -1,7 +1,7 @@
 ﻿using FileStore.Domain;
 using System.Linq.Expressions;
 
-namespace FileStore.Interfaces
+namespace FileStore.Interfaces.Interfaces
 {
     /// <summary>
     /// Интерфейс generic репозитория
@@ -20,6 +20,8 @@ namespace FileStore.Interfaces
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);
+
+        Task SaveChangesAsync();
 
     }
 }

@@ -15,7 +15,7 @@
 //app.Run();
 
 using FileStore.Infrastructure.EFCore;
-using FileStore.Interfaces;
+using FileStore.Interfaces.Interfaces;
 using FileStore.Webapi;
 using Hellang.Middleware.ProblemDetails;
 using Messages.Webapi.Extensions;
@@ -32,7 +32,7 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
         .UseLazyLoadingProxies()
 );
 
-//builder.Services.RegisterDependencies();
+builder.Services.RegisterDependencies();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();

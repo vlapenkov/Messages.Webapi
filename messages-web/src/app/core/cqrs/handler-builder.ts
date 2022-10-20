@@ -6,34 +6,33 @@ import { QueryBase } from './base/query.base';
 import { HandlerInput } from './base/@types/HandlerInput';
 import { HandlerOutput } from './base/@types/HandlerOutput';
 
-export class HandlerBuilder<TInput, TOutput, THandler extends HandlerBase<TInput, TOutput>> {
+export class HandlerBuilder<THandler extends HandlerBase> {
   protected constructor(private handler: THandler) {}
 
-  pipe<TOutputNext, THandlerNext extends HandlerBase<TOutput, TOutputNext>>(next: THandlerNext) {
-    return new PipeHandler(this.handler, next);
+  pipe<THandlerNext extends HandlerBase>(next: THandlerNext) {
+    return new HandlerBuilder(new PipeHandler(this.handler, next));
   }
 
-  wrap<THandlerDecorator extends HandlerDecoratorBase<THandler>>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  wrap<THandlerDecorator extends HandlerDecoratorBase<THandler, any, any>>(
     fn: (arg: THandler) => THandlerDecorator,
-  ): THandlerDecorator {
-    return fn(this.handler);
+  ) {
+    return new HandlerBuilder(fn(this.handler));
   }
 
   static query<TQuery extends QueryBase>(query: TQuery) {
-    return new HandlerBuilder<HandlerInput<TQuery>, HandlerOutput<TQuery>, TQuery>(query);
+    return new HandlerBuilder<TQuery>(query);
   }
 
   static command<TCommand extends CommandBase>(handler: TCommand) {
-    return new HandlerBuilder<HandlerInput<TCommand>, HandlerOutput<TCommand>, TCommand>(handler);
+    return new HandlerBuilder<TCommand>(handler);
   }
 
   getHandler() {
     return this.handler;
   }
 
-  buildFunction(): (arg: TInput) => TOutput {
-    return (arg: TInput) => this.handler.handle(arg);
+  buildFunction(): (arg: HandlerInput<THandler>) => HandlerOutput<THandler> {
+    return (arg: HandlerInput<THandler>) => this.handler.handle(arg);
   }
 }
-
-export type BuilderOf<T extends HandlerBase> = HandlerBuilder<HandlerInput<T>, HandlerOutput<T>, T>;

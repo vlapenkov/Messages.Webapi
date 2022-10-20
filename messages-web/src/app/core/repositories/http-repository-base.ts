@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IQuery } from '../cqrs/base/@types/IQuery';
+import { HandlerDecoratorBase } from '../cqrs/base/handler-decorator.base';
 import { query } from '../cqrs/cqrs.service';
 import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
+import { UrlGetter } from '../http/handlers/http/@types/UrlGetter';
 import { GetQuery } from '../http/handlers/http/get.query';
 import { IModel } from '../model/@types/IModel';
 import { ModelBase } from '../model/model-base';
@@ -30,16 +32,18 @@ export function defineRepository<TModel extends IModel, TModelClass extends Mode
     ...options,
   };
 
-  // const get = <TArg extends IQuery<TModelClass>>(arg: TArg) => {
-  //   const q = query(new GetQuery<TModelClass, TArg>(() => compiledOptions.url), (config) => {
-  //     const wrapped = config.wrap((i) => {
-  //       const x = new AxiosPromiseUnwrapDecorator(i);
-  //       return x;
-  //     });
-  //     const xx = wrapped.handle();
-  //     throw new Error('Not Implemented!');
-  //   });
-  // };
+  const buildUrlGetter =
+    <TArg>(getter: UrlGetter<TArg> = () => '') =>
+    (arg: TArg) =>
+      compiledOptions.url + getter(arg);
+
+  const get = <TArg extends IQuery<TModelClass>>(getUrl?: UrlGetter<TArg>) => {
+    const q = query(new GetQuery<TModelClass, TArg>(buildUrlGetter(getUrl)), (config) => {
+      const wrapped = config.wrap((i) => new AxiosPromiseUnwrapDecorator(i));
+      return wrapped;
+    });
+    return (arg: TArg) => q(arg);
+  };
   compiledOptions.setup();
   throw new Error('Not Implemented!');
 }

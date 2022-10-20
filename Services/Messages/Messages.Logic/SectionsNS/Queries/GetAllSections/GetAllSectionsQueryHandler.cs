@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Messages.Domain.Models;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Messages.Logic.SectionsNS.Dto;
 using Microsoft.EntityFrameworkCore;
 using System;

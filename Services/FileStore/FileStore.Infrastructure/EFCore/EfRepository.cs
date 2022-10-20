@@ -1,14 +1,10 @@
-﻿using Messages.Domain.Models;
-using Messages.Interfaces.Interfaces.DAL;
+﻿using FileStore.Domain;
+using FileStore.Infrastructure.EFCore;
+using FileStore.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Messages.Infrastructure.EFCore
+namespace FileStore.Infrastructure.EFCore
 {
     public class EfRepository<T> : IRepository<T> where T : BaseEntity
     {
@@ -41,13 +37,14 @@ namespace Messages.Infrastructure.EFCore
         public async Task AddAsync(T entity)
         {
             await _dataContext.Set<T>().AddAsync(entity);
-            await _dataContext.SaveChangesAsync();
+
+        //    await _dataContext.SaveChangesAsync();
 
         }
 
         public async Task UpdateAsync(T entity)
         {
-            await _dataContext.SaveChangesAsync();
+         //   await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
@@ -55,7 +52,9 @@ namespace Messages.Infrastructure.EFCore
             _dataContext.Set<T>().Remove(entity);
         }
 
-
+        public async Task SaveChangesAsync() {
+            await _dataContext.SaveChangesAsync();           
+        }
     }
 
 }

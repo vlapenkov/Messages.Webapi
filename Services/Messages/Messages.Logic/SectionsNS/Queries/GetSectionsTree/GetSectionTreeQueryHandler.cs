@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Messages.Common.Exceptions;
 using Messages.Domain.Models;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Messages.Logic.SectionsNS.Dto;
 using Messages.Logic.SectionsNS.Queries.GetSectionsTree;
 using Microsoft.EntityFrameworkCore;

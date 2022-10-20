@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Messages.Domain.Models;
 using Messages.Domain.Models.Products;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Messages.Logic.ProductsNS.Dto;
+using Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +18,23 @@ namespace Messages.Logic.ProductsNS.Commands.CreateProduct
     {
         private readonly IAppDbContext _dbContext;
 
-        public CreateProductCommandHandler(IAppDbContext dbContext)
+        private readonly IValidator<CreateProductCommand> _validator;
+
+        public CreateProductCommandHandler(IAppDbContext dbContext, IValidator<CreateProductCommand> validator)
         {
             _dbContext = dbContext;
+            _validator = validator;
         }
 
         public async Task<long> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(command);
+
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
             var request = command.Request;
 
             var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.BaseProductId, av.AttributeId, av.Value)).ToArray();

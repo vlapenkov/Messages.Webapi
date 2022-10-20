@@ -1,12 +1,25 @@
+//var builder = WebApplication.CreateBuilder(args);
+
+//// Add services to the container.
+
+//builder.Services.AddControllers();
+
+//var app = builder.Build();
+
+//// Configure the HTTP request pipeline.
+
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+//app.Run();
+
+using FileStore.Infrastructure.EFCore;
+using FileStore.Interfaces.Interfaces;
+using FileStore.Webapi;
 using Hellang.Middleware.ProblemDetails;
-using Messages.Infrastructure.EFCore;
-using Messages.Interfaces.Interfaces.DAL;
 using Messages.Webapi.Extensions;
-using Messages.WebApi;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +43,7 @@ app.UseProblemDetails();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с FileStore V1");
 });
 app.UseRouting();
 app.UseAuthorization();

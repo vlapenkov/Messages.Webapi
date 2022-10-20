@@ -2,18 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Messages.Domain\Messages.Domain.csproj" />
+		<ProjectReference Include="..\FileStore.Domain\FileStore.Domain.csproj" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 	  <Folder Include="Contracts\" />
-	  <Folder Include="Interfaces\Services\" />
 	</ItemGroup>
+
+
 </Project>

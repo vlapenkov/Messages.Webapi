@@ -1,6 +1,6 @@
 ﻿using Messages.Domain.Models;
 using Messages.Domain.Models.Products;
-using Messages.Interfaces;
+using Messages.Interfaces.Interfaces.DAL;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;

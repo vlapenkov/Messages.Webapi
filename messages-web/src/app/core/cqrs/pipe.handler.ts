@@ -1,10 +1,13 @@
 import { HandlerBase } from './base/handler.base';
 
-export class PipeHandler<TInput, TMiddle, TOutput> extends HandlerBase<TInput, TOutput> {
-  constructor(
-    private first: HandlerBase<TInput, TMiddle>,
-    private second: HandlerBase<TMiddle, TOutput>,
-  ) {
+export class PipeHandler<
+  TInput,
+  TMiddle,
+  TOutput,
+  TFirst extends HandlerBase<TInput, TMiddle>,
+  TSecond extends HandlerBase<TMiddle, TOutput>,
+> extends HandlerBase<TInput, TOutput> {
+  constructor(private first: TFirst, private second: TSecond) {
     super();
   }
 

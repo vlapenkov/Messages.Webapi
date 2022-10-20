@@ -1,32 +1,30 @@
-import { ICommand } from './base/@types/ICommand';
-import { IQuery } from './base/@types/IQuery';
 import { CommandBase } from './base/command.base';
 import { HandlerBase } from './base/handler.base';
 import { HandlerDecoratorBase } from './base/handler-decorator.base';
 import { PipeHandler } from './pipe.handler';
 import { QueryBase } from './base/query.base';
+import { HandlerInput } from './base/@types/HandlerInput';
+import { HandlerOutput } from './base/@types/HandlerOutput';
 
-export class HandlerBuilder<TInput, TOutput> {
-  protected constructor(private handler: HandlerBase<TInput, TOutput>) {}
+export class HandlerBuilder<TInput, TOutput, THandler extends HandlerBase<TInput, TOutput>> {
+  protected constructor(private handler: THandler) {}
 
-  pipe<TOutputNext>(next: HandlerBase<TOutput, TOutputNext>): HandlerBase<TInput, TOutputNext> {
+  pipe<TOutputNext, THandlerNext extends HandlerBase<TOutput, TOutputNext>>(next: THandlerNext) {
     return new PipeHandler(this.handler, next);
   }
 
-  decorate<TInputNew = TInput, TOutputNew = TOutput>(
-    fn: (
-      arg: HandlerBase<TInput, TOutput>,
-    ) => HandlerDecoratorBase<TInputNew, TOutputNew, TInput, TOutput>,
-  ): HandlerDecoratorBase<TInputNew, TOutputNew, TInput, TOutput> {
+  wrap<THandlerDecorator extends HandlerDecoratorBase<THandler>>(
+    fn: (arg: THandler) => THandlerDecorator,
+  ): THandlerDecorator {
     return fn(this.handler);
   }
 
-  static query<TOut, TIn extends IQuery<TOut>>(handler: QueryBase<TOut, TIn>) {
-    return new HandlerBuilder(handler);
+  static query<TQuery extends QueryBase>(query: TQuery) {
+    return new HandlerBuilder<HandlerInput<TQuery>, HandlerOutput<TQuery>, TQuery>(query);
   }
 
-  static command<TOut, TIn extends ICommand<TOut>>(handler: CommandBase<TOut, TIn>) {
-    return new HandlerBuilder(handler);
+  static command<TCommand extends CommandBase>(handler: TCommand) {
+    return new HandlerBuilder<HandlerInput<TCommand>, HandlerOutput<TCommand>, TCommand>(handler);
   }
 
   getHandler() {
@@ -37,3 +35,5 @@ export class HandlerBuilder<TInput, TOutput> {
     return (arg: TInput) => this.handler.handle(arg);
   }
 }
+
+export type BuilderOf<T extends HandlerBase> = HandlerBuilder<HandlerInput<T>, HandlerOutput<T>, T>;

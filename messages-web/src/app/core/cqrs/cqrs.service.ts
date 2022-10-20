@@ -1,21 +1,19 @@
-import { ICommand } from './base/@types/ICommand';
-import { IQuery } from './base/@types/IQuery';
-import { CommandBase } from './base/command.base';
+/* eslint-disable no-use-before-define */
+import { HandlerFunction } from './base/@types/HandlerOutput';
 import { QueryBase } from './base/query.base';
-import { HandlerBuilder } from './handler-builder';
+import { BuilderOf, HandlerBuilder } from './handler-builder';
 
-export function command<TOut, TIn extends ICommand<TOut>, TInResult, TOutResult>(
-  handler: CommandBase<TOut, TIn>,
-  fn: (builder: HandlerBuilder<TIn, TOut>) => HandlerBuilder<TInResult, TOutResult>,
-): (arg: TInResult) => TOutResult {
-  const biulder = HandlerBuilder.command<TOut, TIn>(handler);
-  return fn(biulder).buildFunction();
-}
-
-export function query<TOut, TIn extends IQuery<TOut>, TOutResult, TInResult>(
-  handler: QueryBase<TOut, TIn>,
-  fn: (builder: HandlerBuilder<TIn, TOut>) => HandlerBuilder<TInResult, TOutResult>,
-): (arg: TInResult) => TOutResult {
-  const biulder = HandlerBuilder.query<TOut, TIn>(handler);
-  return fn(biulder).buildFunction();
+export function query<TQueryInitial extends QueryBase, TQueryResult extends QueryBase>(
+  handler: TQueryInitial,
+  fn: (builder: BuilderOf<TQueryInitial>) => BuilderOf<TQueryResult>,
+): HandlerFunction<TQueryResult>;
+export function query<TQueryInitial extends QueryBase>(
+  handler: TQueryInitial,
+): HandlerFunction<TQueryInitial>;
+export function query<TQueryInitial extends QueryBase, TQueryResult extends QueryBase>(
+  handler: TQueryInitial,
+  fn?: (builder: BuilderOf<TQueryInitial>) => BuilderOf<TQueryResult>,
+): HandlerFunction<TQueryInitial> | HandlerFunction<TQueryResult> {
+  const biulder = HandlerBuilder.query(handler);
+  return (fn ? fn(biulder) : biulder).buildFunction();
 }

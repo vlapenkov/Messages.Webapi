@@ -3,10 +3,11 @@ export interface IMethodConfig {
 }
 
 export interface IRepositoryDefinition {
-  prefix: string;
-  methods: Record<string, IMethodConfig>;
+  urlSuffix: string;
+  setup: () => void;
 }
 
-export function defineRepository(_arg: IRepositoryDefinition) {
+export function defineRepository(options: IRepositoryDefinition) {
+  options.setup();
   throw new Error('Not Implemented!');
 }

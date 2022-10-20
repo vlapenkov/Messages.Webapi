@@ -1,23 +1,15 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Options } from '@harlem/extension-action';
 import { ICommand } from '../cqrs/base/@types/ICommand';
 import { IQuery } from '../cqrs/base/@types/IQuery';
 import { command, query } from '../cqrs/cqrs.service';
 import { HandlerBuilder } from '../cqrs/handler-builder';
 import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
 import { AxiosHandler } from '../http/handlers/axios/axios.handler';
-import {
-  HttpCommandGeneric,
-  HttpFunction,
-  HttpQueryGeneric,
-} from '../http/handlers/http/@types/HttpFunction';
+import { HttpFunction } from '../http/handlers/http/@types/HttpFunction';
 import { UrlGetter } from '../http/handlers/http/@types/UrlGetter';
 import { GetQuery } from '../http/handlers/http/get.query';
 import { PatchCommand } from '../http/handlers/http/patch.command';
 import { PostCommand } from '../http/handlers/http/post.command';
 import { PutCommand } from '../http/handlers/http/put.command';
-import { IModel } from '../model/@types/IModel';
 import { ModelBase } from '../model/model-base';
 
 export interface IMethodConfig {
@@ -46,14 +38,8 @@ export interface ISetupContext<TModel extends ModelBase> {
   ): HttpFunction<TResult, TInputArg>;
 }
 
-export interface IRepository {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [method: string]: HttpFunction<any, any>;
-}
-
-export interface IRepositoryDefinition<TModel extends ModelBase, TRepo extends IRepository = {}> {
-  setup: (context: ISetupContext<TModel>) => TRepo;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars
+export interface IRepositoryDefinition<TModel extends ModelBase> {}
 
 const defaultOptionalProps: IRepositoryDefinitionOptional = {
   url: '',
@@ -132,5 +118,5 @@ export function defineRepository<TModel extends ModelBase>(
     del,
   };
 
-  return compiledOptions.setup(setupContext);
+  return setupContext;
 }

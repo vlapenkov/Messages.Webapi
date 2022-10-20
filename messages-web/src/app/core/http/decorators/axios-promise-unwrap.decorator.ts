@@ -1,7 +1,7 @@
 import { AxiosPromise, HttpStatusCode } from 'axios';
-import { HandlerDecoratorBase } from '../../cqrs/base/HandlerDecoratorBase';
+import { HandlerDecoratorBase } from '../../cqrs/base/handler-decorator.base';
 import { ErrorResult } from '../results/error.result';
-import { HttpResult } from '../results/http-result';
+import { HttpResult } from '../results/base/http-result';
 import { Ok } from '../results/ok.result';
 
 export class AxiosPromiseUnwrapDecorator<Tin, TOut> extends HandlerDecoratorBase<

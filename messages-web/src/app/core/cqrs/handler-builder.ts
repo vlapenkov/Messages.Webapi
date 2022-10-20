@@ -1,16 +1,16 @@
 import { ICommand } from './base/@types/ICommand';
 import { IQuery } from './base/@types/IQuery';
-import { CommandHandlerBase } from './base/CommandHandlerBase';
-import { HandlerBase } from './base/HandlerBase';
-import { HandlerDecoratorBase } from './base/HandlerDecoratorBase';
-import { HandlerPair } from './base/HandlerPair';
-import { QueryHandlerBase } from './base/QueryHandlerBase';
+import { CommandBase } from './base/command.base';
+import { HandlerBase } from './base/handler.base';
+import { HandlerDecoratorBase } from './base/handler-decorator.base';
+import { PipeHandler } from './pipe.handler';
+import { QueryBase } from './base/query.base';
 
 export class HandlerBuilder<TInput, TOutput> {
   protected constructor(private handler: HandlerBase<TInput, TOutput>) {}
 
   pipe<TOutputNext>(next: HandlerBase<TOutput, TOutputNext>): HandlerBase<TInput, TOutputNext> {
-    return new HandlerPair(this.handler, next);
+    return new PipeHandler(this.handler, next);
   }
 
   decorate<TInputNew = TInput, TOutputNew = TOutput>(
@@ -21,11 +21,11 @@ export class HandlerBuilder<TInput, TOutput> {
     return fn(this.handler);
   }
 
-  static query<TOut, TIn extends IQuery<TOut>>(handler: QueryHandlerBase<TOut, TIn>) {
+  static query<TOut, TIn extends IQuery<TOut>>(handler: QueryBase<TOut, TIn>) {
     return new HandlerBuilder(handler);
   }
 
-  static command<TOut, TIn extends ICommand<TOut>>(handler: CommandHandlerBase<TOut, TIn>) {
+  static command<TOut, TIn extends ICommand<TOut>>(handler: CommandBase<TOut, TIn>) {
     return new HandlerBuilder(handler);
   }
 

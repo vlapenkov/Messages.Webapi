@@ -1,10 +1,10 @@
 import { ICommand } from './base/@types/ICommand';
-import { CommandHandlerBase } from './base/CommandHandlerBase';
+import { CommandBase } from './base/command.base';
 
-export class CommandHandlerGeneric<
+export class GenericCommand<TOutput, TInput extends ICommand<TOutput>> extends CommandBase<
   TOutput,
-  TInput extends ICommand<TOutput>,
-> extends CommandHandlerBase<TOutput, TInput> {
+  TInput
+> {
   constructor(private innerHandler: (arg: TInput) => TOutput) {
     super();
   }

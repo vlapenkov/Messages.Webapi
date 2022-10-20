@@ -1,7 +1,7 @@
 import { IQuery } from './base/@types/IQuery';
-import { QueryHandlerBase } from './base/QueryHandlerBase';
+import { QueryBase } from './base/query.base';
 
-export class QueryHandlerGeneric<TOutput, TInput extends IQuery<TOutput>> extends QueryHandlerBase<
+export class GenericQuery<TOutput, TInput extends IQuery<TOutput>> extends QueryBase<
   TOutput,
   TInput
 > {

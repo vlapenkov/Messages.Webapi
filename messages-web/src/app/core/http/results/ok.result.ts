@@ -1,5 +1,5 @@
-import { HttpResult } from './http-result';
-import { HttpStatus } from './http-status';
+import { HttpResult } from './base/http-result';
+import { HttpStatus } from './base/http-status';
 
 export class Ok<T> extends HttpResult<T> {
   status: HttpStatus = HttpStatus.Success;

@@ -1,4 +1,4 @@
-import { HandlerBase } from './HandlerBase';
+import { HandlerBase } from './handler.base';
 
 export abstract class HandlerDecoratorBase<
   TInput,

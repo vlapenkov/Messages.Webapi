@@ -1,11 +1,17 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Options } from '@harlem/extension-action';
 import { ICommand } from '../cqrs/base/@types/ICommand';
 import { IQuery } from '../cqrs/base/@types/IQuery';
 import { command, query } from '../cqrs/cqrs.service';
 import { HandlerBuilder } from '../cqrs/handler-builder';
 import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
 import { AxiosHandler } from '../http/handlers/axios/axios.handler';
-import { HttpFunction } from '../http/handlers/http/@types/HttpFunction';
+import {
+  HttpCommandGeneric,
+  HttpFunction,
+  HttpQueryGeneric,
+} from '../http/handlers/http/@types/HttpFunction';
 import { UrlGetter } from '../http/handlers/http/@types/UrlGetter';
 import { GetQuery } from '../http/handlers/http/get.query';
 import { PatchCommand } from '../http/handlers/http/patch.command';
@@ -22,18 +28,41 @@ export interface IRepositoryDefinitionOptional {
   url: string;
 }
 
-export interface IRepositoryDefinition {
-  setup: () => void;
+export interface ISetupContext<TModel extends ModelBase> {
+  get<TResult = TModel, TInputArg extends IQuery<TResult> = IQuery<TResult>>(
+    getUrl?: UrlGetter<TInputArg>,
+  ): HttpFunction<TResult, TInputArg>;
+  post<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+    getUrl?: UrlGetter<TInputArg>,
+  ): HttpFunction<TResult, TInputArg>;
+  put<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+    getUrl?: UrlGetter<TInputArg>,
+  ): HttpFunction<TResult, TInputArg>;
+  patch<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+    getUrl?: UrlGetter<TInputArg>,
+  ): HttpFunction<TResult, TInputArg>;
+  del<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+    getUrl?: UrlGetter<TInputArg>,
+  ): HttpFunction<TResult, TInputArg>;
+}
+
+export interface IRepository {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [method: string]: HttpFunction<any, any>;
+}
+
+export interface IRepositoryDefinition<TModel extends ModelBase, TRepo extends IRepository = {}> {
+  setup: (context: ISetupContext<TModel>) => TRepo;
 }
 
 const defaultOptionalProps: IRepositoryDefinitionOptional = {
   url: '',
 };
 
-export function defineRepository<TModelClass extends ModelBase>(
-  options: IRepositoryDefinition & Partial<IRepositoryDefinitionOptional>,
+export function defineRepository<TModel extends ModelBase>(
+  options: IRepositoryDefinition<TModel> & Partial<IRepositoryDefinitionOptional>,
 ) {
-  const compiledOptions: IRepositoryDefinition & IRepositoryDefinitionOptional = {
+  const compiledOptions: IRepositoryDefinition<TModel> & IRepositoryDefinitionOptional = {
     ...defaultOptionalProps,
     ...options,
   };
@@ -48,14 +77,14 @@ export function defineRepository<TModelClass extends ModelBase>(
     return wrapped;
   };
 
-  function get<TResult = TModelClass, TInputArg extends IQuery<TResult> = IQuery<TResult>>(
+  function get<TResult = TModel, TInputArg extends IQuery<TResult> = IQuery<TResult>>(
     getUrl?: UrlGetter<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const q = query(new GetQuery<TResult, TInputArg>(buildUrlGetter(getUrl)), defaultTransformer);
     return (arg: TInputArg) => q(arg);
   }
 
-  function post<TResult = TModelClass, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+  function post<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
     getUrl?: UrlGetter<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
@@ -65,7 +94,7 @@ export function defineRepository<TModelClass extends ModelBase>(
     return (arg) => cmd(arg);
   }
 
-  function put<TResult = TModelClass, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+  function put<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
     getUrl?: UrlGetter<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
@@ -75,7 +104,7 @@ export function defineRepository<TModelClass extends ModelBase>(
     return (arg) => cmd(arg);
   }
 
-  function patch<TResult = TModelClass, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+  function patch<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
     getUrl?: UrlGetter<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
@@ -85,6 +114,23 @@ export function defineRepository<TModelClass extends ModelBase>(
     return (arg) => cmd(arg);
   }
 
-  compiledOptions.setup();
-  throw new Error('Not Implemented!');
+  function del<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
+    getUrl?: UrlGetter<TInputArg>,
+  ): HttpFunction<TResult, TInputArg> {
+    const cmd = command(
+      new PatchCommand<TResult, TInputArg>(buildUrlGetter(getUrl)),
+      defaultTransformer,
+    );
+    return (arg) => cmd(arg);
+  }
+
+  const setupContext: ISetupContext<TModel> = {
+    get,
+    post,
+    put,
+    patch,
+    del,
+  };
+
+  return compiledOptions.setup(setupContext);
 }

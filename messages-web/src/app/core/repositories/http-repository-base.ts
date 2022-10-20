@@ -34,7 +34,6 @@ export function defineRepository<TModel extends IModel, TModelClass extends Mode
   //   const q = query(new GetQuery<TModelClass, TArg>(() => compiledOptions.url), (config) => {
   //     const wrapped = config.wrap((i) => {
   //       const x = new AxiosPromiseUnwrapDecorator(i);
-  //       x.handle();
   //       return x;
   //     });
   //     const xx = wrapped.handle();

@@ -10,7 +10,9 @@ import { HandlerOutput } from '../../cqrs/base/@types/HandlerOutput';
 export class AxiosPromiseUnwrapDecorator<
   THandler extends AxiosHandler,
   TIn extends HandlerInput<AxiosHandler> = HandlerInput<THandler>,
-  TOutData extends Awaited<HandlerOutput<AxiosHandler>> = Awaited<HandlerOutput<THandler>>,
+  TOutData extends Awaited<HandlerOutput<AxiosHandler>>['data'] = Awaited<
+    HandlerOutput<THandler>
+  >['data'],
 > extends HandlerDecoratorBase<THandler, TIn, Promise<HttpResult<TOutData>>> {
   async handle(input: TIn): Promise<HttpResult<TOutData>> {
     const response = await this.decorated.handle(input);

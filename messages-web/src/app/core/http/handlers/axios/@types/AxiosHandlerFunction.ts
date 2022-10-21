@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosPromise } from 'axios';
 
-export type AxiosHandlerFunction<Tin, TOut> = (
+export type AxiosHandlerFunction<TOut, Tin = undefined> = (
   http: AxiosInstance,
-  arg?: Tin,
+  arg: Tin,
 ) => AxiosPromise<TOut>;

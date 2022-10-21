@@ -4,7 +4,7 @@ import { UrlGetter } from './@types/UrlGetter';
 
 export class PutCommand<TOut, Tin extends ICommand<TOut>> extends AxiosCommand<TOut, Tin> {
   constructor(getUrl: UrlGetter<Tin>) {
-    super((input, http) =>
+    super((http, input) =>
       http.put(getUrl(input), {
         ...input,
       }),

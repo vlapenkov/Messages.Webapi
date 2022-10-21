@@ -1,1 +1,1 @@
-export type UrlGetter<T> = (model: T) => string;
+export type UrlGetter<T> = (model?: T) => string;

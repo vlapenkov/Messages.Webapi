@@ -4,7 +4,7 @@ import { UrlGetter } from './@types/UrlGetter';
 
 export class DeleteCommand<TOut, Tin extends ICommand<TOut>> extends AxiosCommand<TOut, Tin> {
   constructor(getUrl: UrlGetter<Tin>) {
-    super((input, http) =>
+    super((http, input) =>
       http.delete(getUrl(input), {
         params: {
           ...input,

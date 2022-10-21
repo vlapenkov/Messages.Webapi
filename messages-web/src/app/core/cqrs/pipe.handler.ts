@@ -4,9 +4,9 @@ export class PipeHandler<
   TInput,
   TMiddle,
   TOutput,
-  TFirst extends HandlerBase<TInput, TMiddle>,
-  TSecond extends HandlerBase<TMiddle, TOutput>,
-> extends HandlerBase<TInput, TOutput> {
+  TFirst extends HandlerBase<TMiddle, TInput>,
+  TSecond extends HandlerBase<TOutput, TMiddle>,
+> extends HandlerBase<TOutput, TInput> {
   constructor(private first: TFirst, private second: TSecond) {
     super();
   }

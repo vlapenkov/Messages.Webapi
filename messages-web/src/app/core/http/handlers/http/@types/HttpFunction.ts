@@ -3,7 +3,7 @@ import { IQuery } from '@/app/core/cqrs/base/@types/IQuery';
 import { HttpResult } from '../../../results/base/http-result';
 import { UrlGetter } from './UrlGetter';
 
-export type HttpFunction<TResult, Tinput> = (arg: Tinput) => Promise<HttpResult<TResult>>;
+export type HttpFunction<TResult, Tinput> = (arg?: Tinput) => Promise<HttpResult<TResult>>;
 
 export type HttpQueryGeneric = <
   TQueryResult,

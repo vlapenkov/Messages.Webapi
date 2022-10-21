@@ -7,7 +7,7 @@ export abstract class HandlerDecoratorBase<
   THandler extends HandlerBase,
   TInput = HandlerInput<THandler>,
   TOutput = HandlerOutput<THandler>,
-> extends HandlerBase<TInput, TOutput> {
+> extends HandlerBase<TOutput, TInput> {
   constructor(protected decorated: THandler) {
     super();
   }

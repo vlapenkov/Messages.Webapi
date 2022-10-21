@@ -4,5 +4,5 @@ import { HandlerBase } from './handler.base';
 
 export abstract class CommandBase<
   TOutput = any,
-  TInput extends ICommand<TOutput> = ICommand<any>,
-> extends HandlerBase<TInput, TOutput> {}
+  TInput extends ICommand<TOutput> | undefined = undefined,
+> extends HandlerBase<TOutput, TInput> {}

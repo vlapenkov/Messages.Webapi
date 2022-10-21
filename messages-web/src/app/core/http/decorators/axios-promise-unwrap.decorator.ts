@@ -8,8 +8,8 @@ import { HandlerInput } from '../../cqrs/base/@types/HandlerInput';
 import { HandlerOutput } from '../../cqrs/base/@types/HandlerOutput';
 
 export class AxiosPromiseUnwrapDecorator<
-  THandler extends AxiosHandler,
-  TIn extends HandlerInput<AxiosHandler> = HandlerInput<THandler>,
+  THandler,
+  TIn = HandlerInput<THandler>,
   TOutData extends Awaited<HandlerOutput<AxiosHandler>>['data'] = Awaited<
     HandlerOutput<THandler>
   >['data'],

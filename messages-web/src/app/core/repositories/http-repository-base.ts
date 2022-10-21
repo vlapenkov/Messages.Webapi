@@ -3,7 +3,6 @@ import { IQuery } from '../cqrs/base/@types/IQuery';
 import { command, query } from '../cqrs/cqrs.service';
 import { HandlerBuilder } from '../cqrs/handler-builder';
 import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
-import { AxiosHandler } from '../http/handlers/axios/axios.handler';
 import { HttpFunction } from '../http/handlers/http/@types/HttpFunction';
 import { UrlGetter } from '../http/handlers/http/@types/UrlGetter';
 import { GetQuery } from '../http/handlers/http/get.query';
@@ -21,7 +20,7 @@ export interface IRepositoryDefinitionOptional {
 }
 
 export interface ISetupContext<TModel extends ModelBase> {
-  get<TResult = TModel, TInputArg extends IQuery<TResult> = IQuery<TResult>>(
+  get<TResult = TModel, TInputArg extends IQuery<TResult> | undefined = undefined>(
     getUrl?: UrlGetter<TInputArg>,
   ): HttpFunction<TResult, TInputArg>;
   post<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
@@ -55,18 +54,27 @@ export function defineRepository<TModel extends ModelBase>(
 
   const buildUrlGetter =
     <TArg>(getter: UrlGetter<TArg> = () => '') =>
-    (arg: TArg) =>
+    (arg?: TArg) =>
       compiledOptions.url + getter(arg);
 
-  const defaultTransformer = <T extends AxiosHandler>(config: HandlerBuilder<T>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const defaultTransformer = <T extends HandlerBuilder<any>>(config: T) => {
     const wrapped = config.wrap((i) => new AxiosPromiseUnwrapDecorator(i));
     return wrapped;
   };
 
-  function get<TResult = TModel, TInputArg extends IQuery<TResult> = IQuery<TResult>>(
+  function get<TResult = TModel, TInputArg extends IQuery<TResult> | undefined = undefined>(
     getUrl?: UrlGetter<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
-    const q = query(new GetQuery<TResult, TInputArg>(buildUrlGetter(getUrl)), defaultTransformer);
+    const gq = new GetQuery<TResult, TInputArg>(buildUrlGetter(getUrl));
+    const q = query(gq, (c) => {
+      const auw = c.wrap((i) => {
+        const dec = new AxiosPromiseUnwrapDecorator(i);
+        return dec;
+      });
+      const res = defaultTransformer(c);
+      return res;
+    });
     return (arg: TInputArg) => q(arg);
   }
 

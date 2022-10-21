@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { HandlerBase } from '@/app/core/cqrs/base/handler.base';
-import { AxiosPromise } from 'axios';
+import { createHandler } from '@/app/core/handlers/handler';
+import { AxiosInstance, AxiosPromise } from 'axios';
 import { http } from '../../http.service';
-import { AxiosHandlerFunction } from './@types/AxiosHandlerFunction';
 
-export class AxiosHandler<TOut = any, Tin = undefined> extends HandlerBase<
-  AxiosPromise<TOut>,
-  Tin
-> {
-  constructor(private fn: AxiosHandlerFunction<Tin, TOut>) {
-    super();
-  }
+export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (
+  http: AxiosInstance,
+  request: TRequest,
+) => AxiosPromise<TResponse>;
 
-  handle(input: Tin): AxiosPromise<TOut> {
-    return this.fn(http, input);
-  }
-}
+/** Подставляет текущий экземпляр axios в произвольный запрос */
+export const axiosHandler = createHandler(
+  () =>
+    <TResponse, TRequest = undefined>(handleRequest: AxiosHandlerFunction<TResponse, TRequest>) =>
+    (request: TRequest) =>
+      handleRequest(http, request),
+);

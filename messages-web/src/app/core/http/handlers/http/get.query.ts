@@ -1,8 +1,8 @@
 import { IQuery } from '@/app/core/cqrs/base/@types/IQuery';
-import { createHandler } from '@/app/core/handlers/handler';
+import { handler } from '@/app/core/handlers/handler';
 import { extend } from '@/app/core/handlers/handler-lab';
-import { axiosHandler } from '../axios/axios.handler';
-import { GetUrlHandler } from './UrlGetter';
+import { createAxiosHandler } from '../axios/axios.handler';
+import { UrlExtractor } from './get-url-handler';
 
 // export class GetQuery<TOut, Tin extends IQuery<TOut> | undefined> extends AxiosQuery<TOut, Tin> {
 //   constructor(getUrl: GetUrlHandler<Tin>) {

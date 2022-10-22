@@ -1,7 +1,7 @@
 import { ICommand } from '@/app/core/cqrs/base/@types/ICommand';
 import { IQuery } from '@/app/core/cqrs/base/@types/IQuery';
 import { HttpResult } from '../../../results/base/http-result';
-import { GetUrlHandler } from '../UrlGetter';
+import { UrlExtractor } from '../get-url-handler';
 
 export type HttpFunction<TResult, Tinput> = (arg?: Tinput) => Promise<HttpResult<TResult>>;
 
@@ -20,5 +20,5 @@ export type HttpCommandGeneric = <
 ) => Promise<HttpResult<TCommandResult>>;
 
 export type HttpFunctionFactory<TResult, Tinput> = (
-  getUrl: GetUrlHandler<Tinput>,
+  getUrl: UrlExtractor<Tinput>,
 ) => HttpFunction<Tinput, TResult>;

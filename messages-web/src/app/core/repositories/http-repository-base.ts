@@ -4,7 +4,7 @@ import { command, query } from '../cqrs/cqrs.service';
 import { HandlerBuilder } from '../cqrs/handler-builder';
 import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
 import { HttpFunction } from '../http/handlers/http/@types/HttpFunction';
-import { GetUrlHandler } from '../http/handlers/http/UrlGetter';
+import { UrlExtractor } from '../http/handlers/http/get-url-handler';
 import { GetQuery } from '../http/handlers/http/get.query';
 import { PatchCommand } from '../http/handlers/http/patch.command';
 import { PostCommand } from '../http/handlers/http/post.command';
@@ -21,19 +21,19 @@ export interface IRepositoryDefinitionOptional {
 
 export interface ISetupContext<TModel extends ModelBase> {
   get<TResult = TModel, TInputArg extends IQuery<TResult> | undefined = undefined>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg>;
   post<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg>;
   put<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg>;
   patch<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg>;
   del<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg>;
 }
 
@@ -53,7 +53,7 @@ export function defineRepository<TModel extends ModelBase>(
   };
 
   const buildUrlGetter =
-    <TArg>(getter: GetUrlHandler<TArg> = () => '') =>
+    <TArg>(getter: UrlExtractor<TArg> = () => '') =>
     (arg?: TArg) =>
       compiledOptions.url + getter(arg);
 
@@ -64,7 +64,7 @@ export function defineRepository<TModel extends ModelBase>(
   };
 
   function get<TResult = TModel, TInputArg extends IQuery<TResult> | undefined = undefined>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const gq = new GetQuery<TResult, TInputArg>(buildUrlGetter(getUrl));
     const q = query(gq, (c) => {
@@ -79,7 +79,7 @@ export function defineRepository<TModel extends ModelBase>(
   }
 
   function post<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
       new PostCommand<TResult, TInputArg>(buildUrlGetter(getUrl)),
@@ -89,7 +89,7 @@ export function defineRepository<TModel extends ModelBase>(
   }
 
   function put<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
       new PutCommand<TResult, TInputArg>(buildUrlGetter(getUrl)),
@@ -99,7 +99,7 @@ export function defineRepository<TModel extends ModelBase>(
   }
 
   function patch<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
       new PatchCommand<TResult, TInputArg>(buildUrlGetter(getUrl)),
@@ -109,7 +109,7 @@ export function defineRepository<TModel extends ModelBase>(
   }
 
   function del<TResult = TModel, TInputArg extends ICommand<TResult> = ICommand<TResult>>(
-    getUrl?: GetUrlHandler<TInputArg>,
+    getUrl?: UrlExtractor<TInputArg>,
   ): HttpFunction<TResult, TInputArg> {
     const cmd = command(
       new PatchCommand<TResult, TInputArg>(buildUrlGetter(getUrl)),

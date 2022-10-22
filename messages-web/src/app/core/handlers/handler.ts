@@ -6,9 +6,32 @@
  */
 export type Handler<TOut, Tin = undefined> = (a: Tin) => TOut;
 
-// const x: Handler<string, undefined> = () => 'foo';
-// const f: sting = x();
-/** Создаёт новую функцию-обработчик *
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyHandler = Handler<any, any>;
+
+/** Вычисляет тип входных параметров для произвольного обработчика
+ * @example
+const checkLength: Handler<boolean, string> = createHandler(() => {
+  const add = 5;
+  return (str: string) => str.length < add;
+});
+
+const x: InputOf<typeof checkLength> = 'ddd'
+ */
+export type InputOf<T extends AnyHandler> = Parameters<T>[0];
+
+/** Возвращает тип результата хендлера
+ * @example
+const checkLength: Handler<boolean, string> = createHandler(() => {
+  const add = 5;
+  return (str: string) => str.length < add;
+});
+
+const y: OutputOf<typeof checkLength> = true;
+ */
+export type OutputOf<T extends AnyHandler> = ReturnType<T>;
+
+/** Создаёт новую функцию-обработчик
  * @example
  * const checkLength: Handler<boolean, string> = createHandler(() => {
  *   const add = 5;

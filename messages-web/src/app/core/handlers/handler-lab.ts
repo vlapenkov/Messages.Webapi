@@ -21,7 +21,6 @@ class HandlerLab<TOut, Tin = undefined> {
   }
 }
 
-/**  */
 export function extend<TOut, Tin = undefined>(handler: Handler<TOut, Tin>) {
   return new HandlerLab(handler);
 }

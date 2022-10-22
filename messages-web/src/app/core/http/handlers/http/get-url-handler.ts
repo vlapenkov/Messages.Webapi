@@ -17,5 +17,3 @@ export const createUrlExtractor = createHandler(
     (arg: TModel) =>
       getter(arg),
 );
-
-export type UrlExtractrCtor = typeof createUrlExtractor;

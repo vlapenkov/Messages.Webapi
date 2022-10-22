@@ -1,6 +1,8 @@
-import { createHandler } from '@/app/core/handlers/handler';
-import { AxiosInstance, AxiosPromise } from 'axios';
+import { createHandler, Handler } from '@/app/core/handlers/handler';
+import { createWrapper } from '@/app/core/handlers/handler-wrapper';
+import type { AxiosInstance, AxiosPromise } from 'axios';
 import { http } from '../../http.service';
+import type { UrlExtractor } from '../http/get-url-handler';
 
 /** Произвольный запрос в axios */
 export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (
@@ -11,7 +13,7 @@ export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (
 /** Подставляет текущий экземпляр axios в произвольный запрос
  * @example
  * // Создаём функцию, которая просит только данные в качестве аргумента
- * const findItem = axiosHandler((ax, id: string) =>
+ * const findItem = createAxiosHandler((ax, id: string) =>
  *   ax.get<{ foo: string }>('find', {
  *     params: { id },
  *   }),
@@ -28,3 +30,26 @@ export const createAxiosHandler = createHandler(
     (request: TRequest) =>
       handleRequest(http, request),
 );
+
+/** Создаёт обёртку для подстановки произвольного урла в аксиос запрос
+ * @example
+ * interface IRequestTest {
+ *   id: string;
+ * }
+ *
+ * const wrapper = createAxiosWrapper<string, IRequestTest>(
+ *   (geturl) => (ax, req) => ax.get(geturl(req), { params: { ...req } }),
+ * );
+ *
+ * const getUrl: UrlExtractor<IRequestTest> = ({ id }) => `find/${id}`;
+ *
+ * const final: Handler<AxiosPromise<string>, IRequestTest> = extend(getUrl).wrap(wrapper).done();
+ *
+ */
+export function createAxiosWrapper<TResponse, TModel = undefined>(
+  buildFn: (getUrl: UrlExtractor<TModel>) => AxiosHandlerFunction<TResponse, TModel>,
+) {
+  return createWrapper<UrlExtractor<TModel>, Handler<AxiosPromise<TResponse>, TModel>>((gu) =>
+    createAxiosHandler(buildFn(gu)),
+  );
+}

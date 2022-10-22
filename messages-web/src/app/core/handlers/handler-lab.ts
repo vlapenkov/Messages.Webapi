@@ -14,7 +14,7 @@ class HandlerLab<TOut, Tin = undefined> {
   }
 
   wrap<TOutNew, TinNew = undefined>(
-    wrapper: HandlerWrapper<TOut, TOutNew, Tin, TinNew>,
+    wrapper: HandlerWrapper<Handler<TOut, Tin>, Handler<TOutNew, TinNew>>,
   ): HandlerLab<TOutNew, TinNew> {
     const resultHandler = wrapper(this.handler);
     return new HandlerLab(resultHandler);

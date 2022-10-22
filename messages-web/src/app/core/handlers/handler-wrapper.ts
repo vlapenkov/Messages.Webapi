@@ -1,4 +1,4 @@
-import { AnyHandler } from './handler';
+import { AnyHandler, Handler } from './handler';
 
 /** Обработчик, вызывающий внутри себя друой обработчик
  * @example
@@ -19,13 +19,29 @@ export type HandlerWrapper<TWrapped extends AnyHandler, TWrapper extends AnyHand
  * // считаем длину строки
  * const testHandler: Handler<number, string> = createHandler(() => (i: string) => i.length);
  * // считаем длины всех строк в массиве
- * const wrapper = createWrapperFor<typeof testHandler, Handler<number[], string[]>>(
+ * const wrapper = createWrapper<typeof testHandler, Handler<number[], string[]>>(
  *   (handler) => (arr: string[]) => arr.map(handler),
  * );
  * const wrappedHandler: Handler<number[], string[]> = wrapper((i: string) => i.length + 1);
  */
-export function createWrapperFor<TWrapped extends AnyHandler, TWrapper extends AnyHandler>(
+export function createWrapper<TWrapped extends AnyHandler, TWrapper extends AnyHandler>(
   setup: (handler: TWrapped) => TWrapper,
 ): HandlerWrapper<TWrapped, ReturnType<typeof setup>> {
+  return setup;
+}
+
+/** Создаёт обёртку для существующего типа хендлеров
+ * @param _handler - нужен, чтобы корректно вывести тип (см. пример)
+ * @example
+ * const testHandler: Handler<number, string> = createHandler(() => (i: string) => i.length);
+ *
+ * const wrapper = createWrapperFor(testHandler, (handler) => (arr: string[]) => arr.map(handler));
+ *
+ * const wrappedHandler: Handler<number[], string[]> = wrapper((i: string) => i.length + 1);
+ */
+export function createWrapperFor<TOutWas, TOut, TinWas = undefined, Tin = undefined>(
+  _handler: Handler<TOutWas, TinWas>,
+  setup: HandlerWrapper<Handler<TOutWas, TinWas>, Handler<TOut, Tin>>,
+) {
   return setup;
 }

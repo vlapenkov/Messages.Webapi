@@ -5,7 +5,7 @@ import { HandlerBuilder } from '../cqrs/handler-builder';
 import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
 import { HttpFunction } from '../http/handlers/http/@types/HttpFunction';
 import { UrlExtractor } from '../http/handlers/http/get-url-handler';
-import { GetQuery } from '../http/handlers/http/get.query';
+import { GetQuery } from '../http/handlers/http/get.wrapper';
 import { PatchCommand } from '../http/handlers/http/patch.command';
 import { PostCommand } from '../http/handlers/http/post.command';
 import { PutCommand } from '../http/handlers/http/put.command';

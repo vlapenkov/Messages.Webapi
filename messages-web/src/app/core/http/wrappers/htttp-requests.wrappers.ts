@@ -1,4 +1,4 @@
-import { createAxiosWrapper } from '../axios/axios.handler';
+import { createAxiosWrapper } from '../handlers/axios/axios.handler';
 
 export const useGet = <TOut, Tin = undefined>() =>
   createAxiosWrapper<TOut, Tin>(

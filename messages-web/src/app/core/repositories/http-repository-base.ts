@@ -2,7 +2,7 @@ import { ICommand } from '../cqrs/base/@types/ICommand';
 import { IQuery } from '../cqrs/base/@types/IQuery';
 import { command, query } from '../cqrs/cqrs.service';
 import { HandlerBuilder } from '../cqrs/handler-builder';
-import { AxiosPromiseUnwrapDecorator } from '../http/decorators/axios-promise-unwrap.decorator';
+import { AxiosPromiseUnwrapDecorator } from '../http/wrappers/http-result.wrapper';
 import { HttpFunction } from '../http/handlers/http/@types/HttpFunction';
 import { UrlExtractor } from '../http/handlers/http/get-url-handler';
 import { GetQuery } from '../http/handlers/http/get.wrapper';

@@ -16,25 +16,11 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Messages.WebApi
+namespace Messages.Webapi.Extensions
 {
-    public static class StartupExtensions
+    public static class ErrorHandlingExtensions
     {
-        /// <summary>
-        /// Загруза внутренних зависимостей
-        /// </summary>
-        /// <param name="services"></param>
-        public static void RegisterDependencies(this IServiceCollection services)
-        {
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-
-            services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
-            services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
-
-            services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
-            services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
-        }
-
+       
         /// <summary>
         /// Обработка ошибок рефит на фронте
         /// </summary>
@@ -46,10 +32,10 @@ namespace Messages.WebApi
             services.AddProblemDetails(options =>
                 {
                     //TODO: (ctx, ex) => env.IsDevelopment()
-                   // options.IncludeExceptionDetails = (ctx, ex) => env.IsDevelopment();
+                    // options.IncludeExceptionDetails = (ctx, ex) => env.IsDevelopment();
                     options.IncludeExceptionDetails = (ctx, ex) => false;
 
-                    options.Map<ValidationException>(
+                    options.Map(
 
                            delegate (ValidationException exception)
                            {

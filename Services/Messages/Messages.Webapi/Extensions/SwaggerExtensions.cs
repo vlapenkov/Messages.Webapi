@@ -6,8 +6,9 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
+using Messages.Webapi.Extensions;
 
-namespace Messages.Webapi
+namespace Messages.Webapi.Extensions
 {
     public static class SwaggerExtensions
     {
@@ -31,7 +32,7 @@ namespace Messages.Webapi
                 };
                 c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
                 c.SupportNonNullableReferenceTypes();
-              //  c.UseDateOnlyTimeOnlyStringConverters();
+                //  c.UseDateOnlyTimeOnlyStringConverters();
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {securityScheme, new string[] { }}

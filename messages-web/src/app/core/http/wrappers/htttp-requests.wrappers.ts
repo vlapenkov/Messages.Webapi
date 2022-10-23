@@ -6,9 +6,9 @@ export const useGet = <TOut, Tin = undefined>() => {
     url: '',
   };
   return createAxiosWrapper<TOut, Tin>((optionsProvided) => (http, input) => {
-    const { url }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
+    const { url, bodyOrParams }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
     return http.get(url, {
-      params: {
+      params: bodyOrParams ?? {
         ...input,
       },
     });
@@ -20,10 +20,13 @@ export const usePost = <TOut, Tin = undefined>() => {
     url: '',
   };
   return createAxiosWrapper<TOut, Tin>((optionsProvided) => (http, input) => {
-    const { url }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
-    return http.post(url, {
-      ...input,
-    });
+    const { url, bodyOrParams }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
+    return http.post(
+      url,
+      bodyOrParams ?? {
+        ...input,
+      },
+    );
   });
 };
 
@@ -32,11 +35,13 @@ export const usePut = <TOut, Tin = undefined>() => {
     url: '',
   };
   return createAxiosWrapper<TOut, Tin>((optionsProvided) => (http, input) => {
-    const { url }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
-
-    return http.put(url, {
-      ...input,
-    });
+    const { url, bodyOrParams }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
+    return http.put(
+      url,
+      bodyOrParams ?? {
+        ...input,
+      },
+    );
   });
 };
 
@@ -45,11 +50,14 @@ export const usePatch = <TOut, Tin = undefined>() => {
     url: '',
   };
   return createAxiosWrapper<TOut, Tin>((optionsProvided) => (http, input) => {
-    const { url }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
+    const { url, bodyOrParams }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
 
-    return http.patch(url, {
-      ...input,
-    });
+    return http.patch(
+      url,
+      bodyOrParams ?? {
+        ...input,
+      },
+    );
   });
 };
 
@@ -58,10 +66,9 @@ export const useDelete = <TOut, Tin = undefined>() => {
     url: '',
   };
   return createAxiosWrapper<TOut, Tin>((optionsProvided) => (http, input) => {
-    const { url }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
-
+    const { url, bodyOrParams }: IRequestOptions = { ...defaultOptions, ...optionsProvided };
     return http.delete(url, {
-      params: {
+      params: bodyOrParams ?? {
         ...input,
       },
     });

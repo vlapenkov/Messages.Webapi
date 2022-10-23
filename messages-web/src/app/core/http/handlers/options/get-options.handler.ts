@@ -2,6 +2,7 @@ import { createHandler, Handler } from '@/app/core/handlers/handler';
 
 export interface IRequestOptions {
   url: string;
+  bodyOrParams?: Record<string, unknown>;
 }
 
 export type OptionsGetter<TModel = undefined> = Handler<Partial<IRequestOptions>, TModel>;

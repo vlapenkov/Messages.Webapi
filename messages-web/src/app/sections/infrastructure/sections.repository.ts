@@ -5,4 +5,6 @@ export const { get } = defineRepository<SectionModel>({
   url: 'sections',
 });
 
-export const getAll = get<SectionModel[]>(() => 'list');
+export const getAll = get<SectionModel[]>(() => ({
+  url: 'list',
+}));

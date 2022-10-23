@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Messages.Logic.ProductsNS.Dto
 {
+    /// <summary>
+    /// Значение атрибута товара
+    /// </summary>
     public record AttributeValueDto
     {
         /// <summary>Id товара</summary>

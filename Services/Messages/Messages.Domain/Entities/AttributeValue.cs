@@ -18,8 +18,8 @@ namespace Messages.Domain.Models
             Value = value;
         }
 
-        private  AttributeValue()
-        {}
+        //private  AttributeValue()
+        //{}
 
         public long  BaseProductId { get; private set; }
         public virtual BaseProduct BaseProduct { get; set; }

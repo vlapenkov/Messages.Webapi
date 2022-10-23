@@ -39,7 +39,7 @@ namespace Messages.Logic.ProductsNS.Commands.CreateProduct
 
             var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.BaseProductId, av.AttributeId, av.Value)).ToArray();
 
-            Product product = new Product(request.CatalogSectionId, request.Name, request.Description, attributeValues);
+            Product product = new Product(request.CatalogSectionId, request.Name, request.Description, request.Price, attributeValues);
 
             _dbContext.Products.Add(product);
 

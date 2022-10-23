@@ -1,10 +1,10 @@
 import { createHandler, Handler } from '@/app/core/handlers/handler';
 
-export type UrlExtractor<TModel = undefined> = Handler<string, TModel>;
-
 export interface IRequestOptions<TRequest> {
-  getUrl: UrlExtractor<TRequest>;
+  url: string;
 }
+
+export type UrlExtractor<TModel = undefined> = Handler<string, TModel>;
 
 /** Создаёт генератор Url-ов для конкретного типа данных.
  *  Для поиска по Id и прочего такого

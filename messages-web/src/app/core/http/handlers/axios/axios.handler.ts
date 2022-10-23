@@ -3,7 +3,7 @@ import { extend } from '@/app/core/handlers/handler-lab';
 import { createWrapper } from '@/app/core/handlers/handler-wrapper';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 import { http } from '../../http.service';
-import type { UrlExtractor } from '../http/get-url-handler';
+import type { UrlExtractor } from '../options/get-options.handler';
 
 /** Произвольный запрос в axios */
 export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (

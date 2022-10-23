@@ -1,4 +1,5 @@
 import { createHandler, Handler } from '@/app/core/handlers/handler';
+import { extend } from '@/app/core/handlers/handler-lab';
 import { createWrapper } from '@/app/core/handlers/handler-wrapper';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 import { http } from '../../http.service';
@@ -47,9 +48,31 @@ export const createAxiosHandler = createHandler(
  *
  */
 export function createAxiosWrapper<TResponse, TModel = undefined>(
-  buildFn: (getUrl: UrlExtractor<TModel>) => AxiosHandlerFunction<TResponse, TModel>,
+  buildFn: (options: IRequestOptions<TModel>) => AxiosHandlerFunction<TResponse, TModel>,
 ) {
-  return createWrapper<UrlExtractor<TModel>, Handler<AxiosPromise<TResponse>, TModel>>((gu) =>
-    createAxiosHandler(buildFn(gu)),
-  );
+  return createWrapper<
+    Handler<IRequestOptions<TModel>, TModel>,
+    Handler<AxiosPromise<TResponse>, TModel>
+  >((getOpts) => (requestModel) => {
+    const opts = getOpts(requestModel);
+    const requestFn = buildFn(opts);
+    const handler = createAxiosHandler(requestFn);
+    return handler(requestModel);
+  });
 }
+
+interface IRequestTest {
+  id: string;
+}
+
+const wrapper = createAxiosWrapper<string, IRequestTest>(
+  ({ getUrl }) =>
+    (ax, req) =>
+      ax.get(getUrl(req), { params: { ...req } }),
+);
+
+const options = (req: IRequestTest): IRequestOptions<IRequestTest> => ({
+  getUrl: ({ id }) => `find/${id}`,
+});
+
+const final: Handler<AxiosPromise<string>, IRequestTest> = extend(options).wrap(wrapper).done();

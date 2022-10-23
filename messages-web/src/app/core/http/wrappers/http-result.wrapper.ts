@@ -5,6 +5,7 @@ import { Ok } from '../results/ok.result';
 import { createWrapper } from '../../handlers/handler-wrapper';
 import { Handler } from '../../handlers/handler';
 
+/** Заворачивает респонс от Axios-а в обобщённый результат */
 export function useHttpResult<TResponse, TRequest = undefined>() {
   return createWrapper<
     Handler<AxiosPromise<TResponse>, TRequest>,

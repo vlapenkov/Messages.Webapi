@@ -1,6 +1,7 @@
 using Hellang.Middleware.ProblemDetails;
 using Messages.Infrastructure.EFCore;
 using Messages.Interfaces.Interfaces.DAL;
+using Messages.Webapi;
 using Messages.Webapi.Extensions;
 using Messages.WebApi;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +23,8 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
 builder.Services.RegisterDependencies();
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGeneration();
 builder.WebHost.UseTneSerilog();
 
 var app = builder.Build();

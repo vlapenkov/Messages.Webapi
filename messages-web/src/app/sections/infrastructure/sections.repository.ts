@@ -6,5 +6,5 @@ export const { defineGet } = defineRepository<SectionModel>({
 });
 
 export const getAll = defineGet(() => ({
-  url: 'list',
+  url: '/list',
 }));

@@ -1,7 +1,6 @@
-import { createHandler, Handler } from '../handlers/handler';
+import { createHandler } from '../handlers/handler';
 import { extend } from '../handlers/handler-lab';
 import { OptionsGetter, setAxiosOptonsFor } from '../http/handlers/options/get-options.handler';
-import { HttpResult } from '../http/results/base/http-result';
 import { useHttpResult } from '../http/wrappers/http-result.wrapper';
 import {
   useDelete,
@@ -11,29 +10,7 @@ import {
   usePut,
 } from '../http/wrappers/htttp-requests.wrappers';
 import { ModelBase } from '../model/model-base';
-
-export type RequetstHandler<TResponse, TRequest> = Handler<
-  Promise<HttpResult<TResponse>>,
-  TRequest
->;
-
-export interface IRepositoryQueries<TModel extends ModelBase> {
-  defineGet: <TResponse = TModel[], TRequest = undefined>(
-    config: OptionsGetter<TRequest>,
-  ) => RequetstHandler<TResponse, TRequest>;
-  definePost: <TResponse = TModel, TRequest = TModel>(
-    config: OptionsGetter<TRequest>,
-  ) => RequetstHandler<TResponse, TRequest>;
-  definePut: <TResponse = TModel, TRequest = TModel>(
-    config: OptionsGetter<TRequest>,
-  ) => RequetstHandler<TResponse, TRequest>;
-  definePatch: <TResponse = TModel, TRequest = TModel>(
-    config: OptionsGetter<TRequest>,
-  ) => RequetstHandler<TResponse, TRequest>;
-  defineDelete: <TResponse = boolean, TRequest = TModel>(
-    config: OptionsGetter<TRequest>,
-  ) => RequetstHandler<TResponse, TRequest>;
-}
+import { IRepositoryQueries } from './@types/IRepositoryQueries';
 
 export interface IRepositoryDefinitionOptional {
   url: string;
@@ -62,27 +39,37 @@ export function defineRepository<TModel extends ModelBase>(
       return queryOpts;
     });
 
-  const defineGet = <TResponse = TModel[], TRequest = undefined>(config: OptionsGetter<TRequest>) =>
+  const defineGet = <TResponse = TModel[], TRequest = undefined>(
+    config: OptionsGetter<TRequest> = () => ({}),
+  ) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(useGet<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const definePost = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const definePost = <TResponse = TModel, TRequest = TModel>(
+    config: OptionsGetter<TRequest> = () => ({}),
+  ) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(usePost<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const definePut = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const definePut = <TResponse = TModel, TRequest = TModel>(
+    config: OptionsGetter<TRequest> = () => ({}),
+  ) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(usePut<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const definePatch = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const definePatch = <TResponse = TModel, TRequest = TModel>(
+    config: OptionsGetter<TRequest> = () => ({}),
+  ) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(usePatch<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const defineDelete = <TResponse = boolean, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const defineDelete = <TResponse = boolean, TRequest = TModel>(
+    config: OptionsGetter<TRequest> = () => ({}),
+  ) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(useDelete<TResponse, TRequest>()).wrap(useHttpResult()).done();

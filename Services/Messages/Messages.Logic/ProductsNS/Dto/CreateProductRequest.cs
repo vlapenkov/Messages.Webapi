@@ -23,5 +23,7 @@ namespace Messages.Logic.ProductsNS.Dto
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
 
         public string CodeTnVed { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

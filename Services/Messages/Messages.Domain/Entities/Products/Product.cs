@@ -10,16 +10,26 @@ namespace Messages.Domain.Models.Products
     /// </summary>
     public class Product : BaseProduct
     {
-        public Product(long catalogSectionId, string name, string description) : base(catalogSectionId, name, description) { 
-        }
-        public Product(long catalogSectionId, string name, string description, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        public Product(long catalogSectionId, string name, string description,  decimal price) : base(catalogSectionId, name, description) 
         {
+            Price = price;
+        }
+        public Product(long catalogSectionId, string name, string description, decimal price, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        {
+            Price = price;
         }
 
         [StringLength(256)]
         public string CodeTnVed { get; private set; }
 
-       
-       
+        public decimal Price { get; private set; }
+
+        /// <summary>
+        /// Установить цену продукции
+        /// </summary>
+        /// <param name="price">новая цена</param>
+        public void SetPrice(decimal price)
+            { this.Price = price; }
+
     }
 }

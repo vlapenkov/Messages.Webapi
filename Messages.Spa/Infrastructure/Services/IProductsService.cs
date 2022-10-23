@@ -13,6 +13,6 @@ namespace Messages.Spa.Infrastructure.Services
 
         /// <summary>Получить пагинированный список продукции</summary>  
         [Get("/api/v1/Products/list")]
-        Task<PagedResponse<ProductShortDto>> GetProducts([Body] FilterProductsRequest request);
+        Task<PagedResponse<ProductShortDto>> GetProducts([Query] FilterProductsRequest request);
     }
 }

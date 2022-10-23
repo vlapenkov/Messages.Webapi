@@ -12,7 +12,11 @@ namespace Messages.Spa.Infrastructure.Services
         Task<long> CreateProduct([Body] CreateProductRequest request);
 
         /// <summary>Получить пагинированный список продукции</summary>  
-        [Get("/api/v1/Products/list")]
+        [Get("/api/v1/Products")]
         Task<PagedResponse<ProductShortDto>> GetProducts([Query] FilterProductsRequest request);
+
+        /// <summary>Получить инфо о продукции</summary>  
+        [Get("/api/v1/Products/{id}")]
+        Task<ProductResponse> GetProduct(long id);
     }
 }

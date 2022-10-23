@@ -22,6 +22,7 @@ namespace Messages.Spa.Controllers
             _productsService = productsService;
         }
 
+        /// <summary>Создать продукт </summary>
         [HttpPost]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
@@ -30,11 +31,20 @@ namespace Messages.Spa.Controllers
         }
 
         /// <summary>Получить список товаров с отбором и пагинацией </summary>
-        [HttpGet("list")]
+        [HttpGet]
         public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
         {
 
             return await _productsService.GetProducts(request);
+        }
+
+        /// <summary>Получить информацию о продукции</summary>
+        [HttpGet("{id:long}")]
+        public async Task<ProductResponse> GetProduct(long id)
+        {
+
+            return await _productsService.GetProduct(id);
+           
         }
     }
 }

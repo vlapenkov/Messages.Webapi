@@ -1,23 +1,24 @@
 import { createHandler, Handler } from '@/app/core/handlers/handler';
 
-export interface IRequestOptions<TRequest> {
+export interface IRequestOptions {
   url: string;
 }
 
-export type UrlExtractor<TModel = undefined> = Handler<string, TModel>;
+export type OptionsGetter<TModel = undefined> = Handler<Partial<IRequestOptions>, TModel>;
 
-/** Создаёт генератор Url-ов для конкретного типа данных.
- *  Для поиска по Id и прочего такого
+/**
+ *  Конфигурирует опции текущего запроса
+ *  в зависимости от тела самого запроса
  * @example
- * const getUrl: UrlExtractor<{ foo: string }> = createUrlExtractor(
- *  (model: { foo: string }) => `bar/${model.foo}`
- * );
+ * const getOptions: OptionsGetter<{ foo: string }> = setAxiosOptonsFor(({ foo }) => ({
+ *   url: `bar/${foo}`,
+ * }));
  *
- * const url: string = getUrl({foo: 'baz'})
+ * const url: IRequestOptions = getOptions({ foo: 'baz' });
  */
-export const createUrlExtractor = createHandler(
+export const setAxiosOptonsFor = createHandler(
   () =>
-    <TModel>(getter: UrlExtractor<TModel>) =>
+    <TModel>(getter: OptionsGetter<TModel>) =>
     (arg: TModel) =>
       getter(arg),
 );

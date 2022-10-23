@@ -3,4 +3,4 @@
 
 cd messages-web
 npm run prettier
-# npm run lint -- --max-warnings 0
+npm run lint -- --max-warnings 0

@@ -42,38 +42,48 @@ export function defineRepository<TModel extends ModelBase>(
   const defineGet = <TResponse = TModel[], TRequest = undefined>(
     config: OptionsGetter<TRequest> = () => ({}),
   ) =>
-    createHandler(() => {
-      const getOptions = configureOptions(config);
-      return extend(getOptions).wrap(useGet<TResponse, TRequest>()).wrap(useHttpResult()).done();
-    });
+    createHandler(() =>
+      extend(configureOptions(config))
+        .wrap(useGet<TResponse, TRequest>())
+        .wrap(useHttpResult())
+        .done(),
+    );
   const definePost = <TResponse = TModel, TRequest = TModel>(
     config: OptionsGetter<TRequest> = () => ({}),
   ) =>
-    createHandler(() => {
-      const getOptions = configureOptions(config);
-      return extend(getOptions).wrap(usePost<TResponse, TRequest>()).wrap(useHttpResult()).done();
-    });
+    createHandler(() =>
+      extend(configureOptions(config))
+        .wrap(usePost<TResponse, TRequest>())
+        .wrap(useHttpResult())
+        .done(),
+    );
   const definePut = <TResponse = TModel, TRequest = TModel>(
     config: OptionsGetter<TRequest> = () => ({}),
   ) =>
-    createHandler(() => {
-      const getOptions = configureOptions(config);
-      return extend(getOptions).wrap(usePut<TResponse, TRequest>()).wrap(useHttpResult()).done();
-    });
+    createHandler(() =>
+      extend(configureOptions(config))
+        .wrap(usePut<TResponse, TRequest>())
+        .wrap(useHttpResult())
+        .done(),
+    );
   const definePatch = <TResponse = TModel, TRequest = TModel>(
     config: OptionsGetter<TRequest> = () => ({}),
   ) =>
-    createHandler(() => {
-      const getOptions = configureOptions(config);
-      return extend(getOptions).wrap(usePatch<TResponse, TRequest>()).wrap(useHttpResult()).done();
-    });
+    createHandler(() =>
+      extend(configureOptions(config))
+        .wrap(usePatch<TResponse, TRequest>())
+        .wrap(useHttpResult())
+        .done(),
+    );
   const defineDelete = <TResponse = boolean, TRequest = TModel>(
     config: OptionsGetter<TRequest> = () => ({}),
   ) =>
-    createHandler(() => {
-      const getOptions = configureOptions(config);
-      return extend(getOptions).wrap(useDelete<TResponse, TRequest>()).wrap(useHttpResult()).done();
-    });
+    createHandler(() =>
+      extend(configureOptions(config))
+        .wrap(useDelete<TResponse, TRequest>())
+        .wrap(useHttpResult())
+        .done(),
+    );
 
   const context: IRepositoryQueries<TModel> = {
     defineGet,

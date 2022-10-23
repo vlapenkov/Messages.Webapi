@@ -1,4 +1,5 @@
-﻿using Messages.Spa.Infrastructure.Dto.ProductsNS;
+﻿using Messages.Spa.Infrastructure.Dto.CommonNS;
+using Messages.Spa.Infrastructure.Dto.ProductsNS;
 using Messages.Spa.Infrastructure.Dto.SectionsNS;
 using Messages.Spa.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,14 @@ namespace Messages.Spa.Controllers
         {
 
             return await _productsService.CreateProduct(request);
+        }
+
+        /// <summary>Получить список товаров с отбором и пагинацией </summary>
+        [HttpGet("list")]
+        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
+        {
+
+            return await _productsService.GetProducts(request);
         }
     }
 }

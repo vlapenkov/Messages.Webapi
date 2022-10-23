@@ -2,6 +2,9 @@
 
 namespace Messages.Spa.Infrastructure.Dto.ProductsNS
 {
+    /// <summary>
+    /// Соджание запроса продукта
+    /// </summary>
     public record CreateProductRequest
     {
 
@@ -11,7 +14,7 @@ namespace Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Description { get; set; }
 
-        public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
+        public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; } = new List<AttributeValueDto>();
 
         public string CodeTnVed { get; set; }
     }

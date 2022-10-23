@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Messages.Spa.Infrastructure.Dto.ProductsNS
 {
+    /// <summary>
+    /// Значение атрибута товара
+    /// </summary>
     public record AttributeValueDto
     {
         /// <summary>Id товара</summary>

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Messages.Logic.ProductsNS.Dto
 {
+    /// <summary>
+    /// Создание продукта
+    /// </summary>
     public record CreateProductRequest
     {
 

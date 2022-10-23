@@ -12,14 +12,34 @@ import {
 } from '../http/wrappers/htttp-requests.wrappers';
 import { ModelBase } from '../model/model-base';
 
-export interface IMethodConfig {
-  url: string;
+export type RequetstHandler<TResponse, TRequest> = Handler<
+  Promise<HttpResult<TResponse>>,
+  TRequest
+>;
+
+export interface IRepositoryQueries<TModel extends ModelBase> {
+  defineGet: <TResponse = TModel[], TRequest = undefined>(
+    config: OptionsGetter<TRequest>,
+  ) => RequetstHandler<TResponse, TRequest>;
+  definePost: <TResponse = TModel, TRequest = TModel>(
+    config: OptionsGetter<TRequest>,
+  ) => RequetstHandler<TResponse, TRequest>;
+  definePut: <TResponse = TModel, TRequest = TModel>(
+    config: OptionsGetter<TRequest>,
+  ) => RequetstHandler<TResponse, TRequest>;
+  definePatch: <TResponse = TModel, TRequest = TModel>(
+    config: OptionsGetter<TRequest>,
+  ) => RequetstHandler<TResponse, TRequest>;
+  defineDelete: <TResponse = boolean, TRequest = TModel>(
+    config: OptionsGetter<TRequest>,
+  ) => RequetstHandler<TResponse, TRequest>;
 }
 
 export interface IRepositoryDefinitionOptional {
   url: string;
 }
 
+/** Обязательные параметры для репозитория. Пока не знаю какие */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars
 export interface IRepositoryDefinition<TModel extends ModelBase> {}
 
@@ -27,13 +47,9 @@ const defaultOptionalProps: IRepositoryDefinitionOptional = {
   url: '',
 };
 
-export type QueryConstructor<TResponse, TRequest> = (
-  config: OptionsGetter<TRequest>,
-) => Handler<Promise<HttpResult<TResponse>>, TRequest>;
-
 export function defineRepository<TModel extends ModelBase>(
   optionsProvided: IRepositoryDefinition<TModel> & Partial<IRepositoryDefinitionOptional>,
-) {
+): IRepositoryQueries<TModel> {
   const repOptions: IRepositoryDefinition<TModel> & IRepositoryDefinitionOptional = {
     ...defaultOptionalProps,
     ...optionsProvided,
@@ -46,31 +62,38 @@ export function defineRepository<TModel extends ModelBase>(
       return queryOpts;
     });
 
-  const get = <TResponse = TModel[], TRequest = undefined>(config: OptionsGetter<TRequest>) =>
+  const defineGet = <TResponse = TModel[], TRequest = undefined>(config: OptionsGetter<TRequest>) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(useGet<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const post = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const definePost = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(usePost<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const put = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const definePut = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(usePut<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const patch = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const definePatch = <TResponse = TModel, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(usePatch<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
-  const del = <TResponse = boolean, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
+  const defineDelete = <TResponse = boolean, TRequest = TModel>(config: OptionsGetter<TRequest>) =>
     createHandler(() => {
       const getOptions = configureOptions(config);
       return extend(getOptions).wrap(useDelete<TResponse, TRequest>()).wrap(useHttpResult()).done();
     });
 
-  return { get, post, put, patch, del };
+  const context: IRepositoryQueries<TModel> = {
+    defineGet,
+    definePost,
+    definePut,
+    definePatch,
+    defineDelete,
+  };
+  return context;
 }

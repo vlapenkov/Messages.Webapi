@@ -13,10 +13,16 @@ namespace Messages.Webapi.Controllers
         private IMediator _mediator;
         private ILogger _logger;
 
+        public MessagesController(ILogger<MessagesController> logger)
+        {
+            _logger = logger;
+        }
 
         [HttpGet]
         public async Task Get()
         {
+            var x = new { A = 123, B = "Test" };
+            _logger.LogWarning("тествое сообщение {@a}",x);
 
             throw new RkErrorException("Тестовая ошибка");
 

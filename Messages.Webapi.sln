@@ -32,13 +32,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messages.Spa", "Messages.Sp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileStore", "FileStore", "{C9AFB9B8-B3C9-4F04-9D24-30D9C4D41EF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStore.Domain", "Services\FileStore\FileStore.Domain\FileStore.Domain.csproj", "{A72675C5-4F20-4AF1-8C32-3FBB80CCA5A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStore.Domain", "Services\FileStore\FileStore.Domain\FileStore.Domain.csproj", "{A72675C5-4F20-4AF1-8C32-3FBB80CCA5A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStore.Interfaces", "Services\FileStore\FileStore.Interfaces\FileStore.Interfaces.csproj", "{0D272A8E-6891-4324-BE6F-6B4F422C0BF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStore.Interfaces", "Services\FileStore\FileStore.Interfaces\FileStore.Interfaces.csproj", "{0D272A8E-6891-4324-BE6F-6B4F422C0BF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStore.Infrastructure", "Services\FileStore\FileStore.Infrastructure\FileStore.Infrastructure.csproj", "{036C2E6B-5D69-4326-A209-0B59700C5E4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStore.Infrastructure", "Services\FileStore\FileStore.Infrastructure\FileStore.Infrastructure.csproj", "{036C2E6B-5D69-4326-A209-0B59700C5E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStore.Webapi", "Services\FileStore\FileStore.Webapi\FileStore.Webapi.csproj", "{6056BAFA-51FB-4290-8F81-D5D7057F7898}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStore.Webapi", "Services\FileStore\FileStore.Webapi\FileStore.Webapi.csproj", "{6056BAFA-51FB-4290-8F81-D5D7057F7898}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{3C3CD050-D305-43F5-A523-ED9F3B6E9356}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -26,6 +26,7 @@ builder.WebHost.UseTneSerilog();
 
 var app = builder.Build();
 
+app.UseRouting();
 app.AddReverseProxy(builder.Configuration);
 app.UseProblemDetails();
 app.UseSwagger();
@@ -33,7 +34,8 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
 });
-app.UseRouting();
+
+app.UseMiddleware<LogUserNameMiddleware>();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {

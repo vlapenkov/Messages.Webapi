@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 import Harlem from '@harlem/core';
 import createDevtoolsPlugin from '@harlem/plugin-devtools';
 import { Plugin } from 'vue';

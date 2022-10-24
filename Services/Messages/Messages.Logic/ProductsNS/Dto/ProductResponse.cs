@@ -1,7 +1,5 @@
-﻿using Messages.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,14 +7,16 @@ using System.Threading.Tasks;
 namespace Messages.Logic.ProductsNS.Dto
 {
     /// <summary>
-    /// Создание продукта
+    /// Информация о товаре
     /// </summary>
-    public record CreateProductRequest
+    public record ProductResponse
     {
+        public long Id { get; set; }
+
+        /// <summary>наименование</summary>
+        public string Name { get; set; }
 
         public long CatalogSectionId { get; set; }
-
-        public string Name { get; set; }
 
         public string Description { get; set; }
 

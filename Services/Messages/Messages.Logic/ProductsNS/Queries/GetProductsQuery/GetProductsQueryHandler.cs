@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 using X.PagedList;
 
 
-namespace Messages.Logic.ProductsNS.Queries
+namespace Messages.Logic.ProductsNS.Queries.GetProductsQuery
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PagedResponse<ProductShortDto>>
     {
         private readonly IAppDbContext _dbContext;
         private readonly IMapper _mapper;
-                
+
 
         public GetProductsQueryHandler(IAppDbContext dbContext, IMapper mapper)
         {
@@ -36,13 +36,13 @@ namespace Messages.Logic.ProductsNS.Queries
             IQueryable<Product> productsQuery = _dbContext.Products.AsNoTracking();
 
             if (request.CatalogSectionId != null)
-                productsQuery = productsQuery.Where(product =>  product.CatalogSectionId == request.CatalogSectionId);
+                productsQuery = productsQuery.Where(product => product.CatalogSectionId == request.CatalogSectionId);
 
             if (request.Name != null)
-                productsQuery = productsQuery.Where(product => product.Name!=null && product.Name.ToLower().Contains( request.Name.ToLower()));
-           
+                productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
 
-            IPagedList<Product> queryResult = await productsQuery.ToPagedListAsync(request.PageNumber, request.PageSize);
+
+            IPagedList<Product> queryResult = await productsQuery.OrderBy(product=>product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
 
 
             // преобразование из IPagedList<Product> -> PagedResponse<ProductShortDto>
@@ -55,7 +55,7 @@ namespace Messages.Logic.ProductsNS.Queries
 
             return result;
 
-        
+
         }
     }
 }

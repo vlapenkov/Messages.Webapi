@@ -19,12 +19,17 @@ namespace Messages.Logic.ProductsNS.Mappings
         {
 
             CreateMap(typeof(IPagedList<Product>), typeof(PagedResponse<ProductShortDto>));
-                //TODO: Разобраться с mapping для Rows
-               // .ForMember(dest => dest.Rows, opt => opt.MapFrom(src => src.Name))
+            //TODO: Разобраться с mapping для Rows
+            // .ForMember(dest => dest.Rows, opt => opt.MapFrom(src => src.Name))
 
-            CreateMap<Product, ProductShortDto>()
-                //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            CreateMap<AttributeValue, AttributeValueDto>()
+               .ReverseMap();
+
+            CreateMap<Product, ProductShortDto>()                
                 .ReverseMap();
+
+            CreateMap<Product, ProductResponse>()              
+              .ReverseMap();
         }
     }
 }

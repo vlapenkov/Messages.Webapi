@@ -1,4 +1,5 @@
-﻿using Messages.Spa.Infrastructure.Dto.ProductsNS;
+﻿using Messages.Spa.Infrastructure.Dto.CommonNS;
+using Messages.Spa.Infrastructure.Dto.ProductsNS;
 using Refit;
 using System.Threading.Tasks;
 
@@ -6,8 +7,16 @@ namespace Messages.Spa.Infrastructure.Services
 {
     public interface IProductsService
     {
-        /// <summary>Создать раздел</summary>         
+        /// <summary>Создать продукцию</summary>         
         [Post("/api/v1/Products")]
         Task<long> CreateProduct([Body] CreateProductRequest request);
+
+        /// <summary>Получить пагинированный список продукции</summary>  
+        [Get("/api/v1/Products")]
+        Task<PagedResponse<ProductShortDto>> GetProducts([Query] FilterProductsRequest request);
+
+        /// <summary>Получить инфо о продукции</summary>  
+        [Get("/api/v1/Products/{id}")]
+        Task<ProductResponse> GetProduct(long id);
     }
 }

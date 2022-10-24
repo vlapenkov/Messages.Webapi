@@ -9,7 +9,7 @@ import {
   usePut,
 } from '../../handlers/http/queries/htttp-queries.wrappers';
 import { useHttpResult } from '../../handlers/http/results/http-result.wrapper';
-import { ModelBase } from '../../model/model-base';
+import { ModelBase } from '../../models/model-base';
 import { IQueryConstructors } from './@types/IRepositoryQueries';
 
 export interface IServiceOptionsOptional {

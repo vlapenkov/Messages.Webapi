@@ -1,5 +1,5 @@
-import { IModel } from '../../../model/@types/IModel';
-import { ModelBase } from '../../../model/model-base';
+import { IModel } from '../../../models/@types/IModel';
+import { ModelBase } from '../../../models/model-base';
 import { IQueryConstructors } from '../@types/IRepositoryQueries';
 
 export function useDefaultQueries<TModel extends ModelBase<IModel>>({

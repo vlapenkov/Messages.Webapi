@@ -1,5 +1,5 @@
 import { OptionsGetter } from '@/app/core/handlers/http/options/get-options.handler';
-import { ModelBase } from '../../../model/model-base';
+import { ModelBase } from '../../../models/model-base';
 import { RequetstHandler } from './requetst-handler';
 
 export interface IQueryConstructors<TModel extends ModelBase> {

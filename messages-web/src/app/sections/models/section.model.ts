@@ -1,5 +1,5 @@
-import { IModel } from '@/app/core/model/@types/IModel';
-import { ModelBase } from '@/app/core/model/model-base';
+import { IModel } from '@/app/core/models/@types/IModel';
+import { ModelBase } from '@/app/core/models/model-base';
 
 export interface ISectionModel extends IModel {
   id: number;

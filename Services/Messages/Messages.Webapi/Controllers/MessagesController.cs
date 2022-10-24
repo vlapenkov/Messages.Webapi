@@ -21,8 +21,9 @@ namespace Messages.Webapi.Controllers
         [HttpGet]
         public async Task Get()
         {
+            var x = new { A = 123, B = "Test" };
+            _logger.LogWarning("тествое сообщение {@a}",x);
 
-            _logger.LogWarning("тествое сообщение");
             throw new RkErrorException("Тестовая ошибка");
 
             /*  

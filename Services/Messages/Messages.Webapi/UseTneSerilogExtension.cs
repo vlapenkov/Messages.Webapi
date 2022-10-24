@@ -17,11 +17,7 @@ namespace Messages.Webapi.Extensions
         /// <param name="hostBuilder">IWebHostBuilder</param>
         /// <returns>IWebHostBuilder</returns>
         public static IWebHostBuilder UseTneSerilog(this IWebHostBuilder hostBuilder)
-        {
-
-            var appName = Assembly.GetEntryAssembly( ).GetName( ).Name;
-           
-            string date = DateTime.Now.ToString("yyyyMMdd");
+        {  
 
             hostBuilder.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                  .ReadFrom.Configuration(hostingContext.Configuration) // на 10.01.2020 берем только MinimumLevel, остальное определяем в коде. 

@@ -2,7 +2,6 @@ using Hellang.Middleware.ProblemDetails;
 using Messages.Infrastructure.EFCore;
 using Messages.Interfaces.Interfaces.DAL;
 using Messages.Webapi.Extensions;
-using Messages.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,13 +18,15 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
         .UseLazyLoadingProxies()
 );
 
-builder.Services.RegisterDependencies();
+builder.Services.AddDependencies();
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGeneration();
 builder.WebHost.UseTneSerilog();
 
 var app = builder.Build();
+
+app.AddReverseProxy(builder.Configuration);
 app.UseProblemDetails();
 app.UseSwagger();
 app.UseSwaggerUI(c =>

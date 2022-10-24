@@ -25,6 +25,11 @@ namespace Messages.Webapi.Controllers
             _mediatr = mediatr;
         }
 
+        /// <summary>
+        /// Создать продукцию
+        /// </summary>
+        /// <param name="request">запрос создания</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {

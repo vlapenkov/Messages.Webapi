@@ -1,4 +1,4 @@
-import { keycloakToken } from '@/app/core/services/keycloak.service';
+import { keycloakToken } from '@/app/core/services/keycloak/keycloak.service';
 import axios from 'axios';
 
 export const http = axios.create({

@@ -1,5 +1,5 @@
-import { createAxiosWrapper } from '../handlers/axios/axios.handler';
-import { IRequestOptions } from '../handlers/options/get-options.handler';
+import { createAxiosWrapper } from '../axios/axios.handler';
+import { IRequestOptions } from '../options/get-options.handler';
 
 export const useGet = <TOut, Tin = undefined>() => {
   const defaultOptions: IRequestOptions = {

@@ -1,6 +1,6 @@
-import { IModel } from '../../model/@types/IModel';
-import { ModelBase } from '../../model/model-base';
-import { IRepositoryQueries } from '../@types/IRepositoryQueries';
+import { IModel } from '../../../model/@types/IModel';
+import { ModelBase } from '../../../model/model-base';
+import { IQueryConstructors } from '../@types/IRepositoryQueries';
 
 export function useDefaultQueries<TModel extends ModelBase<IModel>>({
   defineGet,
@@ -8,7 +8,7 @@ export function useDefaultQueries<TModel extends ModelBase<IModel>>({
   definePut,
   definePatch,
   defineDelete,
-}: IRepositoryQueries<TModel>) {
+}: IQueryConstructors<TModel>) {
   return {
     get: defineGet(),
     post: definePost(),

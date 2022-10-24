@@ -1,9 +1,9 @@
 import { AxiosPromise, HttpStatusCode } from 'axios';
-import { ErrorResult } from '../results/error.result';
-import { HttpResult } from '../results/base/http-result';
-import { Ok } from '../results/ok.result';
-import { createWrapper } from '../../handlers/handler-wrapper';
-import { Handler } from '../../handlers/handler';
+import { ErrorResult } from './error.result';
+import { HttpResult } from './base/http-result';
+import { Ok } from './ok.result';
+import { Handler } from '../../base/handler';
+import { createWrapper } from '../../base/handler-wrapper';
 
 /** Заворачивает респонс от Axios-а в обобщённый результат */
 export function useHttpResult<TResponse, TRequest = undefined>() {

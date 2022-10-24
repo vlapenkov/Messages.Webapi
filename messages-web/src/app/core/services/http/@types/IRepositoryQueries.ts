@@ -1,8 +1,8 @@
-import { OptionsGetter } from '../../http/handlers/options/get-options.handler';
-import { ModelBase } from '../../model/model-base';
+import { OptionsGetter } from '@/app/core/handlers/http/options/get-options.handler';
+import { ModelBase } from '../../../model/model-base';
 import { RequetstHandler } from './requetst-handler';
 
-export interface IRepositoryQueries<TModel extends ModelBase> {
+export interface IQueryConstructors<TModel extends ModelBase> {
   defineGet: <TResponse = TModel[], TRequest = undefined>(
     config?: OptionsGetter<TRequest>,
   ) => RequetstHandler<TResponse, TRequest>;

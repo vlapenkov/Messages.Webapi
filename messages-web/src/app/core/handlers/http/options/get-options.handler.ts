@@ -1,4 +1,4 @@
-import { createHandler, Handler } from '@/app/core/handlers/handler';
+import { createHandler, Handler } from '@/app/core/handlers/base/handler';
 
 export interface IRequestOptions {
   url: string;

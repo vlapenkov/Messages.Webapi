@@ -1,33 +1,33 @@
-import { createHandler } from '../handlers/handler';
-import { extend } from '../handlers/handler-lab';
-import { OptionsGetter, setAxiosOptonsFor } from '../http/handlers/options/get-options.handler';
-import { useHttpResult } from '../http/wrappers/http-result.wrapper';
+import { createHandler } from '../../handlers/base/handler';
+import { extend } from '../../handlers/base/handler-lab';
+import { OptionsGetter, setAxiosOptonsFor } from '../../handlers/http/options/get-options.handler';
 import {
   useDelete,
   useGet,
   usePatch,
   usePost,
   usePut,
-} from '../http/wrappers/htttp-requests.wrappers';
-import { ModelBase } from '../model/model-base';
-import { IRepositoryQueries } from './@types/IRepositoryQueries';
+} from '../../handlers/http/queries/htttp-queries.wrappers';
+import { useHttpResult } from '../../handlers/http/results/http-result.wrapper';
+import { ModelBase } from '../../model/model-base';
+import { IQueryConstructors } from './@types/IRepositoryQueries';
 
-export interface IRepositoryDefinitionOptional {
+export interface IServiceOptionsOptional {
   url: string;
 }
 
 /** Обязательные параметры для репозитория. Пока не знаю какие */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars
-export interface IRepositoryDefinition<TModel extends ModelBase> {}
+export interface IServiceOptionsRequired<TModel extends ModelBase> {}
 
-const defaultOptionalProps: IRepositoryDefinitionOptional = {
+const defaultOptionalProps: IServiceOptionsOptional = {
   url: '',
 };
 
-export function defineRepository<TModel extends ModelBase>(
-  optionsProvided: IRepositoryDefinition<TModel> & Partial<IRepositoryDefinitionOptional>,
-): IRepositoryQueries<TModel> {
-  const repOptions: IRepositoryDefinition<TModel> & IRepositoryDefinitionOptional = {
+export function defineHttpService<TModel extends ModelBase>(
+  optionsProvided: IServiceOptionsRequired<TModel> & Partial<IServiceOptionsOptional>,
+): IQueryConstructors<TModel> {
+  const repOptions: IServiceOptionsRequired<TModel> & IServiceOptionsOptional = {
     ...defaultOptionalProps,
     ...optionsProvided,
   };
@@ -85,7 +85,7 @@ export function defineRepository<TModel extends ModelBase>(
         .done(),
     );
 
-  const context: IRepositoryQueries<TModel> = {
+  const context: IQueryConstructors<TModel> = {
     defineGet,
     definePost,
     definePut,

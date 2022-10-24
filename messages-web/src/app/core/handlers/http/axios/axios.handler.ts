@@ -1,8 +1,8 @@
-import { createHandler, Handler } from '@/app/core/handlers/handler';
-import { createWrapper } from '@/app/core/handlers/handler-wrapper';
+import { createHandler, Handler } from '@/app/core/handlers/base/handler';
+import { createWrapper } from '@/app/core/handlers/base/handler-wrapper';
 import type { AxiosInstance, AxiosPromise } from 'axios';
-import { http } from '../../http.service';
-import type { IRequestOptions, OptionsGetter } from '../options/get-options.handler';
+import { http } from '../../../services/axios/axios.service';
+import { IRequestOptions, OptionsGetter } from '../options/get-options.handler';
 
 /** Произвольный запрос в axios */
 export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (

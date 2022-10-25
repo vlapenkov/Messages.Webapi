@@ -30,6 +30,9 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
                  .Enrich.WithMachineName()
             );
 
+builder.Services.AddHealthChecks();
+
+
 var app = builder.Build();
 
 app.UseRouting();
@@ -43,6 +46,7 @@ app.UseProblemDetails();
 
 app.UseAuthorization();
 
+app.MapHealthChecks("/hc");
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

@@ -30,6 +30,7 @@ app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseProblemDetails();
 
+app.MapHealthChecks("/hc");
 //app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
 app.UseSwagger();
 app.UseSwaggerUI(c =>

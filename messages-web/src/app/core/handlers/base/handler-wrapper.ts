@@ -14,6 +14,9 @@ export type HandlerWrapper<TWrapped extends AnyHandler, TWrapper extends AnyHand
   handler: TWrapped,
 ) => TWrapper;
 
+/** Декоратор - это обёртка, которая не меняет тип входных и выходных параметров */
+export type HandlerDecorator<THandler extends AnyHandler> = HandlerWrapper<THandler, THandler>;
+
 /** Создаёт обёртку для хендлера нужного типа
  * @example
  * // считаем длину строки

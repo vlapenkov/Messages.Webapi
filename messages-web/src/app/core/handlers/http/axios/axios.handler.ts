@@ -1,7 +1,7 @@
 import { createHandler, Handler } from '@/app/core/handlers/base/handler';
 import { createWrapper } from '@/app/core/handlers/base/handler-wrapper';
 import type { AxiosInstance, AxiosPromise } from 'axios';
-import { http } from '../../../services/axios/axios.service';
+import { http } from '@/app/core/services/http/axios/axios.service';
 import { IRequestOptions, OptionsGetter } from '../options/get-options.handler';
 
 /** Произвольный запрос в axios */

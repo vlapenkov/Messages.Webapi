@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Rk.Messages.Common.Exceptions;
 
 namespace Rk.Messages.Webapi.Controllers
 {

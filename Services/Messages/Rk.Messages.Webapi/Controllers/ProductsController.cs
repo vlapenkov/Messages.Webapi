@@ -1,5 +1,11 @@
 ﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Logic.CommonNS.Dto;
+using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
+using Rk.Messages.Logic.ProductsNS.Dto;
+using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
+using Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery;
 
 namespace Rk.Messages.Webapi.Controllers
 {

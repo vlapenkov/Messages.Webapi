@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Rk.Messages.Domain.Entities;
 using Rk.Messages.Logic.SectionsNS.Dto;
 
 namespace Rk.Messages.Logic.SectionsNS.Mappings

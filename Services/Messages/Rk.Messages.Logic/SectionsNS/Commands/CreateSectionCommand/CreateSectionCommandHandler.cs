@@ -2,6 +2,10 @@
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Rk.Messages.Common.Exceptions;
+using Rk.Messages.Domain.Entities;
+using Rk.Messages.Interfaces.Interfaces.DAL;
 
 namespace Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand
 {

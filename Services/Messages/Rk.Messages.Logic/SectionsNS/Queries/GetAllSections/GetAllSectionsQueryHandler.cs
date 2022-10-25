@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.SectionsNS.Dto;
+
 
 namespace Rk.Messages.Logic.SectionsNS.Queries.GetAllSections
 {

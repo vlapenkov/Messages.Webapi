@@ -1,4 +1,6 @@
-﻿namespace Rk.Messages.Logic.SectionsNS.Dto
+﻿using Rk.Messages.Common.Helpers;
+
+namespace Rk.Messages.Logic.SectionsNS.Dto
 {
     /// <summary>
     /// Узел для раздела

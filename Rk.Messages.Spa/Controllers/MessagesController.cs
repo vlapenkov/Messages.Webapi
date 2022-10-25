@@ -8,10 +8,12 @@ namespace Rk.Messages.Spa.Controllers
     public class MessagesController : ControllerBase
     {
         private IMessagesServices _messagesServices;
+        private IHttpContextAccessor _contextAccessor;
 
-        public MessagesController(IMessagesServices messagesServices)
+        public MessagesController(IMessagesServices messagesServices, IHttpContextAccessor contextAccessor)
         {
             _messagesServices = messagesServices;
+            _contextAccessor = contextAccessor;
         }
 
         /// <summary>        /// 
@@ -20,6 +22,7 @@ namespace Rk.Messages.Spa.Controllers
         [HttpGet]
         public async Task GetMessages()
         {
+            Console.WriteLine(_contextAccessor.HttpContext.Items["X-Correlation-ID"]);
             //            throw new Exception( "Som etext" );
             await _messagesServices.Get();
 

@@ -13,12 +13,20 @@ namespace Rk.Messages.Spa
         /// </summary>
         /// <param name="services"></param>
         /// <param name="env"></param>
-        public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env)
+        public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env, global::Serilog.ILogger logger)
         {
 
             services.AddProblemDetails(options =>
             {
                 options.IncludeExceptionDetails = (ctx, ex) => !env.IsDevelopment();
+
+                options.OnBeforeWriteDetails = (ctx, details) =>
+                {
+                    // Set the CorrelationId here                   
+                    details.Extensions["correlationId"] = ctx.Items["X-Correlation-ID"];                    
+                    //logger.Error(details.Detail);
+                    //logger.Error(details.Extensions.FirstOrDefault().Value.ToString());
+                };
 
                 options.Map<ValidationApiException>(
                                    delegate (ValidationApiException exception)
@@ -30,7 +38,8 @@ namespace Rk.Messages.Spa
                                            Detail = exception.Content.Detail,
                                            Instance = exception.Content.Instance,
                                            Status = exception.Content.Status,
-                                           Type = exception.Content.Type
+                                           Type = exception.Content.Type,
+                                           
                                        };
                                    }
                             );
@@ -46,18 +55,22 @@ namespace Rk.Messages.Spa
         public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration config)
         {
             services.AddTransient<AuthHeaderPropagationHandler>();
+            services.AddTransient<CorrelationIdDelegatingHandler>();
 
             services.AddRefitClient<IMessagesServices>()
                 .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
-                .AddHttpMessageHandler<AuthHeaderPropagationHandler>();
+                .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
+                .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
 
             services.AddRefitClient<ISectionsServices>()
                 .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
-                .AddHttpMessageHandler<AuthHeaderPropagationHandler>();
+                .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
+                 .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
 
             services.AddRefitClient<IProductsService>()
                .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
-               .AddHttpMessageHandler<AuthHeaderPropagationHandler>();
+               .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
+                .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
 
             return services;
         }

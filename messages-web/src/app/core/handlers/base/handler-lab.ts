@@ -1,5 +1,5 @@
 import { createHandler, Handler } from './handler';
-import { HandlerWrapper } from './handler-wrapper';
+import { HandlerDecorator, HandlerWrapper } from './handler-wrapper';
 
 class HandlerLab<TOut, Tin = undefined> {
   constructor(private handler: Handler<TOut, Tin>) {}
@@ -18,6 +18,14 @@ class HandlerLab<TOut, Tin = undefined> {
   ): HandlerLab<TOutNew, TinNew> {
     const resultHandler = wrapper(this.handler);
     return new HandlerLab(resultHandler);
+  }
+
+  wrapMany(...decorators: HandlerDecorator<Handler<TOut, Tin>>[]) {
+    let lab: HandlerLab<TOut, Tin> = new HandlerLab(this.handler);
+    decorators.forEach((d) => {
+      lab = lab.wrap(d);
+    });
+    return lab;
   }
 }
 

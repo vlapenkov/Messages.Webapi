@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Messages.Webapi": {
+    "Rk.Messages.Webapi": {
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "swagger",

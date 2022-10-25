@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "FileStore.Webapi": {
+    "Rk.FileStore.Webapi": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

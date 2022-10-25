@@ -1,8 +1,10 @@
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
 using Rk.Messages.Infrastructure.EFCore;
 using Rk.Messages.Interfaces.Interfaces.DAL;
@@ -30,15 +32,14 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
                  .Enrich.WithMachineName()
             );
 
+builder.Services.AddHealthChecks();
+
+
 var app = builder.Build();
 
 app.UseRouting();
-app.AddReverseProxy(builder.Configuration);
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
-});
+app.UseReverseProxy(builder.Configuration);
+
 
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
@@ -46,6 +47,18 @@ app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseProblemDetails();
 
 app.UseAuthorization();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheckUiExtensions.WriteResponse
+});
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
+});
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

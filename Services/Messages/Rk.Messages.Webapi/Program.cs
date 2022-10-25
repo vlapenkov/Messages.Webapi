@@ -33,12 +33,8 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
 var app = builder.Build();
 
 app.UseRouting();
-app.AddReverseProxy(builder.Configuration);
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
-});
+app.UseReverseProxy(builder.Configuration);
+
 
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
@@ -46,6 +42,13 @@ app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseProblemDetails();
 
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
+});
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

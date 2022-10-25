@@ -13,7 +13,7 @@ namespace Rk.Messages.Webapi.Extensions
         /// <param name="app">приложение</param>
         /// <param name="config">конфигурация</param>
         /// <returns></returns>
-        public static WebApplication AddReverseProxy(this WebApplication app, IConfiguration config)
+        public static WebApplication UseReverseProxy(this WebApplication app, IConfiguration config)
         {
             _ = bool.TryParse(config["USE_REVERSE_PROXY"], out var behindReverseProxy);
             if (!behindReverseProxy) return app;

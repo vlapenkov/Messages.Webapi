@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rk.FileStore.Infrastructure.EFCore;
 using Rk.FileStore.Interfaces.Interfaces;
 using Rk.FileStore.Webapi;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,11 @@ builder.Services.RegisterDependencies();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-builder.WebHost.UseTneSerilog();
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+    .ReadFrom.Configuration(hostingContext.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+);
 
 var app = builder.Build();
 app.UseProblemDetails();

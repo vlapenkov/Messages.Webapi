@@ -1,4 +1,6 @@
 using Hellang.Middleware.ProblemDetails;
+using Rk.Messages.Common.Middlewares;
+using Rk.Messages.Spa;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,12 +9,11 @@ builder.Services.AddErrorHandling(builder.Environment, Log.Logger);
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClients(builder.Configuration);
 builder.Services.AddControllers();
-
-builder.WebHost.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                 .ReadFrom.Configuration(hostingContext.Configuration)
-                 .Enrich.FromLogContext()
-                 .Enrich.WithMachineName()
-            );
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+    .ReadFrom.Configuration(hostingContext.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+);
 
 var app = builder.Build();
 

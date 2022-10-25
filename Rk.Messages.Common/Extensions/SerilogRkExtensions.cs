@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Messages.Common.Extensions
+namespace Rk.Messages.Common.Extensions
 {
     /// <summary>
     /// Подключение Serilog
     /// </summary>
     public static class SerilogRkExtensions
     {
-        public static IWebHostBuilder UseTneSerilog(this IWebHostBuilder hostBuilder)
+        public static IHostBuilder UseTneSerilog(this IHostBuilder hostBuilder)
         {
 
             hostBuilder.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration

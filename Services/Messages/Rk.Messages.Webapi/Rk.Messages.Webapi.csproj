@@ -24,13 +24,13 @@
 
 	<ItemGroup>
 		<Compile Remove="Logs\**" />
+		<Compile Remove="Middlewares\**" />
 		<Content Remove="Logs\**" />
+		<Content Remove="Middlewares\**" />
 		<EmbeddedResource Remove="Logs\**" />
+		<EmbeddedResource Remove="Middlewares\**" />
 		<None Remove="Logs\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Middlewares\" />
+		<None Remove="Middlewares\**" />
 	</ItemGroup>
 
 	<ItemGroup>

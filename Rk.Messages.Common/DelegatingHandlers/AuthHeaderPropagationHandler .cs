@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Messages.Common.DelegatingHandlers;
+namespace Rk.Messages.Common.DelegatingHandlers;
 
 /// <summary>
 /// Хэндлер для проброса токена в следующие вызовы API

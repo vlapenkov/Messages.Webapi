@@ -1,7 +1,7 @@
 ﻿using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
-using Rk.Messages.Spa.DelegatingHandlers;
+using Rk.Messages.Common.DelegatingHandlers;
 using Rk.Messages.Spa.Infrastructure.Services;
 
 namespace Rk.Messages.Spa

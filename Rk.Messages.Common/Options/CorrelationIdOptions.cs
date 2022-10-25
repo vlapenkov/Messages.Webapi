@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Messages.Common.Options
+﻿namespace Rk.Messages.Common.Options
 {
     public class CorrelationIdOptions
     {

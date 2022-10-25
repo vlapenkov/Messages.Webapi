@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Serilog.Context;
-using System.Threading.Tasks;
 
-namespace Messages.Common.Middlewares
+namespace Rk.Messages.Common.Middlewares
 {
     /// <summary>
     /// Middleware для логирования пользователя

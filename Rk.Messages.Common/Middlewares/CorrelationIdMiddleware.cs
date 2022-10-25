@@ -1,15 +1,12 @@
-﻿using Messages.Common.Options;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Rk.Messages.Common.Options;
 
-namespace Messages.Common.Middlewares
+namespace Rk.Messages.Common.Middlewares
 {
     /// <summary>
     /// Middleware для сохрания correlationId в  context.Items

@@ -26,7 +26,7 @@ namespace Messages.Webapi.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="env"></param>
-        public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env)
+        public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env, global::Serilog.ILogger logger)
         {
 
             services.AddProblemDetails(options =>
@@ -34,6 +34,13 @@ namespace Messages.Webapi.Extensions
                     //TODO: (ctx, ex) => env.IsDevelopment()
                     // options.IncludeExceptionDetails = (ctx, ex) => env.IsDevelopment();
                     options.IncludeExceptionDetails = (ctx, ex) => false;
+
+                    options.OnBeforeWriteDetails = (ctx, details) =>
+                    {
+                        // Set the CorrelationId here                        
+                        details.Extensions["correlationId"] = ctx.Items["X-Correlation-ID"];
+                        
+                    };
 
                     options.Map(
 

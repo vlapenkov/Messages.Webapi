@@ -23,7 +23,7 @@ namespace Rk.Messages.Spa
                 options.OnBeforeWriteDetails = (ctx, details) =>
                 {
                     // Set the CorrelationId here                   
-                    details.Extensions["correlationId"] = ctx.Items["X-Correlation-ID"];                    
+                    details.Extensions["correlationId"] = ctx.Items["X-Correlation-ID"];
                     //logger.Error(details.Detail);
                     //logger.Error(details.Extensions.FirstOrDefault().Value.ToString());
                 };
@@ -39,7 +39,7 @@ namespace Rk.Messages.Spa
                                            Instance = exception.Content.Instance,
                                            Status = exception.Content.Status,
                                            Type = exception.Content.Type,
-                                           
+
                                        };
                                    }
                             );
@@ -74,6 +74,8 @@ namespace Rk.Messages.Spa
 
             return services;
         }
+
+
 
 
     }

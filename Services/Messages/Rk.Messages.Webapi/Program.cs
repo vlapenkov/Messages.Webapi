@@ -1,8 +1,10 @@
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
 using Rk.Messages.Infrastructure.EFCore;
 using Rk.Messages.Interfaces.Interfaces.DAL;
@@ -46,7 +48,11 @@ app.UseProblemDetails();
 
 app.UseAuthorization();
 
-app.MapHealthChecks("/hc");
+app.MapHealthChecks("/hc", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheckUiExtensions.WriteResponse
+});
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

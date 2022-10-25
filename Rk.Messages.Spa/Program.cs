@@ -1,5 +1,6 @@
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
 using Rk.Messages.Spa;
 using Serilog;
@@ -15,8 +16,8 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
     .Enrich.WithMachineName()
 );
 builder.Services.AddHealthChecks();
-//builder.Services.AddHealthChecksUI()
-//     .AddInMemoryStorage();
+builder.Services.AddHealthChecksUI()
+    .AddInMemoryStorage();
 
 builder.Services.AddSwaggerGen();
 
@@ -30,8 +31,12 @@ app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseProblemDetails();
 
-app.MapHealthChecks("/hc");
-//app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
+app.MapHealthChecks("/hc", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheckUiExtensions.WriteResponse
+});
+
+app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

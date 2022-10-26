@@ -1,26 +1,26 @@
 import { OptionsGetter } from '@/app/core/handlers/http/options/get-options.handler';
-import { ModelBase } from '../../../models/model-base';
+import { IModel } from '@/app/core/models/@types/IModel';
 import type { IWrapperConfiguration } from '../define-http.service';
 import { RequetstHandler } from './requetst-handler';
 
-export interface IQueryConstructors<TModel extends ModelBase> {
-  defineGet: <TResponse = TModel[], TRequest = void>(
+export interface IQueryConstructors<TIModel extends IModel> {
+  defineGet: <TResponse = TIModel[], TRequest = void>(
     config?: OptionsGetter<TRequest>,
     wrappersConfig?: IWrapperConfiguration,
   ) => RequetstHandler<TResponse, TRequest>;
-  definePost: <TResponse = TModel, TRequest = TModel>(
+  definePost: <TResponse = TIModel, TRequest = TIModel>(
     config?: OptionsGetter<TRequest>,
     wrappersConfig?: IWrapperConfiguration,
   ) => RequetstHandler<TResponse, TRequest>;
-  definePut: <TResponse = TModel, TRequest = TModel>(
+  definePut: <TResponse = TIModel, TRequest = TIModel>(
     config?: OptionsGetter<TRequest>,
     wrappersConfig?: IWrapperConfiguration,
   ) => RequetstHandler<TResponse, TRequest>;
-  definePatch: <TResponse = TModel, TRequest = TModel>(
+  definePatch: <TResponse = TIModel, TRequest = TIModel>(
     config?: OptionsGetter<TRequest>,
     wrappersConfig?: IWrapperConfiguration,
   ) => RequetstHandler<TResponse, TRequest>;
-  defineDelete: <TResponse = boolean, TRequest = TModel>(
+  defineDelete: <TResponse = boolean, TRequest = TIModel>(
     config?: OptionsGetter<TRequest>,
     wrappersConfig?: IWrapperConfiguration,
   ) => RequetstHandler<TResponse, TRequest>;

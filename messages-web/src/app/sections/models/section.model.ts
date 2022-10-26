@@ -14,10 +14,19 @@ export class SectionModel extends ModelBase<ISectionModel> implements ISectionMo
 
   parentSectionId!: number;
 
-  parseModel(model: ISectionModel): void {
-    this.id = model.id;
-    this.name = model.name;
-    this.parentSectionId = model.parentSectionId;
+  tryParseModel(model: ISectionModel): boolean {
+    try {
+      const { id, name, parentSectionId } = model;
+      if (id == null || name == null || parentSectionId == null) {
+        return false;
+      }
+      this.id = id;
+      this.name = name;
+      this.parentSectionId = parentSectionId;
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   asObject(): ISectionModel {

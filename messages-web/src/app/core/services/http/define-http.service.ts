@@ -11,7 +11,7 @@ import {
   usePut,
 } from '../../handlers/http/queries/htttp-queries.wrappers';
 import { useHttpResult } from '../../handlers/http/results/http-result.wrapper';
-import { ModelBase } from '../../models/model-base';
+import { IModel } from '../../models/@types/IModel';
 import { IQueryConstructors } from './@types/IRepositoryQueries';
 import { AnyRequest } from './@types/requetst-handler';
 
@@ -27,20 +27,19 @@ export interface IServiceOptionsOptional {
 
 /** Обязательные параметры для репозитория. Пока не знаю какие */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars
-export interface IServiceOptionsRequired<TModel extends ModelBase> {}
+export interface IServiceOptionsRequired {}
 
 const defaultOptionalProps: IServiceOptionsOptional = {
   url: '',
   wrappers: {},
 };
 
-export type HttpServiceOptions<TModel extends ModelBase> = IServiceOptionsRequired<TModel> &
-  Partial<IServiceOptionsOptional>;
+export type HttpServiceOptions<> = IServiceOptionsRequired & Partial<IServiceOptionsOptional>;
 
-export function defineHttpService<TModel extends ModelBase>(
-  optionsProvided: HttpServiceOptions<TModel>,
-): IQueryConstructors<TModel> {
-  const repOptions: IServiceOptionsRequired<TModel> & IServiceOptionsOptional = {
+export function defineHttpService<TIModel extends IModel>(
+  optionsProvided: HttpServiceOptions,
+): IQueryConstructors<TIModel> {
+  const repOptions: IServiceOptionsRequired & IServiceOptionsOptional = {
     ...defaultOptionalProps,
     ...optionsProvided,
   };
@@ -63,7 +62,7 @@ export function defineHttpService<TModel extends ModelBase>(
     ...(wrappers.append ?? []),
   ];
 
-  function defineQueryGetter<TResponse = TModel[], TRequest = void>(
+  function defineQueryGetter<TResponse = TIModel, TRequest = void>(
     queryWrapper: HandlerWrapper<
       OptionsGetter<TRequest>,
       Handler<AxiosPromise<TResponse>, TRequest>
@@ -83,7 +82,7 @@ export function defineHttpService<TModel extends ModelBase>(
     };
   }
 
-  const context: IQueryConstructors<TModel> = {
+  const context: IQueryConstructors<TIModel> = {
     defineGet: defineQueryGetter(useGet()),
     definePost: defineQueryGetter(usePost()),
     definePut: defineQueryGetter(usePut()),

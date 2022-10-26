@@ -5,7 +5,7 @@ import { http } from '@/app/core/services/http/axios/axios.service';
 import { IRequestOptions, OptionsGetter } from '../options/get-options.handler';
 
 /** Произвольный запрос в axios */
-export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (
+export type AxiosHandlerFunction<TResponse, TRequest = void> = (
   http: AxiosInstance,
   request: TRequest,
 ) => AxiosPromise<TResponse>;
@@ -26,7 +26,7 @@ export type AxiosHandlerFunction<TResponse, TRequest = undefined> = (
  */
 export const createAxiosHandler = createHandler(
   () =>
-    <TResponse, TRequest = undefined>(handleRequest: AxiosHandlerFunction<TResponse, TRequest>) =>
+    <TResponse, TRequest = void>(handleRequest: AxiosHandlerFunction<TResponse, TRequest>) =>
     (request: TRequest) =>
       handleRequest(http, request),
 );
@@ -50,7 +50,7 @@ export const createAxiosHandler = createHandler(
  * const final: Handler<AxiosPromise<string>, IRequestTest> = extend(options).wrap(wrapper).done();
  *
  */
-export function createAxiosWrapper<TResponse, TModel = undefined>(
+export function createAxiosWrapper<TResponse, TModel = void>(
   buildFn: (options: Partial<IRequestOptions>) => AxiosHandlerFunction<TResponse, TModel>,
 ) {
   return createWrapper<OptionsGetter<TModel>, Handler<AxiosPromise<TResponse>, TModel>>(

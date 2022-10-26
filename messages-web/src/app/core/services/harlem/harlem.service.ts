@@ -3,9 +3,9 @@ import { createStore } from '@harlem/core';
 import actionExtension from '@harlem/extension-action';
 import resetExtension from '@harlem/extension-reset';
 import composeExtension from '@harlem/extension-compose';
+import { AnyRecord } from '@/app/@types/any-record';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createHarlemStore<TState extends Record<string, any>>(name: string, state: TState) {
+export function createHarlemStore<TState extends AnyRecord<string>>(name: string, state: TState) {
   return createStore(name, state, {
     extensions: [actionExtension(), resetExtension(), composeExtension()],
   });

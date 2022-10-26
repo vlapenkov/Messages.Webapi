@@ -1,7 +1,7 @@
 import { createAxiosWrapper } from '../axios/axios.handler';
 import { IRequestOptions } from '../options/get-options.handler';
 
-export const useGet = <TOut, Tin = undefined>() => {
+export const useGet = <TOut, Tin = void>() => {
   const defaultOptions: IRequestOptions = {
     url: '',
   };
@@ -15,7 +15,7 @@ export const useGet = <TOut, Tin = undefined>() => {
   });
 };
 
-export const usePost = <TOut, Tin = undefined>() => {
+export const usePost = <TOut, Tin = void>() => {
   const defaultOptions: IRequestOptions = {
     url: '',
   };
@@ -30,7 +30,7 @@ export const usePost = <TOut, Tin = undefined>() => {
   });
 };
 
-export const usePut = <TOut, Tin = undefined>() => {
+export const usePut = <TOut, Tin = void>() => {
   const defaultOptions: IRequestOptions = {
     url: '',
   };
@@ -45,7 +45,7 @@ export const usePut = <TOut, Tin = undefined>() => {
   });
 };
 
-export const usePatch = <TOut, Tin = undefined>() => {
+export const usePatch = <TOut, Tin = void>() => {
   const defaultOptions: IRequestOptions = {
     url: '',
   };
@@ -61,7 +61,7 @@ export const usePatch = <TOut, Tin = undefined>() => {
   });
 };
 
-export const useDelete = <TOut, Tin = undefined>() => {
+export const useDelete = <TOut, Tin = void>() => {
   const defaultOptions: IRequestOptions = {
     url: '',
   };

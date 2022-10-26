@@ -6,7 +6,7 @@ import { Handler } from '../../base/handler';
 import { createWrapper } from '../../base/handler-wrapper';
 
 /** Заворачивает респонс от Axios-а в обобщённый результат */
-export function useHttpResult<TResponse, TRequest = undefined>() {
+export function useHttpResult<TResponse, TRequest = void>() {
   return createWrapper<
     Handler<AxiosPromise<TResponse>, TRequest>,
     Handler<Promise<HttpResult<TResponse>>, TRequest>

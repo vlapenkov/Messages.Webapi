@@ -5,7 +5,7 @@ export interface IRequestOptions {
   bodyOrParams?: Record<string, unknown>;
 }
 
-export type OptionsGetter<TModel = undefined> = Handler<Partial<IRequestOptions>, TModel>;
+export type OptionsGetter<TModel = void> = Handler<Partial<IRequestOptions>, TModel>;
 
 /**
  *  Конфигурирует опции текущего запроса

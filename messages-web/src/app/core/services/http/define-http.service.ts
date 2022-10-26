@@ -1,5 +1,7 @@
-import { createHandler } from '../../handlers/base/handler';
+import { AxiosPromise } from 'axios';
+import { createHandler, Handler } from '../../handlers/base/handler';
 import { extend } from '../../handlers/base/handler-lab';
+import { HandlerDecorator, HandlerWrapper } from '../../handlers/base/handler-wrapper';
 import { OptionsGetter, setAxiosOptonsFor } from '../../handlers/http/options/get-options.handler';
 import {
   useDelete,
@@ -11,9 +13,16 @@ import {
 import { useHttpResult } from '../../handlers/http/results/http-result.wrapper';
 import { ModelBase } from '../../models/model-base';
 import { IQueryConstructors } from './@types/IRepositoryQueries';
+import { AnyRequest } from './@types/requetst-handler';
+
+export interface IWrapperConfiguration {
+  append?: HandlerDecorator<AnyRequest>[];
+  override?: HandlerDecorator<AnyRequest>[];
+}
 
 export interface IServiceOptionsOptional {
   url: string;
+  wrappers: IWrapperConfiguration;
 }
 
 /** Обязательные параметры для репозитория. Пока не знаю какие */
@@ -22,6 +31,7 @@ export interface IServiceOptionsRequired<TModel extends ModelBase> {}
 
 const defaultOptionalProps: IServiceOptionsOptional = {
   url: '',
+  wrappers: {},
 };
 
 export function defineHttpService<TModel extends ModelBase>(
@@ -32,6 +42,12 @@ export function defineHttpService<TModel extends ModelBase>(
     ...optionsProvided,
   };
 
+  const defaultRepoWrappers: HandlerDecorator<AnyRequest>[] = [];
+  const repoWrappers = [
+    ...(repOptions.wrappers.override ?? defaultRepoWrappers),
+    ...(repOptions.wrappers.append ?? []),
+  ];
+
   const configureOptions = <TRequest>(config: OptionsGetter<TRequest>) =>
     setAxiosOptonsFor<TRequest>((request) => {
       const queryOpts = config(request);
@@ -39,58 +55,37 @@ export function defineHttpService<TModel extends ModelBase>(
       return queryOpts;
     });
 
-  const defineGet = <TResponse = TModel[], TRequest = undefined>(
-    config: OptionsGetter<TRequest> = () => ({}),
-  ) =>
-    createHandler(() =>
-      extend(configureOptions(config))
-        .wrap(useGet<TResponse, TRequest>())
-        .wrap(useHttpResult())
-        .done(),
-    );
-  const definePost = <TResponse = TModel, TRequest = TModel>(
-    config: OptionsGetter<TRequest> = () => ({}),
-  ) =>
-    createHandler(() =>
-      extend(configureOptions(config))
-        .wrap(usePost<TResponse, TRequest>())
-        .wrap(useHttpResult())
-        .done(),
-    );
-  const definePut = <TResponse = TModel, TRequest = TModel>(
-    config: OptionsGetter<TRequest> = () => ({}),
-  ) =>
-    createHandler(() =>
-      extend(configureOptions(config))
-        .wrap(usePut<TResponse, TRequest>())
-        .wrap(useHttpResult())
-        .done(),
-    );
-  const definePatch = <TResponse = TModel, TRequest = TModel>(
-    config: OptionsGetter<TRequest> = () => ({}),
-  ) =>
-    createHandler(() =>
-      extend(configureOptions(config))
-        .wrap(usePatch<TResponse, TRequest>())
-        .wrap(useHttpResult())
-        .done(),
-    );
-  const defineDelete = <TResponse = boolean, TRequest = TModel>(
-    config: OptionsGetter<TRequest> = () => ({}),
-  ) =>
-    createHandler(() =>
-      extend(configureOptions(config))
-        .wrap(useDelete<TResponse, TRequest>())
-        .wrap(useHttpResult())
-        .done(),
-    );
+  const configureWrappers = (wrappers: IWrapperConfiguration) => [
+    ...(wrappers.override ?? repoWrappers),
+    ...(wrappers.append ?? []),
+  ];
+
+  function defineQueryGetter<TResponse = TModel[], TRequest = void>(
+    queryWrapper: HandlerWrapper<
+      OptionsGetter<TRequest>,
+      Handler<AxiosPromise<TResponse>, TRequest>
+    >,
+  ) {
+    return (
+      config: OptionsGetter<TRequest> = () => ({}),
+      wrappersConfig: IWrapperConfiguration = {},
+    ) => {
+      const handler = createHandler(() =>
+        extend(configureOptions(config)).wrap(queryWrapper).wrap(useHttpResult()).done(),
+      );
+      const wrappers = configureWrappers(wrappersConfig);
+      return extend(handler)
+        .wrapMany(...wrappers)
+        .done();
+    };
+  }
 
   const context: IQueryConstructors<TModel> = {
-    defineGet,
-    definePost,
-    definePut,
-    definePatch,
-    defineDelete,
+    defineGet: defineQueryGetter(useGet()),
+    definePost: defineQueryGetter(usePost()),
+    definePut: defineQueryGetter(usePut()),
+    definePatch: defineQueryGetter(usePatch()),
+    defineDelete: defineQueryGetter(useDelete()),
   };
   return context;
 }

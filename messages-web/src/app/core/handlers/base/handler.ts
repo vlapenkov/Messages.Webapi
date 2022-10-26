@@ -4,7 +4,8 @@
  * const getFoo: Handler<string, undefined> = () => 'foo';
  * const f: string = getFoo();
  */
-export type Handler<TOut, Tin = undefined> = (a: Tin) => TOut;
+
+export type Handler<TOut, Tin = void> = (a: Tin) => TOut;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyHandler = Handler<any, any>;
@@ -43,8 +44,6 @@ export type OutputOf<T extends AnyHandler> = ReturnType<T>;
  * );
  * const foo: 'foo' = genericHandler('foo');
  */
-export function createHandler<TOut, Tin = undefined>(
-  fn: () => Handler<TOut, Tin>,
-): Handler<TOut, Tin> {
+export function createHandler<TOut, Tin = void>(fn: () => Handler<TOut, Tin>): Handler<TOut, Tin> {
   return fn();
 }

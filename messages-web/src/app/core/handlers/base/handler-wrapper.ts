@@ -42,7 +42,7 @@ export function createWrapper<TWrapped extends AnyHandler, TWrapper extends AnyH
  *
  * const wrappedHandler: Handler<number[], string[]> = wrapper((i: string) => i.length + 1);
  */
-export function createWrapperFor<TOutWas, TOut, TinWas = undefined, Tin = undefined>(
+export function createWrapperFor<TOutWas, TOut, TinWas = void, Tin = void>(
   _handler: Handler<TOutWas, TinWas>,
   setup: HandlerWrapper<Handler<TOutWas, TinWas>, Handler<TOut, Tin>>,
 ) {

@@ -1,0 +1,10 @@
+//registry.dev.roscosmos.digital/repository/npm-proxy/:_authToken=NpmToken.6851c05c-017e-305d-8a55-4181ed918e4f
+email = npm-user@example.com
+always-auth = true
+registry = https://registry.dev.roscosmos.digital/repository/npm-proxy/
+
+
+//registry.dev.roscosmos.digital/repository/npm-local/:_authToken=NpmToken.6851c05c-017e-305d-8a55-4181ed918e4f
+email = npm-user@example.com
+always-auth = true
+@ruspace:registry = https://registry.dev.roscosmos.digital/repository/npm-local/

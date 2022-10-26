@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
 using Rk.Messages.Spa.Infrastructure.Services;
@@ -27,17 +28,17 @@ namespace Rk.Messages.Spa.Controllers
 
         /// <summary>Получить список товаров с отбором и пагинацией </summary>
         [HttpGet]
+        [Authorize("Admin")]
         public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
         {
-
             return await _productsService.GetProducts(request);
         }
 
         /// <summary>Получить информацию о продукции</summary>
         [HttpGet("{id:long}")]
+        [Authorize("Manager")]
         public async Task<ProductResponse> GetProduct(long id)
         {
-
             return await _productsService.GetProduct(id);
            
         }

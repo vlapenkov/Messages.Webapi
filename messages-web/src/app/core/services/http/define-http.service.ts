@@ -34,8 +34,11 @@ const defaultOptionalProps: IServiceOptionsOptional = {
   wrappers: {},
 };
 
+export type HttpServiceOptions<TModel extends ModelBase> = IServiceOptionsRequired<TModel> &
+  Partial<IServiceOptionsOptional>;
+
 export function defineHttpService<TModel extends ModelBase>(
-  optionsProvided: IServiceOptionsRequired<TModel> & Partial<IServiceOptionsOptional>,
+  optionsProvided: HttpServiceOptions<TModel>,
 ): IQueryConstructors<TModel> {
   const repOptions: IServiceOptionsRequired<TModel> & IServiceOptionsOptional = {
     ...defaultOptionalProps,

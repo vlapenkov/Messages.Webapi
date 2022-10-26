@@ -21,6 +21,8 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
         .UseLowerCaseNamingConvention()
         .UseLazyLoadingProxies()
 );
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
 
 builder.Services.AddDependencies();
 
@@ -40,6 +42,7 @@ var app = builder.Build();
 app.UseRouting();
 app.UseReverseProxy(builder.Configuration);
 
+app.UseAuthentication();
 
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
@@ -47,17 +50,13 @@ app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseProblemDetails();
 
 app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api для работы с Marketplace V1");
-});
+app.UseSwaggerUI(builder.Configuration, "Api для работы с Marketplace V1");
 
 app.UseEndpoints(endpoints =>
 {

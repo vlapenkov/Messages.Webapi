@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 
-namespace Rk.Messages.Webapi.Extensions
+namespace Rk.Messages.Common.Extensions
 {
     public static class ReverseProxyExtensions
     {

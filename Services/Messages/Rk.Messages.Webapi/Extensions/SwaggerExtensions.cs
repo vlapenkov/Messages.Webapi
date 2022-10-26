@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -44,19 +45,20 @@ namespace Rk.Messages.Webapi.Extensions
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, WebApplicationBuilder builder)
+        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, IConfiguration config, string title)
         {
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
                 {
-                    var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["Host"]}{builder.Configuration["SUBDIR"]}";
-                    swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
+                    var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["Host"]}{config["SUBDIR"]}";
+                    swaggerDoc.Servers = new List<OpenApiServer> { new() { Url = serverUrl } };
                 });
             });
+
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "Messages Api V1");
+                c.SwaggerEndpoint("v1/swagger.json", title);
             });
             return app;
         }

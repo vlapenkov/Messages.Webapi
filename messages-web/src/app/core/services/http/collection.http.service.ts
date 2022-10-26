@@ -14,6 +14,5 @@ export interface ICollectionHttpService<TIModel extends IModel> {
 export function defineCollectionService<TIModel extends IModel>(
   opts: HttpServiceOptions,
 ): ICollectionHttpService<TIModel> {
-  const x = defineHttpService<TIModel>(opts);
-  return useDefaultQueries(x);
+  return useDefaultQueries(defineHttpService<TIModel>(opts));
 }

@@ -1,7 +1,7 @@
-import { IModel } from '../../models/@types/IModel';
-import { RequetstHandler } from './@types/requetst-handler';
-import { defineHttpService, HttpServiceOptions } from './define-http.service';
-import { useDefaultQueries } from './handlers/use-default-queries';
+import { IModel } from '../../../models/@types/IModel';
+import { RequetstHandler } from '../@types/requetst-handler';
+import { defineHttpService, HttpServiceOptions } from '../define-http.service';
+import { useDefaultQueries } from '../handlers/use-default-queries';
 
 export interface ICollectionHttpService<TIModel extends IModel> {
   get: RequetstHandler<TIModel[], void>;

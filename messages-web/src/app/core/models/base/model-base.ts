@@ -1,7 +1,9 @@
-import { IModel } from '../@types/IModel';
+import { IModel, modelMarker } from '../@types/IModel';
 
-export abstract class ModelBase<T extends IModel = IModel> {
-  abstract tryParseModel(model: T): boolean;
+export abstract class ModelBase<T extends IModel = IModel> implements IModel {
+  [modelMarker]: never = null as never;
+
+  abstract tryParse(model: T): boolean;
 
   abstract asObject(): T;
 

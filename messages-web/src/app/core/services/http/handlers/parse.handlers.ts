@@ -19,7 +19,7 @@ export const parse = <TModel extends IModel, TModelClass extends ModelBase<TMode
         !Array.isArray(response.data)
       ) {
         const md = new Model();
-        const parsed = md.tryParseModel(response.data);
+        const parsed = md.tryParse(response.data);
         return parsed
           ? new Ok(md)
           : new ErrorResult<TModelClass>(
@@ -45,7 +45,7 @@ export const parseArray = <TModel extends IModel, TModelClass extends ModelBase<
         for (let i = 0; i < response.data.length; i += 1) {
           const item = response.data[i];
           const md = new Model();
-          const parsed = md.tryParseModel(item);
+          const parsed = md.tryParse(item);
           if (!parsed) {
             return new ErrorResult<TModelClass[]>(
               'Не удалось преобразовать ответ от сервера к указанной модели',

@@ -8,13 +8,13 @@ export interface ISectionModel extends IModel {
 }
 
 export class SectionModel extends ModelBase<ISectionModel> implements ISectionModel {
-  id!: number;
+  id = -1;
 
-  name!: string;
+  name = '';
 
-  parentSectionId!: number;
+  parentSectionId = -1;
 
-  tryParseModel(model: ISectionModel): boolean {
+  tryParse(model: ISectionModel): boolean {
     try {
       const { id, name, parentSectionId } = model;
       if (id == null || name == null || parentSectionId == null) {
@@ -34,6 +34,10 @@ export class SectionModel extends ModelBase<ISectionModel> implements ISectionMo
   }
 
   equals(other: SectionModel): boolean {
-    return this.id === other.id;
+    return (
+      this.id === other.id &&
+      this.name === other.name &&
+      this.parentSectionId === other.parentSectionId
+    );
   }
 }

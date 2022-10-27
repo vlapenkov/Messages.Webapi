@@ -1,10 +1,11 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { DataStatus } from '../../base/tools/data-status';
+import { NotValidData } from '../../tools/data-mode';
+import { DataStatus } from '../../tools/data-status';
 
 export class CollectionState<TModel extends ModelBase> {
-  dataDefault: TModel[] | null = null;
+  items: TModel[] | null = null;
 
-  dataSelected: TModel[] | null = null;
+  itemSelected: NotValidData<TModel> | null = null;
 
   status = new DataStatus();
 }

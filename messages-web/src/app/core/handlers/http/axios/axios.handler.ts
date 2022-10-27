@@ -6,7 +6,7 @@ import { IRequestOptions, OptionsGetter } from '../options/get-options.handler';
 
 /** Произвольный запрос в axios */
 export type AxiosHandlerFunction<TResponse, TRequest = void> = (
-  http: AxiosInstance,
+  axiosInst: AxiosInstance,
   request: TRequest,
 ) => AxiosPromise<TResponse>;
 

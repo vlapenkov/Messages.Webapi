@@ -6,8 +6,7 @@ import { ModelBase } from '@/app/core/models/base/model-base';
 import { computedAsync } from '@vueuse/core';
 import { ICollectionHttpService } from '../../../http/custom/collection.http-service';
 import { parseArray } from '../../../http/handlers/parse.handlers';
-import { DataStatus } from '../../base/tools/data-status';
-import { DataTarget } from '../../base/tools/data-target';
+import { DataStatus } from '../../tools/data-status';
 import { createDefaultStore } from '../../harlem.service';
 import { CollectionState } from './collection.state';
 
@@ -19,16 +18,13 @@ export function createCollectionStore<TIModel extends IModel, TModel extends Mod
 ) {
   const stateDefault = new State();
   const store = createDefaultStore(name, stateDefault);
-  const { getter, mutation, computeState, action } = store;
-  const getData = getter('get-data', (state) => state.dataSelected ?? state.dataDefault);
-  const setData = mutation<{ data: TModel[]; target?: DataTarget }>(
-    'set-data',
-    (state, payload) => {
-      const target: DataTarget = payload.target ?? 'selected';
-      return target === 'default' ? state.dataDefault : state.dataSelected;
-    },
-  );
+  const { computeState, action } = store;
+
   const loadingStatus = computeState((state) => state.status);
+
+  const items = computeState((state) => state.items);
+
+  const itemSelected = computeState((state) => state.itemSelected);
 
   const getDataAsyncAction = action(
     'get-data-async',
@@ -40,19 +36,19 @@ export function createCollectionStore<TIModel extends IModel, TModel extends Mod
       loadingStatus.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const response = await extend(service.get).pipe(parseArray(Model)).done()();
       if (response.status === HttpStatus.Success) {
-        setData({ data: response.data ?? [], target: 'default' });
+        items.value = response.data ?? null;
         loadingStatus.value = new DataStatus('loaded');
       } else {
         loadingStatus.value = new DataStatus('error', response.message);
       }
-      return getData.value;
+      return items.value;
     },
   );
 
-  const getDataAsync = (ops: { force: boolean } = { force: false }) =>
+  const itemsAsync = (ops: { force: boolean } = { force: false }) =>
     computedAsync(() => getDataAsyncAction(ops), null);
 
-  const extended = { getData, setData, loadingStatus, getDataAsync } as const;
+  const extended = { loadingStatus, itemsAsync, items, itemSelected } as const;
 
   return [store, extended] as const;
 }

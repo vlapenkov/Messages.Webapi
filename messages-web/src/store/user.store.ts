@@ -1,4 +1,4 @@
-import { createHarlemStore } from '@/app/core/services/harlem/harlem.service';
+import { createDefaultStore } from '@/app/core/services/harlem/harlem.service';
 import { KeycloakTokenParsed } from 'keycloak-js';
 import { IKeycloakToken } from './@types/IKeycloakToken';
 
@@ -10,7 +10,7 @@ const defaultState: IUserStore = {
   token: null,
 };
 
-const { state: userState, getter, mutation } = createHarlemStore('user', defaultState);
+const { state: userState, getter, mutation } = createDefaultStore('user', defaultState);
 
 export const isAuthenticated = getter('is-auth', (state) => state.token != null);
 

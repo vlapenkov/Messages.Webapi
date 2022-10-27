@@ -1,5 +1,5 @@
 import { IModel } from '@/app/core/models/@types/IModel';
-import { ModelBase } from '@/app/core/models/model-base';
+import { ModelBase } from '@/app/core/models/base/model-base';
 
 export interface ISectionModel extends IModel {
   id: number;
@@ -31,5 +31,9 @@ export class SectionModel extends ModelBase<ISectionModel> implements ISectionMo
 
   asObject(): ISectionModel {
     return this;
+  }
+
+  equals(other: SectionModel): boolean {
+    return this.id === other.id;
   }
 }

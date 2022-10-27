@@ -5,7 +5,7 @@ import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { ErrorResult } from '@/app/core/handlers/http/results/error.result';
 import { Ok } from '@/app/core/handlers/http/results/ok.result';
 import { IModel } from '@/app/core/models/@types/IModel';
-import { ModelBase } from '@/app/core/models/model-base';
+import { ModelBase } from '@/app/core/models/base/model-base';
 
 export const parse = <TModel extends IModel, TModelClass extends ModelBase<TModel>>(
   Model: Constructor<TModelClass>,

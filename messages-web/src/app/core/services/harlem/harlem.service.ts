@@ -5,8 +5,10 @@ import resetExtension from '@harlem/extension-reset';
 import composeExtension from '@harlem/extension-compose';
 import { AnyRecord } from '@/app/@types/any-record';
 
-export function createHarlemStore<TState extends AnyRecord<string>>(name: string, state: TState) {
+export function createDefaultStore<TState extends AnyRecord<string>>(name: string, state: TState) {
   return createStore(name, state, {
     extensions: [actionExtension(), resetExtension(), composeExtension()],
   });
 }
+
+export type DefaultStore = ReturnType<typeof createDefaultStore>;

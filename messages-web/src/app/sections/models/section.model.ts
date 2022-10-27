@@ -1,4 +1,7 @@
 import { IModelUnique } from '@/app/core/models/@types/IModel';
+import { description } from '@/app/core/models/decorators/description.decorator';
+import { hidden } from '@/app/core/models/decorators/hidden.decorator';
+import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { UniqueModel } from '@/app/core/models/unique.model';
 
 export interface ISectionModel extends IModelUnique<number> {
@@ -7,10 +10,14 @@ export interface ISectionModel extends IModelUnique<number> {
 }
 
 export class SectionModel extends UniqueModel<number, ISectionModel> implements ISectionModel {
+  @hidden
   id = -1;
 
+  @title
+  @description('Наименование')
   name = '';
 
+  @hidden
   parentSectionId = -1;
 
   tryParse(model: ISectionModel): boolean {

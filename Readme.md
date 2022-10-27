@@ -25,5 +25,8 @@
 </ul>
 
 </p>
-<p> Для миграций используем команжу dotnet ef migrations add migrationName -s ..\Messages.WebApi\Messages.WebApi.csproj</p>
+<p> 
+Для миграций используем команду :
+dotnet ef migrations add UniqueIndexAdded -s ..\Rk.Messages.WebApi\Rk.Messages.WebApi.csproj
+</p>
 

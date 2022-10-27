@@ -72,7 +72,7 @@ namespace Rk.FileStore.Webapi.Controllers
 
         }
 
-        /// <summary>Получить список разделов </summary>
+        /// <summary>Получить содержимое файла </summary>
         [HttpGet("{globalId}")]
         public async Task<byte[]> GetFileContent(Guid globalId)
         {

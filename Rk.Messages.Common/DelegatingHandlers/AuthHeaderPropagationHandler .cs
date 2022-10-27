@@ -30,7 +30,10 @@ public class AuthHeaderPropagationHandler : DelegatingHandler
         //    return base.SendAsync(request, cancellationToken);
 
         var headerValue = this._contextAccessor.HttpContext.Request.Headers[AuthHeaderName];
+
+        if ((string[])headerValue != null)
         request.Headers.TryAddWithoutValidation(AuthHeaderName, (string[])headerValue);
+
         return base.SendAsync(request, cancellationToken);
     }
 

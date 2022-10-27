@@ -143,22 +143,14 @@ namespace Rk.Messages.Spa
         }
 
 
+        /// <summary>
+        /// Добавляем авторизацию
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddAppAuthorization(this IServiceCollection services)
         {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin", policy =>
-                {
-                    policy.Requirements.Add(new DenyAnonymousAuthorizationRequirement());
-                    policy.Requirements.Add(new RolesAuthorizationRequirement(new[] {"admin"}));
-                });
-                options.AddPolicy("Manager", policy =>
-                {
-                    policy.Requirements.Add(new DenyAnonymousAuthorizationRequirement());
-                    policy.Requirements.Add(new RolesAuthorizationRequirement(new[] {"manager"}));
-                });
-            });
-
+            services.AddAuthorization();
             return services;
         }
 

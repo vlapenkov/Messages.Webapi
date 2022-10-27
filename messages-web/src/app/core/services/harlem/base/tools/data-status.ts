@@ -1,13 +1,7 @@
-export const dataStatuses = ['initial', 'loading', 'loaded', 'updating'] as const;
+export const loadingStatuses = ['initial', 'loading', 'loaded', 'updating', 'error'] as const;
 
-export type DataStatus = typeof dataStatuses[number];
+export type LoadingStatus = typeof loadingStatuses[number];
 
-export interface IDataStatusObject {
-  status: DataStatus;
-  message: string | null;
+export class DataStatus {
+  constructor(public status: LoadingStatus = 'initial', public message: string | null = null) {}
 }
-
-export const createStatus = (): IDataStatusObject => ({
-  status: 'initial',
-  message: null,
-});

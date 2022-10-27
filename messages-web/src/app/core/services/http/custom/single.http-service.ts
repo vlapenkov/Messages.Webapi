@@ -3,7 +3,7 @@ import { RequetstHandler } from '../@types/requetst-handler';
 import { HttpServiceOptions, defineHttpService } from '../define-http.service';
 import { useDefaultQueries } from '../handlers/use-default-queries';
 
-export interface ISingleItemHttpService<TIModel extends IModel> {
+export interface ISingleHttpService<TIModel extends IModel> {
   get: RequetstHandler<TIModel, void>;
   post: RequetstHandler<TIModel, TIModel>;
   put: RequetstHandler<TIModel, TIModel>;
@@ -11,9 +11,9 @@ export interface ISingleItemHttpService<TIModel extends IModel> {
   del: RequetstHandler<boolean, TIModel>;
 }
 
-export function defineSingleItemService<TIModel extends IModel>(
+export function defineSingleHttpService<TIModel extends IModel>(
   opts: HttpServiceOptions,
-): ISingleItemHttpService<TIModel> {
+): ISingleHttpService<TIModel> {
   const x = defineHttpService<TIModel>(opts);
   return {
     ...useDefaultQueries(x),

@@ -1,13 +1,12 @@
-import { IModel } from '@/app/core/models/@types/IModel';
-import { ModelBase } from '@/app/core/models/base/model-base';
+import { IModelUnique } from '@/app/core/models/@types/IModel';
+import { UniqueModel } from '@/app/core/models/unique.model';
 
-export interface ISectionModel extends IModel {
-  id: number;
+export interface ISectionModel extends IModelUnique<number> {
   name: string;
   parentSectionId: number;
 }
 
-export class SectionModel extends ModelBase<ISectionModel> implements ISectionModel {
+export class SectionModel extends UniqueModel<number, ISectionModel> implements ISectionModel {
   id = -1;
 
   name = '';
@@ -33,7 +32,7 @@ export class SectionModel extends ModelBase<ISectionModel> implements ISectionMo
     return this;
   }
 
-  equals(other: SectionModel): boolean {
+  equalsDeep(other: SectionModel): boolean {
     return (
       this.id === other.id &&
       this.name === other.name &&

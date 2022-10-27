@@ -7,5 +7,5 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   abstract asObject(): T;
 
-  abstract equals(mb: ModelBase): boolean;
+  abstract equalsDeep(mb: ModelBase): boolean;
 }

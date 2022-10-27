@@ -2,7 +2,9 @@ import { IModelUnique } from '@/app/core/models/@types/IModel';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
+import { validate } from '@/app/core/models/decorators/validate.decorator';
 import { UniqueModel } from '@/app/core/models/unique.model';
+import { required } from '@vuelidate/validators';
 
 export interface ISectionModel extends IModelUnique<number> {
   name: string;
@@ -15,6 +17,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
 
   @title
   @description('Наименование')
+  @validate({ required })
   name = '';
 
   @hidden

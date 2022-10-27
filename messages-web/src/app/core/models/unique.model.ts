@@ -7,7 +7,7 @@ export abstract class UniqueModel<
 > extends ModelBase<TModel> {
   abstract id: TId;
 
-  equals(other: UniqueModel<TId, TModel>) {
+  compareId(other: UniqueModel<TId, TModel>) {
     return this.id === other.id;
   }
 }

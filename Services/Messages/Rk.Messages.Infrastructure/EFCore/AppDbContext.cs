@@ -36,6 +36,8 @@ namespace Rk.Messages.Infrastructure.EFCore
                   .HasValue<ServiceProduct>(2)
                   .HasValue<Technology>(3);
 
+                entity.HasIndex(self => self.Name);//.IsUnique();
+
                 entity.HasMany(self => self.AttributeValues)
                 .WithOne(self => self.BaseProduct)
                 .HasForeignKey(self => self.BaseProductId);

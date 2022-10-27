@@ -28,7 +28,7 @@ namespace Rk.Messages.Spa.Controllers
 
         /// <summary>Получить список товаров с отбором и пагинацией </summary>
         [HttpGet]
-        [Authorize("Admin")]
+        
         public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
         {
             return await _productsService.GetProducts(request);

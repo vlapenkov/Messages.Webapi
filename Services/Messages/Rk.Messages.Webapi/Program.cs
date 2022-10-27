@@ -1,4 +1,5 @@
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -29,10 +30,10 @@ builder.Services.AddDependencies();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGeneration();
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                 .ReadFrom.Configuration(hostingContext.Configuration)
-                 .Enrich.FromLogContext()
-                 .Enrich.WithMachineName()
-            );
+     .ReadFrom.Configuration(hostingContext.Configuration)
+     .Enrich.FromLogContext()
+     .Enrich.WithMachineName()
+);
 
 builder.Services.AddHealthChecks();
 

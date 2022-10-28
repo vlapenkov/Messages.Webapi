@@ -3,6 +3,7 @@
   <div v-if="loadingStatus.message">{{ loadingStatus.message }}</div>
   <template v-if="items !== null">
     <div v-for="(i, n) in items" :key="n">
+      <h5>{{ i.title }}</h5>
       {{ json(i) }}
     </div>
   </template>

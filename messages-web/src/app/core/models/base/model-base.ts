@@ -6,6 +6,7 @@ import useVuelidate, {
 } from '@vuelidate/core';
 import { Ref } from 'vue';
 import { IModel, modelMarker } from '../@types/IModel';
+import { titleProp } from '../decorators/tittle.decorator';
 
 export abstract class ModelBase<T extends IModel = IModel> implements IModel {
   [modelMarker]: never = null as never;
@@ -15,6 +16,12 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
   abstract asObject(): T;
 
   abstract equalsDeep(mb: ModelBase): boolean;
+
+  get title(): string {
+    const self = this as unknown as Record<string | symbol, string>;
+    const title = self[titleProp];
+    return self[title];
+  }
 
   vuelidate() {
     const rules = Object.keys(this)

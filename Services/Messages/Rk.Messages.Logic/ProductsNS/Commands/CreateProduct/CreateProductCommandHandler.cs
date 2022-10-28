@@ -36,7 +36,7 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
 
             Product product = new Product(request.CatalogSectionId, request.Name, request.Description, request.Price, attributeValues);
 
-            var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.Data, fd.FileId))).ToArray();
+            var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName,  fd.FileId))).ToArray();
 
             product.AddProductDocuments(productDocuments);
 

@@ -16,7 +16,11 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string Description { get; set; }
 
+        /// <summary>значения атрибутов</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
+
+        /// <summary>документы</summary>
+        public List<FileDataDto> Documents { get; set; } = new List<FileDataDto>();
 
         public string CodeTnVed { get; set; }
 

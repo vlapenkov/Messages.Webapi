@@ -43,7 +43,7 @@ namespace Rk.Messages.Domain.Entities.Products
         public virtual IReadOnlyCollection<AttributeValue> AttributeValues => _attributeValues;
 
         private readonly List<ProductDocument> _productDocuments = new List<ProductDocument>();
-        public virtual IReadOnlyCollection<ProductDocument> ProductDocuments => _productDocuments;
+        public virtual IReadOnlyList<ProductDocument> ProductDocuments => _productDocuments;
 
         /// <summary>
         /// Добавить информацию о файлах

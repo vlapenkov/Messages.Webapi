@@ -8,6 +8,7 @@ namespace Rk.Messages.Spa.Controllers
     public class MessagesController : ControllerBase
     {
         private IMessagesServices _messagesServices;
+
         private IHttpContextAccessor _contextAccessor;
 
         public MessagesController(IMessagesServices messagesServices, IHttpContextAccessor contextAccessor)

@@ -1,10 +1,11 @@
 import { ValidationRuleCollection, ValidationRule } from '@vuelidate/core';
-import { ModelBase } from '../base/model-base';
+import type { ModelBase } from '../base/model-base';
+import { validationProp } from '../base/props/validation.prop';
 
 export const validate =
   (rules: ValidationRuleCollection | ValidationRule) =>
   <T extends ModelBase>(target: T, key: string) => {
-    Object.defineProperty(target, Symbol(`--validation--${key}`), {
+    Object.defineProperty(target, validationProp(key), {
       get: () => rules,
     });
   };

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
+using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
@@ -15,17 +16,34 @@ namespace Rk.Messages.Spa.Controllers
     {
         private readonly IProductsService _productsService;
 
-        /// <inheritdoc />
-        public ProductsController(IProductsService productsService)
+        private readonly IFileStoreService _fileService;
+                
+
+        public ProductsController(IProductsService productsService, IFileStoreService fileService)
         {
             _productsService = productsService;
+            _fileService = fileService;
         }
 
         /// <summary>Создать продукт </summary>
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
+            var tasks = new Task<Guid>[request.Documents.Count];
+
+
+            for (int i = 0; i < request.Documents.Count; i++)
+            {
+                tasks[i] = _fileService.CreateFile(new CreateFileRequest { FileName = request.Documents[i].FileName,Data = request.Documents[i].Data });
+            }
+            
+             var resultFiles = await Task.WhenAll(tasks);
+
+            int counter = 0;
+
+            request.Documents.ForEach(fileData => fileData.FileId = resultFiles[counter++]);
+
             return await _productsService.CreateProduct(request);
         }
 

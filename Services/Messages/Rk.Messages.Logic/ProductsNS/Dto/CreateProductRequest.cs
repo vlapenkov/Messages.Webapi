@@ -24,5 +24,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         /// <summary>Цена</summary>
         public decimal Price { get; set; }
+
+        public List<FileDataDto> Documents { get; set; }
     }
 }

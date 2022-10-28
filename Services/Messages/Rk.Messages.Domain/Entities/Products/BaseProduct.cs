@@ -37,11 +37,21 @@ namespace Rk.Messages.Domain.Entities.Products
         /// <summary>Описание продукции</summary>
         [StringLength(1024)]
         public string Description { get; protected set; }
+        
 
-        /// <summary>Значения атрибутов</summary>
-        //public virtual IReadOnlyCollection<AttributeValue> AttributeValues { get; protected set; }
-
-        private readonly List<AttributeValue> _attributeValues;
+        private readonly List<AttributeValue> _attributeValues = new List<AttributeValue>();
         public virtual IReadOnlyCollection<AttributeValue> AttributeValues => _attributeValues;
+
+        private readonly List<ProductDocument> _productDocuments = new List<ProductDocument>();
+        public virtual IReadOnlyCollection<ProductDocument> ProductDocuments => _productDocuments;
+
+        /// <summary>
+        /// Добавить информацию о файлах
+        /// </summary>
+        /// <param name="productFiles"></param>
+        public void AddProductDocuments(IReadOnlyCollection<ProductDocument> productFiles) {
+
+            _productDocuments.AddRange(productFiles);
+        }
     }
 }

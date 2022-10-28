@@ -4,6 +4,9 @@ using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
 
 namespace Rk.Messages.Spa.Infrastructure.Services
 {
+    /// <summary>
+    /// Сервис для работы с продукцией
+    /// </summary>
     public interface IProductsService
     {
         /// <summary>Создать продукцию</summary>         

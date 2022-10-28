@@ -29,21 +29,7 @@ namespace Rk.Messages.Spa.Controllers
         [HttpPost]
         //[Authorize]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
-        {
-            var tasks = new Task<Guid>[request.Documents.Count];
-
-
-            for (int i = 0; i < request.Documents.Count; i++)
-            {
-                tasks[i] = _fileService.CreateFile(new CreateFileRequest { FileName = request.Documents[i].FileName,Data = request.Documents[i].Data });
-            }
-            
-             var resultFiles = await Task.WhenAll(tasks);
-
-            int counter = 0;
-
-            request.Documents.ForEach(fileData => fileData.FileId = resultFiles[counter++]);
-
+        { 
             return await _productsService.CreateProduct(request);
         }
 

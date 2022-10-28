@@ -3,17 +3,32 @@ import { extend } from '@/app/core/handlers/base/handler-lab';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
+import { ICollectionHttpService } from '@/app/core/services/http/custom/collection.http-service';
+import { parseArray } from '@/app/core/services/http/handlers/parse.handlers';
 import { computedAsync } from '@vueuse/core';
-import { ICollectionHttpService } from '../../../http/custom/collection.http-service';
-import { parseArray } from '../../../http/handlers/parse.handlers';
-import { DataStatus } from '../../tools/data-status';
-import { createDefaultStore } from '../../harlem.service';
-import { CollectionState } from './collection.state';
+import { WritableComputedRef, Ref } from 'vue';
+import { createDefaultStore } from '../../../harlem.service';
+import { DataStatus } from '../../../tools/data-status';
 
-export function createCollectionStore<TIModel extends IModel, TModel extends ModelBase<TIModel>>(
+import { CollectionReadonlyState } from './collection-readonly.state';
+
+export interface IReadonlyCollectionStore<
+  TIModel extends IModel,
+  TModel extends ModelBase<TIModel>,
+> {
+  readonly loadingStatus: WritableComputedRef<DataStatus>;
+  readonly itemsAsync: (ops?: { force: boolean }) => Ref<TModel[] | null>;
+  readonly items: WritableComputedRef<TModel[] | null>;
+}
+
+export function createCollectionReadonlyStore<
+  TIModel extends IModel,
+  TModel extends ModelBase<TIModel>,
+  TState extends CollectionReadonlyState<TModel>,
+>(
   name: string,
   Model: Constructor<TModel>,
-  State: Constructor<CollectionState<TModel>>,
+  State: Constructor<TState>,
   service: ICollectionHttpService<TIModel>,
 ) {
   const stateDefault = new State();
@@ -24,8 +39,6 @@ export function createCollectionStore<TIModel extends IModel, TModel extends Mod
 
   const items = computeState((state) => state.items);
 
-  const itemSelected = computeState((state) => state.itemSelected);
-
   const getDataAsyncAction = action(
     'get-data-async',
     async (ops: { force: boolean } = { force: false }) => {
@@ -34,7 +47,8 @@ export function createCollectionStore<TIModel extends IModel, TModel extends Mod
         return null;
       }
       loadingStatus.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
-      const response = await extend(service.get).pipe(parseArray(Model)).done()();
+      const requestFn = extend(service.get).pipe(parseArray(Model)).done();
+      const response = await requestFn();
       if (response.status === HttpStatus.Success) {
         items.value = response.data ?? null;
         loadingStatus.value = new DataStatus('loaded');
@@ -48,7 +62,11 @@ export function createCollectionStore<TIModel extends IModel, TModel extends Mod
   const itemsAsync = (ops: { force: boolean } = { force: false }) =>
     computedAsync(() => getDataAsyncAction(ops), null);
 
-  const extended = { loadingStatus, itemsAsync, items, itemSelected } as const;
+  const extended: IReadonlyCollectionStore<TIModel, TModel> = {
+    loadingStatus,
+    itemsAsync,
+    items,
+  } as const;
 
   return [store, extended] as const;
 }

@@ -10,5 +10,3 @@ export function createDefaultStore<TState extends AnyRecord<string>>(name: strin
     extensions: [actionExtension(), resetExtension(), composeExtension()],
   });
 }
-
-export type DefaultStore = ReturnType<typeof createDefaultStore>;

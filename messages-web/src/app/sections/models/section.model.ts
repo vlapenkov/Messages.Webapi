@@ -8,7 +8,7 @@ import { required } from '@vuelidate/validators';
 
 export interface ISectionModel extends IModelUnique<number> {
   name: string;
-  parentSectionId: number;
+  parentSectionId: number | null;
 }
 
 export class SectionModel extends UniqueModel<number, ISectionModel> implements ISectionModel {
@@ -21,7 +21,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
   name = '';
 
   @hidden
-  parentSectionId = -1;
+  parentSectionId: number | null = null;
 
   tryParse(model: ISectionModel): boolean {
     try {

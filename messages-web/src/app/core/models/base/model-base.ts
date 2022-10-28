@@ -33,7 +33,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   abstract equalsDeep(mb: ModelBase): boolean;
 
-  vuelidateMe() {
+  vuelidate() {
     const rules = Object.keys(this)
       .map((key) => this[metadataKey][key].validationRules)
       .filter((vRule): vRule is ValidationRule | ValidationRuleCollection => vRule != null);

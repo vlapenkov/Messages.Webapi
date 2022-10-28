@@ -14,8 +14,8 @@ const keycloakInitOptions = {
 };
 
 const tokenRefreshInterval =
-  process.env.VUE_APP_KEYCLOACK_TOKEN_LIFETIME != null
-    ? +process.env.VUE_APP_KEYCLOACK_TOKEN_LIFETIME
+  process.env.VUE_APP_KEYCLOACK_TOKEN_REFRESH_INTERVAL != null
+    ? +process.env.VUE_APP_KEYCLOACK_TOKEN_REFRESH_INTERVAL
     : 0;
 
 const keycloakInst = new Keycloak(keycloakInitOptions);

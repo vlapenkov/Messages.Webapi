@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
+builder.Services.AddHttpClients(builder.Configuration);
+
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
     options => options
         .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -30,16 +32,16 @@ builder.Services.AddDependencies();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGeneration();
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-     .ReadFrom.Configuration(hostingContext.Configuration)
-     .Enrich.FromLogContext()
-     .Enrich.WithMachineName()
+    .ReadFrom.Configuration(hostingContext.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
 );
 
 builder.Services.AddHealthChecks();
 
 
 var app = builder.Build();
-
+app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin());
 app.UseRouting();
 app.UseReverseProxy(builder.Configuration);
 
@@ -59,8 +61,5 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 });
 app.UseSwaggerUI(builder.Configuration, "Api для работы с Marketplace V1");
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

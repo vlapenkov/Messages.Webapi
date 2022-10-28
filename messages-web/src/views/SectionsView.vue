@@ -1,6 +1,7 @@
 <template>
-  <div v-if="items == null">Loading...</div>
-  <template v-else>
+  <h3>{{ loadingStatus.status }}</h3>
+  <div v-if="loadingStatus.message">{{ loadingStatus.message }}</div>
+  <template v-if="items !== null">
     <div v-for="(i, n) in items" :key="n">
       {{ json(i) }}
     </div>
@@ -13,8 +14,13 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    const { itemsAsync } = sectionsStore;
-    return { items: itemsAsync(), json: (i: unknown) => JSON.stringify(i, null, 2) };
+    const { itemsAsync, loadingStatus } = sectionsStore;
+    const items = itemsAsync();
+    return {
+      items,
+      loadingStatus,
+      json: (i: unknown) => JSON.stringify(i, null, 2),
+    };
   },
 });
 </script>

@@ -25,7 +25,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
   tryParse(m: ISectionModel): boolean {
     try {
       const { id, name, parentSectionId } = m;
-      if (id == null || name == null || parentSectionId == null) {
+      if (id == null || name == null) {
         return false;
       }
       this.id = id;

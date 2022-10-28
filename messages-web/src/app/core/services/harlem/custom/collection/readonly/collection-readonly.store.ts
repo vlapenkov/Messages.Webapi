@@ -46,6 +46,7 @@ export function createCollectionReadonlyStore<
       if (!ops.force && currentStatus === 'loaded') {
         return null;
       }
+
       loadingStatus.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const requestFn = extend(service.get).pipe(parseArray(Model)).done();
       const response = await requestFn();
@@ -55,12 +56,21 @@ export function createCollectionReadonlyStore<
       } else {
         loadingStatus.value = new DataStatus('error', response.message);
       }
+      console.log('items:', items.value);
+
       return items.value;
     },
   );
 
   const itemsAsync = (ops: { force: boolean } = { force: false }) =>
-    computedAsync(() => getDataAsyncAction(ops), null);
+    computedAsync(
+      async () => {
+        await getDataAsyncAction(ops);
+        return items.value;
+      },
+      null,
+      { lazy: true },
+    );
 
   const extended: IReadonlyCollectionStore<TIModel, TModel> = {
     loadingStatus,

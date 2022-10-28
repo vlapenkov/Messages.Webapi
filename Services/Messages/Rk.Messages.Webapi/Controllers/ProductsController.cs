@@ -31,7 +31,7 @@ namespace Rk.Messages.Webapi.Controllers
         /// <param name="request">запрос создания</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "manager,admin")]
+       // [Authorize(Roles = "manager,admin")]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
             return await _mediator.Send(new CreateProductCommand { Request = request });

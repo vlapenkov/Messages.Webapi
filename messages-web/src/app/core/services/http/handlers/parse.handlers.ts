@@ -36,6 +36,7 @@ export const parseArray = <TModel extends IModel, TModelClass extends ModelBase<
   createHandler<Promise<HttpResult<TModelClass[]>>, Promise<HttpResult<TModel[]>>>(
     () => async (promise) => {
       const response = await promise;
+
       if (
         response.status === HttpStatus.Success &&
         response.data != null &&
@@ -47,6 +48,7 @@ export const parseArray = <TModel extends IModel, TModelClass extends ModelBase<
           const md = new Model();
           const parsed = md.tryParse(item);
           if (!parsed) {
+            console.log('tack', md.tryParse);
             return new ErrorResult<TModelClass[]>(
               'Не удалось преобразовать ответ от сервера к указанной модели',
             );

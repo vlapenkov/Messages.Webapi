@@ -8,8 +8,8 @@ import { Ref } from 'vue';
 import { IModel, modelMarker } from '../@types/IModel';
 import { IModelFieldMetadata } from '../@types/IModelFieldMetadata';
 import { titleProp } from '../decorators/tittle.decorator';
-
-export const metadataKey = Symbol('--model-props-metadata');
+import { createMetadata } from '../decorators/tools/createMetadata';
+import { metadataKey } from './metadata-key';
 
 export abstract class ModelBase<T extends IModel = IModel> implements IModel {
   [modelMarker]: never = null as never;
@@ -20,10 +20,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   constructor() {
     Object.keys(this).forEach((key) => {
-      this[metadataKey][key] = {
-        description: key,
-        visible: true,
-      };
+      createMetadata(this, key);
     });
   }
 

@@ -1,4 +1,5 @@
 import { IModel } from '../../../models/@types/IModel';
+import { IQueryConstructors } from '../@types/IRepositoryQueries';
 import { RequetstHandler } from '../@types/requetst-handler';
 import { defineHttpService, HttpServiceOptions } from '../define-http.service';
 import { useDefaultQueries } from '../handlers/use-default-queries';
@@ -13,6 +14,7 @@ export interface ICollectionHttpService<TIModel extends IModel> {
 
 export function defineCollectionService<TIModel extends IModel>(
   opts: HttpServiceOptions,
-): ICollectionHttpService<TIModel> {
-  return useDefaultQueries(defineHttpService<TIModel>(opts));
+): [ICollectionHttpService<TIModel>, IQueryConstructors<TIModel>] {
+  const constructors = defineHttpService<TIModel>(opts);
+  return [useDefaultQueries(constructors), constructors];
 }

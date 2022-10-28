@@ -10,7 +10,6 @@ export interface ISectionModel extends IModelUnique<number> {
   name: string;
   parentSectionId: number | null;
 }
-
 export class SectionModel extends UniqueModel<number, ISectionModel> implements ISectionModel {
   @hidden
   id = -1;
@@ -23,9 +22,9 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
   @hidden
   parentSectionId: number | null = null;
 
-  tryParse(model: ISectionModel): boolean {
+  tryParse(m: ISectionModel): boolean {
     try {
-      const { id, name, parentSectionId } = model;
+      const { id, name, parentSectionId } = m;
       if (id == null || name == null || parentSectionId == null) {
         return false;
       }

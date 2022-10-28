@@ -1,4 +1,4 @@
-﻿namespace Rk.FileStore.Webapi.Models
+﻿namespace Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS
 {
     /// <summary>
     /// Запрос на создание файла

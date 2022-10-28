@@ -24,6 +24,9 @@ namespace Rk.Messages.Infrastructure.EFCore
         public DbSet<ServiceProduct> ServiceProducts { get; set; }
         public DbSet<Technology> TechnologyProducts { get; set; }
 
+        public DbSet<ProductDocument> ProductDocuments { get; set; }
+
+        public DbSet<Document> Documents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,6 +44,11 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasMany(self => self.AttributeValues)
                 .WithOne(self => self.BaseProduct)
                 .HasForeignKey(self => self.BaseProductId);
+
+
+                entity.HasMany(self => self.ProductDocuments)
+               .WithOne(self => self.BaseProduct)
+               .HasForeignKey(self => self.BaseProductId);
 
             });
 
@@ -61,6 +69,14 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasOne(self => self.Attribute)
                     .WithMany()
                     .HasForeignKey(self => self.AttributeId);
+
+            });
+
+            builder.Entity<ProductDocument>(entity =>
+            {
+                entity.HasOne(self => self.Document)
+                    .WithMany()
+                    .HasForeignKey(self => self.DocumentId);
 
             });
 

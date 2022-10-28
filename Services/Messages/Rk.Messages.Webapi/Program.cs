@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
+builder.Services.AddHttpClients(builder.Configuration);
+
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
     options => options
         .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))

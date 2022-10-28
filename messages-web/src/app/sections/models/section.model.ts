@@ -1,5 +1,4 @@
 import { IModelUnique } from '@/app/core/models/@types/IModel';
-import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { validate } from '@/app/core/models/decorators/validate.decorator';
@@ -15,7 +14,6 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
   id = -1;
 
   @title
-  @description('Наименование')
   @validate({ required })
   name = '';
 

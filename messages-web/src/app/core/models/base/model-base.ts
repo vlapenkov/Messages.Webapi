@@ -9,6 +9,7 @@ import { IModel, modelMarker } from '../@types/IModel';
 import { descriptonProp } from './props/descripton.prop';
 import { titleProp } from '../decorators/tittle.decorator';
 import { validationProp } from './props/validation.prop';
+import { hiddenProp } from './props/hidden.prop';
 
 export interface IField {
   label: string;
@@ -34,7 +35,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
     const self = this as unknown as Record<symbol, unknown>;
     const title = self[titleProp];
     return Object.keys(this)
-      .filter((key) => key !== title)
+      .filter((key) => key !== title && self[hiddenProp(key)] !== true)
       .map(
         (key): IField => ({
           label: (self[descriptonProp(key)] as string) ?? key,

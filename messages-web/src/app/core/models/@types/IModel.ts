@@ -7,3 +7,6 @@ export interface IModel {
 export interface IModelUnique<T extends string | number | symbol> extends IModel {
   id: T;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ModelUniqueAny = IModelUnique<any>;

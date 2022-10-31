@@ -1,19 +1,14 @@
 <template>
-  <menu-bar :class="{ 'shadow-5': y > 20 }" :model="items">
-    <template #end>
-      <theme-switcher></theme-switcher>
-    </template>
-  </menu-bar>
+  <menu-bar :class="{ 'shadow-5': y > 20 }" :model="items"> </menu-bar>
 </template>
 
 <script lang="ts">
 import { useWindowScroll } from '@vueuse/core';
 import Menubar from 'primevue/menubar';
 import { defineComponent } from 'vue';
-import ThemeSwitcher from '../components/ThemeSwitcher.vue';
 
 export default defineComponent({
-  components: { MenuBar: Menubar, ThemeSwitcher },
+  components: { MenuBar: Menubar },
   setup() {
     const items = [
       {

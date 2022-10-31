@@ -7,14 +7,18 @@
       <router-view />
     </template>
   </app-layout>
+  <theme-switch-container class="fixed bottom-0 right-0 mb-3 mr-3"></theme-switch-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import AppLayout from './components/AppLayout.vue';
 import MainMenuContainer from './containers/MainMenuContainer.vue';
+import ThemeSwitchContainer from './containers/ThemeSwitchContainer.vue';
 
-export default defineComponent({ components: { AppLayout, MainMenuContainer } });
+export default defineComponent({
+  components: { AppLayout, MainMenuContainer, ThemeSwitchContainer },
+});
 </script>
 
 <style lang="scss"></style>

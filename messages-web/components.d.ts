@@ -16,6 +16,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionsView: typeof import('./src/vue/views/SectionsView.vue')['default']
-    ThemeSwitcher: typeof import('./src/vue/components/ThemeSwitcher.vue')['default']
+    ThemeSwitchContainer: typeof import('./src/vue/containers/ThemeSwitchContainer.vue')['default']
   }
 }

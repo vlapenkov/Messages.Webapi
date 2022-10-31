@@ -11,10 +11,13 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
     /// </summary>
     public record FileDataDto
     {
-        public string FileName { get; set; }
+        /// <summary>Имя файла</summary>
+        public string? FileName { get; set; }
 
+        /// <summary>Данные</summary>
         public byte[] Data { get; set; }
 
+        /// <summary>Идентификатор</summary>
         public Guid FileId { get; set; }
     }
 }

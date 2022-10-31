@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using FluentValidation;
@@ -78,11 +79,14 @@ namespace Rk.Messages.Webapi.Extensions
         /// </summary>
         /// <param name="services"></param>
         public static void AddDependencies(this IServiceCollection services)
-        {
+        {           
+
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
             services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
+
+           
 
             services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
             services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);

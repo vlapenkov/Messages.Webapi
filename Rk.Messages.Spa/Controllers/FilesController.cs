@@ -6,11 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using Rk.Messages.Common.Exceptions;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Services;
+using Serilog.Sinks.File;
 
 namespace Rk.Messages.Spa.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]    
+    [ApiController]
+
+    /// <summary>
+    /// Управление документами
+    /// </summary>
     public class FilesController : ControllerBase
     {        
         
@@ -32,6 +37,15 @@ namespace Rk.Messages.Spa.Controllers
         {
             return await _fileService.CreateFile(request);            
 
+        }
+
+        /// <summary>
+        /// Создать файлы
+        /// </summary>   
+        [HttpPost("bulk")]
+        public async Task<IReadOnlyCollection<Guid>> CreateFiles([FromBody] IReadOnlyCollection<CreateFileRequest> requests)
+        {
+            return await _fileService.CreateFiles(requests);           
         }
 
         /// <summary>Получить содержимое файла </summary>

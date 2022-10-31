@@ -33,6 +33,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
 	  <ProjectReference Include="..\Rk.FileStore.Infrastructure\Rk.FileStore.Infrastructure.csproj" />
+		<!--<ProjectReference Include="..\Rk.FileStore.Logic\Rk.FileStore.Logic.csproj" />-->
 	</ItemGroup>
 
 </Project>

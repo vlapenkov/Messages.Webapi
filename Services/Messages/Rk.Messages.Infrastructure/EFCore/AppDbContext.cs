@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Interfaces.Interfaces.DAL;
@@ -30,7 +31,7 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+                      
 
             builder.Entity<BaseProduct>(entity =>
             {
@@ -41,6 +42,7 @@ namespace Rk.Messages.Infrastructure.EFCore
 
                 entity.HasIndex(self => self.Name);//.IsUnique();
 
+                
                 entity.HasMany(self => self.AttributeValues)
                 .WithOne(self => self.BaseProduct)
                 .HasForeignKey(self => self.BaseProductId);
@@ -49,6 +51,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasMany(self => self.ProductDocuments)
                .WithOne(self => self.BaseProduct)
                .HasForeignKey(self => self.BaseProductId);
+                               
 
             });
 

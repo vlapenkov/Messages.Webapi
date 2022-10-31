@@ -1,7 +1,7 @@
 import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import { createHead } from '@vueuse/head';
-import App from './App.vue';
+import App from './vue/App.vue';
 import { harlemState } from './plugins/harlem.plugin';
 import router from './router';
 import 'primeflex/primeflex.css';

@@ -1,7 +1,7 @@
 <template>
   <app-layout>
     <template #head>
-      <main-menu></main-menu>
+      <main-menu-container></main-menu-container>
     </template>
     <template #body>
       <router-view />
@@ -12,9 +12,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import AppLayout from './components/AppLayout.vue';
-import MainMenu from './components/MainMenu.vue';
 
-export default defineComponent({ components: { AppLayout, MainMenu } });
+export default defineComponent({ components: { AppLayout } });
 </script>
 
 <style lang="scss"></style>

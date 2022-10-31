@@ -10,7 +10,7 @@
 import { useWindowScroll } from '@vueuse/core';
 import Menubar from 'primevue/menubar';
 import { defineComponent } from 'vue';
-import ThemeSwitcher from './ThemeSwitcher.vue';
+import ThemeSwitcher from '../components/ThemeSwitcher.vue';
 
 export default defineComponent({
   components: { MenuBar: Menubar, ThemeSwitcher },

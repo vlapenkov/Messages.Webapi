@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-imports */
+/* eslint-disable @typescript-eslint/no-restricted-imports */
 import { createStore } from '@harlem/core';
 import actionExtension from '@harlem/extension-action';
 import resetExtension from '@harlem/extension-reset';

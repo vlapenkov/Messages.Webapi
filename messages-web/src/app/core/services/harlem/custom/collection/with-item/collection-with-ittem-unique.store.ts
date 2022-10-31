@@ -4,31 +4,41 @@ import { IModelUnique } from '@/app/core/models/@types/IModel';
 import { UniqueModel } from '@/app/core/models/unique.model';
 import { ICollectionHttpService } from '@/app/core/services/http/custom/collection.http-service';
 import { parse } from '@/app/core/services/http/handlers/parse.handlers';
+import type { Mutation } from '@harlem/core';
+import type { Action } from '@harlem/extension-action';
 import { Creation, Edititng } from '../../../tools/not-valid-data';
-import { createCollectionReadonlyStore } from '../readonly/collection-readonly.store';
 import { CollectionWithItemState } from './collection-with-item.state';
+import {
+  createCollectionWithItemStore,
+  ICollectionWithItemStore,
+} from './collection-with-item.store';
 
-export function createCollectionWithItemStore<
+export interface ICollectionWithItemUniqueStore<
   Tid extends string | number | symbol,
   TIModel extends IModelUnique<Tid>,
   TModel extends UniqueModel<Tid, TIModel>,
+> extends ICollectionWithItemStore<TIModel, TModel> {
+  selectItem: Mutation<Tid, void>;
+  createItem: (payload?: void | undefined) => void;
+  saveChanges: Action<void>;
+}
+
+export function createCollectionWithItemUniqueStore<
+  TId extends string | number | symbol,
+  TIModel extends IModelUnique<TId>,
+  TModel extends UniqueModel<TId, TIModel>,
 >(
   name: string,
   Model: Constructor<TModel>,
   State: Constructor<CollectionWithItemState<TModel>>,
   service: ICollectionHttpService<TIModel>,
 ) {
-  const [store, { items, itemsAsync, loadingStatus }] = createCollectionReadonlyStore(
-    name,
-    Model,
-    State,
-    service,
-  );
-  const { computeState, mutation, action } = store;
+  const [store, baseStore] = createCollectionWithItemStore(name, Model, State, service);
+  const { mutation, action } = store;
 
-  const itemSelected = computeState((state) => state.itemSelected);
+  const { items, itemSelected } = baseStore;
 
-  const selectItem = mutation<Tid>('select-item', (state, id) => {
+  const selectItem = mutation<TId>('select-item', (state, id) => {
     const selected = items.value?.find((i) => i.id === id);
     if (selected == null) {
       return;
@@ -36,7 +46,7 @@ export function createCollectionWithItemStore<
     state.itemSelected = new Edititng({ ...selected });
   });
 
-  const createItem = mutation('create-item', (state) => {
+  const createItem = mutation<void>('create-item', (state) => {
     state.itemSelected = new Creation(new Model());
   });
 
@@ -58,10 +68,8 @@ export function createCollectionWithItemStore<
     }
   });
 
-  const extended = {
-    loadingStatus,
-    itemsAsync,
-    items,
+  const extended: ICollectionWithItemUniqueStore<TId, TIModel, TModel> = {
+    ...baseStore,
     selectItem,
     createItem,
     saveChanges,

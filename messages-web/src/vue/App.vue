@@ -12,8 +12,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import AppLayout from './components/AppLayout.vue';
+import MainMenuContainer from './containers/MainMenuContainer.vue';
 
-export default defineComponent({ components: { AppLayout } });
+export default defineComponent({ components: { AppLayout, MainMenuContainer } });
 </script>
 
 <style lang="scss"></style>

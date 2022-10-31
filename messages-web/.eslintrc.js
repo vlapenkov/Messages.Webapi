@@ -40,13 +40,14 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'error',
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
-    'no-restricted-imports': [
+    '@typescript-eslint/no-restricted-imports': [
       'error',
       {
         patterns: [
           {
             group: ['@harlem/*'],
             message: 'Используйте метод createHarlemStore из сервиса harlem.service',
+            allowTypeImports: true,
           },
         ],
       },

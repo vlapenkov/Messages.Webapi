@@ -1,5 +1,5 @@
 <template>
-  <menu-bar :class="{ 'shadow-6': y > 20 }" :model="items">
+  <menu-bar :class="{ 'shadow-5': y > 20 }" :model="items">
     <template #end>
       <theme-switcher></theme-switcher>
     </template>

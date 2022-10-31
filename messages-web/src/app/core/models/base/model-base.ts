@@ -11,9 +11,10 @@ import { titleProp } from '../decorators/tittle.decorator';
 import { validationProp } from './props/validation.prop';
 import { hiddenProp } from './props/hidden.prop';
 
-export interface IField {
+export interface IModelField {
   label: string;
   value: unknown;
+  visible: boolean;
 }
 
 export abstract class ModelBase<T extends IModel = IModel> implements IModel {
@@ -25,21 +26,26 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   abstract equalsDeep(mb: ModelBase): boolean;
 
-  get title(): string {
+  get title(): IModelField {
     const self = this as unknown as Record<string | symbol, string>;
     const title = self[titleProp];
-    return self[title];
+    return {
+      label: (self[descriptonProp(title)] as string) ?? 'Название',
+      value: self[title],
+      visible: false,
+    };
   }
 
-  get fields(): IField[] {
-    const self = this as unknown as Record<symbol, unknown>;
+  get fields(): IModelField[] {
+    const self = this as unknown as Record<symbol | string, unknown>;
     const title = self[titleProp];
     return Object.keys(this)
-      .filter((key) => key !== title && self[hiddenProp(key)] !== true)
+      .filter((key) => key !== title)
       .map(
-        (key): IField => ({
+        (key): IModelField => ({
           label: (self[descriptonProp(key)] as string) ?? key,
-          value: key,
+          value: self[key],
+          visible: self[hiddenProp(key)] !== true,
         }),
       );
   }

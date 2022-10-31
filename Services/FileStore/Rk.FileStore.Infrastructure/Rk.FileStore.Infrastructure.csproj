@@ -8,7 +8,7 @@
 
 
 	<ItemGroup>
-		<ProjectReference Include="..\Rk.FileStore.Interfaces\Rk.FileStore.Interfaces.csproj" />
+		<ProjectReference Include="..\Rk.FileStore.Logic\Rk.FileStore.Logic.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>		

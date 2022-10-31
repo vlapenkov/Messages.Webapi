@@ -16,21 +16,31 @@ namespace Rk.Messages.Spa.Controllers
     {
         private readonly IProductsService _productsService;
 
-        private readonly IFileStoreService _fileService;
+        private readonly IFileStoreService _filesService;
                 
 
         public ProductsController(IProductsService productsService, IFileStoreService fileService)
         {
             _productsService = productsService;
-            _fileService = fileService;
+            _filesService = fileService;
         }
 
         /// <summary>Создать продукт </summary>
         [HttpPost]
         //[Authorize]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
-        { 
+        {
+            
+            var fileGlobalIds =await _filesService.CreateFiles(request.Documents.Select(doc => new CreateFileRequest { FileName = doc.FileName, Data = doc.Data }).ToArray());
+
+            var fileGlobalIdsArray = fileGlobalIds.ToArray();
+
+            byte counter = 0;
+
+            request.Documents.ForEach(doc => doc.FileId = fileGlobalIdsArray[counter++]);
+
             return await _productsService.CreateProduct(request);
+
         }
 
         /// <summary>Получить список товаров с отбором и пагинацией </summary>

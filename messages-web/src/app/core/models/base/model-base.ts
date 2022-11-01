@@ -11,10 +11,16 @@ import { titleProp } from '../decorators/tittle.decorator';
 import { validationProp } from './props/validation.prop';
 import { hiddenProp } from './props/hidden.prop';
 
+export const inputTypes = ['text', 'number'] as const;
+
+export type InputType = typeof inputTypes[number];
+
 export interface IModelField {
+  key: string;
   label: string;
   value: unknown;
   visible: boolean;
+  control: InputType;
 }
 
 export abstract class ModelBase<T extends IModel = IModel> implements IModel {
@@ -30,9 +36,11 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
     const self = this as unknown as Record<string | symbol, string>;
     const title = self[titleProp];
     return {
+      key: title,
       label: (self[descriptonProp(title)] as string) ?? 'Название',
       value: self[title],
       visible: false,
+      control: 'text',
     };
   }
 
@@ -46,8 +54,15 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           label: (self[descriptonProp(key)] as string) ?? key,
           value: self[key],
           visible: self[hiddenProp(key)] !== true,
+          key,
+          control: ModelBase.checkType(this, key),
         }),
       );
+  }
+
+  static checkType(target: ModelBase, key: string): InputType {
+    const self = target as unknown as Record<symbol | string, unknown>;
+    return typeof self[key] === 'number' ? 'number' : 'text';
   }
 
   get vuelidation() {

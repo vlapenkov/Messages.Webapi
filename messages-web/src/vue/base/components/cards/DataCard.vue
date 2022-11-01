@@ -4,7 +4,7 @@
       <template v-if="data != null">
         {{ data.title.value }}
       </template>
-      <skeleton class="h-2rem w-full"></skeleton>
+      <skeleton v-else class="h-2rem w-full"></skeleton>
     </template>
     <template #content>
       <template v-if="visibleFields != null">
@@ -19,7 +19,9 @@
           </template>
         </card>
       </template>
-      <progress-spinner v-else></progress-spinner>
+      <template v-else>
+        <skeleton v-for="i in 5" :key="i" class="h-2rem w-full"></skeleton>
+      </template>
     </template>
   </card>
 </template>

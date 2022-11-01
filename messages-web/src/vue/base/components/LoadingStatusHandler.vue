@@ -3,7 +3,9 @@
     <div v-if="status?.status === 'loaded'">
       <slot></slot>
     </div>
-    <progress-spinner v-else></progress-spinner>
+    <div v-else class="flex justify-content-center align-items-center h-20rem">
+      <progress-spinner></progress-spinner>
+    </div>
   </transition>
 </template>
 

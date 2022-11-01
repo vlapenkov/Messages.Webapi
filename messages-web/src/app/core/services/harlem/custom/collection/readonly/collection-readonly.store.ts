@@ -43,41 +43,30 @@ export function createCollectionReadonlyStore<
     'get-data-async',
     async (ops: { force: boolean } = { force: false }) => {
       const currentStatus = loadingStatus.value.status;
-      console.log('one');
 
       if (!ops.force && currentStatus === 'loaded') {
-        return null;
+        return items.value;
       }
-      console.log('two');
 
       loadingStatus.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const requestFn = extend(service.get).pipe(parseArray(Model)).done();
       const response = await requestFn();
       if (response.status === HttpStatus.Success) {
         items.value = response.data ?? null;
-        console.log('done');
         loadingStatus.value = new DataStatus('loaded');
       } else {
-        console.log('error');
         loadingStatus.value = new DataStatus('error', response.message);
       }
-      console.log('items:', items.value);
 
       return items.value;
     },
   );
 
   const itemsAsync = (ops: { force: boolean } = { force: false }) =>
-    computedAsync(
-      async () => {
-        console.log('data requesting');
-        const data = await getDataAsyncAction(ops);
-        console.log('finally!', { data, items: items.value });
-        return items.value;
-      },
-      null,
-      { lazy: true },
-    );
+    computedAsync(async () => {
+      await getDataAsyncAction(ops);
+      return items.value;
+    }, null);
 
   const extended: IReadonlyCollectionStore<TIModel, TModel> = {
     loadingStatus,

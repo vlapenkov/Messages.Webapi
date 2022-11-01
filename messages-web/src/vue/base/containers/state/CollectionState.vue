@@ -15,7 +15,7 @@ import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { IReadonlyCollectionStore } from '@/app/core/services/harlem/custom/collection/readonly/collection-readonly.store';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { computed, defineComponent, PropType, watchEffect } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
@@ -26,10 +26,8 @@ export default defineComponent({
   },
   setup(props) {
     const loadingStatus = computed<DataStatus | undefined>(() => props.state.loadingStatus.value);
-    const items = computed(() => props.state.itemsAsync().value);
-    watchEffect(() => {
-      console.log(items.value);
-    });
+    const items = props.state.itemsAsync();
+
     return { loadingStatus, items };
   },
 });

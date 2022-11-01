@@ -2,7 +2,7 @@
   <prime-button
     @click="dark = !dark"
     :icon="dark ? 'pi pi-moon' : 'pi pi-sun'"
-    class="p-button-rounded p-button-md p-button-secondary no-label"
+    class="p-button-rounded no-label p-button-secondary"
   ></prime-button>
 </template>
 
@@ -22,6 +22,10 @@ export default defineComponent({
         {
           rel: 'stylesheet',
           href: () => `themes/lara-${themeString.value}-indigo/theme.css`,
+        },
+        {
+          rel: 'stylesheet',
+          href: 'themes/primevue.min.css',
         },
       ],
     });

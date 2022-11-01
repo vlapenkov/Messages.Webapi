@@ -8,16 +8,14 @@
     </template>
     <template #content>
       <template v-if="visibleFields != null">
-        <card v-for="field in visibleFields" :key="field.label" class="shadow-none">
-          <template #title>
-            {{ field.label }}
+        <div class="grid">
+          <template v-for="field in visibleFields" :key="field.label">
+            <div class="card-field col-12 md:col-4">
+              <div class="name">{{ field.label }}</div>
+              <div class="description">{{ field.value }}</div>
+            </div>
           </template>
-          <template #content>
-            <slot :name="'display-' + field.key" :field="field">
-              {{ field.value }}
-            </slot>
-          </template>
-        </card>
+        </div>
       </template>
       <template v-else>
         <skeleton v-for="i in 5" :key="i" class="h-2rem w-full"></skeleton>
@@ -43,4 +41,14 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.card-field {
+  .name {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .description {
+    margin: 0 0 1rem 0;
+  }
+}
+</style>

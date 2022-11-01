@@ -1,12 +1,14 @@
 <template>
-  <h3>{{ loadingStatus.status }}</h3>
-  <div v-if="loadingStatus.message">{{ loadingStatus.message }}</div>
-  <template v-if="items !== null">
-    <div v-for="(i, n) in items" :key="n">
-      <h5>{{ i.title.value }}</h5>
-      {{ json(i.fields) }}
-    </div>
-  </template>
+  <div>
+    <h3>{{ loadingStatus.status }}</h3>
+    <div v-if="loadingStatus.message">{{ loadingStatus.message }}</div>
+    <template v-if="items !== null">
+      <div v-for="(i, n) in items" :key="n">
+        <h5>{{ i.title.value }}</h5>
+        {{ json(i.fields) }}
+      </div>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">

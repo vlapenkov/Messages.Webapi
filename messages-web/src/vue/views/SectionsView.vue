@@ -1,30 +1,21 @@
 <template>
   <div>
-    <h3>{{ loadingStatus.status }}</h3>
-    <div v-if="loadingStatus.message">{{ loadingStatus.message }}</div>
-    <template v-if="items !== null">
-      <div v-for="(i, n) in items" :key="n">
-        <h5>{{ i.title.value }}</h5>
-        {{ json(i.fields) }}
-      </div>
-    </template>
+    <collection-state :state="sectionsStore"></collection-state>
   </div>
 </template>
 
 <script lang="ts">
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { defineComponent } from 'vue';
+import CollectionState from '../base/containers/state/CollectionState.vue';
 
 export default defineComponent({
   setup() {
-    const { itemsAsync, loadingStatus } = sectionsStore;
-    const items = itemsAsync();
     return {
-      items,
-      loadingStatus,
-      json: (i: unknown) => JSON.stringify(i, null, 2),
+      sectionsStore,
     };
   },
+  components: { CollectionState },
 });
 </script>
 

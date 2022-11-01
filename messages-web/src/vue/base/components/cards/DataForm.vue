@@ -1,25 +1,28 @@
+<!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <card>
     <template #title>
-      <template v-if="data != null">
+      <template v-if="data">
         {{ data.title.value }}
       </template>
       <skeleton class="h-2rem w-full"></skeleton>
     </template>
     <template #content>
-      <template v-if="data != null">
-        <card v-for="field in visibleFields" :key="field.label" class="shadow-none">
-          <template #title>
-            {{ field.label }}
-          </template>
-          <template #content>
-            <slot :name="'display-' + field.key" :field="field">
-              {{ field.value }}
-            </slot>
-          </template>
-        </card>
-      </template>
-      <progress-spinner v-else></progress-spinner>
+      <div class="p-fluid grid">
+        <div v-for="field in visibleFields" :key="field.label" class="field col-12">
+          <span class="p-float-label">
+            <input-text
+              v-model="field.value"
+              v-if="field.control === 'text'"
+              type="text"
+              :id="field.key"
+            >
+            </input-text>
+            <input-number v-else :id="field.key" v-model="field.value"></input-number>
+            <label :for="field.key">{{ field.label }}</label>
+          </span>
+        </div>
+      </div>
     </template>
   </card>
 </template>
@@ -36,6 +39,7 @@ export default defineComponent({
   },
   setup(props) {
     const visibleFields = computed(() => (props.data?.fields ?? []).filter((p) => p.visible));
+
     return { visibleFields };
   },
 });

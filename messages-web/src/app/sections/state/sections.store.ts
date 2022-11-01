@@ -1,11 +1,11 @@
-import { CollectionReadonlyState } from '@/app/core/services/harlem/custom/collection/readonly/collection-readonly.state';
-import { createCollectionReadonlyStore } from '@/app/core/services/harlem/custom/collection/readonly/collection-readonly.store';
+import { CollectionWithItemState } from '@/app/core/services/harlem/custom/collection/with-item/collection-with-item.state';
+import { createCollectionWithItemUniqueStore } from '@/app/core/services/harlem/custom/collection/with-item/collection-with-ittem-unique.store';
 import { SectionModel } from '../models/section.model';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
 
-export class SectionState extends CollectionReadonlyState<SectionModel> {}
+export class SectionState extends CollectionWithItemState<SectionModel> {}
 
-const [_, sectionsStore] = createCollectionReadonlyStore(
+const [_, sectionsStore] = createCollectionWithItemUniqueStore(
   'sections',
   SectionModel,
   SectionState,

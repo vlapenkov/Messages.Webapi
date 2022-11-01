@@ -1,11 +1,11 @@
-import { CollectionWithItemState } from '@/app/core/services/harlem/custom/collection/with-item/collection-with-item.state';
-import { createCollectionWithItemUniqueStore } from '@/app/core/services/harlem/custom/collection/with-item/collection-with-ittem-unique.store';
+import { CollectionEditableState } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.state';
+import { createCollectionEditableStore } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.store';
 import { SectionModel } from '../models/section.model';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
 
-export class SectionState extends CollectionWithItemState<SectionModel> {}
+export class SectionState extends CollectionEditableState<SectionModel> {}
 
-const [_, sectionsStore] = createCollectionWithItemUniqueStore(
+const [_, sectionsStore] = createCollectionEditableStore(
   'sections',
   SectionModel,
   SectionState,

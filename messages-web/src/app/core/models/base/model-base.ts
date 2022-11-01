@@ -32,6 +32,8 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   abstract equalsDeep(mb: ModelBase): boolean;
 
+  abstract get key(): string | number | symbol;
+
   get title(): IModelField {
     const self = this as unknown as Record<string | symbol, string>;
     const title = self[titleProp];

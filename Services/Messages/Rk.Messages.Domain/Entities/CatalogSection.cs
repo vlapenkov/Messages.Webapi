@@ -7,7 +7,7 @@ namespace Rk.Messages.Domain.Entities
     /// <summary>
     /// Раздел каталога
     /// </summary>
-    public class CatalogSection :BaseEntity
+    public class CatalogSection :AuditableEntity
     {
         public CatalogSection(long? parentCatalogSectionId,  string name)
         {
@@ -28,8 +28,7 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>Разделы внутри текущего</summary>
         private readonly List<CatalogSection> _children;
         public virtual IReadOnlyCollection<CatalogSection> Children => _children;
-
-        //public virtual List<CatalogSection> Children { get; }
+        
 
         private readonly List<BaseProduct> _products;
         public virtual IReadOnlyCollection<BaseProduct> Products => _products;

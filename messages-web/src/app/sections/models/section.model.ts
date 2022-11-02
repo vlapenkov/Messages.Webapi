@@ -1,4 +1,4 @@
-import { IModelUnique } from '@/app/core/models/@types/IModel';
+import { IModelUnique, modelMarker } from '@/app/core/models/@types/IModel';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { render } from '@/app/core/models/decorators/render.decorator';
@@ -10,20 +10,44 @@ import { required } from '@vuelidate/validators';
 export interface ISectionModel extends IModelUnique<number> {
   name: string;
   parentSectionId: number | null;
+  createdBy: string | null;
+  lastModifiedBy: string | null;
+  created: string;
+  lastModified: string;
 }
-export class SectionModel extends UniqueModel<number, ISectionModel> implements ISectionModel {
-  @hidden
+export class SectionModel extends UniqueModel<number, ISectionModel> {
+  @hidden()
   id = -1;
 
   @title
   @validate({ required })
   name = '';
 
-  @hidden
-  @description('Идентификатор родителя')
-  // @render((m: SectionModel) => h('div', { class: 'mt-2' }, m.parentSectionId ?? 'Нееет!'))
-  @render((m: SectionModel) => m.parentSectionId ?? 'Нееет!')
+  @hidden('default')
+  @description('Родитель')
   parentSectionId: number | null = null;
+
+  @hidden('edit')
+  @description('Создал:')
+  @render((m: SectionModel) => m.createdBy ?? 'неизвестный пользователь')
+  createdBy: string | null = null;
+
+  @hidden('edit')
+  @description('Внёс последние изменения')
+  @render((m: SectionModel) => m.lastModifiedBy ?? 'неизвестный пользователь')
+  lastModifiedBy: string | null = null;
+
+  @hidden('edit')
+  @description('Дата создания')
+  @render((m: SectionModel) => (m.created ? m.created.toLocaleDateString() : 'неизвестна'))
+  created: Date | null = null;
+
+  @hidden('edit')
+  @description('Дата последних изменений')
+  @render((m: SectionModel) =>
+    m.lastModified ? m.lastModified.toLocaleDateString() : 'неизвестна',
+  )
+  lastModified: Date | null = null;
 
   tryParse(m: ISectionModel): boolean {
     try {
@@ -34,6 +58,10 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
       this.id = id;
       this.name = name;
       this.parentSectionId = parentSectionId;
+      this.created = new Date(m.created);
+      this.lastModified = new Date(m.lastModified);
+      this.createdBy = m.createdBy;
+      this.lastModifiedBy = m.lastModifiedBy;
       return true;
     } catch (error) {
       return false;
@@ -41,7 +69,16 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
   }
 
   asObject(): ISectionModel {
-    return this;
+    return {
+      id: this.id,
+      created: this.created?.toUTCString() ?? '',
+      createdBy: this.createdBy,
+      lastModified: this.lastModified?.toUTCString() ?? '',
+      lastModifiedBy: this.lastModifiedBy,
+      name: this.name,
+      parentSectionId: this.parentSectionId,
+      [modelMarker]: this[modelMarker],
+    };
   }
 
   equalsDeep(other: SectionModel): boolean {

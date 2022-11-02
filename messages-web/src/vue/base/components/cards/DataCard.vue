@@ -13,13 +13,18 @@
       <template v-else>
         <div class="grid">
           <template v-for="field in visibleFields" :key="field.label">
-            <div class="card-field col-12 md:col-4">
+            <div class="card-field col-12 md:col-6">
               <div class="name">{{ field.label }}</div>
-              <custom-render
-                v-if="field.render(mode) != null"
-                :func="field.render(mode)"
-              ></custom-render>
-              <div v-else class="description">{{ field.value }}</div>
+
+              <div class="description">
+                <custom-render
+                  v-if="field.render(mode) != null"
+                  :func="field.render(mode)"
+                ></custom-render>
+                <template v-else>
+                  {{ field.value }}
+                </template>
+              </div>
             </div>
           </template>
         </div>
@@ -46,7 +51,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const visibleFields = computed(() => props.data?.fields?.filter((p) => p.visible));
+    const visibleFields = computed(() =>
+      props.data?.fields?.filter((p) => p.hide !== 'always' && p.hide !== props.mode),
+    );
     const fieldsEmpty = computed(
       () => visibleFields.value == null || visibleFields.value.length === 0,
     );

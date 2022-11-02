@@ -5,7 +5,7 @@
     <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-2 min-w-full z-2">
       <slot name="head"></slot>
     </div>
-    <div :style="bodyStyle" class="flex-grow-1">
+    <div :style="bodyStyle" class="flex-grow-1 mb-7">
       <slot name="body"></slot>
     </div>
     <div v-if="hasFooter">

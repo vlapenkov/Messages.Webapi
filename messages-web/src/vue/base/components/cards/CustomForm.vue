@@ -2,10 +2,8 @@
 <template>
   <card>
     <template #title>
-      <template v-if="data">
-        {{ data.title.value }}
-      </template>
-      <skeleton class="h-2rem w-full"></skeleton>
+      <template v-if="data"> Создание нового элемента </template>
+      <skeleton v-else class="h-2rem w-full"></skeleton>
     </template>
     <template #content>
       <div class="p-fluid grid">
@@ -22,7 +20,7 @@
               :id="field.key"
             >
             </input-text>
-            <input-number v-else :id="field.key" v-model="field.value"></input-number>
+            <input-number v-else :id="field.key" v-model="field.model"></input-number>
             <label :for="field.key">{{ field.label }}</label>
           </span>
         </div>
@@ -33,7 +31,7 @@
 
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, watchEffect } from 'vue';
 
 export default defineComponent({
   props: {
@@ -45,8 +43,32 @@ export default defineComponent({
       default: 'edit',
     },
   },
-  setup(props) {
-    const visibleFields = computed(() => (props.data?.fields ?? []).filter((p) => p.visible));
+  emits: {
+    'update:data': (_: ModelBase) => true,
+  },
+  setup(props, { emit }) {
+    const getProp = (key: string) =>
+      computed({
+        get: () => (props.data ? props.data[key as keyof ModelBase] : null),
+        set: (val) => {
+          if (props.data == null) {
+            return;
+          }
+          emit('update:data', { ...props.data, [key]: val } as unknown as ModelBase);
+        },
+      });
+    const visibleFields = computed(() =>
+      props.data == null
+        ? null
+        : [
+            props.data.title,
+            ...props.data.fields.filter((p) => p.hide !== 'always' && p.hide !== props.mode),
+          ].map((i) => ({ ...i, model: getProp(i.key) })),
+    );
+
+    watchEffect(() => {
+      console.log({ visibleFields });
+    });
 
     return { visibleFields };
   },

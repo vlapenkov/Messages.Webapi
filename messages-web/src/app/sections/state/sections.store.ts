@@ -1,7 +1,7 @@
 import { CollectionEditableState } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.state';
 import { createCollectionEditableStore } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.store';
-import { SectionModel } from '../models/section.model';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
+import { SectionModel } from '../models/section.model';
 
 export class SectionState extends CollectionEditableState<SectionModel> {}
 

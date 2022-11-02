@@ -1,10 +1,11 @@
 <script lang="ts">
-import { defineComponent, h } from 'vue';
-import Button, { ButtonProps } from 'primevue/button';
+import Button, { ButtonEmits, ButtonProps } from 'primevue/button';
+import { FunctionalComponent, h } from 'vue';
 
-export default defineComponent<ButtonProps>({
-  setup(props) {
-    return () => h(Button, { ...props });
-  },
-});
+export const defaultButtonStyle = 'p-button-rounded';
+
+const PrimeButton: FunctionalComponent<ButtonProps, ButtonEmits> = (props, { slots }) =>
+  h(Button, { ...props, class: props.class ?? defaultButtonStyle }, { ...slots });
+
+export default PrimeButton;
 </script>

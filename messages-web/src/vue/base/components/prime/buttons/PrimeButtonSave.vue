@@ -3,15 +3,15 @@ import { ButtonEmits, ButtonProps } from 'primevue/button';
 import { FunctionalComponent, h } from 'vue';
 import PrimeButton from './base/PrimeButton.vue';
 
-const PrimeButtonAdd: FunctionalComponent<ButtonProps, ButtonEmits> = (props, { slots }) =>
+const PrimeButtonSave: FunctionalComponent<ButtonProps, ButtonEmits> = (props, { slots }) =>
   h(
     PrimeButton,
     {
       ...props,
-      icon: props.icon ?? 'pi pi-plus',
+      icon: props.icon ?? 'pi pi-save',
     },
     { ...slots },
   );
 
-export default PrimeButtonAdd;
+export default PrimeButtonSave;
 </script>

@@ -11,6 +11,7 @@ import { titleProp } from '../decorators/tittle.decorator';
 import { validationPropkey } from './props-keys/validation.prop-key';
 import { hiddenPropkey } from './props-keys/hidden.prop-key';
 import { renderPropkey } from './props-keys/render.prop-key';
+import { HiddenValue } from '../decorators/HiddenValue';
 
 export const inputTypes = ['text', 'number'] as const;
 
@@ -20,7 +21,7 @@ export interface IModelField {
   key: string;
   label: string;
   value: unknown;
-  visible: boolean;
+  hide: HiddenValue;
   control: InputType;
   render: (mode: string) => RenderFunction | null;
 }
@@ -43,7 +44,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       key: title,
       label: (self[descriptonPropkey(title)] as string) ?? 'Название',
       value: self[title],
-      visible: false,
+      hide: 'always',
       control: 'text',
       render: () => null,
     };
@@ -58,7 +59,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
         (key): IModelField => ({
           label: (self[descriptonPropkey(key)] as string) ?? key,
           value: self[key],
-          visible: self[hiddenPropkey(key)] !== true,
+          hide: self[hiddenPropkey(key)] as HiddenValue,
           key,
           control: ModelBase.checkType(this, key),
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),

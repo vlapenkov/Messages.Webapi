@@ -40,7 +40,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                   .HasValue<ServiceProduct>(2)
                   .HasValue<Technology>(3);
 
-                entity.HasIndex(self => self.Name);//.IsUnique();
+              //  entity.HasIndex(self => self.Name);//.IsUnique();
 
                 
                 entity.HasMany(self => self.AttributeValues)

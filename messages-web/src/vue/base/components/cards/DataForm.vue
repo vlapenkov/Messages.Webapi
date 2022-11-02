@@ -11,9 +11,13 @@
       <div class="p-fluid grid">
         <div v-for="field in visibleFields" :key="field.label" class="field col-12">
           <span class="p-float-label">
+            <custom-render
+              v-if="field.render(mode) != null"
+              :func="field.render(mode)"
+            ></custom-render>
             <input-text
               v-model="field.value"
-              v-if="field.control === 'text'"
+              v-else-if="field.control === 'text'"
               type="text"
               :id="field.key"
             >
@@ -35,6 +39,10 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<ModelBase>,
+    },
+    mode: {
+      type: String,
+      default: 'edit',
     },
   },
   setup(props) {

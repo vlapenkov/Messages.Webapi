@@ -4,12 +4,13 @@ import useVuelidate, {
   Validation,
   ValidationArgs,
 } from '@vuelidate/core';
-import { Ref } from 'vue';
+import { Ref, RenderFunction } from 'vue';
 import { IModel, modelMarker } from '../@types/IModel';
 import { descriptonPropkey } from './props-keys/descripton.prop-key';
 import { titleProp } from '../decorators/tittle.decorator';
 import { validationPropkey } from './props-keys/validation.prop-key';
 import { hiddenPropkey } from './props-keys/hidden.prop-key';
+import { renderPropkey } from './props-keys/render.prop-key';
 
 export const inputTypes = ['text', 'number'] as const;
 
@@ -21,6 +22,7 @@ export interface IModelField {
   value: unknown;
   visible: boolean;
   control: InputType;
+  render: (mode: string) => RenderFunction | null;
 }
 
 export abstract class ModelBase<T extends IModel = IModel> implements IModel {
@@ -43,6 +45,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       value: self[title],
       visible: false,
       control: 'text',
+      render: () => null,
     };
   }
 
@@ -58,6 +61,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           visible: self[hiddenPropkey(key)] !== true,
           key,
           control: ModelBase.checkType(this, key),
+          render: (mode = 'default') => ModelBase.renderField(this, key, mode),
         }),
       );
   }
@@ -76,5 +80,13 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       this,
     );
     return v$;
+  }
+
+  static renderField(target: ModelBase, key: string, mode = 'default'): RenderFunction | null {
+    const self = target as unknown as Record<symbol | string, unknown>;
+    const rp = renderPropkey(key, mode);
+    const rf = self[rp] as ((m: ModelBase) => RenderFunction | undefined) | undefined;
+    const render = rf ? rf(target) : undefined;
+    return render ?? null;
   }
 }

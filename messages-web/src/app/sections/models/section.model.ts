@@ -1,6 +1,7 @@
 import { IModelUnique } from '@/app/core/models/@types/IModel';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
+import { render } from '@/app/core/models/decorators/render.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { validate } from '@/app/core/models/decorators/validate.decorator';
 import { UniqueModel } from '@/app/core/models/unique.model';
@@ -20,6 +21,8 @@ export class SectionModel extends UniqueModel<number, ISectionModel> implements 
 
   @hidden
   @description('Идентификатор родителя')
+  // @render((m: SectionModel) => h('div', { class: 'mt-2' }, m.parentSectionId ?? 'Нееет!'))
+  @render((m: SectionModel) => m.parentSectionId ?? 'Нееет!')
   parentSectionId: number | null = null;
 
   tryParse(m: ISectionModel): boolean {

@@ -7,7 +7,7 @@ export const render =
   (target: TModel, key: string) => {
     Object.defineProperty(target, renderPropkey(key, mode), {
       get() {
-        return () => func(target);
+        return (m: TModel) => () => func(m);
       },
     });
   };

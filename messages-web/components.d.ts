@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AppLayout: typeof import('./src/vue/components/AppLayout.vue')['default']
     Card: typeof import('primevue/card')['default']
     CollectionState: typeof import('./src/vue/base/containers/state/CollectionState.vue')['default']
+    CustomRender: typeof import('./src/vue/base/components/CustomRender.vue')['default']
     DataCard: typeof import('./src/vue/base/components/cards/DataCard.vue')['default']
     DataForm: typeof import('./src/vue/base/components/cards/DataForm.vue')['default']
     DataView: typeof import('primevue/dataview')['default']

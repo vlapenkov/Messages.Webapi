@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Rk.Messages.Infrastructure.EFCore;
@@ -11,9 +12,10 @@ using Rk.Messages.Infrastructure.EFCore;
 namespace Messages.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221031120218_LowerCaseProductNameIndexAdded")]
+    partial class LowerCaseProductNameIndexAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,6 +273,9 @@ namespace Messages.Infrastructure.Migrations
 
                     b.HasIndex("CatalogSectionId")
                         .HasDatabaseName("ix_baseproduct_catalogsectionid");
+
+                    b.HasIndex("Name")
+                        .HasDatabaseName("ix_baseproduct_name");
 
                     b.ToTable("baseproduct", (string)null);
 

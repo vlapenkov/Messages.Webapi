@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     HomeView: typeof import('./src/vue/views/HomeView.vue')['default']
     LoadingStatusHandler: typeof import('./src/vue/base/components/LoadingStatusHandler.vue')['default']
     MainMenuContainer: typeof import('./src/vue/containers/MainMenuContainer.vue')['default']
+    PrimeButton: typeof import('./src/vue/base/components/prime/buttons/PrimeButton.vue')['default']
     PrimeDivider: typeof import('./src/vue/base/components/prime/PrimeDivider.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

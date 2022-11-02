@@ -8,12 +8,10 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import Button from 'primevue/button';
 import { useDark } from '@vueuse/core';
 import { useHead } from '@vueuse/head';
 
 export default defineComponent({
-  components: { PrimeButton: Button },
   setup() {
     const dark = useDark();
     const themeString = computed(() => (dark.value ? 'dark' : 'light'));

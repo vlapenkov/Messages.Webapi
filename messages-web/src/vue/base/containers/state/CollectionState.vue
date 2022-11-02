@@ -3,7 +3,9 @@
     <data-view :value="items">
       <template #list="{ data }">
         <div class="col-12 md:col-6">
-          <data-card class="shadow-none" :data="data"></data-card>
+          <data-card class="shadow-none" :data="data">
+            <template #footer></template>
+          </data-card>
         </div>
       </template>
     </data-view>

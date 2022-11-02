@@ -53,7 +53,8 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
   get fields(): IModelField[] {
     const self = this as unknown as Record<symbol | string, unknown>;
     const title = self[titleProp];
-    return Object.keys(this)
+
+    const result = Object.keys(this)
       .filter((key) => key !== title)
       .map(
         (key): IModelField => ({
@@ -65,6 +66,8 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),
         }),
       );
+    console.log('fields for', this, 'are', result);
+    return result;
   }
 
   static checkType(target: ModelBase, key: string): InputType {

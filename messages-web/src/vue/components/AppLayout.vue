@@ -2,7 +2,7 @@
   <div
     class="relative min-h-screen ml-3 mr-3 pt-3 pb-3 flex flex-column justify-content-between gap-3"
   >
-    <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-2 min-w-full z-2">
+    <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-1 min-w-full z-2">
       <slot name="head"></slot>
     </div>
     <div :style="bodyStyle" class="flex-grow-1 mb-7">

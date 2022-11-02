@@ -5,7 +5,9 @@ import { render } from '@/app/core/models/decorators/render.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { validate } from '@/app/core/models/decorators/validate.decorator';
 import { UniqueModel } from '@/app/core/models/unique.model';
+import ParentSectionSelectorVue from '@/vue/containers/ParentSectionSelector.vue';
 import { required } from '@vuelidate/validators';
+import { h } from 'vue';
 
 export interface ISectionModel extends IModelUnique<number> {
   name: string;
@@ -25,6 +27,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
 
   @hidden('default')
   @description('Родитель')
+  @render(() => h(ParentSectionSelectorVue), 'edit')
   parentSectionId: number | null = null;
 
   @hidden('edit')

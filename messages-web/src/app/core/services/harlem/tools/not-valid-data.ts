@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 export type DataMode = 'create' | 'edit';
 
-export abstract class NotValidData<T> {
+export class NotValidData<T> {
   constructor(public data: T, public mode: DataMode) {}
 }
 

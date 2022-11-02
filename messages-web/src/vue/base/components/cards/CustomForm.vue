@@ -62,8 +62,15 @@ export default defineComponent({
         ? null
         : [
             props.data.title,
-            ...props.data.fields.filter((p) => p.hide !== 'always' && p.hide !== props.mode),
-          ].map((i) => ({ ...i, model: getProp(i.key) })),
+            ...(props.data.fields ?? []).filter(
+              (p) => p.hide !== 'always' && p.hide !== props.mode,
+            ),
+          ].map((i) => {
+            console.log('fields are', props.data?.fields);
+
+            console.log('iitem', { ...i });
+            return { ...i, model: getProp(i.key) };
+          }),
     );
 
     watchEffect(() => {

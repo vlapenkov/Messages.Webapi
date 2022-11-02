@@ -6,10 +6,10 @@ import useVuelidate, {
 } from '@vuelidate/core';
 import { Ref } from 'vue';
 import { IModel, modelMarker } from '../@types/IModel';
-import { descriptonProp } from './props/descripton.prop';
+import { descriptonPropkey } from './props-keys/descripton.prop-key';
 import { titleProp } from '../decorators/tittle.decorator';
-import { validationProp } from './props/validation.prop';
-import { hiddenProp } from './props/hidden.prop';
+import { validationPropkey } from './props-keys/validation.prop-key';
+import { hiddenPropkey } from './props-keys/hidden.prop-key';
 
 export const inputTypes = ['text', 'number'] as const;
 
@@ -39,7 +39,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
     const title = self[titleProp];
     return {
       key: title,
-      label: (self[descriptonProp(title)] as string) ?? 'Название',
+      label: (self[descriptonPropkey(title)] as string) ?? 'Название',
       value: self[title],
       visible: false,
       control: 'text',
@@ -53,9 +53,9 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       .filter((key) => key !== title)
       .map(
         (key): IModelField => ({
-          label: (self[descriptonProp(key)] as string) ?? key,
+          label: (self[descriptonPropkey(key)] as string) ?? key,
           value: self[key],
-          visible: self[hiddenProp(key)] !== true,
+          visible: self[hiddenPropkey(key)] !== true,
           key,
           control: ModelBase.checkType(this, key),
         }),
@@ -69,7 +69,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   get vuelidation() {
     const rules = Object.keys(this)
-      .map((key) => (this as unknown as Record<symbol, unknown>)[validationProp(key)])
+      .map((key) => (this as unknown as Record<symbol, unknown>)[validationPropkey(key)])
       .filter((vRule): vRule is ValidationRule | ValidationRuleCollection => vRule != null);
     const v$: Ref<Validation<ValidationArgs<unknown>, ModelBase<IModel>>> = useVuelidate<ModelBase>(
       { ...rules },

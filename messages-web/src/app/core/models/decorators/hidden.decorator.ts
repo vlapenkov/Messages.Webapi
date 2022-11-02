@@ -1,8 +1,8 @@
 import { ModelBase } from '../base/model-base';
-import { hiddenProp } from '../base/props/hidden.prop';
+import { hiddenPropkey } from '../base/props-keys/hidden.prop-key';
 
 export const hidden = <T extends ModelBase>(target: T, key: string) => {
-  Object.defineProperty(target, hiddenProp(key), {
+  Object.defineProperty(target, hiddenPropkey(key), {
     get: () => true,
   });
 };

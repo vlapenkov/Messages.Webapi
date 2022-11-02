@@ -22,7 +22,7 @@ namespace Rk.Messages.Common.Helpers
         public virtual T Data { get; private set; }
 
         /// <summary> Дочерние элементы </summary>
-        public List<TreeNode<T>> Children { get; private set; } = new List<TreeNode<T>>();
+        public List<TreeNode<T>> Children { get; set; } = new List<TreeNode<T>>();
 
         /// <summary> Родительский элемент </summary>
         [JsonIgnore]

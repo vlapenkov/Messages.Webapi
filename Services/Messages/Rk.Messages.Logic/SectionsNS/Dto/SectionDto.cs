@@ -1,18 +1,13 @@
-﻿using Rk.Messages.Logic.CommonNS.Dto;
+﻿using Rk.Messages.Domain.Entities;
+using Rk.Messages.Logic.CommonNS.Dto;
 
 namespace Rk.Messages.Logic.SectionsNS.Dto
 {
-    public record SectionDto: BaseDto
+    public record SectionDto :AuditableEntityDto
     {
-        public SectionDto() { }
-        public SectionDto(long? parentSectionId, long id, string name)
-        {
-            ParentSectionId = parentSectionId;
-            Id = id;
-            Name = name;
-        }
-
         public long? ParentSectionId { get; set; }
-       
+        public long Id { get; set; }
+        public string Name { get; set; }
+
     }
 }

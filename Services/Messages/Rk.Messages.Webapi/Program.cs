@@ -1,3 +1,4 @@
+using System;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -41,8 +42,11 @@ builder.Services.AddHealthChecks();
 
 
 var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin());
 app.UseRouting();
+
 app.UseReverseProxy(builder.Configuration);
 
 app.UseAuthentication();
@@ -59,7 +63,7 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-app.UseSwaggerUI(builder.Configuration, "Api для работы с Marketplace V1");
+app.UseSwaggerUI(builder.Configuration, "Api пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Marketplace V1");
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

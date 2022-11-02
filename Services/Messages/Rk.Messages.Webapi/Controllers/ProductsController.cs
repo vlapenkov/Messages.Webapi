@@ -52,5 +52,7 @@ namespace Rk.Messages.Webapi.Controllers
             var result = await _mediator.Send(new GetProductQuery { Id=id });
             return result;
         }
+
+
     }
 }

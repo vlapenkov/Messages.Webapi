@@ -2,7 +2,7 @@
 
 namespace Rk.Messages.Logic.SectionsNS.Dto
 {
-    public class SectionDto: BaseDto
+    public record SectionDto: BaseDto
     {
         public SectionDto() { }
         public SectionDto(long? parentSectionId, long id, string name)

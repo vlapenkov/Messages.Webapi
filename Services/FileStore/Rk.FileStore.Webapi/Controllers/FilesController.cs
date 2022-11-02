@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rk.FileStore.Domain;
 using Rk.FileStore.Interfaces.Interfaces;
+using Rk.FileStore.Interfaces.Services;
 using Rk.FileStore.Webapi.Models;
 using Rk.Messages.Common.Exceptions;
 
@@ -17,11 +18,13 @@ namespace Rk.FileStore.Webapi.Controllers
 
         private readonly IRepository<FileData> _dataRepository;
 
-        
-        public FilesController(IRepository<FileLink> linksRepository, IRepository<FileData> dataRepository)
+        private readonly IHashProvider _hashProvider;
+
+        public FilesController(IRepository<FileLink> linksRepository, IRepository<FileData> dataRepository, IHashProvider hashProvider)
         {
             _linksRepository = linksRepository;
             _dataRepository = dataRepository;
+            _hashProvider = hashProvider;
         }
 
         [HttpPost]
@@ -29,23 +32,7 @@ namespace Rk.FileStore.Webapi.Controllers
         {
             Guid result;
 
-            string keySha256 = null;
-
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                // ComputeHash - returns byte array  
-                byte[] bytes = sha256Hash.ComputeHash(request.Data);
-
-                // Convert byte array to a string   
-                StringBuilder builder = new StringBuilder();
-
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                keySha256 =  builder.ToString();
-            }
-
+            string keySha256 = _hashProvider.GetHash(request.Data);
 
             var query = _linksRepository.GetAll(x => x.Sha256Key == keySha256);
 
@@ -69,6 +56,43 @@ namespace Rk.FileStore.Webapi.Controllers
             }
 
             return result;
+
+        }
+
+        [HttpPost("bulk")]
+        public async Task<IReadOnlyCollection<Guid>> CreateFiles([FromBody] IReadOnlyCollection<CreateFileRequest> requests)
+        {
+            List<Guid> results  = new();          
+
+            foreach (var request in requests)
+            {
+              var  keySha256 = _hashProvider.GetHash(request.Data);
+
+
+                var query = _linksRepository.GetAll(x => x.Sha256Key == keySha256);
+
+                if (query.Any())
+                {
+                    var firstLink = await query.FirstAsync();
+
+                    results.Add(firstLink.GlobalId);
+                }
+                else
+                {
+
+                    var fileLink = new FileLink(request.FileName, keySha256);
+
+                    await _linksRepository.AddAsync(fileLink);
+
+                    await _dataRepository.AddAsync(new FileData(keySha256, request.Data));
+
+                    await _dataRepository.SaveChangesAsync();
+
+                    results.Add(fileLink.GlobalId);
+                }
+            }
+
+            return results;
 
         }
 

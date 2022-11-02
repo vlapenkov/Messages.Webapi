@@ -3,7 +3,10 @@ using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Rk.FileStore.Infrastructure.EFCore;
 using Rk.FileStore.Interfaces.Interfaces;
+using Rk.FileStore.Interfaces.Services;
+using Rk.FileStore.Logic.Services;
 using Rk.Messages.Common.Exceptions;
+using System.Collections;
 
 namespace Rk.FileStore.Webapi
 {
@@ -16,8 +19,8 @@ namespace Rk.FileStore.Webapi
         public static void RegisterDependencies(this IServiceCollection services)
         {
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            
-         //   services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
+
+            services.AddScoped<IHashProvider, Sha256HashProvider>();
         }
         public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env)
         {

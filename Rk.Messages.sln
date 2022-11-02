@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rk.FileStore.Interfaces", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rk.FileStore.Webapi", "Services\FileStore\Rk.FileStore.Webapi\Rk.FileStore.Webapi.csproj", "{73C0B0E0-D875-4F8E-8033-EF0DC7D00B2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rk.FileStore.Logic", "Services\FileStore\Rk.FileStore.Logic\Rk.FileStore.Logic.csproj", "{A2AC7ED9-1D37-44E6-81C5-CEDFFFF3DE1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{73C0B0E0-D875-4F8E-8033-EF0DC7D00B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73C0B0E0-D875-4F8E-8033-EF0DC7D00B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73C0B0E0-D875-4F8E-8033-EF0DC7D00B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2AC7ED9-1D37-44E6-81C5-CEDFFFF3DE1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2AC7ED9-1D37-44E6-81C5-CEDFFFF3DE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2AC7ED9-1D37-44E6-81C5-CEDFFFF3DE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2AC7ED9-1D37-44E6-81C5-CEDFFFF3DE1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{AFCB439B-FD4F-4C72-BC1C-82926E4970BA} = {C9AFB9B8-B3C9-4F04-9D24-30D9C4D41EF5}
 		{339A13EB-1A5F-48E1-BA06-FF20D9C06B8E} = {C9AFB9B8-B3C9-4F04-9D24-30D9C4D41EF5}
 		{73C0B0E0-D875-4F8E-8033-EF0DC7D00B2E} = {C9AFB9B8-B3C9-4F04-9D24-30D9C4D41EF5}
+		{A2AC7ED9-1D37-44E6-81C5-CEDFFFF3DE1E} = {C9AFB9B8-B3C9-4F04-9D24-30D9C4D41EF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59566CCA-01FB-4401-B757-916B5D7BD59A}

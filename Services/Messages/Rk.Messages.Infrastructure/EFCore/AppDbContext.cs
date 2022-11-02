@@ -1,16 +1,23 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Interfaces.Interfaces.DAL;
+using Rk.Messages.Interfaces.Services;
 
 namespace Rk.Messages.Infrastructure.EFCore
 {
     public class AppDbContext : DbContext, IAppDbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        private readonly IUserService _userService;
+        public AppDbContext(DbContextOptions<AppDbContext> options, IUserService userService) : base(options)
         {
+            _userService = userService;           
         }
 
 
@@ -30,7 +37,7 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+                      
 
             builder.Entity<BaseProduct>(entity =>
             {
@@ -39,8 +46,9 @@ namespace Rk.Messages.Infrastructure.EFCore
                   .HasValue<ServiceProduct>(2)
                   .HasValue<Technology>(3);
 
-                entity.HasIndex(self => self.Name);//.IsUnique();
+              //  entity.HasIndex(self => self.Name);//.IsUnique();
 
+                
                 entity.HasMany(self => self.AttributeValues)
                 .WithOne(self => self.BaseProduct)
                 .HasForeignKey(self => self.BaseProductId);
@@ -49,6 +57,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasMany(self => self.ProductDocuments)
                .WithOne(self => self.BaseProduct)
                .HasForeignKey(self => self.BaseProductId);
+                               
 
             });
 
@@ -99,10 +108,30 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return base.SaveChangesAsync(cancellationToken);
+            UpdateAuditableEntities(ChangeTracker.Entries<AuditableEntity>());
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
+        private void UpdateAuditableEntities(IEnumerable<EntityEntry<AuditableEntity>> entities)
+        {
+            foreach (var entity in entities)
+
+                switch (entity.State)
+                {
+                    case EntityState.Added:
+                        {
+                            entity.Entity.SetCreated(_userService.UserName);
+                            break;
+                        }
+                        case EntityState.Modified:
+                        {
+                            entity.Entity.SetLastModified(_userService.UserName);
+                            break;
+                        }                        
+                }
+        }
     }
 }

@@ -29,11 +29,11 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree
         /// <param name="sectionTreeNode">текущий узел</param>
         private void AddChildren(CatalogSection catalogSection, SectionTreeNode sectionTreeNode)
         {
-            var addedNode = //new SectionTreeNode(new SectionDto(catalogSection.ParentCatalogSectionId, catalogSection.Id, catalogSection.Name)
-               new SectionTreeNode ( new SectionDto { ParentSectionId = catalogSection.ParentCatalogSectionId, Id = catalogSection.Id, Name = catalogSection.Name });
-                
+           var sectionDto =  _mapper.Map<SectionDto>(catalogSection); 
+                                                      
+           var addedNode = new  SectionTreeNode(sectionDto);
 
-            sectionTreeNode.AddChild(addedNode);
+          sectionTreeNode.AddChild(addedNode);
 
             foreach (var item in catalogSection.Children)
             {
@@ -58,9 +58,7 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree
                 
                 rootNode = new SectionTreeNode(sectionDto);
 
-                //rootNode = new SectionTreeNode(new SectionDto(rootSectionFound.ParentCatalogSectionId, rootSectionFound.Id, rootSectionFound.Name));
-
-
+                
                 foreach (var item in rootSectionFound.Children)
                 {
                     AddChildren(item, rootNode);

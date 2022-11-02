@@ -1,6 +1,8 @@
-﻿namespace Rk.Messages.Spa.Infrastructure.Dto.SectionsNS
+﻿using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
+
+namespace Rk.Messages.Spa.Infrastructure.Dto.SectionsNS
 {
-    public record SectionDto
+    public record SectionDto : AuditableEntityDto
     {
         public long? ParentSectionId { get; set; }
         public long Id { get; set; }

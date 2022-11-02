@@ -3,7 +3,7 @@
     /// <summary>
     /// Базовая dto
     /// </summary>
-    public class BaseDto
+    public record BaseDto
     {
         /// <summary>Идентификатор</summary>
         public long Id { get; set; }

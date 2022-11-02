@@ -11,6 +11,7 @@ using Rk.Messages.Infrastructure.EFCore;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Webapi.Extensions;
 using Serilog;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,10 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 app.UseRouting();
+
 app.UseReverseProxy(builder.Configuration);
 
 app.UseAuthentication();

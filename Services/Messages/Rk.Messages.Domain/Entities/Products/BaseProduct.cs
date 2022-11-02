@@ -7,7 +7,7 @@ namespace Rk.Messages.Domain.Entities.Products
     /// <summary>
     /// Базовый класс для всех продуктов/услуг/технологий
     /// </summary>
-    public abstract class BaseProduct : BaseEntity
+    public abstract class BaseProduct : AuditableEntity
     {
         protected BaseProduct() { }
         public BaseProduct(long catalogSectionId,  string name, string description, IReadOnlyCollection<AttributeValue> attributeValues)

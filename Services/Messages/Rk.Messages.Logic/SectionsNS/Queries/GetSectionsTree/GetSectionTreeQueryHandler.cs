@@ -28,8 +28,10 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree
         /// <param name="catalogSection">текущий раздел</param>
         /// <param name="sectionTreeNode">текущий узел</param>
         private void AddChildren(CatalogSection catalogSection, SectionTreeNode sectionTreeNode)
-        {            
-            var addedNode = new SectionTreeNode(new SectionDto(catalogSection.ParentCatalogSectionId, catalogSection.Id, catalogSection.Name));
+        {
+            var addedNode = //new SectionTreeNode(new SectionDto(catalogSection.ParentCatalogSectionId, catalogSection.Id, catalogSection.Name)
+               new SectionTreeNode ( new SectionDto { ParentSectionId = catalogSection.ParentCatalogSectionId, Id = catalogSection.Id, Name = catalogSection.Name });
+                
 
             sectionTreeNode.AddChild(addedNode);
 
@@ -52,7 +54,11 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree
                 rootSectionFound = await _appDbContext.CatalogSections.FirstOrDefaultAsync(self => self.Id == query.ParentSectionId)
                    ?? throw new EntityNotFoundException($"Категория с Id = {query.ParentSectionId} не найдена");
 
-                rootNode = new SectionTreeNode(new SectionDto(rootSectionFound.ParentCatalogSectionId, rootSectionFound.Id, rootSectionFound.Name));
+               var sectionDto = _mapper.Map<SectionDto>(rootSectionFound);
+                
+                rootNode = new SectionTreeNode(sectionDto);
+
+                //rootNode = new SectionTreeNode(new SectionDto(rootSectionFound.ParentCatalogSectionId, rootSectionFound.Id, rootSectionFound.Name));
 
 
                 foreach (var item in rootSectionFound.Children)
@@ -63,7 +69,9 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree
             }
             else
             {
-                 rootNode = new SectionTreeNode(new SectionDto(null, 0, "Рутовый узел"));
+                //  rootNode = new SectionTreeNode(new SectionDto(null, 0, "Рутовый узел"));
+
+                rootNode = new SectionTreeNode(new SectionDto { ParentSectionId = null, Id = 0, Name = "Рутовый узел" });
 
                 var rootSections = await _appDbContext.CatalogSections.Where(self => self.ParentCatalogSectionId == null).ToListAsync();
 

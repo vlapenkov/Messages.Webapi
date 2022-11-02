@@ -1,6 +1,6 @@
 ﻿namespace Rk.Messages.Spa.Infrastructure.Dto.SectionsNS
 {
-    public class SectionDto
+    public record SectionDto
     {
         public long? ParentSectionId { get; set; }
         public long Id { get; set; }

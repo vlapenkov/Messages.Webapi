@@ -12,6 +12,7 @@ import { validationPropkey } from './props-keys/validation.prop-key';
 import { hiddenPropkey } from './props-keys/hidden.prop-key';
 import { renderPropkey } from './props-keys/render.prop-key';
 import { DisplayMode } from '../decorators/@types/ViewMode';
+import { mockPropKey } from './props-keys/mock.prop-key';
 
 export const inputTypes = ['text', 'number'] as const;
 
@@ -94,6 +95,23 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   setKey<TVal = unknown, TKey extends string | symbol = string>(key: TKey, value: TVal) {
     (this as unknown as Record<TKey, TVal>)[key] = value;
+  }
+
+  mock() {
+    const mocked = this.clone();
+    Object.keys(mocked).forEach((key) => {
+      const mockFn = mocked.getValue<() => unknown | undefined, symbol>(mockPropKey(key));
+      if (mockFn == null) {
+        throw new Error("Model can't be mocked!");
+      }
+      mocked.setKey(key, mockFn());
+      throw new Error('Not Implemented!');
+    });
+    return mocked;
+  }
+
+  mockMany(capacity: number) {
+    return [...new Array(capacity)].map(() => this.mock());
   }
 
   static renderField(

@@ -16,6 +16,7 @@ declare module '@vue/runtime-core' {
     CustomRender: typeof import('./src/vue/base/components/CustomRender.vue')['default']
     DataCard: typeof import('./src/vue/base/components/cards/DataCard.vue')['default']
     DataView: typeof import('primevue/dataview')['default']
+    DataViewCollection: typeof import('./src/vue/base/containers/state/DataViewCollection.vue')['default']
     Divider: typeof import('primevue/divider')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
     HelloWorld: typeof import('./src/vue/components/HelloWorld.vue')['default']

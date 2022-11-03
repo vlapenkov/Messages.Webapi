@@ -1,10 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <card>
-    <template #title>
-      <template v-if="data"> Создание нового элемента </template>
-      <skeleton v-else class="h-2rem w-full"></skeleton>
-    </template>
     <template #content>
       <div class="p-fluid grid">
         <div v-for="field in visibleFields" :key="field.label" class="field col-12">
@@ -14,7 +10,7 @@
               :func="field.render(mode)"
             ></custom-render>
             <input-text
-              v-model="field.value"
+              v-model="field.model.value"
               v-else-if="field.control === 'text'"
               type="text"
               :id="field.key"
@@ -26,12 +22,15 @@
         </div>
       </div>
     </template>
+    <template #footer>
+      <slot name="footer"></slot>
+    </template>
   </card>
 </template>
 
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { computed, defineComponent, PropType, watchEffect } from 'vue';
+import { computed, defineComponent, PropType, toRaw, watchEffect } from 'vue';
 
 export default defineComponent({
   props: {
@@ -54,27 +53,26 @@ export default defineComponent({
           if (props.data == null) {
             return;
           }
-          emit('update:data', { ...props.data, [key]: val } as unknown as ModelBase);
+          const newData = props.data.clone();
+          newData.setKey(key, val);
+          console.log('updating', { val });
+          emit('update:data', newData);
         },
       });
     const visibleFields = computed(() =>
-      props.data == null
+      props.data == null || props.data.fields == null
         ? null
         : [
             props.data.title,
             ...(props.data.fields ?? []).filter(
               (p) => p.hide !== 'always' && p.hide !== props.mode,
             ),
-          ].map((i) => {
-            console.log('fields are', props.data?.fields);
-
-            console.log('iitem', { ...i });
-            return { ...i, model: getProp(i.key) };
-          }),
+          ].map((i) => ({ ...i, model: getProp(i?.key) })),
     );
 
     watchEffect(() => {
-      console.log({ visibleFields });
+      console.log('fields are', toRaw(props.data), toRaw(props.data?.fields));
+      console.log('check', visibleFields.value);
     });
 
     return { visibleFields };

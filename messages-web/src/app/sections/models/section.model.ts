@@ -84,11 +84,17 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
     };
   }
 
-  equalsDeep(other: SectionModel): boolean {
+  equals(other: SectionModel): boolean {
     return (
       this.id === other.id &&
       this.name === other.name &&
       this.parentSectionId === other.parentSectionId
     );
+  }
+
+  clone(): SectionModel {
+    const nm = new SectionModel();
+    Object.assign(nm, this);
+    return nm;
   }
 }

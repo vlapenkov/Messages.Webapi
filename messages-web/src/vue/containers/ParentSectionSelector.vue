@@ -3,46 +3,46 @@
 </template>
 
 <script lang="ts">
+import type { ICollectionEditableStore } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.store';
+import type { ISectionModel, SectionModel } from '@/app/sections/models/section.model';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
-import type { SectionModel } from '@/app/sections/models/section.model';
-// eslint-disable-next-line import/no-cycle
-import { sectionsStore } from '@/app/sections/state/sections.store';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ShallowRef } from 'vue';
+import { injectCollectionState } from '../base/containers/state/CollectionState.vue';
 
 export default defineComponent({
-  setup(_) {
-    const { items, itemSelected } = sectionsStore;
+  setup() {
+    const store = injectCollectionState() as ShallowRef<ICollectionEditableStore<
+      ISectionModel,
+      SectionModel
+    > | null>;
+
     const itemsAsOptions = computed(() =>
-      (items.value ?? []).map((i) => ({
+      (store.value?.items.value ?? []).map((i) => ({
         label: `${i.name} (id: ${i.id})`,
         value: i.id,
       })),
     );
     const selectedItem = computed({
-      get: () => itemSelected.value?.data,
+      get: () => store.value?.itemSelected.value?.data,
       set: (val) => {
-        const mode = itemSelected.value?.mode;
+        const mode = store.value?.itemSelected.value?.mode;
         console.log({ val, mode });
 
-        if (mode == null || val == null) {
+        if (mode == null || val == null || store.value == null) {
           return;
         }
-        itemSelected.value = new NotValidData(val, mode);
+        store.value.itemSelected.value = new NotValidData(val, mode);
       },
     });
     const parentId = computed({
-      get: () => ({
-        label: selectedItem.value?.name ?? 'Не выбрано',
-        value: selectedItem.value?.parentSectionId ?? null,
-      }),
+      get: () => itemsAsOptions.value.find((i) => i.value === selectedItem.value?.parentSectionId),
       set: (option) => {
         if (selectedItem.value == null) {
           return;
         }
-        selectedItem.value = {
-          ...selectedItem.value,
-          parentSectionId: option.value ?? null,
-        } as unknown as SectionModel;
+        const cloned = selectedItem.value.clone();
+        cloned.parentSectionId = option?.value ?? null;
+        selectedItem.value = cloned;
         console.log({ option });
       },
     });

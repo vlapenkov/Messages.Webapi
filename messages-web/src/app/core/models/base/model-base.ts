@@ -4,7 +4,7 @@ import useVuelidate, {
   Validation,
   ValidationArgs,
 } from '@vuelidate/core';
-import { Ref, RenderFunction } from 'vue';
+import { Ref, RenderFunction, toRaw } from 'vue';
 import { IModel, modelMarker } from '../@types/IModel';
 import { descriptonPropkey } from './props-keys/descripton.prop-key';
 import { titleProp } from '../decorators/tittle.decorator';
@@ -33,9 +33,11 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   abstract asObject(): T;
 
-  abstract equalsDeep(mb: ModelBase): boolean;
+  abstract equals(mb: ModelBase): boolean;
 
   abstract get key(): string | number | symbol;
+
+  abstract clone(): ModelBase;
 
   get title(): IModelField {
     const self = this as unknown as Record<string | symbol, string>;
@@ -66,7 +68,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),
         }),
       );
-    console.log('fields for', this, 'are', result);
+    console.log('fields for', toRaw(this), 'are', result);
     return result;
   }
 
@@ -86,10 +88,19 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
     return v$;
   }
 
+  getKey<TVal = unknown, TKey extends string | symbol = string>(key: TKey): TVal {
+    return (this as unknown as Record<TKey, TVal>)[key];
+  }
+
+  setKey<TVal = unknown, TKey extends string | symbol = string>(key: TKey, value: TVal) {
+    (this as unknown as Record<TKey, TVal>)[key] = value;
+  }
+
   static renderField(target: ModelBase, key: string, mode = 'default'): RenderFunction | null {
-    const self = target as unknown as Record<symbol | string, unknown>;
     const rp = renderPropkey(key, mode);
-    const rf = self[rp] as ((m: ModelBase) => RenderFunction | undefined) | undefined;
+    const rf = target.getKey<((m: ModelBase) => RenderFunction | undefined) | undefined, symbol>(
+      rp,
+    );
     const render = rf ? rf(target) : undefined;
     return render ?? null;
   }

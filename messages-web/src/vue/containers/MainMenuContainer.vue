@@ -1,6 +1,6 @@
 <template>
-  <transition enter-active-class="scalein animation-duration-400" appear>
-    <menu-bar :class="{ 'shadow-7': y > 20 }" :model="items"> </menu-bar>
+  <transition enter-active-class="scalein animation-duration-200" appear>
+    <menu-bar :class="{ 'shadow-6 backdrop': y > 20 }" :model="items"> </menu-bar>
   </transition>
 </template>
 
@@ -36,4 +36,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.backdrop {
+  backdrop-filter: blur(1rem);
+}
+</style>

@@ -8,4 +8,9 @@ import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import './assets/styles/main.scss';
 
-createApp(App).use(router).use(harlemState).use(PrimeVue).use(createHead()).mount('#app');
+createApp(App)
+  .use(router)
+  .use(harlemState)
+  .use(PrimeVue, { ripple: true })
+  .use(createHead())
+  .mount('#app');

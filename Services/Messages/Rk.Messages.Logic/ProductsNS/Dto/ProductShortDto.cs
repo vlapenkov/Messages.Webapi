@@ -13,6 +13,9 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         /// <summary>цена</summary>
         public decimal Price { get; set; }
-     
+
+        /// <summary>Ссылка на документ</summary>
+        public Guid? DocumentId { get; set; }
+
     }
 }

@@ -48,7 +48,7 @@ export default defineComponent({
     },
     mode: {
       type: String as PropType<ViewMode>,
-      default: 'default',
+      default: 'view',
     },
   },
   setup(props) {

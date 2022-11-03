@@ -4,7 +4,7 @@ import useVuelidate, {
   Validation,
   ValidationArgs,
 } from '@vuelidate/core';
-import { Ref, RenderFunction, toRaw } from 'vue';
+import { Ref, RenderFunction } from 'vue';
 import { IModel, modelMarker } from '../@types/IModel';
 import { descriptonPropkey } from './props-keys/descripton.prop-key';
 import { titleProp } from '../decorators/tittle.decorator';
@@ -30,9 +30,9 @@ export interface IModelField {
 export abstract class ModelBase<T extends IModel = IModel> implements IModel {
   [modelMarker]: never = null as never;
 
-  abstract tryParse(model: T): boolean;
+  abstract fromResponse(model: T): boolean;
 
-  abstract asObject(): T;
+  abstract toRequest(): T;
 
   abstract equals(mb: ModelBase): boolean;
 
@@ -69,7 +69,6 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),
         }),
       );
-    console.log('fields for', toRaw(this), 'are', result);
     return result;
   }
 
@@ -104,8 +103,9 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       if (mockFn == null) {
         throw new Error("Model can't be mocked!");
       }
+      console.log({ mockFn, key });
+
       mocked.setKey(key, mockFn());
-      throw new Error('Not Implemented!');
     });
     return mocked;
   }

@@ -19,7 +19,7 @@ export const parse = <TModel extends IModel, TModelClass extends ModelBase<TMode
         !Array.isArray(response.data)
       ) {
         const md = new Model();
-        const parsed = md.tryParse(response.data);
+        const parsed = md.fromResponse(response.data);
         return parsed
           ? new Ok(md)
           : new ErrorResult<TModelClass>(
@@ -46,7 +46,7 @@ export const parseArray = <TModel extends IModel, TModelClass extends ModelBase<
         for (let i = 0; i < response.data.length; i += 1) {
           const item = response.data[i];
           const md = new Model();
-          const parsed = md.tryParse(item);
+          const parsed = md.fromResponse(item);
           if (!parsed) {
             // console.log('tack', md.tryParse);
             return new ErrorResult<TModelClass[]>(

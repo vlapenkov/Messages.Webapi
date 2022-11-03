@@ -58,12 +58,12 @@ export function createCollectionEditableStore<
     }
     const { mode, data: itemToSave } = itemSelected.value;
     if (mode === 'create') {
-      const { status, data: itemToAdd } = await parse(Model)(service.post(itemToSave.asObject()));
+      const { status, data: itemToAdd } = await parse(Model)(service.post(itemToSave.toRequest()));
       if (status === HttpStatus.Success && itemToAdd != null) {
         items.value = [...(items.value ?? []).filter((i) => i.key !== itemToAdd.key), itemToAdd];
       }
     } else if (mode === 'edit') {
-      const { status, data: itemToAdd } = await parse(Model)(service.post(itemToSave.asObject()));
+      const { status, data: itemToAdd } = await parse(Model)(service.post(itemToSave.toRequest()));
       if (status === HttpStatus.Success && itemToAdd != null) {
         items.value = [...(items.value ?? []).filter((i) => i.key !== itemToAdd.key), itemToAdd];
       }

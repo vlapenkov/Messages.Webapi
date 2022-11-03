@@ -11,7 +11,7 @@ import { titleProp } from '../decorators/tittle.decorator';
 import { validationPropkey } from './props-keys/validation.prop-key';
 import { hiddenPropkey } from './props-keys/hidden.prop-key';
 import { renderPropkey } from './props-keys/render.prop-key';
-import { HiddenValue } from '../decorators/HiddenValue';
+import { DisplayMode } from '../decorators/ViewMode';
 
 export const inputTypes = ['text', 'number'] as const;
 
@@ -21,7 +21,7 @@ export interface IModelField {
   key: string;
   label: string;
   value: unknown;
-  hide: HiddenValue;
+  hide: DisplayMode;
   control: InputType;
   render: (mode: string) => RenderFunction | null;
 }
@@ -60,9 +60,9 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       .filter((key) => key !== title)
       .map(
         (key): IModelField => ({
-          label: (self[descriptonPropkey(key)] as string) ?? key,
-          value: self[key],
-          hide: self[hiddenPropkey(key)] as HiddenValue,
+          label: (this.getValue(descriptonPropkey(key)) as string) ?? key,
+          value: this.getValue(key),
+          hide: this.getValue<DisplayMode, symbol>(hiddenPropkey(key)),
           key,
           control: ModelBase.checkType(this, key),
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),
@@ -88,7 +88,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
     return v$;
   }
 
-  getKey<TVal = unknown, TKey extends string | symbol = string>(key: TKey): TVal {
+  getValue<TVal = unknown, TKey extends string | symbol = string>(key: TKey): TVal {
     return (this as unknown as Record<TKey, TVal>)[key];
   }
 
@@ -96,12 +96,21 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
     (this as unknown as Record<TKey, TVal>)[key] = value;
   }
 
-  static renderField(target: ModelBase, key: string, mode = 'default'): RenderFunction | null {
-    const rp = renderPropkey(key, mode);
-    const rf = target.getKey<((m: ModelBase) => RenderFunction | undefined) | undefined, symbol>(
-      rp,
-    );
-    const render = rf ? rf(target) : undefined;
+  static renderField(
+    target: ModelBase,
+    key: string,
+    mode: DisplayMode = 'view',
+  ): RenderFunction | null {
+    const renderModeProp = renderPropkey(key, mode);
+    const renderAlwaysProp = renderPropkey(key, 'always');
+    const renderFunction =
+      target.getValue<((m: ModelBase) => RenderFunction | undefined) | undefined, symbol>(
+        renderModeProp,
+      ) ??
+      target.getValue<((m: ModelBase) => RenderFunction | undefined) | undefined, symbol>(
+        renderAlwaysProp,
+      );
+    const render = renderFunction ? renderFunction(target) : undefined;
     return render ?? null;
   }
 }

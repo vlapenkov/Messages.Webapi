@@ -38,6 +38,7 @@
 
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
+import { ViewMode } from '@/app/core/models/decorators/ViewMode';
 import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({
@@ -46,7 +47,7 @@ export default defineComponent({
       type: Object as PropType<ModelBase>,
     },
     mode: {
-      type: String,
+      type: String as PropType<ViewMode>,
       default: 'default',
     },
   },

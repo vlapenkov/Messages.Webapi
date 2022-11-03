@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import Dialog from 'primevue/dialog';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { screenLarge } from '@/app/core/services/window/window.service';
@@ -57,10 +57,6 @@ export default defineComponent({
       () => currentState.value?.loadingStatus.value,
     );
     const items = currentState.value?.itemsAsync();
-
-    watchEffect(() => {
-      console.log('items in component are', items?.value);
-    });
 
     const isEditable = computed(
       () => currentState.value?.selectItem != null && currentState.value.saveChanges != null,

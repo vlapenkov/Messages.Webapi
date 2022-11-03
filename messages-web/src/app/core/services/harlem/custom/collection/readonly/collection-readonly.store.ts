@@ -59,7 +59,6 @@ export function createCollectionReadonlyStore<
       } else {
         loadingStatus.value = new DataStatus('error', response.message);
       }
-      console.log('result list is', items.value);
 
       return items.value;
     },

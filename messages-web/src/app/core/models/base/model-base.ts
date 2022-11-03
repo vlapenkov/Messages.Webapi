@@ -103,7 +103,6 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       if (mockFn == null) {
         throw new Error("Model can't be mocked!");
       }
-      console.log({ mockFn, key });
 
       mocked.setKey(key, mockFn());
     });

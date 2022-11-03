@@ -1,7 +1,7 @@
 <template>
   <div>
     <collection-state :state="sectionsStore">
-      <data-view-collection></data-view-collection>
+      <data-view-collection reload-on-save></data-view-collection>
     </collection-state>
   </div>
 </template>

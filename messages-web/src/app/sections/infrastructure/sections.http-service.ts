@@ -1,7 +1,9 @@
+import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
+import { Ok } from '@/app/core/handlers/http/results/ok.result';
 import { defineCollectionService } from '@/app/core/services/http/custom/collection.http-service';
 import type { ISectionModel } from '../models/section.model';
 
-const [service, { defineGet }] = defineCollectionService<ISectionModel>({
+const [service, { defineGet, definePost }] = defineCollectionService<ISectionModel>({
   url: 'api/v1/Sections/',
 });
 
@@ -43,6 +45,23 @@ service.get = defineGet(
       //     parentSectionId: null,
       //   },
       // ]),
+    ],
+  },
+);
+
+service.post = definePost(
+  ({ parentSectionId, name }) => ({
+    bodyOrParams: { parentSectionId, name },
+  }),
+  {
+    append: [
+      (handler) => async (request) => {
+        const response = await handler(request);
+        if (response.status === HttpStatus.Success) {
+          return new Ok({ ...request, id: response.data });
+        }
+        return response;
+      },
     ],
   },
 );

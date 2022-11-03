@@ -44,7 +44,13 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin());
+app.UseCors(policyBuilder =>
+{
+    policyBuilder.AllowAnyOrigin();
+    policyBuilder.AllowAnyMethod();
+    policyBuilder.AllowAnyHeader();
+});
+
 app.UseRouting();
 
 app.UseReverseProxy(builder.Configuration);

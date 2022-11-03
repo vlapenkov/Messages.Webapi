@@ -5,8 +5,8 @@ import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ICollectionHttpService } from '@/app/core/services/http/custom/collection.http-service';
 import { parseArray } from '@/app/core/services/http/handlers/parse.handlers';
-import { computedAsync } from '@vueuse/core';
-import { WritableComputedRef, Ref } from 'vue';
+import type { Action } from '@harlem/extension-action';
+import { onMounted, WritableComputedRef } from 'vue';
 import { createDefaultStore } from '../../../harlem.service';
 import { DataStatus } from '../../../tools/data-status';
 
@@ -17,7 +17,8 @@ export interface IReadonlyCollectionStore<
   TModel extends ModelBase<TIModel>,
 > {
   readonly loadingStatus: WritableComputedRef<DataStatus>;
-  readonly itemsAsync: (ops?: { force: boolean }) => Ref<TModel[] | null>;
+  readonly itemsAsync: (ops?: { force: boolean }) => WritableComputedRef<TModel[] | null>;
+  readonly getDataAsyncAction: Action<{ force: boolean } | undefined, TModel[] | null>;
   readonly items: WritableComputedRef<TModel[] | null>;
 }
 
@@ -39,11 +40,12 @@ export function createCollectionReadonlyStore<
 
   const items = computeState((state) => state.items);
 
-  const getDataAsyncAction = action(
-    'get-data-async',
+  const getDataAsyncActionKey = 'get-data-async';
+
+  const getDataAsyncAction: Action<{ force: boolean } | undefined, TModel[] | null> = action(
+    getDataAsyncActionKey,
     async (ops: { force: boolean } = { force: false }) => {
       const currentStatus = loadingStatus.value.status;
-
       if (!ops.force && currentStatus === 'loaded') {
         return items.value;
       }
@@ -57,20 +59,25 @@ export function createCollectionReadonlyStore<
       } else {
         loadingStatus.value = new DataStatus('error', response.message);
       }
+      console.log('result list is', items.value);
 
       return items.value;
     },
   );
 
-  const itemsAsync = (ops: { force: boolean } = { force: false }) =>
-    computedAsync(async () => {
-      await getDataAsyncAction(ops);
-      return items.value;
-    }, null);
+  const itemsAsync = (ops: { force: boolean } = { force: false }) => {
+    onMounted(() => {
+      if (ops.force || loadingStatus.value.status === 'initial') {
+        getDataAsyncAction(ops);
+      }
+    });
+    return items;
+  };
 
   const extended: IReadonlyCollectionStore<TIModel, TModel> = {
     loadingStatus,
     itemsAsync,
+    getDataAsyncAction,
     items,
   } as const;
 

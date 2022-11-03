@@ -1,7 +1,12 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="@/assets/logo.png" />
-    <hello-world msg="Welcome to Your Vue.js + TypeScript App" />
+  <div class="home grid">
+    <div class="col-12">
+      <img alt="Vue logo" src="@/assets/logo.png" />
+    </div>
+    <hello-world
+      class="col-12 md:col-8 md:col-offset-2 lg:col-6 lg:col-offset-3"
+      msg="Welcome to Your Vue.js + TypeScript App"
+    />
   </div>
 </template>
 

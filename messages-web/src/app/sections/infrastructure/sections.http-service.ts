@@ -16,7 +16,7 @@ service.get = defineGet(
     url: 'list',
   }),
   {
-    append: [useMock((): Partial<ISectionModel>[] => fakeSections.collection)],
+    append: [useMock(() => fakeSections.collection)],
   },
 );
 

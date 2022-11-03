@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { ViewMode } from '@/app/core/models/decorators/ViewMode';
+import { ViewMode } from '@/app/core/models/decorators/@types/ViewMode';
 import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({

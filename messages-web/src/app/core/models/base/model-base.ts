@@ -11,7 +11,7 @@ import { titleProp } from '../decorators/tittle.decorator';
 import { validationPropkey } from './props-keys/validation.prop-key';
 import { hiddenPropkey } from './props-keys/hidden.prop-key';
 import { renderPropkey } from './props-keys/render.prop-key';
-import { DisplayMode } from '../decorators/ViewMode';
+import { DisplayMode } from '../decorators/@types/ViewMode';
 
 export const inputTypes = ['text', 'number'] as const;
 

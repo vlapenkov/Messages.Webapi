@@ -1,7 +1,7 @@
 import { VNodeChild } from 'vue';
 import { ModelBase } from '../base/model-base';
 import { renderPropkey } from '../base/props-keys/render.prop-key';
-import { DisplayMode } from './ViewMode';
+import { DisplayMode } from './@types/ViewMode';
 
 export const render =
   <TModel extends ModelBase>(func: (model: TModel) => VNodeChild, mode: DisplayMode = 'view') =>

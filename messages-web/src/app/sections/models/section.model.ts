@@ -25,7 +25,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
   @validate({ required })
   name = '';
 
-  @hidden('default')
+  @hidden('view')
   @description('Родитель')
   @render(() => h(ParentSectionSelectorVue), 'edit')
   parentSectionId: number | null = null;

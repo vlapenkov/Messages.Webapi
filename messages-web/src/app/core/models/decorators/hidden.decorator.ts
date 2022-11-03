@@ -1,6 +1,6 @@
 import { ModelBase } from '../base/model-base';
 import { hiddenPropkey } from '../base/props-keys/hidden.prop-key';
-import { DisplayMode } from './ViewMode';
+import { DisplayMode } from './@types/ViewMode';
 
 export const hidden =
   (val: DisplayMode = 'always') =>

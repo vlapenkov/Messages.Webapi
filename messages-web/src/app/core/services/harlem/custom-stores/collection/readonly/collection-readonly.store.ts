@@ -7,7 +7,7 @@ import { ICollectionHttpService } from '@/app/core/services/http/custom/collecti
 import { parseArray } from '@/app/core/services/http/handlers/parse.handlers';
 import type { Action } from '@harlem/extension-action';
 import { onMounted, WritableComputedRef } from 'vue';
-import { createDefaultStore } from '../../../harlem.service';
+import { createDefaultStore, DefaultStore } from '../../../harlem.service';
 import { DataStatus } from '../../../tools/data-status';
 
 import { CollectionReadonlyState } from './collection-readonly.state';
@@ -31,9 +31,9 @@ export function createCollectionReadonlyStore<
   Model: Constructor<TModel>,
   State: Constructor<TState>,
   service: ICollectionHttpService<TIModel>,
-) {
+): [DefaultStore<TState>, IReadonlyCollectionStore<TIModel, TModel>] {
   const stateDefault = new State();
-  const store = createDefaultStore(name, stateDefault);
+  const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
   const { computeState, action } = store;
 
   const loadingStatus = computeState((state) => state.status);
@@ -80,5 +80,5 @@ export function createCollectionReadonlyStore<
     items,
   } as const;
 
-  return [store, extended] as const;
+  return [store, extended];
 }

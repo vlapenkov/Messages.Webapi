@@ -13,6 +13,7 @@ import {
   IReadonlyCollectionStore,
 } from '../readonly/collection-readonly.store';
 import { Creation, Edititng, NotValidData } from '../../../tools/not-valid-data';
+import { DefaultStore } from '../../../harlem.service';
 
 export interface ICollectionEditableStore<TIModel extends IModel, TModel extends ModelBase<TIModel>>
   extends IReadonlyCollectionStore<TIModel, TModel> {
@@ -30,7 +31,7 @@ export function createCollectionEditableStore<
   Model: Constructor<TModel>,
   State: Constructor<CollectionEditableState<TModel>>,
   service: ICollectionHttpService<TIModel>,
-) {
+): [DefaultStore<CollectionEditableState<TModel>>, ICollectionEditableStore<TIModel, TModel>] {
   const [store, readonlyStore] = createCollectionReadonlyStore(name, Model, State, service);
   const { computeState } = store;
 
@@ -70,7 +71,7 @@ export function createCollectionEditableStore<
     }
   });
 
-  const extended: ICollectionEditableStore<TIModel, TModel> = {
+  const extended = {
     ...readonlyStore,
     itemSelected,
     selectItem,
@@ -78,5 +79,5 @@ export function createCollectionEditableStore<
     saveChanges,
   } as const;
 
-  return [store, extended] as const;
+  return [store, extended];
 }

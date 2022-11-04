@@ -10,3 +10,14 @@ export function createDefaultStore<TState extends AnyRecord<string>>(name: strin
     extensions: [actionExtension(), resetExtension(), composeExtension()],
   });
 }
+
+/** Этот класс нужен чтобы Тайпскрипту вывести типы. */
+class CdsWrapper<TState extends AnyRecord<string>> {
+  // eslint-disable-next-line class-methods-use-this
+  cds(name: string, state: TState) {
+    return createDefaultStore(name, state);
+  }
+}
+
+/** Возвращаемый тип из функции  createDefaultStore */
+export type DefaultStore<TState extends AnyRecord<string>> = ReturnType<CdsWrapper<TState>['cds']>;

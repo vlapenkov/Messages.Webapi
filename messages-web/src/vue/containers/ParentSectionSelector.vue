@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import type { ICollectionEditableStore } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.store';
+import type { ICollectionEditableStore } from '@/app/core/services/harlem/custom-stores/collection/editable/collection-editable.store';
 import type { ISectionModel, SectionModel } from '@/app/sections/models/section.model';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { computed, defineComponent, ShallowRef } from 'vue';

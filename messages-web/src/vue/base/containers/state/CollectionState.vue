@@ -5,8 +5,8 @@
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { ICollectionEditableStore } from '@/app/core/services/harlem/custom/collection/editable/collection-editable.store';
-import { IReadonlyCollectionStore } from '@/app/core/services/harlem/custom/collection/readonly/collection-readonly.store';
+import { ICollectionEditableStore } from '@/app/core/services/harlem/custom-stores/collection/editable/collection-editable.store';
+import { IReadonlyCollectionStore } from '@/app/core/services/harlem/custom-stores/collection/readonly/collection-readonly.store';
 import { defineComponent, inject, PropType, provide, shallowRef, ShallowRef, watch } from 'vue';
 
 export type SomeState<

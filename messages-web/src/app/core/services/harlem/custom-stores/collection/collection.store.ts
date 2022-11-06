@@ -19,10 +19,12 @@ import { ISelectedItemOptions } from '../../state/decorators/selected-item.decor
 import { DataStatus } from '../../tools/data-status';
 import { Creation, Edititng, NotValidData } from '../../tools/not-valid-data';
 import { ICollectionStoreAdd } from './@types/ICollectionstoreAdd';
+import { ICollectionStoreDelete } from './@types/ICollectionStoreDelete';
 import { ICollectionStoreEdit } from './@types/ICollectionstoreEdit';
 import { ICollectionStoreRead } from './@types/ICollectionStoreRead';
 import { ICollectionStoreSelectedItem } from './@types/ICollectionStoreSelectedItem';
 
+/** @todo delete */
 export function defineCollectionStore<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
@@ -75,7 +77,7 @@ export function defineCollectionStore<
     },
   );
 
-  const itemsAsync = (ops: { force: boolean } = { force: false }) => {
+  const itemsSmart = (ops: { force: boolean } = { force: false }) => {
     onMounted(() => {
       if (ops.force || status.value.status === 'initial') {
         getDataAsyncAction(ops);
@@ -86,7 +88,7 @@ export function defineCollectionStore<
 
   const readolnlyCollectionStore: ICollectionStoreRead<TIModel, TModel> = {
     status,
-    items: itemsAsync,
+    items: itemsSmart,
   };
 
   const selectedItemKey = getSelectedItemPropKey(stateDefault);
@@ -170,6 +172,27 @@ export function defineCollectionStore<
       }
     }
   });
+
+  if (itemOptions.delete) {
+    const deleteItem: Action<string | number | symbol> = action<string | number | symbol>(
+      'delete-item',
+      async (key) => {
+        if (itemsDumb.value == null) {
+          return;
+        }
+        const index = itemsDumb.value.findIndex((i) => i.key === key);
+        if (index === -1) {
+          return;
+        }
+        const { status: deletionStatus } = await service.del(itemsDumb.value[index].toRequest());
+        if (deletionStatus === HttpStatus.Success) {
+          itemsDumb.value = itemsDumb.value.splice(index, 1);
+        }
+      },
+    );
+    extended = { ...extended, deleteItem } as ICollectionStoreSelectedItem<TIModel, TModel> &
+      ICollectionStoreDelete;
+  }
 
   const editableCollectionStore = {
     ...readolnlyCollectionStore,

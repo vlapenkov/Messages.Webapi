@@ -2,7 +2,7 @@ import { IModelUnique, modelMarker } from '@/app/core/models/@types/IModel';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { mock } from '@/app/core/models/decorators/mock.decorator';
-import { randomDate } from '@/app/core/models/decorators/mocks/random-date.mocл';
+import { randomDate } from '@/app/core/models/decorators/mocks/random-date.mock';
 import { randomRepeatableNumber } from '@/app/core/models/decorators/mocks/random-number.repeatable.mock';
 import { randomUniqueNumber } from '@/app/core/models/decorators/mocks/random-number.unique.mock';
 import {

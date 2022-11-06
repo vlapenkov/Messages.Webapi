@@ -1,8 +1,9 @@
 <template>
   <div
-    class="relative min-h-screen ml-3 mr-3 pt-3 pb-3 flex flex-column justify-content-between gap-3"
+    class="relative min-h-screen ml-2 mr-2 pt-3 pb-3 flex flex-column justify-content-between gap-3"
   >
-    <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-1 min-w-full z-2">
+    <div class="fixed top-0 left-0 min-w-full blurred z-2" :style="headBackStyle"></div>
+    <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-2 min-w-full z-2">
       <slot name="head"></slot>
     </div>
     <div :style="bodyStyle" class="flex-grow-1 mb-7">
@@ -27,9 +28,16 @@ export default defineComponent({
       paddingTop: `${height.value}px`,
     }));
     const hasFooter = computed(() => slots.footer != null);
-    return { headRef, bodyStyle, hasFooter };
+    const headBackStyle = computed<CSSProperties>(() => ({
+      height: `${height.value}px`,
+    }));
+    return { headRef, bodyStyle, hasFooter, headBackStyle };
   },
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.blurred {
+  backdrop-filter: blur(0.5rem);
+}
+</style>

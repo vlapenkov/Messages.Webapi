@@ -1,6 +1,6 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { NotValidData } from '../../../tools/not-valid-data';
-import { CollectionReadonlyState } from '../readonly/collection-readonly.state';
+import { NotValidData } from '../../tools/not-valid-data';
+import { CollectionReadonlyState } from './collection-readonly.state';
 
 export class CollectionEditableState<
   TModel extends ModelBase,

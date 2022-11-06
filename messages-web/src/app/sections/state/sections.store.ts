@@ -1,15 +1,13 @@
-import { CollectionEditableState } from '@/app/core/services/harlem/custom-stores/collection/editable/collection-editable.state';
-import { createCollectionEditableStore } from '@/app/core/services/harlem/custom-stores/collection/editable/collection-editable.store';
+import { defineCollectionStore } from '@/app/core/services/harlem/custom-stores/collection/collection.store';
+import { CollectionEditableState } from '@/app/core/services/harlem/state/custom/collection-editable.state';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
 import { SectionModel } from '../models/section.model';
 
 export class SectionState extends CollectionEditableState<SectionModel> {}
 
-const [_, sectionsStore] = createCollectionEditableStore(
+export const sectionsStore = defineCollectionStore(
   'sections',
   SectionModel,
   SectionState,
   sectionsHttpService,
 );
-
-export { sectionsStore };

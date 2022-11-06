@@ -53,10 +53,8 @@ export default defineComponent({
   setup(props) {
     const currentState = injectCollectionState();
 
-    const loadingStatus = computed<DataStatus | undefined>(
-      () => currentState.value?.loadingStatus.value,
-    );
-    const items = currentState.value?.itemsAsync();
+    const loadingStatus = computed<DataStatus | undefined>(() => currentState.value?.status.value);
+    const items = currentState.value?.items();
 
     const isEditable = computed(
       () => currentState.value?.selectItem != null && currentState.value.saveChanges != null,
@@ -97,7 +95,7 @@ export default defineComponent({
         currentState.value.saveChanges();
         showDialog.value = false;
         if (props.reloadOnSave) {
-          currentState.value.getDataAsyncAction({ force: true });
+          currentState.value.getDataAsync({ force: true });
         }
       }
     };

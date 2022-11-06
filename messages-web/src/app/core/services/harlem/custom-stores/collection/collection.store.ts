@@ -24,7 +24,6 @@ import { ICollectionStoreEdit } from './@types/ICollectionstoreEdit';
 import { ICollectionStoreRead } from './@types/ICollectionStoreRead';
 import { ICollectionStoreSelectedItem } from './@types/ICollectionStoreSelectedItem';
 
-/** @todo delete */
 export function defineCollectionStore<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
@@ -55,7 +54,7 @@ export function defineCollectionStore<
 
   const getDataAsyncActionKey = 'get-data-async';
 
-  const getDataAsyncAction: Action<{ force: boolean } | undefined, TModel[] | null> = action(
+  const getDataAsync: Action<{ force: boolean } | undefined, TModel[] | null> = action(
     getDataAsyncActionKey,
     async (ops: { force: boolean } = { force: false }) => {
       const currentStatus = status.value.status;
@@ -80,7 +79,7 @@ export function defineCollectionStore<
   const itemsSmart = (ops: { force: boolean } = { force: false }) => {
     onMounted(() => {
       if (ops.force || status.value.status === 'initial') {
-        getDataAsyncAction(ops);
+        getDataAsync(ops);
       }
     });
     return itemsDumb;
@@ -89,6 +88,7 @@ export function defineCollectionStore<
   const readolnlyCollectionStore: ICollectionStoreRead<TIModel, TModel> = {
     status,
     items: itemsSmart,
+    getDataAsync,
   };
 
   const selectedItemKey = getSelectedItemPropKey(stateDefault);

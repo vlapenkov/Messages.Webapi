@@ -5,14 +5,24 @@
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { ICollectionEditableStore } from '@/app/core/services/harlem/custom-stores/collection/editable/collection-editable.store';
-import { IReadonlyCollectionStore } from '@/app/core/services/harlem/custom-stores/collection/readonly/collection-readonly.store';
+import { ICollectionStoreAdd } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionstoreAdd';
+import { ICollectionStoreDelete } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreDelete';
+import { ICollectionStoreEdit } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionstoreEdit';
+import { ICollectionStoreRead } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreRead';
+import { ICollectionStoreSave } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSave';
+import { ICollectionStoreSelectedItem } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSelectedItem';
 import { defineComponent, inject, PropType, provide, shallowRef, ShallowRef, watch } from 'vue';
 
 export type SomeState<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
-> = IReadonlyCollectionStore<IModel, TModel> & Partial<ICollectionEditableStore<IModel, TModel>>;
+> = ICollectionStoreRead<IModel, TModel> &
+  Partial<ICollectionStoreAdd> &
+  Partial<ICollectionStoreSelectedItem<IModel, TModel>> &
+  Partial<ICollectionStoreEdit> &
+  Partial<ICollectionStoreAdd> &
+  Partial<ICollectionStoreSave> &
+  Partial<ICollectionStoreDelete>;
 
 const stateKey = Symbol('--collection-state');
 

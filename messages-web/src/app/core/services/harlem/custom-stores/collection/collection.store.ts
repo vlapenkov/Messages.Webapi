@@ -13,7 +13,7 @@ import { getCollectionProp } from '../../state/decorators/property-keys/collecti
 import { getDataStatusProp } from '../../state/decorators/property-keys/data-status.prop-key';
 import {
   getSelectedItemPropKey,
-  getSelectedItemPropOptionsKey,
+  getSelectedItemPropOptions,
 } from '../../state/decorators/property-keys/selected-item.prop-key';
 import { ISelectedItemOptions } from '../../state/decorators/selected-item.decorator';
 import { DataStatus } from '../../tools/data-status';
@@ -42,7 +42,7 @@ export function defineCollectionStore<
   }
   const { computeState, action, mutation } = store;
 
-  const itemsDumb = computeState((state) => state[collectionKey] as TModel[] | null);
+  const itemsDumb = computeState((state) => state[collectionKey] as unknown as TModel[] | null);
 
   const dataStatusKey = getDataStatusProp(stateDefault);
 
@@ -50,7 +50,7 @@ export function defineCollectionStore<
     throw new Error('Please, provide @dataStatus for collection state');
   }
 
-  const status = computeState((state) => state[dataStatusKey] as DataStatus);
+  const status = computeState((state) => state[dataStatusKey] as unknown as DataStatus);
 
   const getDataAsyncActionKey = 'get-data-async';
 
@@ -95,20 +95,13 @@ export function defineCollectionStore<
   if (selectedItemKey == null) {
     return readolnlyCollectionStore;
   }
-  const selectedItemOptionsKey = getSelectedItemPropOptionsKey(
+  const itemOptions = getSelectedItemPropOptions(
     selectedItemKey as string,
     stateDefault,
-  );
-
-  if (selectedItemOptionsKey == null) {
-    throw new Error('Options must be provided!');
-  }
-
-  const itemOptions = stateDefault[selectedItemOptionsKey as keyof TState] as
-    | ISelectedItemOptions
-    | undefined;
+  ) as unknown as ISelectedItemOptions | undefined;
 
   if (itemOptions == null) {
+    console.error(stateDefault, itemOptions);
     throw new Error('Options value (ISelectedItemOptions) must be provided!');
   }
   if (!itemOptions.create && !itemOptions.update && itemOptions.delete) {
@@ -116,7 +109,7 @@ export function defineCollectionStore<
   }
 
   const itemSelected = computeState(
-    (state) => state[selectedItemKey] as NotValidData<TModel> | null,
+    (state) => state[selectedItemKey] as unknown as NotValidData<TModel> | null,
   );
 
   let extended: ICollectionStoreSelectedItem<TIModel, TModel> = {

@@ -14,7 +14,7 @@ const optsDefault: ISelectedItemOptions = {
 };
 
 export const selected =
-  (opts: Partial<ISelectedItemOptions>) =>
+  (opts: Partial<ISelectedItemOptions> = {}) =>
   <T extends StateBase>(target: T, key: keyof T) => {
     const options: ISelectedItemOptions = { ...optsDefault, ...opts };
     Object.defineProperty(target, selectedItemProp, {

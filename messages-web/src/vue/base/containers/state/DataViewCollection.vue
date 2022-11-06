@@ -12,7 +12,7 @@
         </div>
       </template>
       <template #header>
-        <div v-if="isEditable" class="flex justify-content-end">
+        <div v-if="canAdd" class="flex justify-content-end">
           <prime-button-add @click="create" label="Добавить"></prime-button-add>
         </div>
       </template>
@@ -21,7 +21,7 @@
   <prime-dialog header="Создание нового элемента" v-model:visible="showDialog">
     <custom-form class="shadow-none" v-model:data="selectedData">
       <template #footer>
-        <div v-if="isEditable && mode != null" class="flex justify-content-end">
+        <div v-if="(isEditable || canAdd) && mode != null" class="flex justify-content-end">
           <prime-button-add
             @click="saveChanges"
             v-if="mode === 'create'"
@@ -58,6 +58,9 @@ export default defineComponent({
 
     const isEditable = computed(
       () => currentState.value?.selectItem != null && currentState.value.saveChanges != null,
+    );
+    const canAdd = computed(
+      () => currentState.value?.createItem != null && currentState.value.saveChanges != null,
     );
 
     const showDialog = ref(false);
@@ -112,6 +115,7 @@ export default defineComponent({
       mode,
       saveChanges,
       viewLayout,
+      canAdd,
     };
   },
 });

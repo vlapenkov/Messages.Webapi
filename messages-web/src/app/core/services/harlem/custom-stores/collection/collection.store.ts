@@ -15,9 +15,11 @@ import {
   getSelectedItemPropKey,
   getSelectedItemPropOptions,
 } from '../../state/decorators/property-keys/selected-item.prop-key';
+import { getTreeViewTransform } from '../../state/decorators/property-keys/tree-view.prop-key';
 import { ISelectedItemOptions } from '../../state/decorators/selected-item.decorator';
 import { DataStatus } from '../../tools/data-status';
 import { Creation, Edititng, NotValidData } from '../../tools/not-valid-data';
+import { ICollectionStoreTree } from './@types/ICollectionStoreTree';
 import { ICollectionStoreAdd } from './@types/ICollectionstoreAdd';
 import { ICollectionStoreDelete } from './@types/ICollectionStoreDelete';
 import { ICollectionStoreEdit } from './@types/ICollectionstoreEdit';
@@ -40,7 +42,7 @@ export function defineCollectionStore<
   if (collectionKey == null) {
     throw new Error('Cannot create collection store from non-collection state');
   }
-  const { computeState, action, mutation } = store;
+  const { computeState, action, mutation, getter } = store;
 
   const itemsDumb = computeState((state) => state[collectionKey] as unknown as TModel[] | null);
 
@@ -185,6 +187,18 @@ export function defineCollectionStore<
     );
     extended = { ...extended, deleteItem } as ICollectionStoreSelectedItem<TIModel, TModel> &
       ICollectionStoreDelete;
+  }
+
+  const treeviewTransform = getTreeViewTransform<TState, TModel>(
+    stateDefault,
+    collectionKey as string,
+  );
+
+  if (treeviewTransform != null) {
+    const treeView = (ops: { force: boolean } = { force: false }) =>
+      getter('get-tree-view', () => treeviewTransform(itemsSmart(ops).value ?? []));
+    extended = { ...extended, treeView } as ICollectionStoreSelectedItem<TIModel, TModel> &
+      ICollectionStoreTree;
   }
 
   const editableCollectionStore = {

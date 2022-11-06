@@ -31,12 +31,16 @@ declare module '@vue/runtime-core' {
     PrimeButtonSave: typeof import('./src/vue/base/components/prime/buttons/PrimeButtonSave.vue')['default']
     PrimeDivider: typeof import('./src/vue/base/components/prime/PrimeDivider.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
+    RadioButton: typeof import('primevue/radiobutton')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionsView: typeof import('./src/vue/views/SectionsView.vue')['default']
     SelectedItem: typeof import('./src/vue/base/containers/forms/SelectedItem.vue')['default']
     Skeleton: typeof import('primevue/skeleton')['default']
     ThemeSwitchContainer: typeof import('./src/vue/containers/ThemeSwitchContainer.vue')['default']
+    Toolbar: typeof import('primevue/toolbar')['default']
     TransitionFade: typeof import('./src/vue/components/transitions/TransitionFade.vue')['default']
+    Tree: typeof import('primevue/tree')['default']
+    TreeViewCollection: typeof import('./src/vue/base/containers/state/TreeViewCollection.vue')['default']
   }
 }

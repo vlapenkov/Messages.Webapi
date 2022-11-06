@@ -15,9 +15,13 @@ import {
   getSelectedItemPropKey,
   getSelectedItemPropOptionsKey,
 } from '../../state/decorators/property-keys/selected-item.prop-key';
+import { ISelectedItemOptions } from '../../state/decorators/selected-item.decorator';
 import { DataStatus } from '../../tools/data-status';
 import { Creation, Edititng, NotValidData } from '../../tools/not-valid-data';
-import { IReadonlyCollectionStore } from './readonly/collection-readonly.store';
+import { ICollectionStoreAdd } from './@types/ICollectionstoreAdd';
+import { ICollectionStoreEdit } from './@types/ICollectionstoreEdit';
+import { ICollectionStoreRead } from './@types/ICollectionStoreRead';
+import { ICollectionStoreSelectedItem } from './@types/ICollectionStoreSelectedItem';
 
 export function defineCollectionStore<
   TIModel extends IModel,
@@ -37,7 +41,7 @@ export function defineCollectionStore<
   }
   const { computeState, action, mutation } = store;
 
-  const items = computeState((state) => state[collectionKey] as TModel[] | null);
+  const itemsDumb = computeState((state) => state[collectionKey] as TModel[] | null);
 
   const dataStatusKey = getDataStatusProp(stateDefault);
 
@@ -54,20 +58,20 @@ export function defineCollectionStore<
     async (ops: { force: boolean } = { force: false }) => {
       const currentStatus = status.value.status;
       if (!ops.force && currentStatus === 'loaded') {
-        return items.value;
+        return itemsDumb.value;
       }
 
       status.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const requestFn = extend(service.get).pipe(parseArray(Model)).done();
       const response = await requestFn();
       if (response.status === HttpStatus.Success) {
-        items.value = response.data ?? null;
+        itemsDumb.value = response.data ?? null;
         status.value = new DataStatus('loaded');
       } else {
         status.value = new DataStatus('error', response.message);
       }
 
-      return items.value;
+      return itemsDumb.value;
     },
   );
 
@@ -77,14 +81,12 @@ export function defineCollectionStore<
         getDataAsyncAction(ops);
       }
     });
-    return items;
+    return itemsDumb;
   };
 
-  const readolnlyCollectionStore: IReadonlyCollectionStore<TIModel, TModel> = {
+  const readolnlyCollectionStore: ICollectionStoreRead<TIModel, TModel> = {
     status,
-    itemsAsync,
-    getDataAsyncAction,
-    items,
+    items: itemsAsync,
   };
 
   const selectedItemKey = getSelectedItemPropKey(stateDefault);
@@ -100,23 +102,48 @@ export function defineCollectionStore<
     throw new Error('Options must be provided!');
   }
 
+  const itemOptions = stateDefault[selectedItemOptionsKey as keyof TState] as
+    | ISelectedItemOptions
+    | undefined;
+
+  if (itemOptions == null) {
+    throw new Error('Options value (ISelectedItemOptions) must be provided!');
+  }
+  if (!itemOptions.create && !itemOptions.update && itemOptions.delete) {
+    return readolnlyCollectionStore;
+  }
+
   const itemSelected = computeState(
     (state) => state[selectedItemKey] as NotValidData<TModel> | null,
   );
 
-  const selectItem = mutation<string | number | symbol>('select-item', (_, key) => {
-    const selected = items.value?.find((i) => i.key === key);
-    if (selected == null) {
-      return;
-    }
-    itemSelected.value = new Edititng({ ...selected });
-  });
+  let extended: ICollectionStoreSelectedItem<TIModel, TModel> = {
+    itemSelected,
+  };
 
-  const createItem = mutation<void>('create-item', () => {
-    itemSelected.value = new Creation(new Model());
-  });
+  if (itemOptions.update) {
+    const selectItem = mutation<string | number | symbol>('select-item', (_, key) => {
+      const selected = itemsDumb.value?.find((i) => i.key === key);
+      if (selected == null) {
+        return;
+      }
+      itemSelected.value = new Edititng({ ...selected });
+    });
+    extended = { ...extended, selectItem } as ICollectionStoreSelectedItem<TIModel, TModel> &
+      ICollectionStoreEdit;
+  }
 
-  const saveChanges = action('save-changes', async () => {
+  if (itemOptions.create) {
+    const createItem = mutation<void>('create-item', () => {
+      itemSelected.value = new Creation(new Model());
+    });
+    extended = {
+      ...extended,
+      createItem,
+    } as ICollectionStoreSelectedItem<TIModel, TModel> & ICollectionStoreAdd;
+  }
+
+  const saveChanges: Action<void> = action('save-changes', async () => {
     if (itemSelected.value == null) {
       return;
     }
@@ -126,23 +153,27 @@ export function defineCollectionStore<
         service.post(itemToSave.toRequest()),
       );
       if (responseStatus === HttpStatus.Success && itemToAdd != null) {
-        items.value = [...(items.value ?? []).filter((i) => i.key !== itemToAdd.key), itemToAdd];
+        itemsDumb.value = [
+          ...(itemsDumb.value ?? []).filter((i) => i.key !== itemToAdd.key),
+          itemToAdd,
+        ];
       }
     } else if (mode === 'edit') {
       const { status: responseStatus, data: itemToAdd } = await parse(Model)(
         service.post(itemToSave.toRequest()),
       );
       if (responseStatus === HttpStatus.Success && itemToAdd != null) {
-        items.value = [...(items.value ?? []).filter((i) => i.key !== itemToAdd.key), itemToAdd];
+        itemsDumb.value = [
+          ...(itemsDumb.value ?? []).filter((i) => i.key !== itemToAdd.key),
+          itemToAdd,
+        ];
       }
     }
   });
 
   const editableCollectionStore = {
     ...readolnlyCollectionStore,
-    itemSelected,
-    selectItem,
-    createItem,
+    ...extended,
     saveChanges,
   };
 

@@ -15,4 +15,10 @@ export class FakeRepository<TIModel extends IModel, TModel extends ModelBase<TIM
     this.$collection = model.mockMany(this.size).map((m) => m.toRequest() as TIModel);
     return this.$collection;
   }
+
+  add(item: TIModel) {
+    if (this.$collection != null) {
+      this.$collection.push(item);
+    }
+  }
 }

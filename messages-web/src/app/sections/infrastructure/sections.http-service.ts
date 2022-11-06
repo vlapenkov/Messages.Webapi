@@ -33,6 +33,13 @@ service.post = definePost(
         }
         return response;
       },
+      useMock<ISectionModel, ISectionModel>((request) => {
+        const mock = new SectionModel().mock() as SectionModel;
+        mock.parentSectionId = request.parentSectionId;
+        mock.name = request.name;
+        fakeSections.add(mock);
+        return request;
+      }),
     ],
   },
 );

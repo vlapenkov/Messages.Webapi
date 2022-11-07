@@ -1,0 +1,18 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Refit;
+using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
+using Rk.Messages.Spa.Infrastructure.Dto.ShoppingCartNS;
+
+namespace Rk.Messages.Spa.Infrastructure.Services
+{
+    public interface IShoppingCartService
+    {
+        /// <summary>Создать продукцию</summary>         
+        [Post("/api/v1/ShoppingCart")]
+        Task<long> AddToCart([Body] AddToShoppingCartRequest request);
+
+        /// <summary>Получить пагинированный список продукции</summary>  
+        [Get("/api/v1/ShoppingCart")]
+        Task<IReadOnlyCollection<ShoppingCartItemDto>> GetCartItems();
+    }
+}

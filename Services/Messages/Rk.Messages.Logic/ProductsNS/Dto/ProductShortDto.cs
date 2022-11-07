@@ -8,6 +8,9 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
     /// </summary>
     public record ProductShortDto :AuditableEntityDto
     {
+        /// <summary>идентификатор продукта</summary>
+        public long Id { get; set; }
+
         /// <summary>информация о продукте</summary>
         public string Description { get; set; }
 

@@ -20,6 +20,12 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
 
         DbSet<Document> Documents { get; }
 
+        DbSet<Order> Orders { get; set; }
+
+        DbSet<OrderItem> OrderItems { get; set; }
+
+        DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

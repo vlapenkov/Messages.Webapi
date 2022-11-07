@@ -1,7 +1,7 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { Ok } from '@/app/core/handlers/http/results/ok.result';
 import { defineCollectionService } from '@/app/core/services/http/custom/collection.http-service';
-import { ISectionModel } from '../models/section.model';
+import { ISectionModel } from '../models/ISectionModel';
 
 const [service, { defineGet, definePost }] = defineCollectionService<ISectionModel>({
   url: 'api/v1/Sections/',

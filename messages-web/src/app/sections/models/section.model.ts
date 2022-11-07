@@ -1,4 +1,4 @@
-import { IModelUnique, modelMarker } from '@/app/core/models/@types/IModel';
+import { modelMarker } from '@/app/core/models/@types/IModel';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { mock } from '@/app/core/models/decorators/mock.decorator';
@@ -18,15 +18,8 @@ import { UniqueModel } from '@/app/core/models/unique.model';
 import ParentSectionSelectorVue from '@/vue/containers/ParentSectionSelector.vue';
 import { required } from '@vuelidate/validators';
 import { h } from 'vue';
+import { ISectionModel } from './ISectionModel';
 
-export interface ISectionModel extends IModelUnique<number> {
-  name: string;
-  parentSectionId: number | null;
-  createdBy: string | null;
-  lastModifiedBy: string | null;
-  created: string;
-  lastModified: string;
-}
 export class SectionModel extends UniqueModel<number, ISectionModel> {
   @hidden()
   @mock(randomUniqueNumber(1, 1000))

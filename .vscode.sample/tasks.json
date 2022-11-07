@@ -10,7 +10,7 @@
 				{
 					"owner": "npm",
 					"background": {
-						"endsPattern": ".",
+						"endsPattern": "DONE.",
 						"beginsPattern": ".",
 						"activeOnStart": true
 					},

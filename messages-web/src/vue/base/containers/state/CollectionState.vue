@@ -1,6 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <toolbar class="mb-3 mt-1" v-if="showToolbar">
+  <toolbar class="mb-2" v-if="showToolbar">
     <template #end>
       <div class="flex flex-row gap-5">
         <div>Вид</div>

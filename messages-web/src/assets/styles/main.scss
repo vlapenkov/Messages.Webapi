@@ -4,9 +4,25 @@ body {
   padding: 0;
   margin: 0;
   background-color: var(--surface-ground);
+  overflow-y: scroll;
 }
 .no-label {
   .p-button-label {
     display: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  &:horizontal {
+    height: 6px;
+  }
+  &-track {
+    border-radius: var(--border-radius);
+  }
+  &-thumb {
+    background-color: var(--surface-500);
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
   }
 }

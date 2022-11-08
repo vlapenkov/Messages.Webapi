@@ -38,9 +38,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots, attrs }) {
-    const buttonStyle = computed(() =>
-      isDark.value ? `${defaultButtonStyle} p-button-outlined` : defaultButtonStyle,
-    );
+    const buttonStyle = computed(() => ({
+      [defaultButtonStyle]: true,
+      ' p-button-outlined': isDark.value,
+    }));
     return () =>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       h(Button as any, { ...props, class: attrs.class ?? buttonStyle.value }, { ...slots });

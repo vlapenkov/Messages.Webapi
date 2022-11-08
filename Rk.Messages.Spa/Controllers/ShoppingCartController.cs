@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Rk.Messages.Spa.Infrastructure.Dto.ShoppingCartNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
@@ -24,6 +25,13 @@ namespace Rk.Messages.Spa.Controllers
         public async Task<long> AddToCart([FromBody] AddToShoppingCartRequest request)
         {
             return await _shoppingCartService.AddToCart(request);
+        }
+
+        /// <summary>Удалить товар из корзины</summary>   
+        [HttpDelete("{productId:long}")]
+        public async Task DeleteFromCart(long productId)
+        {
+            await _shoppingCartService.DeleteFromCart(productId);
         }
 
         /// <summary>Получить товары в корзине</summary>        

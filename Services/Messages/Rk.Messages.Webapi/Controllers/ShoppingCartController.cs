@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
 using Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand;
+using Rk.Messages.Logic.ShoppingCartNS.Commands.DeleteFromCart;
 using Rk.Messages.Logic.ShoppingCartNS.Dto;
 using Rk.Messages.Logic.ShoppingCartNS.Queries.GetCartItems;
 using System.Collections.Generic;
@@ -26,6 +27,14 @@ namespace Rk.Messages.Webapi.Controllers
         {
 
             return await _mediatr.Send(new AddToShoppingCartCommand {Request = request });
+        }
+
+        /// <summary>Удалить товар из корзины</summary>           
+        [HttpDelete("{productId:long}")]
+        public async Task DeleteFromCart(long productId)
+        {
+
+            await _mediatr.Send(new DeleteFromCartCommand { ProductId = productId });
         }
 
         /// <summary>Получить товары в корзине</summary>        

@@ -14,5 +14,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>Получить пагинированный список продукции</summary>  
         [Get("/api/v1/ShoppingCart")]
         Task<IReadOnlyCollection<ShoppingCartItemDto>> GetCartItems();
+
+        /// <summary>Удалить строку из корзины</summary>  
+        [Delete("/api/v1/ShoppingCart/{productId}")]
+        Task DeleteFromCart(long productId);
     }
 }

@@ -8,12 +8,12 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useDark } from '@vueuse/core';
 import { useHead } from '@vueuse/head';
+import { isDark } from '@/store/theme.store';
 
 export default defineComponent({
   setup() {
-    const dark = useDark();
+    const dark = isDark;
     const themeString = computed(() => (dark.value ? 'dark' : 'light'));
     useHead({
       link: [

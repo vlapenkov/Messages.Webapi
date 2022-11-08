@@ -1,11 +1,49 @@
 <script lang="ts">
-import Button, { ButtonEmits, ButtonProps } from 'primevue/button';
-import { FunctionalComponent, h } from 'vue';
+import { isDark } from '@/store/theme.store';
+import Button from 'primevue/button';
+import { computed, defineComponent, h } from 'vue';
 
 export const defaultButtonStyle = 'p-button-rounded';
 
-const PrimeButton: FunctionalComponent<ButtonProps, ButtonEmits> = (props, { slots }) =>
-  h(Button, { ...props, class: props.class ?? defaultButtonStyle }, { ...slots });
-
-export default PrimeButton;
+export default defineComponent({
+  props: {
+    label: {
+      type: String,
+    },
+    icon: {
+      type: String,
+    },
+    iconPos: {
+      type: String,
+      default: 'left',
+    },
+    iconClass: {
+      type: String,
+      default: null,
+    },
+    badge: {
+      type: String,
+    },
+    badgeClass: {
+      type: String,
+      default: null,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    loadingIcon: {
+      type: String,
+      default: 'pi pi-spinner pi-spin',
+    },
+  },
+  setup(props, { slots, attrs }) {
+    const buttonStyle = computed(() =>
+      isDark.value ? `${defaultButtonStyle} p-button-outlined` : defaultButtonStyle,
+    );
+    return () =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      h(Button as any, { ...props, class: attrs.class ?? buttonStyle.value }, { ...slots });
+  },
+});
 </script>

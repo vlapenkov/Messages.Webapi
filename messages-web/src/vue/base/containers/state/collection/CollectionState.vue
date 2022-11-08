@@ -49,7 +49,7 @@ import {
 } from 'vue';
 import TransitionFade from '@/vue/components/transitions/TransitionFade.vue';
 
-export type SomeState<
+export type SomeCollectionState<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
 > = ICollectionStoreRead<IModel, TModel> &
@@ -63,22 +63,22 @@ export type SomeState<
 
 const stateKey = Symbol('--collection-state-provided');
 
-const provideState = (state: ShallowRef<SomeState<IModel, ModelBase> | null>) =>
+const provideState = (state: ShallowRef<SomeCollectionState<IModel, ModelBase> | null>) =>
   provide(stateKey, state);
 
 export const injectCollectionState = () =>
-  inject<ShallowRef<SomeState<IModel, ModelBase> | null>>(stateKey, shallowRef(null));
+  inject<ShallowRef<SomeCollectionState<IModel, ModelBase> | null>>(stateKey, shallowRef(null));
 
 export default defineComponent({
   components: { TransitionFade },
   props: {
     state: {
-      type: Object as PropType<SomeState<IModel, ModelBase>>,
+      type: Object as PropType<SomeCollectionState<IModel, ModelBase>>,
       required: true,
     },
   },
   setup(props, { slots }) {
-    const stateProvided = shallowRef<SomeState<IModel, ModelBase> | null>(null);
+    const stateProvided = shallowRef<SomeCollectionState<IModel, ModelBase> | null>(null);
     watch(
       () => props.state,
       (val) => {

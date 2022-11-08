@@ -14,9 +14,9 @@
 <script lang="ts">
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { defineComponent } from 'vue';
-import DataViewCollection from '../base/containers/state/DataViewCollection.vue';
-import CollectionState from '../base/containers/state/CollectionState.vue';
-import TreeViewCollection from '../base/containers/state/TreeViewCollection.vue';
+import DataViewCollection from '../base/containers/state/collection/DataViewCollection.vue';
+import CollectionState from '../base/containers/state/collection/CollectionState.vue';
+import TreeViewCollection from '../base/containers/state/collection/TreeViewCollection.vue';
 
 export default defineComponent({
   setup() {

@@ -6,7 +6,7 @@
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import type { SectionModel } from '@/app/sections/models/section.model';
 import { computed, defineComponent } from 'vue';
-import { injectCollectionState } from '../base/containers/state/CollectionState.vue';
+import { injectCollectionState } from '../base/containers/state/collection/CollectionState.vue';
 
 export default defineComponent({
   setup() {

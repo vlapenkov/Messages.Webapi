@@ -11,6 +11,7 @@ import { DefaultStore, createDefaultStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { getDataStatusProp } from '../../state/decorators/property-keys/data-status.prop-key';
 import { getPageNumberProp } from '../../state/decorators/property-keys/page-number.prop-key';
+import { getPageRequestProp } from '../../state/decorators/property-keys/page-request.prop-key';
 import { getPageSizeProp } from '../../state/decorators/property-keys/page-size.prop-key';
 import { getPagesProp } from '../../state/decorators/property-keys/pages.prop-key';
 import { DataStatus } from '../../tools/data-status';
@@ -43,6 +44,21 @@ export function definePageableCollectionStore<
   const pages = computeState((state) => state[pagesKey] as unknown as IPagedResponse<TModel>[]);
   const pageNumber = computeState((state) => state[pageNumberKey] as unknown as number);
   const pageSize = computeState((state) => state[pageSizeKey] as unknown as number);
+
+  const pageRequestKey = getPageRequestProp(stateDefault);
+
+  const pageRequest =
+    pageRequestKey == null
+      ? getter<IPagedRequest>('page-request', () => ({
+          pageNumber: pageNumber.value,
+          pageSize: pageSize.value,
+        }))
+      : getter<IPagedRequest>('page-request', (state) => {
+          const getRequest = state[
+            pageRequestKey as keyof typeof state
+          ] as unknown as () => IPagedRequest;
+          return getRequest();
+        });
 
   const dataStatusKey = getDataStatusProp(stateDefault);
 
@@ -109,16 +125,13 @@ export function definePageableCollectionStore<
   });
 
   watch(
-    [pageNumber, pageSize],
-    ([pNum, pSize]) => {
-      if (pSize <= 0) {
+    pageRequest,
+    (request) => {
+      if (request.pageSize <= 0) {
         return;
       }
       if (currentPage.value == null) {
-        getPage({
-          pageNumber: pNum,
-          pageSize: pSize,
-        });
+        getPage(request);
       }
     },
     {

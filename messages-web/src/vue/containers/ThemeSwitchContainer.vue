@@ -1,8 +1,9 @@
 <template>
   <prime-button
     @click="dark = !dark"
-    :icon="dark ? 'pi pi-moon' : 'pi pi-sun'"
+    :icon="!dark ? 'pi pi-moon' : 'pi pi-sun'"
     class="p-button-rounded no-label p-button-secondary"
+    :class="{ blurred: dark }"
   ></prime-button>
 </template>
 
@@ -32,4 +33,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.blurred {
+  backdrop-filter: blur(0.5rem);
+}
+</style>

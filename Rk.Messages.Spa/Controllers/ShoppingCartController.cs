@@ -5,6 +5,10 @@ using Rk.Messages.Spa.Infrastructure.Services;
 
 namespace Rk.Messages.Spa.Controllers
 {
+    /// <summary>
+    /// Управление корзиной
+    /// </summary>    
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartController
@@ -16,14 +20,18 @@ namespace Rk.Messages.Spa.Controllers
             _shoppingCartService = shoppingCartService;
         }
 
-
-
         /// <summary>Добавить товар в корзину</summary>        
         [HttpPost]
         public async Task<long> AddToCart([FromBody] AddToShoppingCartRequest request)
         {
+            return await _shoppingCartService.AddToCart(request);
+        }
 
-          return await  _shoppingCartService.AddToCart(request);
+        /// <summary>Удалить товар из корзины</summary>   
+        [HttpDelete("{productId:long}")]
+        public async Task DeleteFromCart(long productId)
+        {
+            await _shoppingCartService.DeleteFromCart(productId);
         }
 
         /// <summary>Получить товары в корзине</summary>        

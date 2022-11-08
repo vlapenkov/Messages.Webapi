@@ -19,7 +19,7 @@ namespace Rk.Messages.Spa.Controllers
 
         /// <summary>        /// 
         /// </summary>
-        
+
         [HttpGet]
         public async Task GetMessages()
         {

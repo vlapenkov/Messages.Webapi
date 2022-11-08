@@ -30,6 +30,8 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
         {
             var request = command.Request;
 
+            if (!_userService.IsAuthenticated) throw new RkErrorException("Пользователь не авторизован");
+
             var product = await _appDbContext.Products.AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId)
                 ?? throw new EntityNotFoundException($"Продукт не найден id={request.ProductId}");

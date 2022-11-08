@@ -81,6 +81,11 @@ namespace Rk.Messages.Spa
               .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
                .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
 
+            services.AddRefitClient<IOrdersService>()
+             .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
+             .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
+              .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
+
             services.AddRefitClient<IFileStoreService>()
               .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:FileStore:BaseUrl"]))
               .AddHttpMessageHandler<AuthHeaderPropagationHandler>()

@@ -31,7 +31,7 @@ namespace Rk.Messages.Domain.Entities
         public string Comments { get; private set; }
 
         /// <summary>Состав заказа</summary>
-        private readonly List<OrderItem> _orderItems;
+        private readonly List<OrderItem> _orderItems = new List<OrderItem>();
         public virtual IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
         public void AddOrderItems(IReadOnlyCollection<OrderItem> orderItems)

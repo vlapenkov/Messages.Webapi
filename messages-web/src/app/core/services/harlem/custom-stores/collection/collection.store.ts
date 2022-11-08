@@ -54,10 +54,8 @@ export function defineCollectionStore<
 
   const status = computeState((state) => state[dataStatusKey] as unknown as DataStatus);
 
-  const getDataAsyncActionKey = 'get-data-async';
-
   const getDataAsync: Action<{ force: boolean } | undefined, TModel[] | null> = action(
-    getDataAsyncActionKey,
+    'get-data-async',
     async (ops: { force: boolean } = { force: false }) => {
       const currentStatus = status.value.status;
       if (!ops.force && currentStatus === 'loaded') {

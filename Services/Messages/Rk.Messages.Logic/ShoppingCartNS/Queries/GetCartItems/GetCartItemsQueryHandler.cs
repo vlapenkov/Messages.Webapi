@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Rk.Messages.Common.Exceptions;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Interfaces.Services;
 using Rk.Messages.Logic.ShoppingCartNS.Dto;
@@ -29,6 +30,8 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Queries.GetCartItems
 
         public async Task<IReadOnlyCollection<ShoppingCartItemDto>> Handle(GetCartItemsQuery request, CancellationToken cancellationToken)
         {
+            if (!_userService.IsAuthenticated) throw new RkErrorException("Пользователь не авторизован");
+
             var userName = _userService.UserName;
 
            var cartItems = await _appDbContext.ShoppingCartItems.Include(self=>self.Product)

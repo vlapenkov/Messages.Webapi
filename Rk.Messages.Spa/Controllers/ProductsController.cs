@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
@@ -8,16 +7,18 @@ using Rk.Messages.Spa.Infrastructure.Services;
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Работа с продуктами
+    /// Работа с продукцией
     /// </summary>
-    [Route( "api/[controller]" )]
+    
+    [Route("api/[controller]")]
     [ApiController]
+    
     public class ProductsController : ControllerBase
     {
         private readonly IProductsService _productsService;
 
         private readonly IFileStoreService _filesService;
-                
+
 
         public ProductsController(IProductsService productsService, IFileStoreService fileService)
         {
@@ -30,8 +31,8 @@ namespace Rk.Messages.Spa.Controllers
         //[Authorize]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
-            
-            var fileGlobalIds =await _filesService.CreateFiles(request.Documents.Select(doc => new CreateFileRequest { FileName = doc.FileName, Data = doc.Data }).ToArray());
+
+            var fileGlobalIds = await _filesService.CreateFiles(request.Documents.Select(doc => new CreateFileRequest { FileName = doc.FileName, Data = doc.Data }).ToArray());
 
             var fileGlobalIdsArray = fileGlobalIds.ToArray();
 
@@ -55,7 +56,7 @@ namespace Rk.Messages.Spa.Controllers
         public async Task<ProductResponse> GetProduct(long id)
         {
             return await _productsService.GetProduct(id);
-           
+
         }
     }
 }

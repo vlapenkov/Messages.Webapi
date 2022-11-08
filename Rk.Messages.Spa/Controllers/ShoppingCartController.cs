@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Ocsp;
 using Rk.Messages.Spa.Infrastructure.Dto.ShoppingCartNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
 namespace Rk.Messages.Spa.Controllers
 {
+    /// <summary>
+    /// Управление корзиной
+    /// </summary>    
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartController
@@ -16,14 +19,11 @@ namespace Rk.Messages.Spa.Controllers
             _shoppingCartService = shoppingCartService;
         }
 
-
-
         /// <summary>Добавить товар в корзину</summary>        
         [HttpPost]
         public async Task<long> AddToCart([FromBody] AddToShoppingCartRequest request)
         {
-
-          return await  _shoppingCartService.AddToCart(request);
+            return await _shoppingCartService.AddToCart(request);
         }
 
         /// <summary>Получить товары в корзине</summary>        

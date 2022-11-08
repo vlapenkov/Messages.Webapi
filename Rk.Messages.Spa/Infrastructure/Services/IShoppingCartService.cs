@@ -9,7 +9,7 @@ namespace Rk.Messages.Spa.Infrastructure.Services
     {
         /// <summary>Создать продукцию</summary>         
         [Post("/api/v1/ShoppingCart")]
-        Task<long> AddToCart([Body] AddToShoppingCartRequest request);
+        Task AddToCart([Body] AddToShoppingCartRequest request);
 
         /// <summary>Получить пагинированный список продукции</summary>  
         [Get("/api/v1/ShoppingCart")]

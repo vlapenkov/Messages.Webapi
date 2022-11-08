@@ -12,7 +12,7 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
     /// <summary>
     /// Команда добавить в корзину
     /// </summary>
-    public class AddToShoppingCartCommand : IRequest<long>
+    public class AddToShoppingCartCommand : IRequest
     {
         public AddToShoppingCartRequest Request { get; set; }
     }

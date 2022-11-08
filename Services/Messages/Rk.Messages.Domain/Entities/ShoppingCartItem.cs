@@ -29,5 +29,9 @@ namespace Rk.Messages.Domain.Entities
 
         public decimal Sum => Price * Quantity;
 
+        public void Increment(int quantity) {
+            Quantity += quantity;
+        }
+
     }
 }

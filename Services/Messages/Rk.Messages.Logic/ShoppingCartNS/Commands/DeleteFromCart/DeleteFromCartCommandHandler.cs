@@ -27,7 +27,9 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.DeleteFromCart
         {
             if (!_userService.IsAuthenticated) throw new RkErrorException("Пользователь не авторизован");
 
-          var cartItemFound =  await _appDbContext.ShoppingCartItems.FirstOrDefaultAsync(self => self.UserName == _userService.UserName && self.ProductId == request.ProductId);
+            var cartItemFound = await _appDbContext.ShoppingCartItems.FirstOrDefaultAsync(self => self.UserName == _userService.UserName && self.ProductId == request.ProductId)
+                  ??
+                  throw new EntityNotFoundException($"Продукция не найдена Id={request.ProductId}"); 
 
             _appDbContext.ShoppingCartItems.Remove(cartItemFound);
 

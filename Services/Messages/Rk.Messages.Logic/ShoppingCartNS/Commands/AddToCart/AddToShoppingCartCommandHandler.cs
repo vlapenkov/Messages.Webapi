@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
 {
-    public class AddToShoppingCartCommandHandler : IRequestHandler<AddToShoppingCartCommand, long>
+    public class AddToShoppingCartCommandHandler : AsyncRequestHandler<AddToShoppingCartCommand>
     {
         private readonly IAppDbContext _appDbContext;
         private readonly IUserService _userService;
@@ -26,7 +26,7 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
             _userService = userService;
         }
 
-        public async  Task<long> Handle(AddToShoppingCartCommand command, CancellationToken cancellationToken)
+        protected override async Task Handle(AddToShoppingCartCommand command, CancellationToken cancellationToken)
         {
             var request = command.Request;
 
@@ -36,14 +36,23 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId)
                 ?? throw new EntityNotFoundException($"Продукт не найден id={request.ProductId}");
 
-           var cartItem = new ShoppingCartItem(_userService.UserName, product.Id, product.Price, request.Quantity);
+            var cartItemFound = await _appDbContext.ShoppingCartItems.FirstOrDefaultAsync(self => self.UserName == _userService.UserName && self.ProductId == request.ProductId);
 
-            _appDbContext.ShoppingCartItems.Add(cartItem);
+
+            if (cartItemFound != null)
+            {
+                cartItemFound.Increment(request.Quantity);
+            }
+            else
+            {
+                var cartItem = new ShoppingCartItem(_userService.UserName, product.Id, product.Price, request.Quantity);
+
+                _appDbContext.ShoppingCartItems.Add(cartItem);
+            }
 
             await _appDbContext.SaveChangesAsync(cancellationToken);
-
-            return cartItem.Id;
-        }
-
+           
+        }       
+        
     }
 }

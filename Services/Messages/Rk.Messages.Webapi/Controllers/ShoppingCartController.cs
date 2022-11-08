@@ -23,10 +23,10 @@ namespace Rk.Messages.Webapi.Controllers
 
         /// <summary>Добавить товар в корзину</summary>        
         [HttpPost]
-        public async Task<long> AddToCart([FromBody] AddToShoppingCartRequest request)
+        public async Task AddToCart([FromBody] AddToShoppingCartRequest request)
         {
 
-            return await _mediatr.Send(new AddToShoppingCartCommand {Request = request });
+            await _mediatr.Send(new AddToShoppingCartCommand {Request = request });
         }
 
         /// <summary>Удалить товар из корзины</summary>           

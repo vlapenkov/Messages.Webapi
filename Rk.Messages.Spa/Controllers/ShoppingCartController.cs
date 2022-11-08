@@ -22,9 +22,9 @@ namespace Rk.Messages.Spa.Controllers
 
         /// <summary>Добавить товар в корзину</summary>        
         [HttpPost]
-        public async Task<long> AddToCart([FromBody] AddToShoppingCartRequest request)
+        public async Task AddToCart([FromBody] AddToShoppingCartRequest request)
         {
-            return await _shoppingCartService.AddToCart(request);
+            await _shoppingCartService.AddToCart(request);
         }
 
         /// <summary>Удалить товар из корзины</summary>   

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Logic.ShoppingCartNS.Commands.DeleteFromCart
 {
+    /// <summary>
+    /// Команды удалить из корзины
+    /// </summary>
     public class DeleteFromCartCommand : IRequest
     {
         public long ProductId { get; set; }

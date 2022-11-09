@@ -1,8 +1,15 @@
 <template>
   <div>
-    <collection-state :state="sectionsStore">
+    <collection-state
+      :modes="[
+        { label: 'Деревом', mode: 'tree-view' },
+        { label: 'Сеткой', mode: 'data-view' },
+      ]"
+      :state="sectionsStore"
+      reload-on-save
+    >
       <template #data-view>
-        <data-view-collection reload-on-save></data-view-collection>
+        <data-view-collection></data-view-collection>
       </template>
       <template #tree-view>
         <tree-view-collection></tree-view-collection>

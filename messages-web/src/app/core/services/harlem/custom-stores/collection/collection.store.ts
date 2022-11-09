@@ -193,8 +193,10 @@ export function defineCollectionStore<
   );
 
   if (treeviewTransform != null) {
-    const treeView = (ops: { force: boolean } = { force: false }) =>
-      getter('get-tree-view', () => treeviewTransform(itemsSmart(ops).value ?? []));
+    const treeView = (ops: { force: boolean } = { force: false }) => {
+      const items = itemsSmart(ops);
+      return getter('get-tree-view', () => treeviewTransform(items.value ?? []));
+    };
     extended = { ...extended, treeView } as ICollectionStoreSelectedItem<TIModel, TModel> &
       ICollectionStoreTree;
   }

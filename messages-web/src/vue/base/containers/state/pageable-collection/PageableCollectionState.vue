@@ -6,23 +6,18 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { IPageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/@types/IPageableCollectionStore';
-import { defineComponent, inject, PropType, provide, ShallowRef, shallowRef, watch } from 'vue';
+import { Provider } from '@/app/core/tools/provider';
+import { defineComponent, PropType, shallowRef, watch } from 'vue';
 
 export type SomePageableCollectionState<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
 > = IPageableCollectionStore<TIModel, TModel>;
 
-const stateKey = Symbol('--collection-state-provided');
-
-const provideState = (state: ShallowRef<SomePageableCollectionState<IModel, ModelBase> | null>) =>
-  provide(stateKey, state);
-
-export const injectPageableCollectionState = () =>
-  inject<ShallowRef<SomePageableCollectionState<IModel, ModelBase> | null>>(
-    stateKey,
-    shallowRef(null),
-  );
+export const pageableStateProvider = new Provider(
+  () => shallowRef<SomePageableCollectionState<IModel, ModelBase> | null>(null),
+  '--collection-state-provided',
+);
 
 export default defineComponent({
   props: {
@@ -40,7 +35,7 @@ export default defineComponent({
       },
       { immediate: true },
     );
-    provideState(stateProvided);
+    pageableStateProvider.provideFrom(() => props.state);
     return {};
   },
 });

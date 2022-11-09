@@ -48,7 +48,7 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { computed, defineComponent, ref, toRaw, watchEffect } from 'vue';
 import Dialog from 'primevue/dialog';
 import { screenLarge } from '@/app/core/services/window/window.service';
-import { injectPageableCollectionState } from './PageableCollectionState.vue';
+import { pageableStateProvider } from './PageableCollectionState.vue';
 
 export default defineComponent({
   components: { PrimeDialog: Dialog },
@@ -59,7 +59,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const currentState = injectPageableCollectionState();
+    const currentState = pageableStateProvider.inject();
 
     const loadingStatus = computed<DataStatus | undefined>(() => currentState.value?.status.value);
 

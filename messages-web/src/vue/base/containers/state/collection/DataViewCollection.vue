@@ -11,59 +11,29 @@
           <data-card class="border-1 h-full" :data="data"></data-card>
         </div>
       </template>
-      <template #header>
-        <div v-if="canAdd" class="flex justify-content-end">
-          <prime-button-add @click="create" label="Добавить"></prime-button-add>
-        </div>
-      </template>
     </data-view>
   </loading-status-handler>
-  <prime-dialog header="Создание нового элемента" v-model:visible="showDialog">
-    <custom-form class="shadow-none" v-model:data="selectedData">
-      <template #footer>
-        <div v-if="(isEditable || canAdd) && mode != null" class="flex justify-content-end">
-          <prime-button-add
-            @click="saveChanges"
-            v-if="mode === 'create'"
-            label="Добавить"
-          ></prime-button-add>
-          <prime-button-save @click="saveChanges" v-else label="Сохранить"></prime-button-save>
-        </div>
-      </template>
-    </custom-form>
-  </prime-dialog>
 </template>
 
 <script lang="ts">
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { computed, defineComponent, ref } from 'vue';
-import Dialog from 'primevue/dialog';
+import { computed, defineComponent } from 'vue';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { screenLarge } from '@/app/core/services/window/window.service';
-import { injectCollectionState } from './CollectionState.vue';
+import {
+  collectionStateProvider,
+  reloadOnSaveProvider,
+  showDialogProvider,
+} from './CollectionState.vue';
 
 export default defineComponent({
-  components: { PrimeDialog: Dialog },
-  props: {
-    reloadOnSave: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props) {
-    const currentState = injectCollectionState();
+  setup() {
+    const currentState = collectionStateProvider.inject();
+    const reloadOnSave = reloadOnSaveProvider.inject();
+    const showDialog = showDialogProvider.inject();
 
     const loadingStatus = computed<DataStatus | undefined>(() => currentState.value?.status.value);
     const items = currentState.value?.items();
-
-    const isEditable = computed(
-      () => currentState.value?.selectItem != null && currentState.value.saveChanges != null,
-    );
-    const canAdd = computed(
-      () => currentState.value?.createItem != null && currentState.value.saveChanges != null,
-    );
-
-    const showDialog = ref(false);
 
     const create = () => {
       if (currentState.value == null) {
@@ -97,7 +67,7 @@ export default defineComponent({
       if (currentState.value != null && currentState.value.saveChanges != null) {
         currentState.value.saveChanges();
         showDialog.value = false;
-        if (props.reloadOnSave) {
+        if (reloadOnSave.value) {
           currentState.value.getDataAsync({ force: true });
         }
       }
@@ -108,14 +78,12 @@ export default defineComponent({
     return {
       loadingStatus,
       items,
-      isEditable,
       create,
       showDialog,
       selectedData,
       mode,
       saveChanges,
       viewLayout,
-      canAdd,
     };
   },
 });

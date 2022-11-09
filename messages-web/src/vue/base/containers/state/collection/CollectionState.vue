@@ -1,17 +1,18 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <toolbar class="mb-2" v-if="showToolbar">
-    <template #end>
-      <div class="flex flex-row gap-5">
+  <toolbar class="mb-2">
+    <template #start>
+      <div v-if="showViewModes" class="flex flex-row gap-5">
         <div>Вид</div>
-        <div class="field-radiobutton m-0">
-          <radio-button inputId="data-view" name="city" value="data-view" v-model="viewMode" />
-          <label for="data-view">Спиcок</label>
+        <div v-for="mode in modes" :key="mode.mode" class="field-radiobutton m-0">
+          <radio-button :inputId="mode.mode" name="mode" :value="mode.mode" v-model="viewMode" />
+          <label :for="mode.mode">{{ mode.label }}</label>
         </div>
-        <div class="field-radiobutton m-0">
-          <radio-button inputId="tree-view" name="city" value="tree-view" v-model="viewMode" />
-          <label for="tree-view">Дерево</label>
-        </div>
+      </div>
+    </template>
+    <template #end>
+      <div v-if="canAdd" class="flex justify-content-end">
+        <prime-button-add @click="create" label="Добавить"></prime-button-add>
       </div>
     </template>
   </toolbar>
@@ -23,6 +24,20 @@
       <slot name="tree-view"></slot>
     </div>
   </transition-fade>
+  <prime-dialog header="Создание нового элемента" v-model:visible="showDialog">
+    <custom-form class="shadow-none" v-model:data="selectedData">
+      <template #footer>
+        <div v-if="(isEditable || canAdd) && mode != null" class="flex justify-content-end">
+          <prime-button-add
+            @click="saveChanges"
+            v-if="mode === 'create'"
+            label="Добавить"
+          ></prime-button-add>
+          <prime-button-save @click="saveChanges" v-else label="Сохранить"></prime-button-save>
+        </div>
+      </template>
+    </custom-form>
+  </prime-dialog>
 </template>
 
 <script lang="ts">
@@ -35,19 +50,13 @@ import { ICollectionStoreEdit } from '@/app/core/services/harlem/custom-stores/c
 import { ICollectionStoreRead } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreRead';
 import { ICollectionStoreSave } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSave';
 import { ICollectionStoreSelectedItem } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSelectedItem';
-import {
-  computed,
-  defineComponent,
-  inject,
-  onMounted,
-  PropType,
-  provide,
-  ref,
-  shallowRef,
-  ShallowRef,
-  watch,
-} from 'vue';
+import { computed, defineComponent, PropType, ref, shallowRef, watch } from 'vue';
 import TransitionFade from '@/vue/components/transitions/TransitionFade.vue';
+import Dialog from 'primevue/dialog';
+import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
+import { Provider } from '@/app/core/tools/provider';
+import { IViewMode } from '../@types/viewMode';
+import { DisplayMode } from '../@types/viewTypes';
 
 export type SomeCollectionState<
   TIModel extends IModel,
@@ -61,23 +70,49 @@ export type SomeCollectionState<
   Partial<ICollectionStoreDelete> &
   Partial<ICollectionStoreTree>;
 
-const stateKey = Symbol('--collection-state-provided');
+// Providers
 
-const provideState = (state: ShallowRef<SomeCollectionState<IModel, ModelBase> | null>) =>
-  provide(stateKey, state);
+export const collectionStateProvider = new Provider(
+  () => shallowRef<SomeCollectionState<IModel, ModelBase> | null>(null),
+  '--collection-state-provided',
+);
 
-export const injectCollectionState = () =>
-  inject<ShallowRef<SomeCollectionState<IModel, ModelBase> | null>>(stateKey, shallowRef(null));
+export const showDialogProvider = new Provider(() => ref(false), '--collection-state-show-dialog');
+
+export const reloadOnSaveProvider = new Provider(
+  () => ref(false),
+  '--collection-state-reload-on-save',
+);
 
 export default defineComponent({
-  components: { TransitionFade },
+  components: { TransitionFade, PrimeDialog: Dialog },
+
   props: {
     state: {
       type: Object as PropType<SomeCollectionState<IModel, ModelBase>>,
       required: true,
     },
+
+    reloadOnSave: {
+      type: Boolean,
+      default: false,
+    },
+
+    modes: {
+      type: Array as PropType<IViewMode[]>,
+      default: (): IViewMode[] => [
+        {
+          mode: 'data-view',
+          label: 'Сеткой',
+        },
+        {
+          mode: 'tree-view',
+          label: 'Деревом',
+        },
+      ],
+    },
   },
-  setup(props, { slots }) {
+  setup(props) {
     const stateProvided = shallowRef<SomeCollectionState<IModel, ModelBase> | null>(null);
     watch(
       () => props.state,
@@ -86,27 +121,72 @@ export default defineComponent({
       },
       { immediate: true },
     );
-    provideState(stateProvided);
+    collectionStateProvider.provideFrom(() => props.state);
+    const showDialog = showDialogProvider.provide();
 
-    const hasDataView = computed(() => slots['data-view'] != null);
+    reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
 
-    const hasTreeView = computed(() => slots['tree-view'] != null);
+    const viewMode = ref<DisplayMode>(props.modes[0].mode);
 
-    const viewMode = ref<'data-view' | 'tree-view'>();
+    const showViewModes = computed(() => props.modes.length > 1);
 
-    onMounted(() => {
-      if (hasDataView.value) {
-        viewMode.value = 'data-view';
-      } else if (hasTreeView.value) {
-        viewMode.value = 'tree-view';
+    const create = () => {
+      if (stateProvided.value == null) {
+        return;
       }
-    });
+      const { createItem, itemSelected } = stateProvided.value;
+      if (createItem == null || itemSelected === undefined) {
+        throw new Error('Canot edit uneditable state!');
+      }
 
-    const showToolbar = computed(
-      () => [hasDataView, hasTreeView].filter((c) => c.value).length > 1,
+      createItem();
+      showDialog.value = true;
+    };
+
+    const canAdd = computed(
+      () => stateProvided.value?.createItem != null && stateProvided.value?.saveChanges != null,
     );
 
-    return { hasTreeView, hasDataView, showToolbar, viewMode };
+    const isEditable = computed(
+      () => stateProvided.value?.selectItem != null && stateProvided.value.saveChanges != null,
+    );
+
+    const mode = computed(() => stateProvided.value?.itemSelected?.value?.mode);
+
+    const selectedData = computed({
+      get: () => stateProvided.value?.itemSelected?.value?.data,
+      set: (val) => {
+        if (stateProvided.value?.itemSelected?.value == null || val == null) {
+          return;
+        }
+        stateProvided.value.itemSelected.value = new NotValidData(
+          val,
+          stateProvided.value.itemSelected.value.mode,
+        );
+      },
+    });
+
+    const saveChanges = () => {
+      if (stateProvided.value != null && stateProvided.value.saveChanges != null) {
+        stateProvided.value.saveChanges();
+        showDialog.value = false;
+        if (props.reloadOnSave) {
+          stateProvided.value.getDataAsync({ force: true });
+        }
+      }
+    };
+
+    return {
+      showViewModes,
+      viewMode,
+      create,
+      canAdd,
+      isEditable,
+      mode,
+      showDialog,
+      selectedData,
+      saveChanges,
+    };
   },
 });
 </script>

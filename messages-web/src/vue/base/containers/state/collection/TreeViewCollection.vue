@@ -5,11 +5,11 @@
 <script lang="ts">
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { computed, defineComponent, toRaw, watchEffect } from 'vue';
-import { injectCollectionState } from './CollectionState.vue';
+import { collectionStateProvider } from './CollectionState.vue';
 
 export default defineComponent({
   setup() {
-    const currentState = injectCollectionState();
+    const currentState = collectionStateProvider.inject();
 
     const loadingStatus = computed<DataStatus | undefined>(() => currentState.value?.status.value);
 
@@ -20,9 +20,11 @@ export default defineComponent({
       () => currentState.value?.createItem != null && currentState.value.saveChanges != null,
     );
 
-    const tree = computed(() =>
-      currentState.value?.treeView ? currentState.value.treeView().value ?? [] : [],
-    );
+    if (currentState.value?.treeView == null) {
+      throw new Error("Your state doesn't have a treeView provider");
+    }
+
+    const tree = currentState.value.treeView();
 
     watchEffect(() => {
       console.log('tree is', toRaw(tree.value));

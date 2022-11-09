@@ -1,19 +1,20 @@
 <template>
   <prime-button
     @click="dark = !dark"
-    :icon="dark ? 'pi pi-moon' : 'pi pi-sun'"
+    :icon="!dark ? 'pi pi-moon' : 'pi pi-sun'"
     class="p-button-rounded no-label p-button-secondary"
+    :class="{ blurred: dark }"
   ></prime-button>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useDark } from '@vueuse/core';
 import { useHead } from '@vueuse/head';
+import { isDark } from '@/store/theme.store';
 
 export default defineComponent({
   setup() {
-    const dark = useDark();
+    const dark = isDark;
     const themeString = computed(() => (dark.value ? 'dark' : 'light'));
     useHead({
       link: [
@@ -32,4 +33,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.blurred {
+  backdrop-filter: blur(0.5rem);
+}
+</style>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.OrdersNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
@@ -34,6 +35,18 @@ namespace Rk.Messages.Spa.Controllers
         public async Task<OrderResponse> GetOrder(long orderId)
         {
             return await _service.GetOrder(orderId);
+        }
+
+        /// <summary>
+        /// Получить список заказов
+        /// </summary>     
+        [HttpGet]
+        public async Task<PagedResponse<OrderShortDto>> GetOrders([FromQuery] FilterOrdersRequest request)
+        {
+
+            var result = await _service.GetOrders(request);
+
+            return result;
         }
 
     }

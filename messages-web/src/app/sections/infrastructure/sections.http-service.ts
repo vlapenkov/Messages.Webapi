@@ -1,23 +1,20 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { Ok } from '@/app/core/handlers/http/results/ok.result';
 import { defineCollectionService } from '@/app/core/services/http/custom/collection.http-service';
-import { FakeRepository } from '@/app/core/services/http/handlers/mock/fake-repository';
-import { useMock } from '@/app/core/services/http/wrappers/useMock.wrapper';
 import { ISectionModel } from '../models/ISectionModel';
-import { SectionModel } from '../models/section.model';
 
 const [service, { defineGet, definePost }] = defineCollectionService<ISectionModel>({
   url: 'api/v1/Sections/',
 });
 
-const fakeSections = new FakeRepository(SectionModel, 15);
+// const fakeSections = new FakeRepository(SectionModel, 15);
 
 service.get = defineGet(
   () => ({
     url: 'list',
   }),
   {
-    append: [useMock(() => fakeSections.collection)],
+    // append: [useMock(() => fakeSections.collection)],
   },
 );
 
@@ -34,13 +31,13 @@ service.post = definePost(
         }
         return response;
       },
-      useMock<ISectionModel, ISectionModel>((request) => {
-        const mock = new SectionModel().mock() as SectionModel;
-        mock.parentSectionId = request.parentSectionId;
-        mock.name = request.name;
-        fakeSections.add(mock);
-        return request;
-      }),
+      // useMock<ISectionModel, ISectionModel>((request) => {
+      //   const mock = new SectionModel().mock() as SectionModel;
+      //   mock.parentSectionId = request.parentSectionId;
+      //   mock.name = request.name;
+      //   fakeSections.add(mock);
+      //   return request;
+      // }),
     ],
   },
 );

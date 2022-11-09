@@ -1,6 +1,15 @@
 <template>
   <loading-status-handler :status="loadingStatus">
-    <data-view class="border-round" :layout="viewLayout" :value="items">
+    <data-view
+      paginator
+      :rows="pageSize"
+      :first="pageSize * (pageNumber - 1)"
+      :totalRecords="totalItemsCount"
+      class="border-round"
+      :layout="viewLayout"
+      :value="items"
+      @page="changePage"
+    >
       <template #list="{ data }">
         <div class="col-12">
           <data-card class="shadow-none" :data="data"> </data-card>
@@ -36,7 +45,7 @@
 
 <script lang="ts">
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, toRaw, watchEffect } from 'vue';
 import Dialog from 'primevue/dialog';
 import { screenLarge } from '@/app/core/services/window/window.service';
 import { injectPageableCollectionState } from './PageableCollectionState.vue';
@@ -53,7 +62,34 @@ export default defineComponent({
     const currentState = injectPageableCollectionState();
 
     const loadingStatus = computed<DataStatus | undefined>(() => currentState.value?.status.value);
-    const items = currentState.value?.currentPageItems;
+
+    const pageSize = computed(() => currentState.value?.pageSize.value ?? 0);
+
+    const pageNumber = computed(() => currentState.value?.pageNumber.value ?? 0);
+
+    const totalItemsCount = computed(
+      () => currentState.value?.currentPage.value?.totalItemCount ?? 0,
+    );
+
+    const prevItemsSize = computed(() => {
+      console.log(pageNumber.value, pageSize.value, pageNumber.value > 0 && pageSize.value > 0);
+
+      return pageNumber.value > 0 && pageSize.value > 0
+        ? (pageNumber.value - 1) * pageSize.value
+        : 0;
+    });
+
+    const items = computed(() => [
+      ...[...new Array(prevItemsSize.value)].map(() => null),
+      ...(currentState.value?.currentPage.value?.rows ?? []),
+    ]);
+
+    watchEffect(() => {
+      console.log('page', toRaw(currentState.value?.currentPage.value));
+
+      console.log('prevItemsSize', prevItemsSize.value);
+      console.log('items', toRaw(items.value));
+    });
 
     const isEditable = computed(() => false);
     const canAdd = computed(() => false);
@@ -101,6 +137,15 @@ export default defineComponent({
 
     const viewLayout = computed(() => (screenLarge.value ? 'grid' : 'list'));
 
+    const changePage = ({ page }: { page: number }) => {
+      console.log({ page });
+
+      if (currentState.value == null || page == null) {
+        return;
+      }
+      currentState.value.pageNumber.value = page + 1;
+    };
+
     return {
       loadingStatus,
       items,
@@ -110,6 +155,10 @@ export default defineComponent({
       // selectedData,
       // mode,
       // saveChanges,
+      pageSize,
+      pageNumber,
+      totalItemsCount,
+      changePage,
       viewLayout,
       canAdd,
     };

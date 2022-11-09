@@ -45,21 +45,6 @@ export function definePageableCollectionStore<
   const pageNumber = computeState((state) => state[pageNumberKey] as unknown as number);
   const pageSize = computeState((state) => state[pageSizeKey] as unknown as number);
 
-  const pageRequestKey = getPageRequestProp(stateDefault);
-
-  const pageRequest =
-    pageRequestKey == null
-      ? getter<IPagedRequest>('page-request', () => ({
-          pageNumber: pageNumber.value,
-          pageSize: pageSize.value,
-        }))
-      : getter<IPagedRequest>('page-request', (state) => {
-          const getRequest = state[
-            pageRequestKey as keyof typeof state
-          ] as unknown as () => IPagedRequest;
-          return getRequest();
-        });
-
   const dataStatusKey = getDataStatusProp(stateDefault);
 
   if (dataStatusKey == null) {
@@ -107,6 +92,10 @@ export function definePageableCollectionStore<
       const md = new Model();
       const success = md.fromResponse(r);
       if (!success) {
+        status.value = new DataStatus(
+          'error',
+          'Не удалось сопоставить элементы страницы с классом модели',
+        );
         throw new Error('Не удалось сопоставить элементы страницы с классом модели');
       }
       return md;
@@ -117,27 +106,15 @@ export function definePageableCollectionStore<
     const indexOfCurrentPage = pages.value.findIndex(
       (p) => p.pageNumber === payload.pageNumber && p.pageSize === payload.pageSize,
     );
+    const newPages = [...pages.value];
     if (indexOfCurrentPage < 0) {
-      pages.value.push(pageToAdd);
+      newPages.push(pageToAdd);
     } else {
-      pages.value[indexOfCurrentPage] = pageToAdd;
+      newPages[indexOfCurrentPage] = pageToAdd;
     }
+    pages.value = newPages;
+    status.value = new DataStatus('loaded');
   });
-
-  watch(
-    pageRequest,
-    (request) => {
-      if (request.pageSize <= 0) {
-        return;
-      }
-      if (currentPage.value == null) {
-        getPage(request);
-      }
-    },
-    {
-      immediate: true,
-    },
-  );
 
   const readonlyStore: IPageableCollectionStore<TIModel, TModel> = {
     pageSize,
@@ -149,5 +126,36 @@ export function definePageableCollectionStore<
     currentPage,
     currentPageItems,
   };
+
+  const pageRequestKey = getPageRequestProp(stateDefault);
+
+  const pageRequest =
+    pageRequestKey == null
+      ? getter<IPagedRequest>('page-request', () => ({
+          pageNumber: pageNumber.value,
+          pageSize: pageSize.value,
+        }))
+      : getter<IPagedRequest>('page-request', (state) => {
+          const getRequest = state[pageRequestKey as keyof typeof state] as unknown as (
+            arg: IPageableCollectionStore<TIModel, TModel>,
+          ) => IPagedRequest;
+          return getRequest(readonlyStore);
+        });
+  watch(
+    pageRequest,
+    (request) => {
+      console.log({ request });
+
+      if (request.pageSize <= 0) {
+        return;
+      }
+      if (currentPage.value == null) {
+        getPage(request);
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
   return readonlyStore;
 }

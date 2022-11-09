@@ -17,11 +17,11 @@ export interface IProductShortModel extends IModel {
 }
 
 export class ProductShortModel extends ModelBase<IProductShortModel> {
-  @description('Цена')
-  price: number | null = null;
-
   @description('Описание товара')
   description = '';
+
+  @description('Цена')
+  price: number | null = null;
 
   @hidden('edit')
   @description('Создал:')

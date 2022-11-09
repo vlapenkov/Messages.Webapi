@@ -28,6 +28,11 @@ export default defineComponent({
         to: { name: 'sections' },
         icon: 'pi pi-folder',
       },
+      {
+        label: 'Товары',
+        to: { name: 'products' },
+        icon: 'pi pi-list',
+      },
     ];
     const { y } = useWindowScroll();
 

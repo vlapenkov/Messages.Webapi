@@ -1,3 +1,3 @@
-export interface ICollectionStoreAdd {
+export interface IStoreAdd {
   createItem: (payload?: void | undefined) => void;
 }

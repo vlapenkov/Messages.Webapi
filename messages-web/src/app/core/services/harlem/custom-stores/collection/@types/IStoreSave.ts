@@ -1,5 +1,5 @@
 import type { Action } from '@harlem/extension-action';
 
-export interface ICollectionStoreSave {
+export interface IStoreSave {
   saveChanges: Action<void>;
 }

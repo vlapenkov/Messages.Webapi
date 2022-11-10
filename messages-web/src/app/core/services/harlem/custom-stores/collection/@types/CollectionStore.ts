@@ -1,21 +1,21 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { ICollectionStoreAdd } from './ICollectionstoreAdd';
-import { ICollectionStoreDelete } from './ICollectionStoreDelete';
-import { ICollectionStoreEdit } from './ICollectionstoreEdit';
+import { IStoreAdd } from './IStoreAdd';
+import { IStoreDelete } from './IStoreDelete';
+import { IStoreEdit } from './IStoreEdit';
 import { ICollectionStoreRead } from './ICollectionStoreRead';
-import { ICollectionStoreSave } from './ICollectionStoreSave';
-import { ICollectionStoreSelectedItem } from './ICollectionStoreSelectedItem';
-import { ICollectionStoreTree } from './ICollectionStoreTree';
+import { IStoreSave } from './IStoreSave';
+import { ISelectedItem } from './IStoreSelectedItem';
+import { IStoreTree } from './IStoreTree';
 
 export type CollectionStore<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
 > = ICollectionStoreRead<IModel, TModel> &
-  Partial<ICollectionStoreAdd> &
-  Partial<ICollectionStoreSelectedItem<IModel, TModel>> &
-  Partial<ICollectionStoreEdit> &
-  Partial<ICollectionStoreAdd> &
-  Partial<ICollectionStoreSave> &
-  Partial<ICollectionStoreDelete> &
-  Partial<ICollectionStoreTree>;
+  Partial<IStoreAdd> &
+  Partial<ISelectedItem<IModel, TModel>> &
+  Partial<IStoreEdit> &
+  Partial<IStoreAdd> &
+  Partial<IStoreSave> &
+  Partial<IStoreDelete> &
+  Partial<IStoreTree>;

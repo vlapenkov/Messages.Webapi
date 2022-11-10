@@ -1,5 +1,5 @@
 import { ICollectionStoreRead } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreRead';
-import { ICollectionStoreSelectedItem } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSelectedItem';
+import { ISelectedItem } from '@/app/core/services/harlem/custom-stores/collection/@types/IStoreSelectedItem';
 import { defineCollectionStore } from '@/app/core/services/harlem/custom-stores/collection/collection.store';
 import { StateBase } from '@/app/core/services/harlem/state/base/state-base';
 import { collection } from '@/app/core/services/harlem/state/decorators/collection.decorator';
@@ -51,5 +51,4 @@ export const sectionsStore = defineCollectionStore(
   SectionModel,
   SectionState,
   sectionsHttpService,
-) as ICollectionStoreRead<ISectionModel, SectionModel> &
-  ICollectionStoreSelectedItem<ISectionModel, SectionModel>;
+) as ICollectionStoreRead<ISectionModel, SectionModel> & ISelectedItem<ISectionModel, SectionModel>;

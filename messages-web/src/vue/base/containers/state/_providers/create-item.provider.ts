@@ -1,7 +1,7 @@
-import { ICollectionStoreAdd } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionstoreAdd';
+import { IStoreAdd } from '@/app/core/services/harlem/custom-stores/collection/@types/IStoreAdd';
 import { Provider } from '@/app/core/tools/provider';
 import { shallowRef, ShallowRef } from 'vue';
 
-type createFn = ICollectionStoreAdd['createItem'] | undefined;
+type createFn = IStoreAdd['createItem'] | undefined;
 
 export const createItemProvider = new Provider<createFn, ShallowRef<createFn>>(() => shallowRef());

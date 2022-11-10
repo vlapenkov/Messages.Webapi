@@ -35,6 +35,12 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         public DbSet<Document> Documents { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
                       
@@ -86,6 +92,34 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasOne(self => self.Document)
                     .WithMany()
                     .HasForeignKey(self => self.DocumentId);
+
+            });
+
+            builder.Entity<Order>(entity =>
+            {
+                entity.HasMany(self => self.OrderItems)
+                    .WithOne(oi=>oi.Order)
+                    .HasForeignKey(self => self.OrderId);
+
+                entity.HasOne(self => self.Organization)
+                   .WithMany()
+                   .HasForeignKey(self => self.OrganizationId);
+
+            });
+
+            builder.Entity<OrderItem>(entity =>
+            {
+                entity.HasOne(self => self.Product)
+                    .WithMany()
+                    .HasForeignKey(self => self.ProductId);
+
+            });
+
+            builder.Entity<ShoppingCartItem>(entity =>
+            {
+                entity.HasOne(self => self.Product)
+                    .WithMany()
+                    .HasForeignKey(self => self.ProductId);
 
             });
 

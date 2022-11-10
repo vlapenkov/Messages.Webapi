@@ -30,7 +30,10 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
             var request = query.Request;
 
-            IQueryable<Product> productsQuery = _dbContext.Products.AsNoTracking();
+            IQueryable<Product> productsQuery = _dbContext.Products
+                .Include(product=> product.ProductDocuments)
+                .ThenInclude(pd => pd.Document)
+                .AsNoTracking();
 
             if (request.CatalogSectionId != null)
                 productsQuery = productsQuery.Where(product => product.CatalogSectionId == request.CatalogSectionId);

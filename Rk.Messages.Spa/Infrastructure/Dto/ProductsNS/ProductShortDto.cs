@@ -10,11 +10,17 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
     /// </summary>
     public record ProductShortDto : AuditableEntityDto
     {
+        /// <summary>идентификатор продукта</summary>
+        public long Id { get; set; }
+
         /// <summary>информация о продукте</summary>
         public string Description { get; set; }
 
         /// <summary>цена</summary>
         public decimal Price { get; set; }
-        
+
+        /// <summary>Ссылка на документ</summary>
+        public Guid? DocumentId { get; set; }
+
     }
 }

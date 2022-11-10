@@ -59,28 +59,42 @@ namespace Rk.Messages.Spa
         public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration config)
         {
             services.AddTransient<AuthHeaderPropagationHandler>();
+
             services.AddTransient<CorrelationIdDelegatingHandler>();
+           
 
-            services.AddRefitClient<IMessagesServices>()
-                .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
-                .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
-                .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
+            Uri messagesUri = new Uri(config["Services:Messages:BaseUrl"]);
 
-            services.AddRefitClient<ISectionsServices>()
-                .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
-                .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
-                 .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
+            Uri fileStoreUri = new Uri(config["Services:FileStore:BaseUrl"]);
 
-            services.AddRefitClient<IProductsService>()
-               .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:Messages:BaseUrl"]))
-               .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
-                .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
+            services.AddRefitClient<IMessagesServices>(messagesUri)
 
-            services.AddRefitClient<IFileStoreService>()
-              .ConfigureHttpClient(c => c.BaseAddress = new System.Uri(config["Services:FileStore:BaseUrl"]))
+                    .AddRefitClient<ISectionsServices>(messagesUri)
+
+                    .AddRefitClient<IProductsService>(messagesUri)
+
+                    .AddRefitClient<IShoppingCartService>(messagesUri)
+
+                    .AddRefitClient<IOrdersService>(messagesUri)
+
+                    .AddRefitClient<IFileStoreService>(fileStoreUri);           
+
+            return services;
+        }
+
+        /// <summary>
+        /// Обертка для регистрации Refit клиента
+        /// </summary>
+        /// <typeparam name="IService">интерфейс сервиса</typeparam>
+        /// <param name="services">коллекция сервисов для DI</param>
+        /// <param name="uri">baseuri для сервиса </param>
+        /// <returns></returns>
+        private static IServiceCollection AddRefitClient<IService>(this IServiceCollection services, Uri uri) {
+
+            services.AddRefitClient(typeof(IService))
+              .ConfigureHttpClient(c => c.BaseAddress = uri)
               .AddHttpMessageHandler<AuthHeaderPropagationHandler>()
                .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
-
             return services;
         }
 

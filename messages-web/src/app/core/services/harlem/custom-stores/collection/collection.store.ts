@@ -9,7 +9,7 @@ import { useDataStatus } from '../tools/useDataStatus';
 import { useCollectionItems } from '../tools/useCollectionItems';
 import { useSelectedItem } from '../tools/useSelectedItem';
 import { useTreeView } from '../tools/useTreeView';
-import { CollectionState } from './@types/CollectionStore';
+import { CollectionStore } from './@types/CollectionStore';
 
 export function defineCollectionStore<
   TIModel extends IModel,
@@ -20,7 +20,7 @@ export function defineCollectionStore<
   Model: Constructor<TModel>,
   State: Constructor<TState>,
   service: ICollectionHttpService<TIModel>,
-): CollectionState<TIModel, TModel> {
+): CollectionStore<TIModel, TModel> {
   const stateDefault = new State();
   const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
 

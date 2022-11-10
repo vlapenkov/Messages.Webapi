@@ -43,35 +43,27 @@
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { computed, defineComponent, PropType, ref, shallowRef, watch } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import TransitionFade from '@/vue/components/transitions/TransitionFade.vue';
 import Dialog from 'primevue/dialog';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
-import { Provider } from '@/app/core/tools/provider';
-import { CollectionState } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
+import { CollectionStore } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
 import { IViewMode } from '../@types/viewMode';
 import { DisplayMode } from '../@types/viewTypes';
-
-// Providers
-
-export const collectionStateProvider = new Provider(
-  () => shallowRef<CollectionState<IModel, ModelBase> | null>(null),
-  '--collection-state-provided',
-);
-
-export const showDialogProvider = new Provider(() => ref(false), '--collection-state-show-dialog');
-
-export const reloadOnSaveProvider = new Provider(
-  () => ref(false),
-  '--collection-state-reload-on-save',
-);
+import { reloadOnSaveProvider } from '../_providers/reload-on-save.provider';
+import { showDialogProvider } from '../_providers/show-dialog.provider';
+import { itemsCollectionProvider } from '../_providers/items-collection.provider';
+import { itemSelectedProvider } from '../_providers/item-selected.provider';
+import { createItemProvider } from '../_providers/create-item.provider';
+import { getItemsCollectionProvider } from '../_providers/get-items-collection.provider';
+import { saveChangesProvider } from '../_providers/save-changes.provider';
 
 export default defineComponent({
   components: { TransitionFade, PrimeDialog: Dialog },
 
   props: {
     state: {
-      type: Object as PropType<CollectionState<IModel, ModelBase>>,
+      type: Object as PropType<CollectionStore<IModel, ModelBase>>,
       required: true,
     },
 
@@ -95,65 +87,53 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const stateProvided = shallowRef<CollectionState<IModel, ModelBase> | null>(null);
-    watch(
-      () => props.state,
-      (val) => {
-        stateProvided.value = val;
-      },
-      { immediate: true },
-    );
-    collectionStateProvider.provideFrom(() => props.state);
     const showDialog = showDialogProvider.provide();
 
     reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
-
-    const viewMode = ref<DisplayMode>(props.modes[0].mode);
+    itemsCollectionProvider.provideFrom(() => props.state.items);
+    const itemSelected = itemSelectedProvider.provideFrom(() => props.state.itemSelected);
+    const createItem = createItemProvider.provideFrom(() => props.state.createItem);
+    const getData = getItemsCollectionProvider.provideFrom(() => props.state.getDataAsync);
+    saveChangesProvider.provideFrom(() => props.state.saveChanges);
 
     const showViewModes = computed(() => props.modes.length > 1);
+    const viewMode = ref<DisplayMode>(props.modes[0].mode);
 
     const create = () => {
-      if (stateProvided.value == null) {
-        return;
-      }
-      const { createItem, itemSelected } = stateProvided.value;
-      if (createItem == null || itemSelected === undefined) {
+      if (createItem.value == null || itemSelected.value === undefined) {
         throw new Error('Canot edit uneditable state!');
       }
 
-      createItem();
+      createItem.value();
       showDialog.value = true;
     };
 
     const canAdd = computed(
-      () => stateProvided.value?.createItem != null && stateProvided.value?.saveChanges != null,
+      () => props.state.createItem != null && props.state.saveChanges != null,
     );
 
     const isEditable = computed(
-      () => stateProvided.value?.selectItem != null && stateProvided.value.saveChanges != null,
+      () => props.state.selectItem != null && props.state.saveChanges != null,
     );
 
-    const mode = computed(() => stateProvided.value?.itemSelected?.value?.mode);
+    const mode = computed(() => props.state.itemSelected?.value?.mode);
 
     const selectedData = computed({
-      get: () => stateProvided.value?.itemSelected?.value?.data,
+      get: () => itemSelected?.value?.value?.data,
       set: (val) => {
-        if (stateProvided.value?.itemSelected?.value == null || val == null) {
+        if (itemSelected.value == null || val == null || mode.value == null) {
           return;
         }
-        stateProvided.value.itemSelected.value = new NotValidData(
-          val,
-          stateProvided.value.itemSelected.value.mode,
-        );
+        itemSelected.value.value = new NotValidData(val, mode.value);
       },
     });
 
     const saveChanges = () => {
-      if (stateProvided.value != null && stateProvided.value.saveChanges != null) {
-        stateProvided.value.saveChanges();
+      if (props.state != null && props.state.saveChanges != null && getData.value != null) {
+        props.state.saveChanges();
         showDialog.value = false;
         if (props.reloadOnSave) {
-          stateProvided.value.getDataAsync({ force: true });
+          getData.value({ force: true });
         }
       }
     };

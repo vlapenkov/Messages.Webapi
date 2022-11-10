@@ -1,6 +1,6 @@
 import { inject, provide, Ref, ShallowRef, watch } from 'vue';
 
-export class Provider<TData, TRef extends Ref<TData> | ShallowRef<TData>> {
+export class Provider<TData, TRef extends Ref<TData | undefined> | ShallowRef<TData | undefined>> {
   private key: symbol;
 
   constructor(private createDefault: () => TRef, name = '') {

@@ -8,7 +8,7 @@ import { ICollectionStoreSave } from './ICollectionStoreSave';
 import { ICollectionStoreSelectedItem } from './ICollectionStoreSelectedItem';
 import { ICollectionStoreTree } from './ICollectionStoreTree';
 
-export type CollectionState<
+export type CollectionStore<
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
 > = ICollectionStoreRead<IModel, TModel> &

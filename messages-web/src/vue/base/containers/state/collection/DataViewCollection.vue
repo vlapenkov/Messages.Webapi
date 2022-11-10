@@ -16,59 +16,56 @@
 </template>
 
 <script lang="ts">
-import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { computed, defineComponent } from 'vue';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { screenLarge } from '@/app/core/services/window/window.service';
-import {
-  collectionStateProvider,
-  reloadOnSaveProvider,
-  showDialogProvider,
-} from './CollectionState.vue';
+import { reloadOnSaveProvider } from '../_providers/reload-on-save.provider';
+import { showDialogProvider } from '../_providers/show-dialog.provider';
+import { loadingStatusProvider } from '../_providers/loading-status.provider';
+import { itemsCollectionProvider } from '../_providers/items-collection.provider';
+import { createItemProvider } from '../_providers/create-item.provider';
+import { itemSelectedProvider } from '../_providers/item-selected.provider';
+import { getItemsCollectionProvider } from '../_providers/get-items-collection.provider';
+import { saveChangesProvider } from '../_providers/save-changes.provider';
 
 export default defineComponent({
   setup() {
-    const currentState = collectionStateProvider.inject();
     const reloadOnSave = reloadOnSaveProvider.inject();
     const showDialog = showDialogProvider.inject();
-
-    const loadingStatus = computed<DataStatus | undefined>(() => currentState.value?.status.value);
-    const items = currentState.value?.items();
+    const loadingStatus = loadingStatusProvider.inject();
+    const items = itemsCollectionProvider.inject();
+    const createItem = createItemProvider.inject();
+    const itemSelected = itemSelectedProvider.inject();
+    const getItems = getItemsCollectionProvider.inject();
+    const saveState = saveChangesProvider.inject();
 
     const create = () => {
-      if (currentState.value == null) {
-        return;
-      }
-      const { createItem, itemSelected } = currentState.value;
-      if (createItem == null || itemSelected === undefined) {
+      if (createItem.value == null || itemSelected === undefined) {
         throw new Error('Canot edit uneditable state!');
       }
 
-      createItem();
+      createItem.value();
       showDialog.value = true;
     };
 
-    const mode = computed(() => currentState.value?.itemSelected?.value?.mode);
+    const mode = computed(() => itemSelected.value?.value?.mode);
 
     const selectedData = computed({
-      get: () => currentState.value?.itemSelected?.value?.data,
+      get: () => itemSelected.value?.value?.data,
       set: (val) => {
-        if (currentState.value?.itemSelected?.value == null || val == null) {
+        if (itemSelected.value?.value == null || mode.value == null || val == null) {
           return;
         }
-        currentState.value.itemSelected.value = new NotValidData(
-          val,
-          currentState.value.itemSelected.value.mode,
-        );
+        itemSelected.value.value = new NotValidData(val, mode.value);
       },
     });
 
     const saveChanges = () => {
-      if (currentState.value != null && currentState.value.saveChanges != null) {
-        currentState.value.saveChanges();
+      if (getItems.value != null && saveState.value != null) {
+        saveState.value();
         showDialog.value = false;
         if (reloadOnSave.value) {
-          currentState.value.getDataAsync({ force: true });
+          getItems.value({ force: true });
         }
       }
     };

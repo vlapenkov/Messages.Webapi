@@ -1,12 +1,12 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { IStoreAdd } from './IStoreAdd';
-import { IStoreDelete } from './IStoreDelete';
-import { IStoreEdit } from './IStoreEdit';
+import { IStoreAdd } from '../../@types/IStoreAdd';
+import { IStoreDelete } from '../../@types/IStoreDelete';
+import { IStoreEdit } from '../../@types/IStoreEdit';
 import { ICollectionStoreRead } from './ICollectionStoreRead';
-import { IStoreSave } from './IStoreSave';
-import { ISelectedItem } from './IStoreSelectedItem';
-import { IStoreTree } from './IStoreTree';
+import { IStoreSave } from '../../@types/IStoreSave';
+import { ISelectedItem } from '../../@types/IStoreSelectedItem';
+import { IStoreTree } from '../../@types/IStoreTree';
 
 export type CollectionStore<
   TIModel extends IModel,

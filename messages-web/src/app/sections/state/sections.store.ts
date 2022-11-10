@@ -1,5 +1,5 @@
 import { ICollectionStoreRead } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreRead';
-import { ISelectedItem } from '@/app/core/services/harlem/custom-stores/collection/@types/IStoreSelectedItem';
+import { ISelectedItem } from '@/app/core/services/harlem/custom-stores/@types/IStoreSelectedItem';
 import { defineCollectionStore } from '@/app/core/services/harlem/custom-stores/collection/collection.store';
 import { StateBase } from '@/app/core/services/harlem/state/base/state-base';
 import { collection } from '@/app/core/services/harlem/state/decorators/collection.decorator';

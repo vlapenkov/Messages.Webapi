@@ -1,4 +1,4 @@
-import { IStoreAdd } from '@/app/core/services/harlem/custom-stores/collection/@types/IStoreAdd';
+import { IStoreAdd } from '@/app/core/services/harlem/custom-stores/@types/IStoreAdd';
 import { Provider } from '@/app/core/tools/provider';
 import { shallowRef, ShallowRef } from 'vue';
 

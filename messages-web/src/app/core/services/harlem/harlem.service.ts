@@ -11,7 +11,7 @@ export function createDefaultStore<TState extends AnyRecord<string>>(name: strin
   });
 }
 
-/** Этот класс нужен чтобы Тайпскрипту вывести типы. */
+/** Этот класс нужен чтобы помочь Тайпскрипту вывести типы. */
 class CdsWrapper<TState extends AnyRecord<string>> {
   // eslint-disable-next-line class-methods-use-this
   cds(name: string, state: TState) {

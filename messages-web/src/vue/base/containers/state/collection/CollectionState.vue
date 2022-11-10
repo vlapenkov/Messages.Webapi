@@ -1,6 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <toolbar class="mb-2">
+  <toolbar class="mb-2 pt-2 pb-2">
     <template #start>
       <div v-if="showViewModes" class="flex flex-row gap-5">
         <div>Вид</div>
@@ -43,37 +43,19 @@
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { ICollectionStoreTree } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreTree';
-import { ICollectionStoreAdd } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionstoreAdd';
-import { ICollectionStoreDelete } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreDelete';
-import { ICollectionStoreEdit } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionstoreEdit';
-import { ICollectionStoreRead } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreRead';
-import { ICollectionStoreSave } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSave';
-import { ICollectionStoreSelectedItem } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreSelectedItem';
 import { computed, defineComponent, PropType, ref, shallowRef, watch } from 'vue';
 import TransitionFade from '@/vue/components/transitions/TransitionFade.vue';
 import Dialog from 'primevue/dialog';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { Provider } from '@/app/core/tools/provider';
+import { CollectionState } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
 import { IViewMode } from '../@types/viewMode';
 import { DisplayMode } from '../@types/viewTypes';
-
-export type SomeCollectionState<
-  TIModel extends IModel,
-  TModel extends ModelBase<TIModel>,
-> = ICollectionStoreRead<IModel, TModel> &
-  Partial<ICollectionStoreAdd> &
-  Partial<ICollectionStoreSelectedItem<IModel, TModel>> &
-  Partial<ICollectionStoreEdit> &
-  Partial<ICollectionStoreAdd> &
-  Partial<ICollectionStoreSave> &
-  Partial<ICollectionStoreDelete> &
-  Partial<ICollectionStoreTree>;
 
 // Providers
 
 export const collectionStateProvider = new Provider(
-  () => shallowRef<SomeCollectionState<IModel, ModelBase> | null>(null),
+  () => shallowRef<CollectionState<IModel, ModelBase> | null>(null),
   '--collection-state-provided',
 );
 
@@ -89,7 +71,7 @@ export default defineComponent({
 
   props: {
     state: {
-      type: Object as PropType<SomeCollectionState<IModel, ModelBase>>,
+      type: Object as PropType<CollectionState<IModel, ModelBase>>,
       required: true,
     },
 
@@ -113,7 +95,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const stateProvided = shallowRef<SomeCollectionState<IModel, ModelBase> | null>(null);
+    const stateProvided = shallowRef<CollectionState<IModel, ModelBase> | null>(null);
     watch(
       () => props.state,
       (val) => {

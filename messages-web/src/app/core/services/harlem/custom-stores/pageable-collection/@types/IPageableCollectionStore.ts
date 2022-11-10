@@ -15,5 +15,5 @@ export interface IPageableCollectionStore<
   toNextPage: (payload?: unknown) => void;
   toPreviousPage: (payload?: unknown) => void;
   currentPage: ComputedRef<IPagedResponse<TModel> | undefined>;
-  currentPageItems: WritableComputedRef<TModel[] | undefined>;
+  currentPageItems: WritableComputedRef<TModel[] | null>;
 }

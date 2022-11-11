@@ -69,6 +69,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
       this.lastModifiedBy = model.lastModifiedBy;
       this.created = new Date(model.created);
       this.lastModified = new Date(model.lastModified);
+      this.name = model.name;
       return true;
     } catch (error) {
       return false;

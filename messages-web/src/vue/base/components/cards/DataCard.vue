@@ -34,7 +34,7 @@
       <slot name="footer">
         <div v-if="canEdit" class="flex flex-row justify-content-end">
           <div>
-            <prime-button-edit @click="select" label="Редактировать"></prime-button-edit>
+            <prime-button-edit @click="select"></prime-button-edit>
           </div>
         </div>
       </slot>

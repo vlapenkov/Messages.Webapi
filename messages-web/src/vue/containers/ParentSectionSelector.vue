@@ -6,14 +6,16 @@
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import type { SectionModel } from '@/app/sections/models/section.model';
 import { computed, defineComponent } from 'vue';
-import { collectionStateProvider } from '../base/containers/state/collection/CollectionState.vue';
+import { itemSelectedProvider } from '../base/containers/state/_providers/item-selected.provider';
+import { itemsCollectionProvider } from '../base/containers/state/_providers/items-collection.provider';
 
 export default defineComponent({
   setup() {
-    const store = collectionStateProvider.inject();
+    const items = itemsCollectionProvider.inject();
+    const itemSelected = itemSelectedProvider.inject();
 
     const itemsAsOptions = computed(() =>
-      (store.value?.items()?.value ?? []).map((i) => {
+      (items.value?.()?.value ?? []).map((i) => {
         const item = i as SectionModel;
         return {
           label: `${item.name} (id: ${item.id})`,
@@ -22,20 +24,15 @@ export default defineComponent({
       }),
     );
     const selectedItem = computed({
-      get: () => store.value?.itemSelected?.value?.data as SectionModel,
+      get: () => itemSelected.value?.value?.data as SectionModel,
       set: (val) => {
-        const mode = store.value?.itemSelected?.value?.mode;
+        const mode = itemSelected.value?.value?.mode;
         console.log({ val, mode });
 
-        if (
-          mode == null ||
-          val == null ||
-          store.value == null ||
-          store.value?.itemSelected == null
-        ) {
+        if (mode == null || val == null || itemSelected.value == null) {
           return;
         }
-        store.value.itemSelected.value = new NotValidData(val, mode);
+        itemSelected.value.value = new NotValidData(val, mode);
       },
     });
     const parentId = computed({

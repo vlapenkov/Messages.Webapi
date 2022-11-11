@@ -16,28 +16,34 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { screenLarge } from '@/app/core/services/window/window.service';
-import { reloadOnSaveProvider } from '../_providers/reload-on-save.provider';
-import { showDialogProvider } from '../_providers/show-dialog.provider';
-import { loadingStatusProvider } from '../_providers/loading-status.provider';
-import { itemsCollectionProvider } from '../_providers/items-collection.provider';
-import { createItemProvider } from '../_providers/create-item.provider';
-import { itemSelectedProvider } from '../_providers/item-selected.provider';
-import { getItemsCollectionProvider } from '../_providers/get-items-collection.provider';
-import { saveChangesProvider } from '../_providers/save-changes.provider';
+import { computed, defineComponent } from 'vue';
+import { createItemProvider } from '../../_providers/create-item.provider';
+import { getItemsCollectionProvider } from '../../_providers/get-items-collection.provider';
+import { itemSelectedProvider } from '../../_providers/item-selected.provider';
+import { itemsCollectionProvider } from '../../_providers/items-collection.provider';
+import { loadingStatusProvider } from '../../_providers/loading-status.provider';
+import { reloadOnSaveProvider } from '../../_providers/reload-on-save.provider';
+import { saveChangesProvider } from '../../_providers/save-changes.provider';
+import { showDialogProvider } from '../../_providers/show-dialog.provider';
 
 export default defineComponent({
   setup() {
     const reloadOnSave = reloadOnSaveProvider.inject();
     const showDialog = showDialogProvider.inject();
-    const loadingStatus = loadingStatusProvider.inject();
-    const items = itemsCollectionProvider.inject();
+    const loadingStatus = loadingStatusProvider.inject().value;
+    const wrappedItems = itemsCollectionProvider.inject();
     const createItem = createItemProvider.inject();
     const itemSelected = itemSelectedProvider.inject();
     const getItems = getItemsCollectionProvider.inject();
     const saveState = saveChangesProvider.inject();
+
+    if (wrappedItems.value == null) {
+      throw new Error('невозможно показать коллекцию элементов');
+    }
+
+    const items = wrappedItems.value();
 
     const create = () => {
       if (createItem.value == null || itemSelected === undefined) {

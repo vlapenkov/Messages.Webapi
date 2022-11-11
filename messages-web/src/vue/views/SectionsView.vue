@@ -21,17 +21,17 @@
 <script lang="ts">
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { defineComponent } from 'vue';
-import DataViewCollection from '../base/containers/state/collection/DataViewCollection.vue';
-import CollectionState from '../base/containers/state/collection/CollectionState.vue';
-import TreeViewCollection from '../base/containers/state/collection/TreeViewCollection.vue';
+import CollectionState from '../base/containers/state/CollectionState.vue';
+import DataViewCollection from '../base/containers/state/data-views/collection/DataViewCollection.vue';
+import TreeViewCollection from '../base/containers/state/data-views/collection/TreeViewCollection.vue';
 
 export default defineComponent({
+  components: { CollectionState, DataViewCollection, TreeViewCollection },
   setup() {
     return {
       sectionsStore,
     };
   },
-  components: { CollectionState, DataViewCollection, TreeViewCollection },
 });
 </script>
 

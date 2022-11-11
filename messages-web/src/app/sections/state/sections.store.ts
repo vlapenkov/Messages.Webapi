@@ -9,7 +9,6 @@ import { treeView } from '@/app/core/services/harlem/state/decorators/tree-view.
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { TreeNode } from 'primevue/tree';
-import { toRaw } from 'vue';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
 import { ISectionModel } from '../models/ISectionModel';
 import { SectionModel } from '../models/section.model';
@@ -23,15 +22,9 @@ export class SectionState extends StateBase {
       children: models.filter((m) => m.parentSectionId === section.id).map(modelToTree),
     });
 
-    const nodes = models
+    return models
       .filter((s) => s.parentSectionId == null || s.parentSectionId < 0)
       .map(modelToTree);
-    console.log({
-      aray: toRaw(models),
-      nodes,
-    });
-
-    return nodes;
   })
   items: SectionModel[] | null = null;
 

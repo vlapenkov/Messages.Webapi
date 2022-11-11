@@ -1,6 +1,16 @@
 <template>
   <div>
-    <pageable-collection-state :state="productsStore"> </pageable-collection-state>
+    <pageable-collection-state
+      :modes="[{ label: 'Сеткой', mode: 'data-view' }]"
+      :state="productsStore"
+    >
+      <template #data-view>
+        <data-view-collection></data-view-collection>
+      </template>
+      <template #tree-view>
+        <tree-view-collection></tree-view-collection>
+      </template>
+    </pageable-collection-state>
   </div>
 </template>
 

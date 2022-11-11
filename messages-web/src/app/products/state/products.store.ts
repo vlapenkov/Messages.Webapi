@@ -1,4 +1,3 @@
-import { IPageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/@types/IPageableCollectionStore';
 import { definePageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/pageable-collection.store';
 import { StateBase } from '@/app/core/services/harlem/state/base/state-base';
 import { dataStatus } from '@/app/core/services/harlem/state/decorators/data-status.decorator';
@@ -11,7 +10,7 @@ import { IPagedRequest } from '@/app/core/services/http/@types/IPagedRequest';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { productsHttpService } from '../infrastructure/products.http-service';
-import { IProductShortModel, ProductShortModel } from '../models/product.model';
+import { ProductShortModel } from '../models/product.model';
 
 export interface IproductsPageRequest extends IPagedRequest {
   catalogSectionId?: number;
@@ -33,12 +32,10 @@ export class ProductsState extends StateBase {
 
   @pageRequest
   // eslint-disable-next-line class-methods-use-this
-  pageRequest(
-    state: IPageableCollectionStore<IProductShortModel, ProductShortModel>,
-  ): IproductsPageRequest {
+  pageRequest(state: ProductsState): IproductsPageRequest {
     return {
-      pageNumber: state.pageNumber.value,
-      pageSize: state.pageSize.value,
+      pageNumber: state.pageNumber,
+      pageSize: state.pageSize,
       catalogSectionId: sectionsStore.itemSelected.value?.data.id,
       name: null,
     };

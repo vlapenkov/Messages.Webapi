@@ -22,14 +22,10 @@ export const viewSwitcherProps = {
         mode: 'data-view',
         label: 'Сеткой',
       },
-      {
-        mode: 'tree-view',
-        label: 'Деревом',
-      },
     ],
   },
   modelValue: {
-    type: Object as PropType<DisplayMode>,
+    type: String as PropType<DisplayMode>,
   },
 };
 

@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     InputText: typeof import('primevue/inputtext')['default']
     LoadingStatusHandler: typeof import('./src/vue/base/components/LoadingStatusHandler.vue')['default']
     MainMenuContainer: typeof import('./src/vue/containers/MainMenuContainer.vue')['default']
+    Paginator: typeof import('primevue/paginator')['default']
     ParentSectionSelector: typeof import('./src/vue/containers/ParentSectionSelector.vue')['default']
     PrimeButton: typeof import('./src/vue/base/components/prime/buttons/base/PrimeButton.vue')['default']
     PrimeButtonAdd: typeof import('./src/vue/base/components/prime/buttons/PrimeButtonAdd.vue')['default']
@@ -43,5 +44,6 @@ declare module '@vue/runtime-core' {
     TransitionFade: typeof import('./src/vue/components/transitions/TransitionFade.vue')['default']
     Tree: typeof import('primevue/tree')['default']
     TreeViewCollection: typeof import('./src/vue/base/containers/state/data-views/collection/TreeViewCollection.vue')['default']
+    ViewSwitcher: typeof import('./src/vue/base/containers/state/ViewSwitcher.vue')['default']
   }
 }

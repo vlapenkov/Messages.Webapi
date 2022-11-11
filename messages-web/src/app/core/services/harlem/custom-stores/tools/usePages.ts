@@ -133,8 +133,6 @@ export function usePages<
   watch(
     pageRequest,
     (request) => {
-      console.log({ request });
-
       if (request.pageSize <= 0) {
         return;
       }

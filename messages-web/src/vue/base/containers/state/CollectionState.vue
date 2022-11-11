@@ -3,7 +3,7 @@
   <toolbar class="mb-2 pt-2 pb-2">
     <template #start>
       <div class="flex flex-row gap-5">
-        <view-switcher v-model="viewMode"></view-switcher>
+        <view-switcher :modes="modes" v-model="viewMode"></view-switcher>
       </div>
     </template>
     <template #end>

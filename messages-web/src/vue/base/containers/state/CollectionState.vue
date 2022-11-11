@@ -2,12 +2,8 @@
 <template>
   <toolbar class="mb-2 pt-2 pb-2">
     <template #start>
-      <div v-if="showViewModes" class="flex flex-row gap-5">
-        <div>Вид</div>
-        <div v-for="mode in modes" :key="mode.mode" class="field-radiobutton m-0">
-          <radio-button :inputId="mode.mode" name="mode" :value="mode.mode" v-model="viewMode" />
-          <label :for="mode.mode">{{ mode.label }}</label>
-        </div>
+      <div class="flex flex-row gap-5">
+        <view-switcher v-model="viewMode"></view-switcher>
       </div>
     </template>
     <template #end>
@@ -48,21 +44,21 @@ import TransitionFade from '@/vue/components/transitions/TransitionFade.vue';
 import Dialog from 'primevue/dialog';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { CollectionStore } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
-import { IViewMode } from './@types/viewMode';
 import { DisplayMode } from './@types/viewTypes';
-import { reloadOnSaveProvider } from './_providers/reload-on-save.provider';
-import { showDialogProvider } from './_providers/show-dialog.provider';
-import { itemsCollectionProvider } from './_providers/items-collection.provider';
-import { itemSelectedProvider } from './_providers/item-selected.provider';
-import { createItemProvider } from './_providers/create-item.provider';
-import { getItemsCollectionProvider } from './_providers/get-items-collection.provider';
-import { saveChangesProvider } from './_providers/save-changes.provider';
-import { selectItemProvider } from './_providers/select-item.provider';
-import { treeViewProvider } from './_providers/tree-view.provider';
-import { loadingStatusProvider } from './_providers/loading-status.provider';
+import { reloadOnSaveProvider } from './providers/reload-on-save.provider';
+import { showDialogProvider } from './providers/show-dialog.provider';
+import { itemsCollectionProvider } from './providers/items-collection.provider';
+import { itemSelectedProvider } from './providers/item-selected.provider';
+import { createItemProvider } from './providers/create-item.provider';
+import { getItemsCollectionProvider } from './providers/get-items-collection.provider';
+import { saveChangesProvider } from './providers/save-changes.provider';
+import { selectItemProvider } from './providers/select-item.provider';
+import { treeViewProvider } from './providers/tree-view.provider';
+import { loadingStatusProvider } from './providers/loading-status.provider';
+import ViewSwitcher, { viewSwitcherProps } from './ViewSwitcher.vue';
 
 export default defineComponent({
-  components: { TransitionFade, PrimeDialog: Dialog },
+  components: { TransitionFade, PrimeDialog: Dialog, ViewSwitcher },
 
   props: {
     state: {
@@ -74,20 +70,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-
-    modes: {
-      type: Array as PropType<IViewMode[]>,
-      default: (): IViewMode[] => [
-        {
-          mode: 'data-view',
-          label: 'Сеткой',
-        },
-        {
-          mode: 'tree-view',
-          label: 'Деревом',
-        },
-      ],
-    },
+    ...viewSwitcherProps,
   },
   setup(props) {
     const showDialog = showDialogProvider.provide();
@@ -101,7 +84,6 @@ export default defineComponent({
     const getData = getItemsCollectionProvider.provideFrom(() => props.state.getDataAsync);
     treeViewProvider.provideFrom(() => props.state.treeView);
 
-    const showViewModes = computed(() => props.modes.length > 1);
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
 
     const create = () => {
@@ -144,7 +126,6 @@ export default defineComponent({
     };
 
     return {
-      showViewModes,
       viewMode,
       create,
       canAdd,

@@ -19,14 +19,14 @@
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { screenLarge } from '@/app/core/services/window/window.service';
 import { computed, defineComponent } from 'vue';
-import { createItemProvider } from '../../_providers/create-item.provider';
-import { getItemsCollectionProvider } from '../../_providers/get-items-collection.provider';
-import { itemSelectedProvider } from '../../_providers/item-selected.provider';
-import { itemsCollectionProvider } from '../../_providers/items-collection.provider';
-import { loadingStatusProvider } from '../../_providers/loading-status.provider';
-import { reloadOnSaveProvider } from '../../_providers/reload-on-save.provider';
-import { saveChangesProvider } from '../../_providers/save-changes.provider';
-import { showDialogProvider } from '../../_providers/show-dialog.provider';
+import { createItemProvider } from '../../providers/create-item.provider';
+import { getItemsCollectionProvider } from '../../providers/get-items-collection.provider';
+import { itemSelectedProvider } from '../../providers/item-selected.provider';
+import { itemsCollectionProvider } from '../../providers/items-collection.provider';
+import { loadingStatusProvider } from '../../providers/loading-status.provider';
+import { reloadOnSaveProvider } from '../../providers/reload-on-save.provider';
+import { saveChangesProvider } from '../../providers/save-changes.provider';
+import { showDialogProvider } from '../../providers/show-dialog.provider';
 
 export default defineComponent({
   setup() {

@@ -11,7 +11,10 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>идентификатор продукта</summary>
         public long Id { get; set; }
 
-        /// <summary>информация о продукте</summary>
+        /// <summary>наименование продукции</summary>
+        public string Name { get; set; }
+
+        /// <summary>описание продукции</summary>
         public string Description { get; set; }
 
         /// <summary>цена</summary>

@@ -20,13 +20,17 @@
     </div>
   </transition-fade>
   <paginator
+    class="mt-1"
     :rows="pageSize"
     :first="pageSize * (pageNumber - 1)"
     :totalRecords="totalItemsCount"
     @page="changePage"
   ></paginator>
 
-  <prime-dialog header="Создание нового элемента" v-model:visible="showDialog">
+  <prime-dialog
+    :header="`${mode === 'create' ? 'Создание нового' : 'Редактирование'} элемента`"
+    v-model:visible="showDialog"
+  >
     <custom-form class="shadow-none" v-model:data="selectedData">
       <template #footer>
         <div v-if="(isEditable || canAdd) && mode != null" class="flex justify-content-end">
@@ -54,6 +58,7 @@ import { createItemProvider } from './providers/create-item.provider';
 import { itemSelectedProvider } from './providers/item-selected.provider';
 import { itemsCollectionProvider } from './providers/items-collection.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
+import { selectItemProvider } from './providers/select-item.provider';
 import { showDialogProvider } from './providers/show-dialog.provider';
 import { viewSwitcherProps } from './ViewSwitcher.vue';
 
@@ -77,6 +82,7 @@ export default defineComponent({
     const getData = itemsCollectionProvider.provideFrom(() => () => props.state.currentPageItems);
     const itemSelected = itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     const createItem = createItemProvider.provideFrom(() => props.state.createItem);
+    selectItemProvider.provideFrom(() => props.state.selectItem);
 
     const pageSize = computed(() => props.state.pageSize.value ?? 0);
 

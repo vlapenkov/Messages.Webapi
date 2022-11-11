@@ -84,7 +84,7 @@ export function useSelectedItem<
         if (selected == null) {
           return;
         }
-        itemSelected.value = new Edititng({ ...selected });
+        itemSelected.value = new Edititng(selected.clone() as TModel);
       });
   const createItem = !itemOptions.create
     ? undefined

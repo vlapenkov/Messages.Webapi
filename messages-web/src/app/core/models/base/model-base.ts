@@ -69,6 +69,8 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),
         }),
       );
+    console.log({ result });
+
     return result;
   }
 

@@ -42,6 +42,7 @@ export default defineComponent({
       [defaultButtonStyle]: attrs.class == null,
       ' p-button-outlined': isDark.value,
     }));
+
     return () =>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       h(Button as any, { ...props, class: buttonStyle.value }, { ...slots });

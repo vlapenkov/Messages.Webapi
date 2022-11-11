@@ -33,6 +33,11 @@ export default defineComponent({
         to: { name: 'products' },
         icon: 'pi pi-list',
       },
+      {
+        label: 'Заказы',
+        to: { name: 'orders' },
+        icon: 'pi pi-box',
+      },
     ];
     const { y } = useWindowScroll();
 

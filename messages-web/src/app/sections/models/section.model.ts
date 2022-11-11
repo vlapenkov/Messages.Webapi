@@ -37,7 +37,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
   parentSectionId: number | null = null;
 
   @hidden('edit')
-  @description('Создал:')
+  @description('Создал')
   @mock(randomName)
   @render((m: SectionModel) => m.createdBy ?? 'неизвестный пользователь')
   createdBy: string | null = null;

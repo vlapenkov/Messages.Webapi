@@ -6,8 +6,10 @@ import { mock } from '@/app/core/models/decorators/mock.decorator';
 import { randomDate } from '@/app/core/models/decorators/mocks/random-date.mock';
 import { randomName } from '@/app/core/models/decorators/mocks/random-word.mock';
 import { render } from '@/app/core/models/decorators/render.decorator';
+import { title } from '@/app/core/models/decorators/tittle.decorator';
 
 export interface IProductShortModel extends IModel {
+  name: string;
   price: number;
   description: string;
   createdBy: string;
@@ -20,28 +22,31 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
   @description('Описание товара')
   description = '';
 
+  @title
+  name = '';
+
   @description('Цена')
   price: number | null = null;
 
-  @hidden('edit')
+  @hidden('always')
   @description('Создал:')
   @mock(randomName)
   @render((m: ProductShortModel) => m.createdBy ?? 'неизвестный пользователь')
   createdBy: string | null = null;
 
-  @hidden('edit')
+  @hidden('always')
   @description('Внёс последние изменения')
   @mock(randomName)
   @render((m: ProductShortModel) => m.lastModifiedBy ?? 'неизвестный пользователь')
   lastModifiedBy: string | null = null;
 
-  @hidden('edit')
+  @hidden('always')
   @description('Дата создания')
   @mock(randomDate())
   @render((m: ProductShortModel) => (m.created ? m.created.toLocaleDateString() : 'неизвестна'))
   created: Date | null = null;
 
-  @hidden('edit')
+  @hidden('always')
   @description('Дата последних изменений')
   @mock(randomDate())
   @render((m: ProductShortModel) =>
@@ -78,6 +83,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
       lastModifiedBy: this.lastModifiedBy ?? '',
       description: this.description,
       price: this.price ?? 0,
+      name: this.name,
       [modelMarker]: this[modelMarker],
     };
   }

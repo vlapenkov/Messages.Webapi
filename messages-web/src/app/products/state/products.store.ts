@@ -5,7 +5,9 @@ import { pageNumber } from '@/app/core/services/harlem/state/decorators/page-num
 import { pageRequest } from '@/app/core/services/harlem/state/decorators/page-request.decorator';
 import { pageSize } from '@/app/core/services/harlem/state/decorators/page-size-decorator';
 import { pages } from '@/app/core/services/harlem/state/decorators/pages.decorator';
+import { selected } from '@/app/core/services/harlem/state/decorators/selected-item.decorator';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
+import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { IPagedRequest } from '@/app/core/services/http/@types/IPagedRequest';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { sectionsStore } from '@/app/sections/state/sections.store';
@@ -40,6 +42,13 @@ export class ProductsState extends StateBase {
       name: null,
     };
   }
+
+  @selected({
+    create: true,
+    delete: false,
+    update: true,
+  })
+  selectedItem: NotValidData<ProductShortModel> | null = null;
 }
 
 export const productsStore = definePageableCollectionStore(

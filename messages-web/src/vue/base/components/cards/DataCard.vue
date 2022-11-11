@@ -31,7 +31,13 @@
       </template>
     </template>
     <template #footer>
-      <slot name="footer"></slot>
+      <slot name="footer">
+        <div v-if="canEdit" class="flex flex-row justify-content-end">
+          <div>
+            <prime-button-edit @click="select" label="Редактировать"></prime-button-edit>
+          </div>
+        </div>
+      </slot>
     </template>
   </card>
 </template>
@@ -40,6 +46,8 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ViewMode } from '@/app/core/models/decorators/@types/ViewMode';
 import { computed, defineComponent, PropType } from 'vue';
+import { selectItemProvider } from '../../containers/state/providers/select-item.provider';
+import { showDialogProvider } from '../../containers/state/providers/show-dialog.provider';
 
 export default defineComponent({
   props: {
@@ -52,13 +60,26 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const selectItem = selectItemProvider.inject();
+    const showDialog = showDialogProvider.inject();
     const visibleFields = computed(() =>
       props.data?.fields?.filter((p) => p.hide !== 'always' && p.hide !== props.mode),
     );
     const fieldsEmpty = computed(
       () => visibleFields.value == null || visibleFields.value.length === 0,
     );
-    return { visibleFields, fieldsEmpty };
+
+    const canEdit = computed(() => selectItem.value != null);
+
+    const select = () => {
+      if (selectItem.value == null || props.data == null) {
+        throw new Error('Элемент нельзя редактировать');
+      }
+
+      selectItem.value(props.data.key);
+      showDialog.value = true;
+    };
+    return { visibleFields, fieldsEmpty, canEdit, select };
   },
 });
 </script>

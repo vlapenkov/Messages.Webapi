@@ -16,7 +16,7 @@
               :id="field.key"
             >
             </input-text>
-            <input-number v-else :id="field.key" v-model="field.model"></input-number>
+            <input-number v-else :id="field.key" v-model="field.model.value"></input-number>
             <label :for="field.key">{{ field.label }}</label>
           </span>
         </div>
@@ -46,8 +46,16 @@ export default defineComponent({
     'update:data': (_: ModelBase) => true,
   },
   setup(props, { emit }) {
-    const getProp = (key: string) =>
-      computed({
+    const getProp = (key: string) => {
+      if (props.data) {
+        console.log(
+          key,
+          props.data[key as keyof ModelBase],
+          typeof props.data[key as keyof ModelBase],
+        );
+      }
+
+      return computed({
         get: () => (props.data ? props.data[key as keyof ModelBase] : null),
         set: (val) => {
           if (props.data == null) {
@@ -59,6 +67,7 @@ export default defineComponent({
           emit('update:data', newData);
         },
       });
+    };
     const visibleFields = computed(() =>
       props.data == null || props.data.fields == null
         ? null
@@ -67,12 +76,14 @@ export default defineComponent({
             ...(props.data.fields ?? []).filter(
               (p) => p.hide !== 'always' && p.hide !== props.mode,
             ),
-          ].map((i) => ({ ...i, model: getProp(i?.key) })),
+          ]
+            .filter((p) => p != null && p.key != null)
+            .map((i) => ({ ...i, model: getProp(i?.key) })),
     );
 
     watchEffect(() => {
       console.log('fields are', toRaw(props.data), toRaw(props.data?.fields));
-      console.log('check', visibleFields.value);
+      console.log('check', visibleFields.value, props.data?.title);
     });
 
     return { visibleFields };

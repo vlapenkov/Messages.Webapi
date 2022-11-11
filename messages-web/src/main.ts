@@ -7,10 +7,13 @@ import router from './router';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import './assets/styles/main.scss';
+import { initKeycloak } from './app/core/services/keycloak/keycloak.service';
 
-createApp(App)
-  .use(router)
-  .use(harlemState)
-  .use(PrimeVue, { ripple: true })
-  .use(createHead())
-  .mount('#app');
+initKeycloak().then(() => {
+  createApp(App)
+    .use(router)
+    .use(harlemState)
+    .use(PrimeVue, { ripple: true })
+    .use(createHead())
+    .mount('#app');
+});

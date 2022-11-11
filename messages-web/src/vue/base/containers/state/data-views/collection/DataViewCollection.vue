@@ -1,14 +1,27 @@
 <template>
   <loading-status-handler :status="loadingStatus">
-    <data-view class="border-round" :layout="viewLayout" :value="items">
-      <template #list="{ data }">
+    <data-view
+      class="border-round no-background"
+      :class="{ '-mx-1': viewLayout === 'grid' }"
+      :layout="viewLayout"
+      :value="items"
+    >
+      <template #list="{ data, index }">
         <div class="col-12">
-          <data-card class="shadow-none" :data="data"> </data-card>
+          <data-card
+            class="shadow-none border-noround"
+            :class="{
+              'border-round-top': index === 0,
+              'border-round-bottom': index === (items?.length ?? 0) - 1,
+            }"
+            :data="data"
+          >
+          </data-card>
         </div>
       </template>
       <template #grid="{ data }">
-        <div class="col-12 md:col-6 lg:col-4 p-2">
-          <data-card class="border-1 h-full" :data="data"></data-card>
+        <div class="col-12 md:col-6 lg:col-4 p-1">
+          <data-card class="h-full" :data="data"></data-card>
         </div>
       </template>
     </data-view>
@@ -92,4 +105,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.no-background {
+  :deep(.p-dataview-content) {
+    background-color: var(--surface-ground);
+  }
+}
+</style>

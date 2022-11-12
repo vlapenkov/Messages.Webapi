@@ -3,12 +3,12 @@
 </template>
 
 <script lang="ts">
+import { itemSelectedProvider } from '@/vue/base/containers/state/collection/providers/item-selected.provider';
+import { loadingStatusProvider } from '@/vue/base/containers/state/collection/providers/loading-status.provider';
+import { saveChangesProvider } from '@/vue/base/containers/state/collection/providers/save-changes.provider';
+import { selectItemProvider } from '@/vue/base/containers/state/collection/providers/select-item.provider';
+import { treeViewProvider } from '@/vue/base/containers/state/collection/providers/tree-view.provider';
 import { computed, defineComponent } from 'vue';
-import { itemSelectedProvider } from '../../containers/state/collection/providers/item-selected.provider';
-import { loadingStatusProvider } from '../../containers/state/collection/providers/loading-status.provider';
-import { saveChangesProvider } from '../../containers/state/collection/providers/save-changes.provider';
-import { selectItemProvider } from '../../containers/state/collection/providers/select-item.provider';
-import { treeViewProvider } from '../../containers/state/collection/providers/tree-view.provider';
 
 export default defineComponent({
   setup() {

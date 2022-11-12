@@ -10,5 +10,6 @@ export function useEditableChecks() {
 
   const canEdit = computed(() => createItemRef.value != null && saveChangesRef.value != null);
   const canAdd = computed(() => saveChangesRef.value != null && selectItemRef.value != null);
-  return { canEdit, canAdd };
+  const canAddOrEdit = computed(() => canAdd.value || canEdit.value);
+  return { canEdit, canAdd, canAddOrEdit };
 }

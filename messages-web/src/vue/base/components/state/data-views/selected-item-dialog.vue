@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts">
+import { useEditableChecks } from '@/vue/base/containers/state/collection/composables/editable-checks.composable';
+import { useSaveChanges } from '@/vue/base/containers/state/collection/composables/save-changes.composable';
+import { useSelectedData } from '@/vue/base/containers/state/collection/composables/selected-data.composable';
+import { editOrCreateModeProvider } from '@/vue/base/containers/state/collection/providers/edit-or-create-mode.provider';
 import { defineComponent } from 'vue';
-import { useEditableChecks } from '../../containers/state/collection/composables/editable-checks.composable';
-import { useSaveChanges } from '../../containers/state/collection/composables/save-changes.composable';
-import { useSelectedData } from '../../containers/state/collection/composables/selected-data.composable';
-import { editOrCreateModeProvider } from '../../containers/state/collection/providers/edit-or-create-mode.provider';
 
 export default defineComponent({
   setup() {

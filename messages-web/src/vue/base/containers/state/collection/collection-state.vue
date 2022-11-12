@@ -8,7 +8,7 @@
     </template>
     <template #end>
       <div v-if="canAdd" class="flex justify-content-end">
-        <prime-button-add @click="create" label="Добавить"></prime-button-add>
+        <create-item-button />
       </div>
     </template>
   </toolbar>
@@ -52,7 +52,6 @@ export default defineComponent({
       type: Object as PropType<CollectionStore<IModel, ModelBase>>,
       required: true,
     },
-
     reloadOnSave: {
       type: Boolean,
       default: false,
@@ -71,17 +70,13 @@ export default defineComponent({
     const mode = editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
     getItemsCollectionProvider.provideFrom(() => props.state.getDataAsync);
     treeViewProvider.provideFrom(() => props.state.treeView);
-
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
     const create = useCreate();
-
-    const { canAdd, canEdit } = useEditableChecks();
-
+    const { canAdd } = useEditableChecks();
     return {
       viewMode,
       create,
       canAdd,
-      canEdit,
       mode,
       showDialog,
     };

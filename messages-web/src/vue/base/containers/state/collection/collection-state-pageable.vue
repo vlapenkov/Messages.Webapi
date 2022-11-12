@@ -26,7 +26,7 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { PageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/@types/PageableCollectionStore';
-import { computed, defineComponent, PropType, ref } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { DisplayMode } from '../@types/viewTypes';
 import { useEditableChecks } from './composables/editable-checks.composable';
 import { createItemProvider } from './providers/create-item.provider';
@@ -65,16 +65,12 @@ export default defineComponent({
     pageNumberProvider.provideFrom(() => props.state.pageNumber.value ?? 0);
     totalItemsCountProvider.provideFrom(() => props.state.currentPage.value?.totalItemCount ?? 0);
 
-    const { canAdd, canEdit } = useEditableChecks();
-
-    const mode = computed(() => props.state.itemSelected?.value?.mode);
+    const { canAdd } = useEditableChecks();
 
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
 
     return {
       canAdd,
-      canEdit,
-      mode,
       viewMode,
     };
   },

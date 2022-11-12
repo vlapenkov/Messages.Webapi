@@ -44,7 +44,6 @@ import { loadingStatusProvider } from './providers/loading-status.provider';
 import { viewSwitcherProps } from './view-switcher.vue';
 import { editOrCreateModeProvider } from './providers/edit-or-create-mode.provider';
 import { useEditableChecks } from './composables/editable-checks.composable';
-import { useCreate } from './composables/create-new-item.composable';
 
 export default defineComponent({
   props: {
@@ -59,7 +58,7 @@ export default defineComponent({
     ...viewSwitcherProps,
   },
   setup(props) {
-    const showDialog = showDialogProvider.provide();
+    showDialogProvider.provide();
     loadingStatusProvider.provideFrom(() => props.state.status);
     reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
     itemsCollectionProvider.provideFrom(() => props.state.items);
@@ -67,18 +66,14 @@ export default defineComponent({
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     createItemProvider.provideFrom(() => props.state.createItem);
-    const mode = editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
+    editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
     getItemsCollectionProvider.provideFrom(() => props.state.getDataAsync);
     treeViewProvider.provideFrom(() => props.state.treeView);
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
-    const create = useCreate();
     const { canAdd } = useEditableChecks();
     return {
       viewMode,
-      create,
       canAdd,
-      mode,
-      showDialog,
     };
   },
 });

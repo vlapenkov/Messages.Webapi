@@ -1,7 +1,7 @@
 import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import { createHead } from '@vueuse/head';
-import App from './vue/App.vue';
+import AppRoot from './vue/app-root.vue';
 import { harlemState } from './plugins/harlem.plugin';
 import router from './router';
 import 'primeflex/primeflex.css';
@@ -10,7 +10,7 @@ import './assets/styles/main.scss';
 import { initKeycloak } from './app/core/services/keycloak/keycloak.service';
 
 initKeycloak().then(() => {
-  createApp(App)
+  createApp(AppRoot)
     .use(router)
     .use(harlemState)
     .use(PrimeVue, { ripple: true })

@@ -38,6 +38,7 @@ import {
   pageSizeProvider,
   totalItemsCountProvider,
 } from './providers/pages.provider';
+import { reloadOnSaveProvider } from './providers/reload-on-save.provider';
 import { selectItemProvider } from './providers/select-item.provider';
 import { showDialogProvider } from './providers/show-dialog.provider';
 import { viewSwitcherProps } from './view-switcher.vue';
@@ -57,6 +58,7 @@ export default defineComponent({
   setup(props) {
     loadingStatusProvider.provideFrom(() => props.state.status);
     showDialogProvider.provide();
+    reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     createItemProvider.provideFrom(() => props.state.createItem);
     itemsCollectionProvider.provideFrom(() => () => props.state.currentPageItems);

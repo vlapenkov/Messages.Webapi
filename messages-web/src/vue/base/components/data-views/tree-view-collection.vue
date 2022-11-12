@@ -4,11 +4,11 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { itemSelectedProvider } from '../providers/item-selected.provider';
-import { loadingStatusProvider } from '../providers/loading-status.provider';
-import { saveChangesProvider } from '../providers/save-changes.provider';
-import { selectItemProvider } from '../providers/select-item.provider';
-import { treeViewProvider } from '../providers/tree-view.provider';
+import { itemSelectedProvider } from '../../containers/state/collection/providers/item-selected.provider';
+import { loadingStatusProvider } from '../../containers/state/collection/providers/loading-status.provider';
+import { saveChangesProvider } from '../../containers/state/collection/providers/save-changes.provider';
+import { selectItemProvider } from '../../containers/state/collection/providers/select-item.provider';
+import { treeViewProvider } from '../../containers/state/collection/providers/tree-view.provider';
 
 export default defineComponent({
   setup() {

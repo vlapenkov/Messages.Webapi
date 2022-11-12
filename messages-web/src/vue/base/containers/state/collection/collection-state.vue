@@ -40,7 +40,6 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { computed, defineComponent, PropType, ref } from 'vue';
-import TransitionFade from '@/vue/components/transitions/transition-fade.vue';
 import Dialog from 'primevue/dialog';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { CollectionStore } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
@@ -58,7 +57,7 @@ import { loadingStatusProvider } from './providers/loading-status.provider';
 import ViewSwitcher, { viewSwitcherProps } from './view-switcher.vue';
 
 export default defineComponent({
-  components: { TransitionFade, PrimeDialog: Dialog, ViewSwitcher },
+  components: { PrimeDialog: Dialog, ViewSwitcher },
 
   props: {
     state: {

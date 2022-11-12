@@ -26,44 +26,30 @@
     :totalRecords="totalItemsCount"
     @page="changePage"
   ></paginator>
-
-  <prime-dialog
-    :header="`${mode === 'create' ? 'Создание нового' : 'Редактирование'} элемента`"
-    v-model:visible="showDialog"
-  >
-    <custom-form class="shadow-none" v-model:data="selectedData">
-      <template #footer>
-        <div v-if="(isEditable || canAdd) && mode != null" class="flex justify-content-end">
-          <prime-button-add
-            @click="saveChanges"
-            v-if="mode === 'create'"
-            label="Добавить"
-          ></prime-button-add>
-          <prime-button-save @click="saveChanges" v-else label="Сохранить"></prime-button-save>
-        </div>
-      </template>
-    </custom-form>
-  </prime-dialog>
 </template>
 
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { PageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/@types/PageableCollectionStore';
-import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
-import Dialog from 'primevue/dialog';
 import { computed, defineComponent, PropType, ref } from 'vue';
 import { DisplayMode } from '../@types/viewTypes';
+import { useChangePage } from './composables/change-page.composable';
+import { useEditableChecks } from './composables/editable-checks.composable';
 import { createItemProvider } from './providers/create-item.provider';
 import { itemSelectedProvider } from './providers/item-selected.provider';
 import { itemsCollectionProvider } from './providers/items-collection.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
+import {
+  pageNumberProvider,
+  pageSizeProvider,
+  totalItemsCountProvider,
+} from './providers/pages.provider';
 import { selectItemProvider } from './providers/select-item.provider';
 import { showDialogProvider } from './providers/show-dialog.provider';
 import { viewSwitcherProps } from './view-switcher.vue';
 
 export default defineComponent({
-  components: { PrimeDialog: Dialog },
   props: {
     state: {
       type: Object as PropType<PageableCollectionStore<IModel, ModelBase>>,
@@ -79,24 +65,18 @@ export default defineComponent({
     loadingStatusProvider.provideFrom(() => props.state.status);
 
     const showDialog = showDialogProvider.provide();
-    const getData = itemsCollectionProvider.provideFrom(() => () => props.state.currentPageItems);
     const itemSelected = itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     const createItem = createItemProvider.provideFrom(() => props.state.createItem);
+    itemsCollectionProvider.provideFrom(() => () => props.state.currentPageItems);
     selectItemProvider.provideFrom(() => props.state.selectItem);
 
-    const pageSize = computed(() => props.state.pageSize.value ?? 0);
-
-    const pageNumber = computed(() => props.state.pageNumber.value ?? 0);
-
-    const totalItemsCount = computed(() => props.state.currentPage.value?.totalItemCount ?? 0);
-
-    const canAdd = computed(
-      () => props.state.createItem != null && props.state.saveChanges != null,
+    const pageSize = pageSizeProvider.provideFrom(() => props.state.pageSize.value ?? 0);
+    const pageNumber = pageNumberProvider.provideFrom(() => props.state.pageNumber.value ?? 0);
+    const totalItemsCount = totalItemsCountProvider.provideFrom(
+      () => props.state.currentPage.value?.totalItemCount ?? 0,
     );
 
-    const isEditable = computed(
-      () => props.state.selectItem != null && props.state.saveChanges != null,
-    );
+    const { canAdd, canEdit } = useEditableChecks();
 
     const mode = computed(() => props.state.itemSelected?.value?.mode);
 
@@ -109,45 +89,19 @@ export default defineComponent({
       showDialog.value = true;
     };
 
-    const selectedData = computed({
-      get: () => itemSelected?.value?.value?.data,
-      set: (val) => {
-        if (itemSelected.value == null || val == null || mode.value == null) {
-          return;
-        }
-        itemSelected.value.value = new NotValidData(val, mode.value);
-      },
-    });
-
-    const saveChanges = () => {
-      if (props.state != null && props.state.saveChanges != null && getData.value != null) {
-        props.state.saveChanges();
-        showDialog.value = false;
-      }
-    };
-
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
 
-    const changePage = ({ page }: { page: number }) => {
-      if (props.state.pageNumber.value == null) {
-        return;
-      }
-      // eslint-disable-next-line vue/no-mutating-props
-      props.state.pageNumber.value = page + 1;
-    };
     return {
       canAdd,
-      isEditable,
+      canEdit,
       mode,
-      saveChanges,
       viewMode,
       showDialog,
       create,
-      selectedData,
       pageSize,
       pageNumber,
       totalItemsCount,
-      changePage,
+      changePage: useChangePage(),
     };
   },
 });

@@ -1,10 +1,10 @@
 import { IStoreTree } from '@/app/core/services/harlem/custom-stores/@types/IStoreTree';
-import { Provider } from '@/app/core/tools/provider';
-import { shallowRef, ShallowRef } from 'vue';
+import { ShallowProvider } from '@/app/core/tools/shallow.provider';
+import { shallowRef } from 'vue';
 
 type TreeFn = IStoreTree['treeView'] | undefined;
 
-export const treeViewProvider = new Provider<TreeFn, ShallowRef<TreeFn>>(
+export const treeViewProvider = new ShallowProvider<TreeFn>(
   () => shallowRef(),
   '--provide--tree-view',
 );

@@ -1,10 +1,10 @@
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { Provider } from '@/app/core/tools/provider';
-import { shallowRef, ShallowRef, WritableComputedRef } from 'vue';
+import { ShallowProvider } from '@/app/core/tools/shallow.provider';
+import { shallowRef, WritableComputedRef } from 'vue';
 
 type StatusRef = WritableComputedRef<DataStatus> | undefined;
 
-export const loadingStatusProvider = new Provider<StatusRef, ShallowRef<StatusRef>>(
+export const loadingStatusProvider = new ShallowProvider<StatusRef>(
   () => shallowRef(),
   '--provide--lodading-status',
 );

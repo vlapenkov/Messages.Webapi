@@ -7,7 +7,7 @@
     </template>
     <template #end>
       <div v-if="canAdd" class="flex justify-content-end">
-        <prime-button-add @click="create" label="Добавить"></prime-button-add>
+        <create-item-button />
       </div>
     </template>
   </toolbar>
@@ -19,13 +19,7 @@
       <slot name="tree-view"></slot>
     </div>
   </transition-fade>
-  <paginator
-    class="mt-1"
-    :rows="pageSize"
-    :first="pageSize * (pageNumber - 1)"
-    :totalRecords="totalItemsCount"
-    @page="changePage"
-  ></paginator>
+  <collection-state-paginator></collection-state-paginator>
 </template>
 
 <script lang="ts">
@@ -34,7 +28,6 @@ import { ModelBase } from '@/app/core/models/base/model-base';
 import { PageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/@types/PageableCollectionStore';
 import { computed, defineComponent, PropType, ref } from 'vue';
 import { DisplayMode } from '../@types/viewTypes';
-import { useChangePage } from './composables/change-page.composable';
 import { useEditableChecks } from './composables/editable-checks.composable';
 import { createItemProvider } from './providers/create-item.provider';
 import { itemSelectedProvider } from './providers/item-selected.provider';
@@ -63,31 +56,18 @@ export default defineComponent({
   },
   setup(props) {
     loadingStatusProvider.provideFrom(() => props.state.status);
-
-    const showDialog = showDialogProvider.provide();
-    const itemSelected = itemSelectedProvider.provideFrom(() => props.state.itemSelected);
-    const createItem = createItemProvider.provideFrom(() => props.state.createItem);
+    showDialogProvider.provide();
+    itemSelectedProvider.provideFrom(() => props.state.itemSelected);
+    createItemProvider.provideFrom(() => props.state.createItem);
     itemsCollectionProvider.provideFrom(() => () => props.state.currentPageItems);
     selectItemProvider.provideFrom(() => props.state.selectItem);
-
-    const pageSize = pageSizeProvider.provideFrom(() => props.state.pageSize.value ?? 0);
-    const pageNumber = pageNumberProvider.provideFrom(() => props.state.pageNumber.value ?? 0);
-    const totalItemsCount = totalItemsCountProvider.provideFrom(
-      () => props.state.currentPage.value?.totalItemCount ?? 0,
-    );
+    pageSizeProvider.provideFrom(() => props.state.pageSize.value ?? 0);
+    pageNumberProvider.provideFrom(() => props.state.pageNumber.value ?? 0);
+    totalItemsCountProvider.provideFrom(() => props.state.currentPage.value?.totalItemCount ?? 0);
 
     const { canAdd, canEdit } = useEditableChecks();
 
     const mode = computed(() => props.state.itemSelected?.value?.mode);
-
-    const create = () => {
-      if (createItem.value == null || itemSelected.value === undefined) {
-        throw new Error('Canot edit uneditable state!');
-      }
-
-      createItem.value();
-      showDialog.value = true;
-    };
 
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
 
@@ -96,12 +76,6 @@ export default defineComponent({
       canEdit,
       mode,
       viewMode,
-      showDialog,
-      create,
-      pageSize,
-      pageNumber,
-      totalItemsCount,
-      changePage: useChangePage(),
     };
   },
 });

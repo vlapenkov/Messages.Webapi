@@ -1,21 +1,24 @@
 <template>
   <transition mode="out-in" enter-active-class="fadein" leave-active-class="fadeout">
-    <div v-if="status?.status === 'loaded'">
+    <div v-if="status?.value.status === 'loaded'">
       <slot></slot>
     </div>
     <div v-else class="flex justify-content-center align-items-center h-20rem">
-      <progress-spinner></progress-spinner>
+      <slot name="loading">
+        <progress-spinner></progress-spinner>
+      </slot>
     </div>
   </transition>
 </template>
 
 <script lang="ts">
-import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
+import { loadingStatusProvider } from '../containers/state/collection/providers/loading-status.provider';
 
 export default defineComponent({
-  props: {
-    status: Object as PropType<DataStatus>,
+  setup() {
+    const status = loadingStatusProvider.inject();
+    return { status };
   },
 });
 </script>

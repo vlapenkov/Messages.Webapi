@@ -53,14 +53,14 @@ import { PageableCollectionStore } from '@/app/core/services/harlem/custom-store
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import Dialog from 'primevue/dialog';
 import { computed, defineComponent, PropType, ref } from 'vue';
-import { DisplayMode } from './@types/viewTypes';
+import { DisplayMode } from '../@types/viewTypes';
 import { createItemProvider } from './providers/create-item.provider';
 import { itemSelectedProvider } from './providers/item-selected.provider';
 import { itemsCollectionProvider } from './providers/items-collection.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
 import { selectItemProvider } from './providers/select-item.provider';
 import { showDialogProvider } from './providers/show-dialog.provider';
-import { viewSwitcherProps } from './ViewSwitcher.vue';
+import { viewSwitcherProps } from './view-switcher.vue';
 
 export default defineComponent({
   components: { PrimeDialog: Dialog },

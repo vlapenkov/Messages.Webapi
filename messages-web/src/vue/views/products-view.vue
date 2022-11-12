@@ -1,8 +1,8 @@
 <template>
   <div>
-    <pageable-collection-state
+    <collection-state-pageable
       :modes="[{ label: 'Сеткой', mode: 'data-view' }]"
-      :state="ordersStore"
+      :state="productsStore"
     >
       <template #data-view>
         <data-view-collection></data-view-collection>
@@ -10,19 +10,17 @@
       <template #tree-view>
         <tree-view-collection></tree-view-collection>
       </template>
-    </pageable-collection-state>
+    </collection-state-pageable>
   </div>
 </template>
 
 <script lang="ts">
-import { ordersStore } from '@/app/orders/state/orders.store';
+import { productsStore } from '@/app/products/state/products.store';
 import { defineComponent } from 'vue';
-import PageableCollectionState from '../base/containers/state/CollectionStatePageable.vue';
 
 export default defineComponent({
-  components: { PageableCollectionState },
   setup() {
-    return { ordersStore };
+    return { productsStore };
   },
 });
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { ButtonEmits, ButtonProps } from 'primevue/button';
 import { FunctionalComponent, h } from 'vue';
-import PrimeButton from './base/PrimeButton.vue';
+import PrimeButton from './base/prime-button.vue';
 
 const PrimeButtonAdd: FunctionalComponent<ButtonProps, ButtonEmits> = (props, { slots }) =>
   h(

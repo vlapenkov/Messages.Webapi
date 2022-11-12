@@ -15,7 +15,7 @@ import { render } from '@/app/core/models/decorators/render.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { validate } from '@/app/core/models/decorators/validate.decorator';
 import { UniqueModel } from '@/app/core/models/unique.model';
-import ParentSectionSelectorVue from '@/vue/containers/ParentSectionSelector.vue';
+import ParentSectionSelectorVue from '@/vue/containers/parent-section-selector.vue';
 import { required } from '@vuelidate/validators';
 import { h } from 'vue';
 import { ISectionModel } from './ISectionModel';

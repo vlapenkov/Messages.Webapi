@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import HomeView from '../vue/views/HomeView.vue';
+import HomeView from '../vue/views/home-view.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -14,22 +14,22 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/about',
     name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../vue/views/AboutView.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../vue/views/about-view.vue'),
   },
   {
     path: '/sections',
     name: 'sections',
-    component: () => import(/* webpackChunkName: "sections" */ '../vue/views/SectionsView.vue'),
+    component: () => import(/* webpackChunkName: "sections" */ '../vue/views/sections-view.vue'),
   },
   {
     path: '/products',
     name: 'products',
-    component: () => import(/* webpackChunkName: "products" */ '../vue/views/ProductsView.vue'),
+    component: () => import(/* webpackChunkName: "products" */ '../vue/views/products-view.vue'),
   },
   {
     path: '/orders',
     name: 'orders',
-    component: () => import(/* webpackChunkName: "orders" */ '../vue/views/OrdersView.vue'),
+    component: () => import(/* webpackChunkName: "orders" */ '../vue/views/orders-view.vue'),
   },
 ];
 

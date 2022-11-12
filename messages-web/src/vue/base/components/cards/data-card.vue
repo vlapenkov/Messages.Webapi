@@ -46,8 +46,8 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ViewMode } from '@/app/core/models/decorators/@types/ViewMode';
 import { computed, defineComponent, PropType } from 'vue';
-import { selectItemProvider } from '../../containers/state/providers/select-item.provider';
-import { showDialogProvider } from '../../containers/state/providers/show-dialog.provider';
+import { selectItemProvider } from '../../containers/state/collection/providers/select-item.provider';
+import { showDialogProvider } from '../../containers/state/collection/providers/show-dialog.provider';
 
 export default defineComponent({
   props: {

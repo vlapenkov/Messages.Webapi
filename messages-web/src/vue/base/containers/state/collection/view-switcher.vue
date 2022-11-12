@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import type { IViewMode } from './@types/viewMode';
-import type { DisplayMode } from './@types/viewTypes';
+import type { IViewMode } from '../@types/viewMode';
+import type { DisplayMode } from '../@types/viewTypes';
 
 export const viewSwitcherProps = {
   modes: {

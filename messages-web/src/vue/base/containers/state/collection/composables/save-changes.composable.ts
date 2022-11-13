@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { getItemsCollectionProvider } from '../providers/get-items-collection.provider';
+import { refreshProvider } from '../providers/refresh.provider';
 import { reloadOnSaveProvider } from '../providers/reload-on-save.provider';
 import { saveChangesProvider } from '../providers/save-changes.provider';
 import { showDialogProvider } from '../providers/show-dialog.provider';
@@ -7,7 +7,7 @@ import { showDialogProvider } from '../providers/show-dialog.provider';
 export function useSaveChanges() {
   const saveChangesRef = saveChangesProvider.inject();
   const showDialog = showDialogProvider.inject();
-  const reloadDataRef = getItemsCollectionProvider.inject();
+  const reloadDataRef = refreshProvider.inject();
   const reloadOnSave = reloadOnSaveProvider.inject();
 
   const throwError = (message: string) => () => {

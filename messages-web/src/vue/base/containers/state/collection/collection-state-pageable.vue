@@ -30,7 +30,7 @@ import { defineComponent, PropType, ref } from 'vue';
 import { DisplayMode } from '../@types/viewTypes';
 import { useEditableChecks } from './composables/editable-checks.composable';
 import { createItemProvider } from './providers/create-item.provider';
-import { getItemsCollectionProvider } from './providers/get-items-collection.provider';
+import { refreshProvider } from './providers/refresh.provider';
 import { itemSelectedProvider } from './providers/item-selected.provider';
 import { itemsCollectionProvider } from './providers/items-collection.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
@@ -59,7 +59,7 @@ export default defineComponent({
   setup(props) {
     loadingStatusProvider.provideFrom(() => props.state.status);
     showDialogProvider.provide();
-    getItemsCollectionProvider.provideFrom(() => props.state.getPage);
+    refreshProvider.provideFrom(() => props.state.getPage);
     reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     createItemProvider.provideFrom(() => props.state.createItem);

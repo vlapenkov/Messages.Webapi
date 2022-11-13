@@ -36,13 +36,13 @@ import { showDialogProvider } from './providers/show-dialog.provider';
 import { itemsCollectionProvider } from './providers/items-collection.provider';
 import { itemSelectedProvider } from './providers/item-selected.provider';
 import { createItemProvider } from './providers/create-item.provider';
-import { getItemsCollectionProvider } from './providers/get-items-collection.provider';
 import { saveChangesProvider } from './providers/save-changes.provider';
 import { selectItemProvider } from './providers/select-item.provider';
 import { treeViewProvider } from './providers/tree-view.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
 import { viewSwitcherProps } from './view-switcher.vue';
 import { editOrCreateModeProvider } from './providers/edit-or-create-mode.provider';
+import { refreshProvider } from './providers/refresh.provider';
 
 export default defineComponent({
   props: {
@@ -66,7 +66,7 @@ export default defineComponent({
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     createItemProvider.provideFrom(() => props.state.createItem);
     editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
-    getItemsCollectionProvider.provideFrom(() => props.state.getDataAsync);
+    refreshProvider.provideFrom(() => props.state.getDataAsync);
     treeViewProvider.provideFrom(() => props.state.treeView);
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
     const canAdd = computed(

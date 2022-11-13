@@ -1,5 +1,5 @@
 <template>
-  <card :class="{ 'no-body': fieldsEmpty }">
+  <card class="re-padding" :class="{ 'no-body': fieldsEmpty, 'no-footer': !canEdit }">
     <template #title>
       <template v-if="data != null">
         {{ data.title.value }}
@@ -78,6 +78,17 @@ export default defineComponent({
 .no-body {
   :deep(.p-card-content) {
     display: none;
+  }
+}
+.no-footer {
+  :deep(.p-card-footer) {
+    display: none;
+  }
+}
+
+.re-padding {
+  :deep(.p-card-content) {
+    padding-bottom: 0;
   }
 }
 

@@ -11,11 +11,14 @@ import { itemsCollectionProvider } from '../base/containers/state/collection/pro
 
 export default defineComponent({
   setup() {
-    const items = itemsCollectionProvider.inject();
+    const itemsWrapped = itemsCollectionProvider.inject();
     const itemSelected = itemSelectedProvider.inject();
-
+    if (itemsWrapped.value == null) {
+      throw new Error('Something went wrong');
+    }
+    const items = itemsWrapped.value();
     const itemsAsOptions = computed(() =>
-      (items.value?.()?.value ?? []).map((i) => {
+      (items.value ?? []).map((i) => {
         const item = i as SectionModel;
         return {
           label: `${item.name} (id: ${item.id})`,

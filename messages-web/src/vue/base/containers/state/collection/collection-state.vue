@@ -28,7 +28,7 @@
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import { CollectionStore } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
 import { DisplayMode } from '../@types/viewTypes';
 import { reloadOnSaveProvider } from './providers/reload-on-save.provider';
@@ -43,7 +43,6 @@ import { treeViewProvider } from './providers/tree-view.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
 import { viewSwitcherProps } from './view-switcher.vue';
 import { editOrCreateModeProvider } from './providers/edit-or-create-mode.provider';
-import { useEditableChecks } from './composables/editable-checks.composable';
 
 export default defineComponent({
   props: {
@@ -70,7 +69,9 @@ export default defineComponent({
     getItemsCollectionProvider.provideFrom(() => props.state.getDataAsync);
     treeViewProvider.provideFrom(() => props.state.treeView);
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
-    const { canAdd } = useEditableChecks();
+    const canAdd = computed(
+      () => props.state.createItem != null && props.state.saveChanges != null,
+    );
     return {
       viewMode,
       canAdd,

@@ -1,5 +1,12 @@
 <template>
-  <prime-dialog header="Создание нового элемента" v-model:visible="showDialog">
+  <prime-dialog
+    header="Создание нового элемента"
+    :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
+    :style="{ 'width': '50vw', 'max-width': '800px' }"
+    class="re-padding"
+    modal
+    v-model:visible="showDialog"
+  >
     <custom-form class="shadow-none" v-model:data="selectedData">
       <template #footer>
         <div v-if="(canEdit || canAdd) && mode != null" class="flex justify-content-end">
@@ -16,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import { PrimeDialog } from '@/tools/prime-vue-components';
 import { useEditableChecks } from '@/vue/base/containers/state/collection/composables/editable-checks.composable';
 import { useSaveChanges } from '@/vue/base/containers/state/collection/composables/save-changes.composable';
 import { useSelectedData } from '@/vue/base/containers/state/collection/composables/selected-data.composable';
@@ -28,7 +36,23 @@ export default defineComponent({
     const selectedData = useSelectedData();
     return { ...useSaveChanges(), ...useEditableChecks(), mode, selectedData };
   },
+  components: { PrimeDialog },
 });
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.re-padding {
+  .p-dialog-content {
+    padding: 1rem;
+    .p-card-body {
+      padding: 0;
+    }
+    .p-card-content {
+      padding-bottom: 0;
+    }
+  }
+  .p-dialog-header {
+    padding-bottom: 0;
+  }
+}
+</style>

@@ -20,7 +20,7 @@
         </div>
       </template>
       <template #grid="{ data }">
-        <div class="col-12 md:col-6 lg:col-4 p-1">
+        <div class="col-12 md:col-6 xl:col-4 p-1">
           <data-card class="h-full" :data="data"></data-card>
         </div>
       </template>

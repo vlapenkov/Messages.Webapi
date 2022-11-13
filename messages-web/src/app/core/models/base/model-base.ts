@@ -5,6 +5,7 @@ import useVuelidate, {
   ValidationArgs,
 } from '@vuelidate/core';
 import { Ref, RenderFunction } from 'vue';
+import { ColumnProps } from 'primevue/column';
 import { IModel, modelMarker } from '../@types/IModel';
 import { descriptonPropkey } from './props-keys/descripton.prop-key';
 import { titleProp } from '../decorators/tittle.decorator';
@@ -13,6 +14,7 @@ import { hiddenPropkey } from './props-keys/hidden.prop-key';
 import { renderPropkey } from './props-keys/render.prop-key';
 import { DisplayMode } from '../decorators/@types/ViewMode';
 import { mockPropKey } from './props-keys/mock.prop-key';
+import { columnKeyFor } from './props-keys/column.prop-key';
 
 export const inputTypes = ['text', 'number'] as const;
 
@@ -24,6 +26,7 @@ export interface IModelField {
   value: unknown;
   hide: DisplayMode;
   control: InputType;
+  columnProps: ColumnProps;
   render: (mode: string) => RenderFunction | null;
 }
 
@@ -49,6 +52,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       value: self[title],
       hide: 'always',
       control: 'text',
+      columnProps: ModelBase.getColumnFor(this, title),
       render: () => null,
     };
   }
@@ -66,6 +70,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           hide: this.getValue<DisplayMode, symbol>(hiddenPropkey(key)),
           key,
           control: ModelBase.checkType(this, key),
+          columnProps: ModelBase.getColumnFor(this, key),
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),
         }),
       );
@@ -131,5 +136,18 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       );
     const render = renderFunction ? renderFunction(target) : undefined;
     return render ?? null;
+  }
+
+  static getColumnFor(target: ModelBase, key: string): ColumnProps {
+    const getColumnFn = target.getValue<((model: ModelBase) => ColumnProps) | undefined, symbol>(
+      columnKeyFor(key),
+    );
+    return getColumnFn == null
+      ? {
+          header: (target.getValue(descriptonPropkey(key)) as string) ?? key,
+          columnKey: target.key.toString(),
+          field: target.getValue(key),
+        }
+      : getColumnFn(target);
   }
 }

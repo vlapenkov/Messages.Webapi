@@ -2,6 +2,7 @@ import { IModel, modelMarker } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
+import { input } from '@/app/core/models/decorators/input.decorator';
 import { mock } from '@/app/core/models/decorators/mock.decorator';
 import { randomDate } from '@/app/core/models/decorators/mocks/random-date.mock';
 import { randomName } from '@/app/core/models/decorators/mocks/random-word.mock';
@@ -26,6 +27,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
   name = '';
 
   @description('Цена')
+  @input('number')
   price: number | null = null;
 
   @hidden('always')

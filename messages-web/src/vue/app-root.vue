@@ -11,7 +11,6 @@
       </router-view>
     </template>
   </app-layout>
-  <theme-switch-container class="fixed bottom-0 left-0 mb-2 ml-2 z-2"></theme-switch-container>
 </template>
 
 <script lang="ts">

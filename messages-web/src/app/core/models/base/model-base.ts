@@ -15,10 +15,8 @@ import { renderPropkey } from './props-keys/render.prop-key';
 import { DisplayMode } from '../decorators/@types/ViewMode';
 import { mockPropKey } from './props-keys/mock.prop-key';
 import { columnKeyFor } from './props-keys/column.prop-key';
-
-export const inputTypes = ['text', 'number'] as const;
-
-export type InputType = typeof inputTypes[number];
+import { InputType } from './@types/input-type';
+import { inputPropKeyFor } from './props-keys/iput.prop-key';
 
 export interface IModelField {
   key: string;
@@ -79,6 +77,10 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
   }
 
   static checkType(target: ModelBase, key: string): InputType {
+    const inputType = target.getValue<InputType | undefined, symbol>(inputPropKeyFor(key));
+    if (inputType != null) {
+      return inputType;
+    }
     const self = target as unknown as Record<symbol | string, unknown>;
     return typeof self[key] === 'number' ? 'number' : 'text';
   }

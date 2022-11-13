@@ -2,8 +2,7 @@
   <prime-button
     @click="dark = !dark"
     :icon="!dark ? 'pi pi-moon' : 'pi pi-sun'"
-    class="p-button-rounded no-label p-button-secondary"
-    :class="{ blurred: dark }"
+    class="p-button-rounded p-button-outlined p-button-sm no-label icon-small p-button-secondary"
   ></prime-button>
 </template>
 
@@ -34,7 +33,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.blurred {
-  backdrop-filter: blur(0.5rem);
+$size: 0;
+$padding-and-font: 1rem;
+.p-button.icon-small {
+  height: $size !important;
+  width: $size;
+  padding: $padding-and-font;
+  :deep(.p-button-icon) {
+    font-size: $padding-and-font;
+  }
 }
 </style>

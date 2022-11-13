@@ -4,6 +4,7 @@
     :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
     :style="{ 'width': '50vw', 'max-width': '800px' }"
     class="re-padding"
+    :draggable="false"
     modal
     v-model:visible="showDialog"
   >

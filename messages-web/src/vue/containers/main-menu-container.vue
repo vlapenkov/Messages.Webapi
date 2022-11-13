@@ -2,7 +2,10 @@
   <transition enter-active-class="scalein animation-duration-200" appear>
     <menu-bar :class="{ 'shadow-6 backdrop': y > 20 }" :model="items">
       <template #end>
-        <user-avatar-container />
+        <div class="flex flex-row align-items-center gap-3">
+          <theme-switch-container></theme-switch-container>
+          <user-avatar-container />
+        </div>
       </template>
     </menu-bar>
   </transition>

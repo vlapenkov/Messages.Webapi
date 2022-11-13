@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { computed, defineComponent, PropType, toRaw, watchEffect } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
@@ -46,16 +46,8 @@ export default defineComponent({
     'update:data': (_: ModelBase) => true,
   },
   setup(props, { emit }) {
-    const getProp = (key: string) => {
-      if (props.data) {
-        console.log(
-          key,
-          props.data[key as keyof ModelBase],
-          typeof props.data[key as keyof ModelBase],
-        );
-      }
-
-      return computed({
+    const getProp = (key: string) =>
+      computed({
         get: () => (props.data ? props.data[key as keyof ModelBase] : null),
         set: (val) => {
           if (props.data == null) {
@@ -63,11 +55,9 @@ export default defineComponent({
           }
           const newData = props.data.clone();
           newData.setKey(key, val);
-          console.log('updating', { val });
           emit('update:data', newData);
         },
       });
-    };
     const visibleFields = computed(() =>
       props.data == null || props.data.fields == null
         ? null
@@ -81,10 +71,10 @@ export default defineComponent({
             .map((i) => ({ ...i, model: getProp(i?.key) })),
     );
 
-    watchEffect(() => {
-      console.log('fields are', toRaw(props.data), toRaw(props.data?.fields));
-      console.log('check', visibleFields.value, props.data?.title);
-    });
+    // watchEffect(() => {
+    //   console.log('fields are', toRaw(props.data), toRaw(props.data?.fields));
+    //   console.log('check', visibleFields.value, props.data?.title);
+    // });
 
     return { visibleFields };
   },

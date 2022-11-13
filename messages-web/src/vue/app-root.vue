@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AppLayout from './components/app-layout.vue';
+import AppLayout from './presentational/app-layout.vue';
 import MainMenuContainer from './containers/main-menu-container.vue';
 import ThemeSwitchContainer from './base/containers/theme-switch-container.vue';
 

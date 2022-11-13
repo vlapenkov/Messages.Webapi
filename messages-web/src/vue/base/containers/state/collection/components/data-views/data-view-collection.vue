@@ -31,16 +31,11 @@
 <script lang="ts">
 import { screenLarge } from '@/app/core/services/window/window.service';
 import { defineComponent, computed } from 'vue';
-import { itemsCollectionProvider } from '../../providers/items-collection.provider';
+import { useItems } from '../../composables/items.composable';
 
 export default defineComponent({
   setup() {
-    const wrappedItems = itemsCollectionProvider.inject();
-    if (wrappedItems.value == null) {
-      throw new Error('невозможно показать коллекцию элементов');
-    }
-
-    const items = wrappedItems.value();
+    const items = useItems();
 
     const viewLayout = computed(() => (screenLarge.value ? 'grid' : 'list'));
 

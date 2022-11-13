@@ -1,6 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <toolbar class="mb-2 pt-2 pb-2">
+  <toolbar class="mb-1 pt-2 pb-2 pr-2">
     <template #start>
       <div class="flex flex-row gap-5">
         <view-switcher :modes="modes" v-model="viewMode"></view-switcher>

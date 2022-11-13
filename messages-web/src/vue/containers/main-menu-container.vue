@@ -1,6 +1,10 @@
 <template>
   <transition enter-active-class="scalein animation-duration-200" appear>
-    <menu-bar :class="{ 'shadow-6 backdrop': y > 20 }" :model="items"> </menu-bar>
+    <menu-bar :class="{ 'shadow-6 backdrop': y > 20 }" :model="items">
+      <template #end>
+        <user-avatar-container />
+      </template>
+    </menu-bar>
   </transition>
 </template>
 

@@ -97,8 +97,5 @@ export default defineComponent({
     font-size: 1rem;
     font-weight: 700;
   }
-  .description {
-    margin: 0.5rem 0 1rem 0;
-  }
 }
 </style>

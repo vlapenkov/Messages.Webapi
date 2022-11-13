@@ -2,7 +2,7 @@
   <loading-status-handler>
     <data-view
       class="border-round no-background"
-      :class="{ '-mx-1': viewLayout === 'grid' }"
+      :class="{ '-mx-1': viewLayout === 'grid', 'pt-1': viewLayout === 'list' }"
       :layout="viewLayout"
       :value="items"
     >

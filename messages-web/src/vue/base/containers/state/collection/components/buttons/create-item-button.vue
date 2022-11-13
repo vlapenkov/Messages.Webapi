@@ -5,16 +5,12 @@
 <script lang="ts">
 import { useCreate } from '@/vue/base/containers/state/collection/composables/create-new-item.composable';
 import { useEditableChecks } from '@/vue/base/containers/state/collection/composables/editable-checks.composable';
-import { defineComponent, watchEffect } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    const create = useCreate();
     const { canAdd } = useEditableChecks();
-    watchEffect(() => {
-      console.log('canAdd:', canAdd.value);
-    });
-    return { create, canAdd };
+    return { create: useCreate(), canAdd };
   },
 });
 </script>

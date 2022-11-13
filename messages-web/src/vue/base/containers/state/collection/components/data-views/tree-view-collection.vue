@@ -1,6 +1,6 @@
 <template>
   <loading-status-handler>
-    <tree :value="tree"></tree>
+    <tree class="mt-2" :value="tree"></tree>
   </loading-status-handler>
 </template>
 

@@ -30,8 +30,8 @@
 
 <script lang="ts">
 import { screenLarge } from '@/app/core/services/window/window.service';
-import { itemsCollectionProvider } from '@/vue/base/containers/state/collection/providers/items-collection.provider';
 import { defineComponent, computed } from 'vue';
+import { itemsCollectionProvider } from '../../providers/items-collection.provider';
 
 export default defineComponent({
   setup() {

@@ -4,12 +4,12 @@ namespace Rk.Messages.Logic.CommonNS.Dto
 {
     public record AuditableEntityDto
     {
-        public string CreatedBy { get;  set; }
+        public virtual string CreatedBy { get;  set; }
 
-        public string LastModifiedBy { get; set; }
+        public virtual string LastModifiedBy { get; set; }
 
-        public DateTime Created { get; set; }
+        public virtual DateTime Created { get; set; }
 
-        public DateTime LastModified { get; set; }
+        public virtual DateTime LastModified { get; set; }
     }
 }

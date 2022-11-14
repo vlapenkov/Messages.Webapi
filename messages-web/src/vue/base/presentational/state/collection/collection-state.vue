@@ -20,6 +20,7 @@
       <slot name="tree-view"></slot>
     </div>
   </transition-fade>
+  <collection-state-paginator></collection-state-paginator>
   <slot>
     <selected-item-dialog></selected-item-dialog>
   </slot>
@@ -28,8 +29,9 @@
 <script lang="ts">
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { computed, defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref, WritableComputedRef } from 'vue';
 import { CollectionStore } from '@/app/core/services/harlem/custom-stores/collection/@types/CollectionStore';
+import { PageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/@types/PageableCollectionStore';
 import { DisplayMode } from '../@types/viewTypes';
 import { reloadOnSaveProvider } from './providers/reload-on-save.provider';
 import { showDialogProvider } from './providers/show-dialog.provider';
@@ -43,11 +45,19 @@ import { loadingStatusProvider } from './providers/loading-status.provider';
 import { viewSwitcherProps } from './view-switcher.vue';
 import { editOrCreateModeProvider } from './providers/edit-or-create-mode.provider';
 import { refreshProvider } from './providers/refresh.provider';
+import {
+  pageSizeProvider,
+  pageNumberProvider,
+  totalItemsCountProvider,
+} from './providers/pages.provider';
+
+type CollectionStoreMixed = Partial<CollectionStore<IModel, ModelBase>> &
+  Partial<PageableCollectionStore<IModel, ModelBase>>;
 
 export default defineComponent({
   props: {
     state: {
-      type: Object as PropType<CollectionStore<IModel, ModelBase>>,
+      type: Object as PropType<CollectionStoreMixed>,
       required: true,
     },
     reloadOnSave: {
@@ -57,17 +67,34 @@ export default defineComponent({
     ...viewSwitcherProps,
   },
   setup(props) {
+    // Список элементов
+    if (props.state.items != null) {
+      itemsCollectionProvider.provideFrom(() => props.state.items);
+    } else if (props.state.currentPageItems != null) {
+      itemsCollectionProvider.provideFrom(
+        () => () => props.state.currentPageItems as WritableComputedRef<ModelBase<IModel>[] | null>,
+      );
+    }
+    refreshProvider.provideFrom(() => props.state.getDataAsync);
+    // Диалог (не обязательно) с добавлением или редактированием элемента коллекции
+    // Статус видимости, экшн выбора, экшн добавления, выбранный элемент, экшн на сохранение, редактируем или добавляем
     showDialogProvider.provide();
-    loadingStatusProvider.provideFrom(() => props.state.status);
-    reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
-    itemsCollectionProvider.provideFrom(() => props.state.items);
     selectItemProvider.provideFrom(() => props.state.selectItem);
+    createItemProvider.provideFrom(() => props.state.createItem);
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
-    createItemProvider.provideFrom(() => props.state.createItem);
     editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
-    refreshProvider.provideFrom(() => props.state.getDataAsync);
+    // Идёт ли загрузка
+    loadingStatusProvider.provideFrom(() => props.state.status);
+    // Древовидная сттруктура (Нужно использовать специальный декоратор в стейте)
     treeViewProvider.provideFrom(() => props.state.treeView);
+    // Настройки компонента
+    reloadOnSaveProvider.provideFrom(() => props.reloadOnSave);
+    // Пагинация
+    pageSizeProvider.provideFrom(() => props.state.pageSize);
+    pageNumberProvider.provideFrom(() => props.state.pageNumber);
+    totalItemsCountProvider.provideFrom(() => props.state.currentPage?.value?.totalItemCount ?? 0);
+    // Конец
     const viewMode = ref<DisplayMode>(props.modes[0].mode);
     const canAdd = computed(
       () => props.state.createItem != null && props.state.saveChanges != null,

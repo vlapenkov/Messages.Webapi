@@ -1,7 +1,7 @@
 <template>
   <transition enter-active-class="scalein animation-duration-200" appear>
     <prime-paginator
-      v-if="totalItemsCount > pageSize"
+      v-if="pageNumber && pageSize"
       class="mt-1 border-1 shadow-1"
       :rows="pageSize"
       :first="pageSize * (pageNumber - 1)"

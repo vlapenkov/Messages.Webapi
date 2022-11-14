@@ -1,13 +1,10 @@
 <template>
   <div>
-    <collection-state-pageable
-      :modes="[{ label: 'Сеткой', mode: 'data-view' }]"
-      :state="productsStore"
-    >
+    <collection-state :modes="[{ label: 'Сеткой', mode: 'data-view' }]" :state="productsStore">
       <template #data-view>
         <data-view-collection></data-view-collection>
       </template>
-    </collection-state-pageable>
+    </collection-state>
   </div>
 </template>
 

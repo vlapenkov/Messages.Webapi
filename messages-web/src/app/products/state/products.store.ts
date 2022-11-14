@@ -30,7 +30,7 @@ export class ProductsState extends StateBase {
   pageNumber = 1;
 
   @pageSize
-  pageSize = 12;
+  pageSize = 15;
 
   @pageRequest
   // eslint-disable-next-line class-methods-use-this

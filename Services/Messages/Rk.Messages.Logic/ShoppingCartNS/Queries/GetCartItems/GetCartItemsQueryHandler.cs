@@ -34,8 +34,13 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Queries.GetCartItems
 
             var userName = _userService.UserName;
 
-           var cartItems = await _appDbContext.ShoppingCartItems.Include(self=>self.Product)
-                .Where(self => self.UserName == userName).ToListAsync(cancellationToken);
+           var cartItems = await _appDbContext.ShoppingCartItems
+                .Include(self=>self.Product)
+                    .ThenInclude(product => product.ProductDocuments)
+                        .ThenInclude(pd => pd.Document)
+                .Where(self => self.UserName == userName)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
 
             var result = _mapper.Map<IReadOnlyCollection<ShoppingCartItemDto>>(cartItems);
 

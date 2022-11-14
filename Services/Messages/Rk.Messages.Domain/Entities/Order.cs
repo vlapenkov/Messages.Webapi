@@ -18,10 +18,12 @@ namespace Rk.Messages.Domain.Entities
          
             OrganizationId = organizationId;            
             UserName = userName;
-        }        
+        }
 
+        /// <summary>Id организация покупателя</summary>
         public long OrganizationId { get; private set; }
 
+        /// <summary>Организация покупателя</summary>
         public virtual Organization Organization { get;}
 
         [StringLength(255)]

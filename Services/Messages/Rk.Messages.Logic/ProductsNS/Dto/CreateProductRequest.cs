@@ -13,6 +13,9 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>Наименование</summary>
         public string Name { get; set; }
 
+        /// <summary>Полное Наименование</summary>
+        public string FullName { get; set; }
+
         /// <summary>Описание</summary>
         public string Description { get; set; }
 

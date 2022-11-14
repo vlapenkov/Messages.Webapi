@@ -31,6 +31,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
             var request = query.Request;
 
             IQueryable<Product> productsQuery = _dbContext.Products
+                .Include(product => product.Organization)
                 .Include(product=> product.ProductDocuments)
                 .ThenInclude(pd => pd.Document)
                 .AsNoTracking();

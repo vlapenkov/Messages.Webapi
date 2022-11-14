@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
 using Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand;
@@ -12,6 +13,7 @@ namespace Rk.Messages.Webapi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class ShoppingCartController : ControllerBase
     {
         private readonly IMediator _mediatr;

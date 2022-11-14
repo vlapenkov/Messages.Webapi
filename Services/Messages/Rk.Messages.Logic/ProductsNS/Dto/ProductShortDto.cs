@@ -23,5 +23,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 
+        public OrganizationShortDto Organization { get; set; }
+
     }
 }

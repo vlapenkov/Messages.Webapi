@@ -8,7 +8,7 @@ using Rk.Messages.Infrastructure.EFCore;
 
 #nullable disable
 
-namespace Messages.Infrastructure.Migrations
+namespace Rk.Messages.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -218,6 +218,16 @@ namespace Messages.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("address");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("city");
+
                     b.Property<string>("FullName")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
@@ -243,6 +253,20 @@ namespace Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("ogrn");
 
+                    b.Property<string>("Region")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("region");
+
+                    b.Property<string>("Site")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("site");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
                     b.HasKey("Id")
                         .HasName("pk_organizations");
 
@@ -252,20 +276,29 @@ namespace Messages.Infrastructure.Migrations
                         new
                         {
                             Id = 1L,
+                            Address = "Самарская обл., г. Самара, ул. Земеца, д. 18",
+                            City = "Самара",
                             FullName = "Ракетно-космический центр «Прогресс», Самара",
                             Inn = "6312139922",
                             Kpp = "631201001",
                             Name = "Прогресс",
-                            Ogrn = "1146312005344"
+                            Ogrn = "1146312005344",
+                            Region = "Самарская область",
+                            Status = 0
                         },
                         new
                         {
                             Id = 2L,
+                            Address = "456227, Челябинская область, город Златоуст, Парковый проезд, 1",
+                            City = "Златоуст",
                             FullName = "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"",
                             Inn = "7404052938",
                             Kpp = "631201001",
                             Name = "Златоустовский машиностроительный завод",
-                            Ogrn = "1146312005344"
+                            Ogrn = "1146312005344",
+                            Region = "Челябинская область",
+                            Site = "http://www.zlatmash.ru/",
+                            Status = 0
                         });
                 });
 
@@ -308,6 +341,11 @@ namespace Messages.Infrastructure.Migrations
                         {
                             Id = 4L,
                             Name = "Цвет"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            Name = "Объем"
                         });
                 });
 
@@ -383,11 +421,18 @@ namespace Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(512)")
                         .HasColumnName("name");
 
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("organizationid");
+
                     b.HasKey("Id")
                         .HasName("pk_baseproduct");
 
                     b.HasIndex("CatalogSectionId")
                         .HasDatabaseName("ix_baseproduct_catalogsectionid");
+
+                    b.HasIndex("OrganizationId")
+                        .HasDatabaseName("ix_baseproduct_organizationid");
 
                     b.ToTable("baseproduct", (string)null);
 
@@ -454,9 +499,33 @@ namespace Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("codetnved");
 
+                    b.Property<string>("Country")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("country");
+
+                    b.Property<string>("Currency")
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)")
+                        .HasColumnName("currency");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("fullname");
+
+                    b.Property<string>("MeasuringUnit")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("measuringunit");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric")
                         .HasColumnName("price");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -570,7 +639,16 @@ namespace Messages.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_baseproduct_catalogsections_catalogsectionid");
 
+                    b.HasOne("Rk.Messages.Domain.Entities.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_baseproduct_organizations_organizationid");
+
                     b.Navigation("CatalogSection");
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ShoppingCartItem", b =>

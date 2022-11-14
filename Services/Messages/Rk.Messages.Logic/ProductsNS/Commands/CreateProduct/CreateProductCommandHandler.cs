@@ -18,6 +18,8 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
 
         private readonly IFileStoreService _fileService;
 
+        private static readonly long _defaultOrganizationId = 1L;
+
         public CreateProductCommandHandler(IAppDbContext dbContext, IValidator<CreateProductCommand> validator, IFileStoreService fileService)
         {
             _dbContext = dbContext;
@@ -38,7 +40,16 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
 
             var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.BaseProductId, av.AttributeId, av.Value)).ToArray();
 
-            Product product = new Product(request.CatalogSectionId, request.Name, request.Description, request.Price, attributeValues);
+            Product product = new Product
+                (
+                _defaultOrganizationId, 
+                request.CatalogSectionId, 
+                request.Name, 
+                request.FullName, 
+                request.Description, 
+                request.Price, 
+                attributeValues
+                );
 
             //  await CreateDocuments(request.Documents);
 

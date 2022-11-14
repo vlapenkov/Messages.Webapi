@@ -8,7 +8,13 @@ namespace Rk.Messages.Domain.Entities.Products
     public class Technology : BaseProduct
     {
         private Technology() { }
-        public Technology(int catalogSectionId, string name, string description, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        public Technology(
+            long organizationId,
+            long catalogSectionId, 
+            string name, 
+            string description, 
+            IReadOnlyCollection<AttributeValue> attributeValues) : 
+            base(organizationId, catalogSectionId, name, description, attributeValues)
         {
         }
     }

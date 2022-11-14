@@ -7,22 +7,26 @@
       :value="items"
     >
       <template #list="{ data, index }">
-        <div class="col-12">
-          <data-card
-            class="shadow-none border-noround"
-            :class="{
-              'border-round-top': index === 0,
-              'border-round-bottom': index === (items?.length ?? 0) - 1,
-            }"
-            :data="data"
-          >
-          </data-card>
-        </div>
+        <slot name="list" :data="data" :index="index">
+          <div class="col-12">
+            <data-card
+              class="shadow-none border-noround"
+              :class="{
+                'border-round-top': index === 0,
+                'border-round-bottom': index === (items?.length ?? 0) - 1,
+              }"
+              :data="data"
+            >
+            </data-card>
+          </div>
+        </slot>
       </template>
-      <template #grid="{ data }">
-        <div class="col-12 md:col-6 xl:col-4 p-1">
-          <data-card class="h-full" :data="data"></data-card>
-        </div>
+      <template #grid="{ data, index }">
+        <slot name="grid" :data="data" :index="index">
+          <div class="col-12 md:col-6 xl:col-4 p-1">
+            <data-card class="h-full" :data="data"></data-card>
+          </div>
+        </slot>
       </template>
     </data-view>
   </loading-status-handler>

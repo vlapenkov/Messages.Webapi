@@ -12,12 +12,17 @@ namespace Rk.Messages.Interfaces.Services
     public interface IUserService
     {
         /// <summary>Идентификатор пользователя</summary>
-       // public Guid? UserId { get; }
+        public Guid? UserId { get; }
 
         /// <summary>Имя пользователя</summary>
-        public string UserName { get;}
+        string UserName { get;}
 
         /// <summary>Пользователь авторизован</summary>
-        public bool IsAuthenticated { get;}
+        bool IsAuthenticated { get;}
+
+        /// <summary>
+        /// Получить значение claim по наименованию
+        /// </summary>        
+        string GetClaimValue(string claimName);
     }
 }

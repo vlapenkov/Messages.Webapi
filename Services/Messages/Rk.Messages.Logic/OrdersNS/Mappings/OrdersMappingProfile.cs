@@ -22,6 +22,7 @@ namespace Rk.Messages.Logic.OrdersNS.Mappings
 
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(dest => dest.DocumentId, opt => opt.MapFrom(src => src.Product.GetProductDocument().Document.FileId))
                .ReverseMap();
 
             CreateMap<Order, OrderResponse>()

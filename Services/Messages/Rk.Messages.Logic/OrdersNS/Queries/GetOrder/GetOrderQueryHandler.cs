@@ -27,6 +27,8 @@ namespace Rk.Messages.Logic.OrdersNS.Queries.GetOrder
                 .Include(order=>order.Organization)
                 .Include(order => order.OrderItems)
                     .ThenInclude(orderItem => orderItem.Product)
+                        .ThenInclude(product => product.ProductDocuments)
+                            .ThenInclude(pd => pd.Document)
                 .FirstOrDefaultAsync(x => x.Id == request.OrderId) 
                 ?? 
                 throw new EntityNotFoundException($"Заказ с Id= {request.OrderId} не найден");

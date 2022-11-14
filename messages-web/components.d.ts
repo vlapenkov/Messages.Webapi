@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AboutView: typeof import('./src/vue/views/about-view.vue')['default']
+    AppGrid: typeof import('./src/vue/base/presentational/grid/app-grid.vue')['default']
     AppLayout: typeof import('./src/vue/presentational/app-layout.vue')['default']
     AppRoot: typeof import('./src/vue/app-root.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
@@ -24,6 +25,7 @@ declare module '@vue/runtime-core' {
     Divider: typeof import('primevue/divider')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
     EditItemButton: typeof import('./src/vue/base/presentational/state/collection/components/buttons/edit-item-button.vue')['default']
+    GridItem: typeof import('./src/vue/base/presentational/grid/grid-item.vue')['default']
     HelloWorld: typeof import('./src/vue/presentational/hello-world.vue')['default']
     HomeView: typeof import('./src/vue/views/home-view.vue')['default']
     HoverTag: typeof import('./src/vue/base/presentational/hover-tag.vue')['default']
@@ -46,6 +48,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SectionsView: typeof import('./src/vue/views/sections-view.vue')['default']
     SelectedItemDialog: typeof import('./src/vue/base/presentational/state/collection/components/dialog/selected-item-dialog.vue')['default']
+    SizeProvider: typeof import('./src/vue/base/presentational/grid/size-provider.vue')['default']
     Skeleton: typeof import('primevue/skeleton')['default']
     Splitter: typeof import('primevue/splitter')['default']
     SplitterPanel: typeof import('primevue/splitterpanel')['default']

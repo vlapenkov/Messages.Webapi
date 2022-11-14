@@ -15,8 +15,6 @@ export function usePages() {
     if (pageNumber.value == null) {
       return;
     }
-    console.log({ page });
-
     pageNumber.value.value = page + 1;
   };
 

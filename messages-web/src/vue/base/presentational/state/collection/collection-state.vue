@@ -42,7 +42,7 @@ import { saveChangesProvider } from './providers/save-changes.provider';
 import { selectItemProvider } from './providers/select-item.provider';
 import { treeViewProvider } from './providers/tree-view.provider';
 import { loadingStatusProvider } from './providers/loading-status.provider';
-import { viewSwitcherProps } from './view-switcher.vue';
+import { viewSwitcherProps } from './components/view-switcher.vue';
 import { editOrCreateModeProvider } from './providers/edit-or-create-mode.provider';
 import { refreshProvider } from './providers/refresh.provider';
 import {

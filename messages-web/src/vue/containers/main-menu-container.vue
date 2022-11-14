@@ -33,12 +33,12 @@ export default defineComponent({
       {
         label: 'Категории',
         to: { name: 'sections' },
-        icon: 'pi pi-folder',
+        icon: 'pi pi-list',
       },
       {
         label: 'Товары',
         to: { name: 'products' },
-        icon: 'pi pi-list',
+        icon: 'pi pi-th-large',
       },
       {
         label: 'Заказы',

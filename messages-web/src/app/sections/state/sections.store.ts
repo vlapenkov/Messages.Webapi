@@ -19,6 +19,7 @@ export class SectionState extends StateBase {
     const modelToTree = (section: SectionModel): TreeNode => ({
       label: section.title.value as string,
       key: `${section.key}`,
+      data: section,
       children: models.filter((m) => m.parentSectionId === section.id).map(modelToTree),
     });
 
@@ -34,7 +35,7 @@ export class SectionState extends StateBase {
   @selected({
     create: true,
     delete: false,
-    update: false,
+    update: true,
   })
   selectedItem: NotValidData<SectionModel> | null = null;
 }

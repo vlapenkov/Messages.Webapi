@@ -42,7 +42,7 @@ export default defineComponent({
   transition: background-color 0.35s ease-in-out;
   transition: color 0.35s ease-in-out;
   &:hover {
-    background-color: rgba($color: var(--user-selection-color), $alpha: 0.05);
+    background-color: var(--surface-ground);
     cursor: pointer;
   }
 }

@@ -12,7 +12,14 @@
         <data-view-collection></data-view-collection>
       </template>
       <template #tree-view>
-        <tree-view-collection></tree-view-collection>
+        <splitter class="mt-2">
+          <splitter-panel>
+            <tree-view-collection class="reshape-tree"></tree-view-collection>
+          </splitter-panel>
+          <splitter-panel>
+            <router-view></router-view>
+          </splitter-panel>
+        </splitter>
       </template>
     </collection-state>
   </div>
@@ -31,4 +38,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.reshape-tree {
+  box-sizing: border-box;
+  :deep(.p-tree) {
+    margin-top: 0 !important;
+    border: none;
+  }
+}
+</style>

@@ -14,9 +14,6 @@ export default defineComponent({
     const elRef = ref<HTMLElement>();
     const isHovered = useElementHover(elRef);
     const defaultSlot = slots.default;
-    // watchEffect(() => {
-    //   console.log('hovered:', isHovered.value);
-    // });
     return () =>
       h(
         props.tag,

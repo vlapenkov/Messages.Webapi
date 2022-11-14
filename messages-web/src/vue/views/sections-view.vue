@@ -13,10 +13,10 @@
       </template>
       <template #tree-view>
         <splitter class="mt-2">
-          <splitter-panel>
+          <splitter-panel :size="30">
             <tree-view-collection class="reshape-tree"></tree-view-collection>
           </splitter-panel>
-          <splitter-panel>
+          <splitter-panel :size="70">
             <router-view></router-view>
           </splitter-panel>
         </splitter>

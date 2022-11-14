@@ -3,13 +3,22 @@
     <tree class="mt-2 label-full" :value="tree">
       <template #default="{ node }">
         <model-provider :data="node.data">
-          <div
-            style="min-height: 35px"
-            class="flex w-full border-round p-1 flex-row align-items-center gap-3 tree-node-hover"
+          <hover-tag
+            #default="{ hover }"
+            style="min-height: 50px"
+            class="flex w-full border-round justify-content-between p-2 flex-row align-items-center gap-3 tree-node-hover"
           >
             <span>{{ node.label }}</span>
-            <edit-item-button class="icon-small" />
-          </div>
+            <transition
+              mode="out-in"
+              enter-active-class="fadeinleft animation-duration-100"
+              leave-active-class="fadeoutleft animation-duration-100"
+            >
+              <div v-if="hover" class="flex flex-row gap-2">
+                <edit-item-button class="icon-small" />
+              </div>
+            </transition>
+          </hover-tag>
         </model-provider>
       </template>
     </tree>

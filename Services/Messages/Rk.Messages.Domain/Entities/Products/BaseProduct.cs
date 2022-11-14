@@ -10,24 +10,24 @@ namespace Rk.Messages.Domain.Entities.Products
     public abstract class BaseProduct : AuditableEntity
     {
         protected BaseProduct() { }
-        public BaseProduct(long catalogSectionId,  string name, string description, IReadOnlyCollection<AttributeValue> attributeValues)
+        public BaseProduct(long organizationId, long catalogSectionId,  string name, string description, IReadOnlyCollection<AttributeValue> attributeValues)
         {
             CatalogSectionId = catalogSectionId;          
             Name = name;
             Description = description;
+            OrganizationId = organizationId;
+
             _attributeValues = attributeValues.ToList();
             
-        }
-
-        public BaseProduct(long catalogSectionId, string name, string description)
-        {
-            CatalogSectionId = catalogSectionId;
-            Name = name;
-            Description = description;
-        }
+        }        
 
         /// <summary>Раздел каталога</summary>
         public long CatalogSectionId { get; protected set; }
+
+        public long OrganizationId { get; protected set; }
+
+        public Organization Organization{ get; }
+
         public virtual CatalogSection CatalogSection { get;  }
 
         /// <summary>Наименование продукции</summary>

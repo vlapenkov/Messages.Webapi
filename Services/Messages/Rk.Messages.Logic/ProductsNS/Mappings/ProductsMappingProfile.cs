@@ -29,6 +29,10 @@ namespace Rk.Messages.Logic.ProductsNS.Mappings
              CreateMap<Product, ProductResponse>()
                .ForMember(dest => dest.Documents, opt => opt.Ignore())
               .ReverseMap();
+
+            CreateMap<Organization, OrganizationShortDto>()                
+                .ReverseMap();
+
         }
     }
 }

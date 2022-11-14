@@ -63,7 +63,12 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasMany(self => self.ProductDocuments)
                .WithOne(self => self.BaseProduct)
                .HasForeignKey(self => self.BaseProductId);
-                               
+
+
+                entity.HasOne(self => self.Organization)
+                  .WithMany()
+                  .HasForeignKey(self => self.OrganizationId);
+
 
             });
 
@@ -129,15 +134,16 @@ namespace Rk.Messages.Infrastructure.EFCore
         protected virtual void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Organization>().HasData(
-          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001"),
-          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001")
+          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null, OrganizationStatus.Working),
+          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/",OrganizationStatus.Working)
           );
 
             modelBuilder.Entity<ProductAttribute>().HasData(
-        new ProductAttribute(1,"Вес"),
-        new ProductAttribute(2, "Длина"),
-        new ProductAttribute(3, "Ширина"),
-        new ProductAttribute(4, "Цвет")
+                new ProductAttribute(1,"Вес"),
+                new ProductAttribute(2, "Длина"),
+                new ProductAttribute(3, "Ширина"),
+                new ProductAttribute(4, "Цвет"),
+                new ProductAttribute(5, "Объем")
         );
 
         }

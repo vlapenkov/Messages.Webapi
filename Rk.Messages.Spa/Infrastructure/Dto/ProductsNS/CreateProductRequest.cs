@@ -12,6 +12,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Name { get; set; }
 
+        public string FullName { get; set; }
+
         public string Description { get; set; }
 
         /// <summary>Значения атрибутов</summary>

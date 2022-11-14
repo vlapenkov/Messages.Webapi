@@ -25,5 +25,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 
+        public  OrganizationShortDto Organization { get; set; }
+
     }
 }

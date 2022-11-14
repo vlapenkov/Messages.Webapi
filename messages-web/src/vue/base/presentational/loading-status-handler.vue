@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { loadingStatusProvider } from '../containers/state/collection/providers/loading-status.provider';
+import { loadingStatusProvider } from './state/collection/providers/loading-status.provider';
 
 export default defineComponent({
   setup() {

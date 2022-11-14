@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import { useEditableChecks } from '@/vue/base/containers/state/collection/composables/editable-checks.composable';
-import { useSelectItem } from '@/vue/base/containers/state/collection/composables/select-item.composable';
 import { defineComponent } from 'vue';
+import { useEditableChecks } from '@/vue/base/presentational/state/collection/composables/editable-checks.composable';
+import { useSelectItem } from '@/vue/base/presentational/state/collection/composables/select-item.composable';
 
 export default defineComponent({
   setup() {

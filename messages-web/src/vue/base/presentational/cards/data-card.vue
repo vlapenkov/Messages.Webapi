@@ -44,8 +44,8 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ViewMode } from '@/app/core/models/decorators/@types/ViewMode';
 import { computed, defineComponent, PropType } from 'vue';
-import { modelProvider } from '../../containers/state/collection/providers/model-provider';
-import { selectItemProvider } from '../../containers/state/collection/providers/select-item.provider';
+import { modelProvider } from '../state/collection/providers/model-provider';
+import { selectItemProvider } from '../state/collection/providers/select-item.provider';
 
 export default defineComponent({
   props: {

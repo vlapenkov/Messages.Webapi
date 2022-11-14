@@ -6,8 +6,8 @@
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import type { SectionModel } from '@/app/sections/models/section.model';
 import { computed, defineComponent } from 'vue';
-import { itemSelectedProvider } from '../base/containers/state/collection/providers/item-selected.provider';
-import { itemsCollectionProvider } from '../base/containers/state/collection/providers/items-collection.provider';
+import { itemSelectedProvider } from '../base/presentational/state/collection/providers/item-selected.provider';
+import { itemsCollectionProvider } from '../base/presentational/state/collection/providers/items-collection.provider';
 
 export default defineComponent({
   setup() {

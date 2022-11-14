@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { PrimePaginator } from '@/tools/prime-vue-components';
-import { usePages } from '@/vue/base/containers/state/collection/composables/pages.composable';
 import { defineComponent } from 'vue';
+import { usePages } from '@/vue/base/presentational/state/collection/composables/pages.composable';
 
 export default defineComponent({
   setup() {

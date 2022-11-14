@@ -25,11 +25,11 @@
 
 <script lang="ts">
 import { PrimeDialog } from '@/tools/prime-vue-components';
-import { useEditableChecks } from '@/vue/base/containers/state/collection/composables/editable-checks.composable';
-import { useSaveChanges } from '@/vue/base/containers/state/collection/composables/save-changes.composable';
-import { useSelectedData } from '@/vue/base/containers/state/collection/composables/selected-data.composable';
-import { editOrCreateModeProvider } from '@/vue/base/containers/state/collection/providers/edit-or-create-mode.provider';
 import { defineComponent } from 'vue';
+import { useEditableChecks } from '@/vue/base/presentational/state/collection/composables/editable-checks.composable';
+import { useSaveChanges } from '@/vue/base/presentational/state/collection/composables/save-changes.composable';
+import { useSelectedData } from '@/vue/base/presentational/state/collection/composables/selected-data.composable';
+import { editOrCreateModeProvider } from '@/vue/base/presentational/state/collection/providers/edit-or-create-mode.provider';
 
 export default defineComponent({
   setup() {

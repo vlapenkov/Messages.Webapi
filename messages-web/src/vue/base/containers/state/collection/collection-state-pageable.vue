@@ -71,8 +71,8 @@ export default defineComponent({
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     selectItemProvider.provideFrom(() => props.state.selectItem);
     editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
-    pageSizeProvider.provideFrom(() => props.state.pageSize.value ?? 0);
-    pageNumberProvider.provideFrom(() => props.state.pageNumber.value ?? 0);
+    pageSizeProvider.provideFrom(() => props.state.pageSize);
+    pageNumberProvider.provideFrom(() => props.state.pageNumber);
     totalItemsCountProvider.provideFrom(() => props.state.currentPage.value?.totalItemCount ?? 0);
 
     const canAdd = computed(

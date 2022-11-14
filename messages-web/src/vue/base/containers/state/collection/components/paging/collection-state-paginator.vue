@@ -2,7 +2,7 @@
   <transition enter-active-class="scalein animation-duration-200" appear>
     <prime-paginator
       v-if="totalItemsCount > pageSize"
-      class="mt-1"
+      class="mt-1 border-1 shadow-1"
       :rows="pageSize"
       :first="pageSize * (pageNumber - 1)"
       :totalRecords="totalItemsCount"
@@ -13,21 +13,12 @@
 
 <script lang="ts">
 import { PrimePaginator } from '@/tools/prime-vue-components';
-import { useChangePage } from '@/vue/base/containers/state/collection/composables/change-page.composable';
-import {
-  pageNumberProvider,
-  pageSizeProvider,
-  totalItemsCountProvider,
-} from '@/vue/base/containers/state/collection/providers/pages.provider';
+import { usePages } from '@/vue/base/containers/state/collection/composables/pages.composable';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    const pageSize = pageSizeProvider.inject();
-    const pageNumber = pageNumberProvider.inject();
-    const totalItemsCount = totalItemsCountProvider.inject();
-    const changePage = useChangePage();
-    return { pageSize, pageNumber, totalItemsCount, changePage };
+    return { ...usePages() };
   },
   components: { PrimePaginator },
 });

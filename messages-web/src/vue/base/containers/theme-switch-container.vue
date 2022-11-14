@@ -2,7 +2,7 @@
   <prime-button
     @click="dark = !dark"
     :icon="!dark ? 'pi pi-moon' : 'pi pi-sun'"
-    class="p-button-rounded p-button-outlined p-button-sm no-label icon-small p-button-secondary"
+    class="p-button-rounded p-button-text p-button-outlined p-button-sm no-label icon-small p-button-secondary"
   ></prime-button>
 </template>
 

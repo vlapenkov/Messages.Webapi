@@ -14,6 +14,7 @@
 import { isAuthenticated, userInfo } from '@/store/user.store';
 import { computed, defineComponent } from 'vue';
 import { url } from 'gravatar';
+import { screenSmall } from '@/app/core/services/window/window.service';
 
 const avatarSize = 100;
 export default defineComponent({
@@ -22,7 +23,9 @@ export default defineComponent({
       userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
     );
     const userShortName = computed(() =>
-      [(userInfo.value?.familyName ?? '')[0], (userInfo.value?.givenName ?? '')[0]].join(' '),
+      [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
+        .map((part) => (!screenSmall.value ? `${part[0]}.` : part))
+        .join(' '),
     );
     return { isAuthenticated, gravatarUrl, userShortName };
   },

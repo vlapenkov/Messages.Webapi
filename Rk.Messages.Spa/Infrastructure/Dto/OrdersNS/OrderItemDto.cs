@@ -8,6 +8,9 @@
         /// <summary>наименование товара</summary>
         public string ProductName { get; set; }
 
+        /// <summary>Ссылка на документ</summary>
+        public Guid? DocumentId { get; set; }
+
         /// <summary>цена</summary>
         public decimal Price { get; set; }
 

@@ -53,5 +53,7 @@ namespace Rk.Messages.Domain.Entities.Products
 
             _productDocuments.AddRange(productFiles);
         }
+
+        public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
     }
 }

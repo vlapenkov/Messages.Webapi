@@ -7,12 +7,19 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Domain.Entities
 {
+    /// <summary>
+    /// Статусы организаций
+    /// </summary>
     public enum OrganizationStatus
     {
+        [Description("Новая")]
+        New = 0,
+
         [Description("Активная")]
-        Working,
+        Working = 1,
+        
 
         [Description("Закрыта")]
-        InActive
+        Closed = 10,
     }
 }

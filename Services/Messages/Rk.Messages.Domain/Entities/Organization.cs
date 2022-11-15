@@ -10,9 +10,15 @@ namespace Rk.Messages.Domain.Entities
         protected Organization() { }
         
 
-        public Organization(long id,  string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, OrganizationStatus status)
+        public Organization(long id,  string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, OrganizationStatus status) :
+            this( name,  fullName,  ogrn,  inn,  kpp,  region,  city,  address,  site,  status)    
         {
-            Id = id;
+            Id = id;           
+        }
+
+        public Organization(string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, OrganizationStatus status)
+        {
+            
             Name = name;
             FullName = fullName;
             Ogrn = ogrn;

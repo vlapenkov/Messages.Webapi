@@ -78,7 +78,7 @@ export function useSelectedItemForCollection<
   });
 
   const selectItem = !itemOptions.update
-    ? undefined
+    ? null
     : store.mutation<string | number | symbol>('select-item', (_, key) => {
         const selected = itemsDumb.value?.find((i) => i.key === key);
         if (selected == null) {
@@ -87,7 +87,7 @@ export function useSelectedItemForCollection<
         itemSelected.value = new Edititng(selected.clone() as TModel);
       });
   const createItem = !itemOptions.create
-    ? undefined
+    ? null
     : store.mutation<void>('create-item', () => {
         itemSelected.value = new Creation(new Model());
       });

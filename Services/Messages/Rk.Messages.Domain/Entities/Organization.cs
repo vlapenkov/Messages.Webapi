@@ -5,18 +5,18 @@ namespace Rk.Messages.Domain.Entities
     /// <summary>
     /// Организация
     /// </summary>
-    public class Organization :BaseEntity
+    public class Organization : AuditableEntity
     {
         protected Organization() { }
         
 
-        public Organization(long id,  string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, OrganizationStatus status) :
-            this( name,  fullName,  ogrn,  inn,  kpp,  region,  city,  address,  site,  status)    
+        public Organization(long id,  string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, string okved, string okved2, OrganizationStatus status) :
+            this( name,  fullName,  ogrn,  inn,  kpp,  region,  city,  address,  site, okved, okved2,  status)    
         {
             Id = id;           
         }
 
-        public Organization(string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, OrganizationStatus status)
+        public Organization(string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, string okved, string okved2, OrganizationStatus status)
         {
             
             Name = name;
@@ -28,7 +28,11 @@ namespace Rk.Messages.Domain.Entities
             City = city;
             Address = address;
             Site = site;
-            Status = status;
+
+            Okved = okved;
+            Okved2 = okved2;
+
+            Status = status;            
         }
 
         #region Private Members
@@ -59,6 +63,12 @@ namespace Rk.Messages.Domain.Entities
 
         [StringLength(512)]
         public string Site { get; private set; }
+
+        [StringLength(1024)]
+        public string Okved { get; private set; }
+
+        [StringLength(1024)]
+        public string Okved2 { get; private set; }
 
         public OrganizationStatus Status { get; private set; }
 

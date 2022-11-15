@@ -48,6 +48,8 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
                 request.City,
                 request.Address,
                 request.Site,
+                request.Okved,
+                request.Okved2,
                 OrganizationStatus.New
                 );
 

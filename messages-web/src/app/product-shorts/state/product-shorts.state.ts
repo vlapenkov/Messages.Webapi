@@ -11,7 +11,7 @@ import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { ProductShortModel } from '../models/product.model';
 import { IproductsPageRequest } from '../@types/IproductsPageRequest';
 
-export class ProductsState extends StateBase {
+export class ProductShortsState extends StateBase {
   @pages
   pages: IPagedResponse<ProductShortModel>[] = [];
 
@@ -28,7 +28,7 @@ export class ProductsState extends StateBase {
 
   @pageRequest
   // eslint-disable-next-line class-methods-use-this
-  pageRequest(state: ProductsState): IproductsPageRequest {
+  pageRequest(state: ProductShortsState): IproductsPageRequest {
     return {
       pageNumber: state.pageNumber,
       pageSize: state.pageSize,

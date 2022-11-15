@@ -13,6 +13,7 @@ import { getDataStatusProp } from '../../state/decorators/property-keys/data-sta
 import { getItemKey } from '../../state/decorators/property-keys/item.prop-key';
 import { DataStatus } from '../../tools/data-status';
 import { useSelectedItemForSingle } from '../tools/useSelectedItem';
+import { ISingleItemStore } from './@types/ISingleItemStore';
 
 export function defineSingleItemStore<
   TIModel extends IModel,
@@ -23,7 +24,7 @@ export function defineSingleItemStore<
   Model: Constructor<TModel>,
   State: Constructor<TState>,
   service: ISingleHttpService<TIModel>,
-) {
+): [ISingleItemStore<TModel>, DefaultStore<TState>] {
   const stateDefault = new State();
   const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
   const { computeState, action } = store;

@@ -16,6 +16,7 @@ import { defineComponent, PropType } from 'vue';
 import { createItemProvider } from '../collection/providers/create-item.provider';
 import { editOrCreateModeProvider } from '../collection/providers/edit-or-create-mode.provider';
 import { itemSelectedProvider } from '../collection/providers/item-selected.provider';
+import { loadingStatusProvider } from '../collection/providers/loading-status.provider';
 import { saveChangesProvider } from '../collection/providers/save-changes.provider';
 import { showDialogProvider } from '../collection/providers/show-dialog.provider';
 import { selectItemSingleProvider } from './propviders/select-item-single.provider';
@@ -29,9 +30,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    loadingStatusProvider.provideFrom(() => props.state.status);
     showDialogProvider.provide();
     singleItemProvider.provideFrom(() => props.state.itemSmart);
-    selectItemSingleProvider.provideFrom(() => props.state.selectItem);
+    selectItemSingleProvider.provideFrom(() => props.state.selectItem ?? null);
     createItemProvider.provideFrom(() => props.state.createItem);
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);

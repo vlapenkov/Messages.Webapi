@@ -9,7 +9,7 @@ export interface ISingleItemStore<TModel extends ModelBase> {
   itemSmart: (ops?: IQueryOtions) => WritableComputedRef<TModel>;
   status: WritableComputedRef<DataStatus>;
   createItem: ((payload?: void | undefined) => void) | undefined;
-  selectItem: ((payload?: void | undefined) => void) | null;
-  itemSelected: WritableComputedRef<NotValidData<TModel> | null>;
-  saveChanges: Action<void>;
+  selectItem?: ((payload?: void | undefined) => void) | null;
+  itemSelected?: WritableComputedRef<NotValidData<TModel> | null>;
+  saveChanges?: Action<void>;
 }

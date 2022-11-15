@@ -1,12 +1,12 @@
 import { definePageableCollectionStore } from '@/app/core/services/harlem/custom-stores/pageable-collection/pageable-collection.store';
 import { productsHttpService } from '../infrastructure/products.http-service';
 import { ProductShortModel } from '../models/product.model';
-import { ProductsState } from './products.state';
+import { ProductShortsState } from './product-shorts.state';
 
 const [productShortsStore, { computeState }] = definePageableCollectionStore(
   'products',
   ProductShortModel,
-  ProductsState,
+  ProductShortsState,
   productsHttpService,
 );
 

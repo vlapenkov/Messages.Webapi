@@ -6,18 +6,23 @@
       :state="productShortsStore"
     >
       <template #toolbar-end>
-        <create-item-button :disabled="sectionId == null"></create-item-button>
+        <prime-button-add :disabled="sectionId == null" @click="addNewProduct" />
       </template>
       <template #data-view>
         <data-view-collection background></data-view-collection>
       </template>
     </collection-state>
+    <prime-dialog v-model:visible="showAddProductDialog">
+      <single-item-state :state="productFullStore"></single-item-state>
+    </prime-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { productShortsStore, sectionId } from '@/app/product-shorts/state/products.store';
-import { defineComponent, watch } from 'vue';
+import { productFullStore } from '@/app/product-full/state/product-full.store';
+import { sectionId, productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
+import { PrimeDialog } from '@/tools/prime-vue-components';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
@@ -32,8 +37,26 @@ export default defineComponent({
         sectionId.value = +id;
       },
     );
-    return { productShortsStore, sectionId };
+
+    const showAddProductDialog = ref(false);
+    const mode = computed(() => productFullStore.itemSelected?.value?.mode);
+    const addNewProduct = () => {
+      if (productFullStore.createItem == null) {
+        return;
+      }
+      productFullStore.createItem();
+      showAddProductDialog.value = true;
+    };
+    return {
+      productShortsStore,
+      sectionId,
+      productFullStore,
+      mode,
+      addNewProduct,
+      showAddProductDialog,
+    };
   },
+  components: { PrimeDialog },
 });
 </script>
 

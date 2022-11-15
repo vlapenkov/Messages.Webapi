@@ -1,5 +1,3 @@
-import { ICollectionStoreRead } from '@/app/core/services/harlem/custom-stores/collection/@types/ICollectionStoreRead';
-import { ISelectedItem } from '@/app/core/services/harlem/custom-stores/@types/IStoreSelectedItem';
 import { defineCollectionStore } from '@/app/core/services/harlem/custom-stores/collection/collection.store';
 import { StateBase } from '@/app/core/services/harlem/state/base/state-base';
 import { collection } from '@/app/core/services/harlem/state/decorators/collection.decorator';
@@ -10,7 +8,6 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { TreeNode } from 'primevue/tree';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
-import { ISectionModel } from '../models/ISectionModel';
 import { SectionModel } from '../models/section.model';
 
 export class SectionState extends StateBase {
@@ -35,14 +32,16 @@ export class SectionState extends StateBase {
   @selected({
     create: true,
     delete: false,
-    update: true,
+    update: false,
   })
   selectedItem: NotValidData<SectionModel> | null = null;
 }
 
-export const sectionsStore = defineCollectionStore(
+const [sectionsStore] = defineCollectionStore(
   'sections',
   SectionModel,
   SectionState,
   sectionsHttpService,
-) as ICollectionStoreRead<ISectionModel, SectionModel> & ISelectedItem<ISectionModel, SectionModel>;
+);
+
+export { sectionsStore };

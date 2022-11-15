@@ -1,13 +1,13 @@
 <template>
   <div>
-    <collection-state-next :modes="[{ label: 'Сеткой', mode: 'data-view' }]" :state="ordersStore">
+    <collection-state :modes="[{ label: 'Сеткой', mode: 'data-view' }]" :state="ordersStore">
       <template #data-view>
         <data-view-collection></data-view-collection>
       </template>
       <template #tree-view>
         <tree-view-collection></tree-view-collection>
       </template>
-    </collection-state-next>
+    </collection-state>
   </div>
 </template>
 

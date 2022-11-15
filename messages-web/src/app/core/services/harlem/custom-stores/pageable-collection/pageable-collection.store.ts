@@ -33,5 +33,5 @@ export function definePageableCollectionStore<
 
   const editItem = useSelectedItem(store, Model, service, pages.currentPageItems);
 
-  return { ...readonlyStore, ...editItem };
+  return [{ ...readonlyStore, ...editItem }, store] as const;
 }

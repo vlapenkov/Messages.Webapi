@@ -33,11 +33,6 @@ export default defineComponent({
       {
         label: 'Категории',
         to: { name: 'sections' },
-        icon: 'pi pi-list',
-      },
-      {
-        label: 'Товары',
-        to: { name: 'products' },
         icon: 'pi pi-th-large',
       },
       {

@@ -20,7 +20,7 @@ export function defineCollectionStore<
   Model: Constructor<TModel>,
   State: Constructor<TState>,
   service: ICollectionHttpService<TIModel>,
-): CollectionStore<TIModel, TModel> {
+) {
   const stateDefault = new State();
   const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
 
@@ -38,11 +38,11 @@ export function defineCollectionStore<
 
   const treeView = useTreeView(store, (o) => itemsSmart(o));
 
-  const editableCollectionStore = {
+  const editableCollectionStore: CollectionStore<TIModel, TModel> = {
     ...readolnlyCollectionStore,
     ...selected,
     treeView,
   };
 
-  return editableCollectionStore;
+  return [editableCollectionStore, store] as const;
 }

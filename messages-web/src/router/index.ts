@@ -20,11 +20,18 @@ const routes: Array<RouteRecordRaw> = [
     path: '/sections',
     name: 'sections',
     component: () => import(/* webpackChunkName: "sections" */ '../vue/views/sections-view.vue'),
-  },
-  {
-    path: '/products',
-    name: 'products',
-    component: () => import(/* webpackChunkName: "products" */ '../vue/views/products-view.vue'),
+    children: [
+      {
+        path: 'products/:sectionId',
+        name: 'section-products',
+        component: () =>
+          import(/* webpackChunkName: "products" */ '../vue/views/products-view.vue'),
+      },
+      {
+        path: '/',
+        redirect: { name: 'section-products' },
+      },
+    ],
   },
   {
     path: '/orders',

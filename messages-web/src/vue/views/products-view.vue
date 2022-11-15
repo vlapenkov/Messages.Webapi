@@ -9,11 +9,22 @@
 </template>
 
 <script lang="ts">
-import { productsStore } from '@/app/products/state/products.store';
-import { defineComponent } from 'vue';
+import { productsStore, sectionId } from '@/app/products/state/products.store';
+import { defineComponent, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   setup() {
+    const route = useRoute();
+    watch(
+      () => route.params.sectionId,
+      (id) => {
+        if (id == null) {
+          return;
+        }
+        sectionId.value = +id;
+      },
+    );
     return { productsStore };
   },
 });

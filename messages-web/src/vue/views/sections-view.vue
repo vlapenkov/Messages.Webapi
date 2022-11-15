@@ -1,37 +1,32 @@
 <template>
-  <div>
-    <collection-state
-      :modes="[
-        { label: 'Деревом', mode: 'tree-view' },
-        { label: 'Сеткой', mode: 'data-view' },
-      ]"
-      :state="sectionsStore"
-      reload-on-save
-    >
-      <template #data-view>
-        <data-view-collection></data-view-collection>
-      </template>
-      <template #tree-view>
-        <splitter class="mt-2">
-          <splitter-panel :size="30">
-            <tree-view-collection
-              v-model:selectedKeys="selectedKeys"
-              selectionMode="single"
-              class="reshape-tree"
-            >
-            </tree-view-collection>
-          </splitter-panel>
-          <splitter-panel :size="70">
-            <router-view v-slot="{ Component }">
-              <transition-fade>
-                <component :is="Component"></component>
-              </transition-fade>
-            </router-view>
-          </splitter-panel>
-        </splitter>
-      </template>
-    </collection-state>
-  </div>
+  <splitter class="re-splitter">
+    <splitter-panel class="pr-2" :size="30">
+      <collection-state
+        :modes="[{ label: 'Деревом', mode: 'tree-view' }]"
+        :state="sectionsStore"
+        reload-on-save
+      >
+        <template #data-view>
+          <data-view-collection></data-view-collection>
+        </template>
+        <template #tree-view>
+          <tree-view-collection
+            v-model:selectedKeys="selectedKeys"
+            selectionMode="single"
+            class="reshape-tree"
+          >
+          </tree-view-collection>
+        </template>
+      </collection-state>
+    </splitter-panel>
+    <splitter-panel class="pl-2" :size="70">
+      <router-view v-slot="{ Component }">
+        <transition-fade>
+          <component :is="Component"></component>
+        </transition-fade>
+      </router-view>
+    </splitter-panel>
+  </splitter>
 </template>
 
 <script lang="ts">
@@ -66,6 +61,12 @@ export default defineComponent({
   :deep(.p-tree) {
     margin-top: 0 !important;
     border: none;
+  }
+}
+.re-splitter {
+  border: none;
+  :deep(.p-splitter-panel) {
+    background-color: var(--surface-ground);
   }
 }
 </style>

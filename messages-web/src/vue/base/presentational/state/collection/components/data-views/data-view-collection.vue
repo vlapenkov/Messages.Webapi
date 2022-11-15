@@ -1,8 +1,12 @@
 <template>
   <loading-status-handler>
     <data-view
-      class="border-round no-background"
-      :class="{ '-mx-1': viewLayout === 'grid', 'pt-1': viewLayout === 'list' }"
+      class="border-round"
+      :class="{
+        '-m-1': viewLayout === 'grid',
+        'pt-1': viewLayout === 'list',
+        'no-background': !defaultBackground,
+      }"
       :layout="viewLayout"
       :value="items"
     >
@@ -38,6 +42,12 @@ import { defineComponent, computed } from 'vue';
 import { useItems } from '../../composables/items.composable';
 
 export default defineComponent({
+  props: {
+    defaultBackground: {
+      type: Boolean,
+      deafault: false,
+    },
+  },
   setup() {
     const items = useItems();
 

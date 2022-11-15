@@ -66,10 +66,7 @@ export function usePages<
 
   const getPage: Action<IPagedRequest> = action('get-current-page', async (payload) => {
     status.value = new DataStatus('loading');
-    const response = await service.getPage({
-      pageNumber: payload.pageNumber,
-      pageSize: payload.pageSize,
-    });
+    const response = await service.getPage(payload);
     if (response.status !== HttpStatus.Success) {
       status.value = new DataStatus('error', response.message);
       return;
@@ -133,12 +130,14 @@ export function usePages<
   watch(
     pageRequest,
     (request) => {
+      console.log({ request });
+
       if (request.pageSize <= 0) {
         return;
       }
-      if (currentPage.value == null) {
-        getPage(request);
-      }
+      getPage(request);
+      // if (currentPage.value == null) {
+      // }
     },
     {
       immediate: true,

@@ -1,29 +1,37 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <toolbar class="mb-1 pt-2 pb-2 pr-2">
-    <template #start>
-      <div class="flex flex-row gap-5">
-        <view-switcher :modes="modes" v-model="viewMode"></view-switcher>
-      </div>
-    </template>
-    <template #end>
-      <div v-if="canAdd" class="flex justify-content-end">
-        <create-item-button />
-      </div>
-    </template>
-  </toolbar>
-  <transition-fade>
-    <div v-if="viewMode === 'data-view'">
-      <slot name="data-view"></slot>
+  <div class="flex flex-column">
+    <toolbar class="mb-1 pt-2 pb-2 pr-2">
+      <template #start>
+        <slot name="toolbar-start">
+          <div class="flex flex-row gap-5">
+            <view-switcher :modes="modes" v-model="viewMode"></view-switcher>
+          </div>
+        </slot>
+      </template>
+      <template #end>
+        <slot name="toolbar-end">
+          <div v-if="canAdd" class="flex justify-content-end">
+            <create-item-button />
+          </div>
+        </slot>
+      </template>
+    </toolbar>
+    <div class="flex-grow-1 pt-1">
+      <transition-fade>
+        <div v-if="viewMode === 'data-view'">
+          <slot name="data-view"></slot>
+        </div>
+        <div v-else-if="viewMode === 'tree-view'">
+          <slot name="tree-view"></slot>
+        </div>
+      </transition-fade>
     </div>
-    <div v-else-if="viewMode === 'tree-view'">
-      <slot name="tree-view"></slot>
-    </div>
-  </transition-fade>
-  <collection-state-paginator></collection-state-paginator>
-  <slot>
-    <selected-item-dialog></selected-item-dialog>
-  </slot>
+    <collection-state-paginator></collection-state-paginator>
+    <slot>
+      <selected-item-dialog></selected-item-dialog>
+    </slot>
+  </div>
 </template>
 
 <script lang="ts">

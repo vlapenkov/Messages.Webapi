@@ -31,7 +31,7 @@ export default defineComponent({
         icon: 'pi pi-info',
       },
       {
-        label: 'Категории',
+        label: 'Товары',
         to: { name: 'sections' },
         icon: 'pi pi-th-large',
       },

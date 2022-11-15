@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <collection-state :modes="[{ label: 'Сеткой', mode: 'data-view' }]" :state="productsStore">
+  <div class="min-h-full flex flex-column flex-grow-1">
+    <collection-state
+      :modes="[{ label: 'Сеткой', mode: 'data-view' }]"
+      class="flex-grow-1"
+      :state="productsStore"
+    >
+      <template #toolbar-end>
+        <create-item-button :disabled="sectionId == null"></create-item-button>
+      </template>
       <template #data-view>
-        <data-view-collection></data-view-collection>
+        <data-view-collection background></data-view-collection>
       </template>
     </collection-state>
   </div>
@@ -25,7 +32,7 @@ export default defineComponent({
         sectionId.value = +id;
       },
     );
-    return { productsStore };
+    return { productsStore, sectionId };
   },
 });
 </script>

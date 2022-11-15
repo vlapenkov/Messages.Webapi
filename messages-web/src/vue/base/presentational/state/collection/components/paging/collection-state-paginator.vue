@@ -2,7 +2,7 @@
   <transition enter-active-class="scalein animation-duration-200" appear>
     <prime-paginator
       v-if="pageNumber && pageSize"
-      class="mt-1 border-1 shadow-1"
+      class="mt-2 border-1 shadow-1"
       :rows="pageSize"
       :first="pageSize * (pageNumber - 1)"
       :totalRecords="totalItemsCount"

@@ -1,7 +1,7 @@
 <template>
   <loading-status-handler>
     <tree
-      class="mt-2 label-full"
+      class="label-full"
       :selectionMode="selectionMode"
       v-model:selectionKeys="selectedKey"
       :value="tree"

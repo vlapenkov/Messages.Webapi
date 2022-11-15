@@ -19,11 +19,11 @@ export default defineComponent({
       link: [
         {
           rel: 'stylesheet',
-          href: () => `themes/lara-${themeString.value}-indigo/theme.css`,
+          href: () => `/themes/lara-${themeString.value}-indigo/theme.css`,
         },
         {
           rel: 'stylesheet',
-          href: 'themes/primevue.min.css',
+          href: '/themes/primevue.min.css',
         },
       ],
     });

@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { sectionId, productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
@@ -32,9 +33,15 @@ export default defineComponent({
       () => route.params.sectionId,
       (id) => {
         if (id == null) {
-          sectionId.value = undefined;
+          if (sectionId.value != null) {
+            sectionId.value = undefined;
+          }
+        } else {
+          sectionId.value = +id;
         }
-        sectionId.value = +id;
+      },
+      {
+        immediate: true,
       },
     );
 
@@ -45,7 +52,21 @@ export default defineComponent({
         return;
       }
       productFullStore.createItem();
-      showAddProductDialog.value = true;
+
+      const selectedItem = productFullStore.itemSelected?.value?.data;
+      if (selectedItem == null) {
+        return;
+      }
+      if (
+        productFullStore.itemSelected?.value != null &&
+        sectionId.value != null &&
+        mode.value != null
+      ) {
+        const clone = selectedItem.clone();
+        clone.catalogSectionId = sectionId.value;
+        productFullStore.itemSelected.value = new NotValidData(clone, mode.value);
+        showAddProductDialog.value = true;
+      }
     };
     return {
       productShortsStore,

@@ -3,7 +3,7 @@
     <collection-state
       :modes="[{ label: 'Сеткой', mode: 'data-view' }]"
       class="flex-grow-1"
-      :state="productsStore"
+      :state="productShortsStore"
     >
       <template #toolbar-end>
         <create-item-button :disabled="sectionId == null"></create-item-button>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { productsStore, sectionId } from '@/app/product-shorts/state/products.store';
+import { productShortsStore, sectionId } from '@/app/product-shorts/state/products.store';
 import { defineComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -27,12 +27,12 @@ export default defineComponent({
       () => route.params.sectionId,
       (id) => {
         if (id == null) {
-          return;
+          sectionId.value = undefined;
         }
         sectionId.value = +id;
       },
     );
-    return { productsStore, sectionId };
+    return { productShortsStore, sectionId };
   },
 });
 </script>

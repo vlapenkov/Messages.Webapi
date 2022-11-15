@@ -48,6 +48,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SectionsView: typeof import('./src/vue/views/sections-view.vue')['default']
     SelectedItemDialog: typeof import('./src/vue/base/presentational/state/collection/components/dialog/selected-item-dialog.vue')['default']
+    SingleItemState: typeof import('./src/vue/base/presentational/state/single/single-item-state.vue')['default']
     SizeProvider: typeof import('./src/vue/base/presentational/grid/size-provider.vue')['default']
     Skeleton: typeof import('primevue/skeleton')['default']
     Splitter: typeof import('primevue/splitter')['default']

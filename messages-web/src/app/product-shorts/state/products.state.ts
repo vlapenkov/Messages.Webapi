@@ -40,7 +40,7 @@ export class ProductsState extends StateBase {
   @selected({
     create: true,
     delete: false,
-    update: true,
+    update: false,
   })
   selectedItem: NotValidData<ProductShortModel> | null = null;
 }

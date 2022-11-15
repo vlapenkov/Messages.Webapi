@@ -1,7 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <div class="flex flex-column">
-    <toolbar class="mb-1 pt-2 pb-2 pr-2">
+    <toolbar v-if="canAdd || modes.length > 1" class="mb-2 pt-2 pb-2 pr-2">
       <template #start>
         <slot name="toolbar-start">
           <div class="flex flex-row gap-5">
@@ -17,7 +17,7 @@
         </slot>
       </template>
     </toolbar>
-    <div class="flex-grow-1 pt-1">
+    <div class="flex-grow-1">
       <transition-fade>
         <div v-if="viewMode === 'data-view'">
           <slot name="data-view"></slot>

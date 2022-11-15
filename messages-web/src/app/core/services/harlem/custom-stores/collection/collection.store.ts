@@ -38,11 +38,11 @@ export function defineCollectionStore<
 
   const treeView = useTreeView(store, (o) => itemsSmart(o));
 
-  const editableCollectionStore: CollectionStore<TIModel, TModel> = {
+  const editableCollectionStore = {
     ...readolnlyCollectionStore,
     ...selected,
     treeView,
-  };
+  } as CollectionStore<TIModel, TModel>;
 
-  return [editableCollectionStore, store] as const;
+  return [editableCollectionStore, store];
 }

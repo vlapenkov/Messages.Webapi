@@ -18,7 +18,7 @@ import { IModelPostPut } from './@types/IModelPostPut';
 /** Добавляетт в стору, где есть коллекция
  * возможность добавления, изменения удаления элемента этой коллекции
  */
-export function useSelectedItem<
+export function useSelectedItemForCollection<
   TState extends StateBase,
   TIModel extends IModel,
   TModel extends ModelBase<TIModel>,
@@ -81,6 +81,76 @@ export function useSelectedItem<
     ? undefined
     : store.mutation<string | number | symbol>('select-item', (_, key) => {
         const selected = itemsDumb.value?.find((i) => i.key === key);
+        if (selected == null) {
+          return;
+        }
+        itemSelected.value = new Edititng(selected.clone() as TModel);
+      });
+  const createItem = !itemOptions.create
+    ? undefined
+    : store.mutation<void>('create-item', () => {
+        itemSelected.value = new Creation(new Model());
+      });
+  return { itemSelected, saveChanges, selectItem, createItem };
+}
+
+export function useSelectedItemForSingle<
+  TState extends StateBase,
+  TIModel extends IModel,
+  TModel extends ModelBase<TIModel>,
+>(
+  store: DefaultStore<TState>,
+  Model: Constructor<TModel>,
+  service: IModelPostPut<TIModel>,
+  itemDumb: WritableComputedRef<TModel | null>,
+) {
+  const selectedItemKey = getSelectedItemPropKey(store.state);
+  if (selectedItemKey == null) {
+    return {};
+  }
+  const itemOptions = getSelectedItemPropOptions(
+    selectedItemKey as string,
+    store.state,
+  ) as unknown as ISelectedItemOptions | undefined;
+
+  if (itemOptions == null) {
+    throw new Error('Options value (ISelectedItemOptions) must be provided!');
+  }
+
+  if (!itemOptions.create && !itemOptions.update && itemOptions.delete) {
+    return {};
+  }
+
+  const itemSelected = store.computeState(
+    (state) => state[selectedItemKey as keyof TState] as unknown as NotValidData<TModel> | null,
+  );
+
+  const saveChanges: Action<void> = store.action('save-changes', async () => {
+    if (itemSelected.value == null) {
+      return;
+    }
+    const { mode, data: itemToSave } = itemSelected.value;
+    if (mode === 'create') {
+      const { status: responseStatus, data: itemToAdd } = await parse(Model)(
+        service.post(itemToSave.toRequest()),
+      );
+      if (responseStatus === HttpStatus.Success && itemToAdd != null) {
+        itemDumb.value = itemToAdd;
+      }
+    } else if (mode === 'edit') {
+      const { status: responseStatus, data: itemToAdd } = await parse(Model)(
+        service.put(itemToSave.toRequest()),
+      );
+      if (responseStatus === HttpStatus.Success && itemToAdd != null) {
+        itemDumb.value = itemToAdd;
+      }
+    }
+  });
+
+  const selectItem = !itemOptions.update
+    ? undefined
+    : store.mutation<void>('select-item', () => {
+        const selected = itemDumb.value?.clone();
         if (selected == null) {
           return;
         }

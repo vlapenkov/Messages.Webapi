@@ -12,6 +12,7 @@ import { StateBase } from '../../state/base/state-base';
 import { getDataStatusProp } from '../../state/decorators/property-keys/data-status.prop-key';
 import { getItemKey } from '../../state/decorators/property-keys/item.prop-key';
 import { DataStatus } from '../../tools/data-status';
+import { useSelectedItemForSingle } from '../tools/useSelectedItem';
 
 export function defineSingleItemStore<
   TIModel extends IModel,
@@ -75,10 +76,22 @@ export function defineSingleItemStore<
     return item;
   };
 
-  return {
-    itemSmart,
-    status,
-  };
+  const { createItem, itemSelected, saveChanges, selectItem } = useSelectedItemForSingle(
+    store,
+    Model,
+    service,
+    item,
+  );
 
-  throw new Error('Not Implemented!');
+  return [
+    {
+      itemSmart,
+      status,
+      createItem,
+      itemSelected,
+      saveChanges,
+      selectItem,
+    },
+    store,
+  ];
 }

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { productsStore, sectionId } from '@/app/products/state/products.store';
+import { productsStore, sectionId } from '@/app/product-shorts/state/products.store';
 import { defineComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 

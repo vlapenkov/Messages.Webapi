@@ -6,7 +6,7 @@ import { DefaultStore, createDefaultStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { useDataStatus } from '../tools/useDataStatus';
 import { usePages } from '../tools/usePages';
-import { useSelectedItem } from '../tools/useSelectedItem';
+import { useSelectedItemForCollection } from '../tools/useSelectedItem';
 import { IPageableCollectionStore } from './@types/IPageableCollectionStore';
 
 export function definePageableCollectionStore<
@@ -31,7 +31,7 @@ export function definePageableCollectionStore<
     ...pages,
   };
 
-  const editItem = useSelectedItem(store, Model, service, pages.currentPageItems);
+  const editItem = useSelectedItemForCollection(store, Model, service, pages.currentPageItems);
 
   return [{ ...readonlyStore, ...editItem }, store] as const;
 }

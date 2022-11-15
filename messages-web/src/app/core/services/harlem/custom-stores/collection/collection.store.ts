@@ -7,7 +7,7 @@ import { StateBase } from '../../state/base/state-base';
 import { ICollectionStoreRead } from './@types/ICollectionStoreRead';
 import { useDataStatus } from '../tools/useDataStatus';
 import { useCollectionItems } from '../tools/useCollectionItems';
-import { useSelectedItem } from '../tools/useSelectedItem';
+import { useSelectedItemForCollection } from '../tools/useSelectedItem';
 import { useTreeView } from '../tools/useTreeView';
 import { CollectionStore } from './@types/CollectionStore';
 
@@ -34,7 +34,7 @@ export function defineCollectionStore<
     getDataAsync,
   };
 
-  const selected = useSelectedItem(store, Model, service, itemsDumb);
+  const selected = useSelectedItemForCollection(store, Model, service, itemsDumb);
 
   const treeView = useTreeView(store, (o) => itemsSmart(o));
 

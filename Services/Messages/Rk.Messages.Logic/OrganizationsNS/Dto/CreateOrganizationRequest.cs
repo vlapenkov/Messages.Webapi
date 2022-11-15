@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Rk.Messages.Logic.OrganizationsNS.Dto
-{
-    public record OrganizationDto : AuditableEntityDto
+    {
+     /// <summary>
+     /// Создание организации
+     /// </summary>
+    public record CreateOrganizationRequest 
     {
       
         public string Name { get; set; }
@@ -33,16 +36,5 @@ namespace Rk.Messages.Logic.OrganizationsNS.Dto
         public string Okved { get; set; }
 
         public string Okved2 { get; set; }
-
-        public OrganizationStatus Status { get; set; }
-
-        ////TODO: поменять хардкод
-        //public override DateTime Created { get => DateTime.UtcNow; }
-
-        //public override DateTime LastModified { get => DateTime.UtcNow; }
-
-        //public override string CreatedBy { get => "Сергей Иванов"; }
-
-        //public override string LastModifiedBy { get => "Сергей Иванов"; }
     }
 }

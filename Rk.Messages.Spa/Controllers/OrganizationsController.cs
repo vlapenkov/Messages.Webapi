@@ -23,5 +23,11 @@ namespace Rk.Messages.Spa.Controllers
         {
             return await _service.GetOrganization(id);
         }
+
+        [HttpPost]
+        public async Task<long> CreateOrganization([FromBody] CreateOrganizationRequest request)
+        {
+            return await _service.CreateOrganization(request);
+        }
     }
 }

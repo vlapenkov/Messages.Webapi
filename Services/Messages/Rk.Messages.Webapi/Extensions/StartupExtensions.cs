@@ -14,6 +14,7 @@ using Rk.Messages.Infrastructure.EFCore;
 using Rk.Messages.Infrastructure.Services;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Interfaces.Services;
+using Rk.Messages.Logic.OrganizationsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 using Rk.Messages.Logic.ProductsNS.Mappings;
 using Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
@@ -88,9 +89,11 @@ namespace Rk.Messages.Webapi.Extensions
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
+
             services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
 
-           
+            services.AddScoped<IValidator<CreateOrganizationRequest>, CreateOrganizationValidator>();
+
 
             services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
             services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);

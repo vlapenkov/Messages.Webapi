@@ -128,14 +128,22 @@ namespace Rk.Messages.Infrastructure.EFCore
 
             });
 
+            // Ограничение на ОГРН  - должен быть уникальным
+
+            builder.Entity<Organization>(entity =>
+            {
+                entity.HasIndex(self => self.Ogrn).IsUnique();
+            });
+
+
             Seed(builder);
         }
 
         protected virtual void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Organization>().HasData(
-          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null, OrganizationStatus.Working),
-          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/",OrganizationStatus.Working)
+          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null,null,null, OrganizationStatus.Working),
+          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/", null, null, OrganizationStatus.Working)
           );
 
             modelBuilder.Entity<ProductAttribute>().HasData(

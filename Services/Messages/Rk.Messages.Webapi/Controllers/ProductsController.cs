@@ -15,6 +15,7 @@ namespace Rk.Messages.Webapi.Controllers
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController :ControllerBase
     {
         private readonly IMediator _mediator;

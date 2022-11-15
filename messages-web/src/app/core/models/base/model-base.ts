@@ -35,7 +35,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
 
   abstract toRequest(): T;
 
-  abstract equals(mb: ModelBase): boolean;
+  abstract equals(other: ModelBase): boolean;
 
   abstract get key(): string | number | symbol;
 

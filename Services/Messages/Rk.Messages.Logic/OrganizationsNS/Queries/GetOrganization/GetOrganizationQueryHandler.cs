@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Rk.Messages.Common.Exceptions;
+using Rk.Messages.Common.Helpers;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using System;
@@ -31,6 +32,8 @@ namespace Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganization
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id) 
                 ?? throw new EntityNotFoundException($"Организация с Id={request.Id} не найдена");
+
+            
 
             return _mapper.Map<OrganizationDto>(organizationFound);
 

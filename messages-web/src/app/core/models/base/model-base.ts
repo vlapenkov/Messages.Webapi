@@ -17,12 +17,14 @@ import { mockPropKey } from './props-keys/mock.prop-key';
 import { columnKeyFor } from './props-keys/column.prop-key';
 import { InputType } from './@types/input-type';
 import { inputPropKeyFor } from './props-keys/iput.prop-key';
+import { nolabelPropKeyFor } from './props-keys/no-label.prop-key';
 
 export interface IModelField {
   key: string;
   label: string;
   value: unknown;
   hide: DisplayMode;
+  noLabel: boolean;
   control: InputType;
   columnProps: ColumnProps;
   render: (mode: string) => RenderFunction | null;
@@ -49,6 +51,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
       label: (self[descriptonPropkey(title)] as string) ?? 'Название',
       value: self[title],
       hide: 'always',
+      noLabel: this.getValue<boolean | undefined, symbol>(nolabelPropKeyFor(title)) ?? false,
       control: 'text',
       columnProps: ModelBase.getColumnFor(this, title),
       render: () => null,
@@ -67,6 +70,7 @@ export abstract class ModelBase<T extends IModel = IModel> implements IModel {
           value: this.getValue(key),
           hide: this.getValue<DisplayMode, symbol>(hiddenPropkey(key)),
           key,
+          noLabel: this.getValue<boolean | undefined, symbol>(nolabelPropKeyFor(key)) ?? false,
           control: ModelBase.checkType(this, key),
           columnProps: ModelBase.getColumnFor(this, key),
           render: (mode = 'default') => ModelBase.renderField(this, key, mode),

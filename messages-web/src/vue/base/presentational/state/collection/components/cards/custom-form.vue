@@ -4,7 +4,7 @@
     <template #content>
       <div class="p-fluid grid">
         <div v-for="field in visibleFields" :key="field.label" class="field col-12">
-          <span class="p-float-label">
+          <span v-if="!field.noLabel" class="p-float-label">
             <custom-render
               v-if="field.render(mode) != null"
               :func="field.render(mode)"
@@ -19,6 +19,10 @@
             <input-number v-else :id="field.key" v-model="field.model.value"></input-number>
             <label :for="field.key">{{ field.label }}</label>
           </span>
+          <custom-render
+            v-else-if="field.render(mode) != null"
+            :func="field.render(mode)"
+          ></custom-render>
         </div>
       </div>
     </template>

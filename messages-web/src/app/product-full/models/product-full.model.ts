@@ -1,32 +1,58 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
+import { description } from '@/app/core/models/decorators/description.decorator';
+import { hidden } from '@/app/core/models/decorators/hidden.decorator';
+import { render } from '@/app/core/models/decorators/render.decorator';
+import { title } from '@/app/core/models/decorators/tittle.decorator';
+import { h } from 'vue';
+import ProductFileEdifor from '@/vue/containers/product-file-editor.vue';
+import { noLabel } from '@/app/core/models/decorators/no-label.decorator';
 import { IProductFullModel } from '../@types/IProductFullModel';
+import { IProductDocument } from '../@types/IProductDocument';
 
 export class ProductFullModel extends ModelBase<IProductFullModel> implements IProductFullModel {
+  @hidden()
   id = 0;
 
+  @title
+  @description('Название')
   name = '';
 
+  @description('Полное наименование')
   fullName = '';
 
+  @description('Категория')
+  @hidden('edit')
   catalogSectionId = 0;
 
+  @description('Описание')
   description = '';
 
+  @description('Код')
   codeTnVed = '';
 
+  @description('Цена')
   price = 0;
 
+  @description('Единицы измерения')
   measuringUnit = '';
 
+  @description('Страна производства')
   country = '';
 
+  @description('Валюта')
   currency = '';
 
+  @hidden()
   status = 0;
 
+  @hidden()
+  @description('Атрибуты')
   attributeValues: { baseProductId: number; attributeId: number; value: string }[] = [];
 
-  documents: { fileName: string; data: string; fileId: string }[] = [];
+  @description('Вложения')
+  @noLabel
+  @render(() => h(ProductFileEdifor), 'edit')
+  documents: IProductDocument[] = [];
 
   fromResponse(model: IProductFullModel): boolean {
     try {

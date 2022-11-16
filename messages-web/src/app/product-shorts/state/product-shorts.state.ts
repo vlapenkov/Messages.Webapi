@@ -8,7 +8,7 @@ import { selected } from '@/app/core/services/harlem/state/decorators/selected-i
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
-import { ProductShortModel } from '../models/product.model';
+import { ProductShortModel } from '../models/product-short.model';
 import { IproductsPageRequest } from '../@types/IproductsPageRequest';
 
 export class ProductShortsState extends StateBase {

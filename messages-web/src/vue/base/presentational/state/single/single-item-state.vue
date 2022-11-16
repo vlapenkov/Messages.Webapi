@@ -2,8 +2,16 @@
   <slot :item="item">
     <loading-status-handler>
       <transition-fade>
-        <data-card v-if="mode == null" :data="item"></data-card>
-        <custom-form v-else :data="item"></custom-form>
+        <data-card v-if="mode == null" :data="item">
+          <template #footer>
+            <slot name="footer-view"></slot>
+          </template>
+        </data-card>
+        <custom-form v-else :data="item">
+          <template #footer>
+            <slot name="footer-edit"></slot>
+          </template>
+        </custom-form>
       </transition-fade>
     </loading-status-handler>
   </slot>
@@ -44,4 +52,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss"></style>

@@ -12,8 +12,16 @@
         <data-view-collection background></data-view-collection>
       </template>
     </collection-state>
-    <prime-dialog v-model:visible="showAddProductDialog">
-      <single-item-state :state="productFullStore"></single-item-state>
+    <prime-dialog
+      :header="mode === 'create' ? 'Создание нового товара' : 'Редактирование товара'"
+      :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
+      :style="{ 'width': '50vw', 'max-width': '800px' }"
+      class="re-padding"
+      :draggable="false"
+      modal
+      v-model:visible="showAddProductDialog"
+    >
+      <single-item-state :state="productFullStore"> </single-item-state>
     </prime-dialog>
   </div>
 </template>
@@ -81,4 +89,22 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.re-padding {
+  .p-card {
+    box-shadow: none;
+  }
+  .p-dialog-content {
+    padding: 1rem;
+    .p-card-body {
+      padding: 0;
+    }
+    .p-card-content {
+      padding-bottom: 0;
+    }
+  }
+  .p-dialog-header {
+    padding-bottom: 0;
+  }
+}
+</style>

@@ -7,10 +7,10 @@ import { ProductFullModel } from '../models/product-full.model';
 
 export class ProductFullState extends StateBase {
   @item
-  item: ProductFullModel | null = null;
+  item = new ProductFullModel();
 
   @dataStatus
-  status = new DataStatus();
+  status = new DataStatus('loaded');
 
   @selected()
   itemSelected: ProductFullModel | null = null;

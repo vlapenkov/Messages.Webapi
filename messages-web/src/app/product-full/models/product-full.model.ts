@@ -5,9 +5,11 @@ import { render } from '@/app/core/models/decorators/render.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { h } from 'vue';
 import ProductFileEdifor from '@/vue/containers/product-file-editor.vue';
+import ProductAttributesEditor from '@/vue/containers/product-attributes-editor.vue';
 import { noLabel } from '@/app/core/models/decorators/no-label.decorator';
 import { IProductFullModel } from '../@types/IProductFullModel';
 import { IProductDocument } from '../@types/IProductDocument';
+import { IProductAttribute } from '../@types/IProductAttribute';
 
 export class ProductFullModel extends ModelBase<IProductFullModel> implements IProductFullModel {
   @hidden()
@@ -45,12 +47,12 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   @hidden()
   status = 0;
 
-  @hidden()
   @description('Атрибуты')
-  attributeValues: { baseProductId: number; attributeId: number; value: string }[] = [];
+  @render(() => h(ProductAttributesEditor), 'edit')
+  attributeValues: IProductAttribute[] = [];
 
-  @description('Вложения')
   @noLabel
+  @description('Вложения')
   @render(() => h(ProductFileEdifor), 'edit')
   documents: IProductDocument[] = [];
 

@@ -6,10 +6,18 @@
       :state="productShortsStore"
     >
       <template #toolbar-end>
-        <prime-button-add :disabled="sectionId == null" @click="addNewProduct" />
+        <prime-button-add
+          label="Добавить товар"
+          :disabled="sectionId == null"
+          @click="addNewProduct"
+        />
       </template>
       <template #data-view>
-        <data-view-collection background></data-view-collection>
+        <data-view-collection>
+          <template #item-footer>
+            <prime-button-edit />
+          </template>
+        </data-view-collection>
       </template>
     </collection-state>
     <prime-dialog
@@ -21,7 +29,22 @@
       modal
       v-model:visible="showAddProductDialog"
     >
-      <single-item-state :state="productFullStore"> </single-item-state>
+      <single-item-state :state="productFullStore">
+        <template #footer-edit>
+          <div class="flex flex-row justify-content-end">
+            <prime-button-add
+              @click="saveChanges"
+              label="Добавить товар"
+              v-if="mode === 'create'"
+            />
+            <prime-button-save
+              @click="saveChanges"
+              label="Сохранить изменения"
+              v-if="mode === 'edit'"
+            />
+          </div>
+        </template>
+      </single-item-state>
     </prime-dialog>
   </div>
 </template>
@@ -76,6 +99,15 @@ export default defineComponent({
         showAddProductDialog.value = true;
       }
     };
+
+    const saveChanges = async () => {
+      if (productFullStore.saveChanges == null) {
+        return;
+      }
+      await productFullStore.saveChanges();
+      showAddProductDialog.value = false;
+    };
+
     return {
       productShortsStore,
       sectionId,
@@ -83,6 +115,7 @@ export default defineComponent({
       mode,
       addNewProduct,
       showAddProductDialog,
+      saveChanges,
     };
   },
   components: { PrimeDialog },

@@ -29,7 +29,9 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/',
-        redirect: { name: 'section-products' },
+        redirect: {
+          name: 'section-products',
+        },
       },
     ],
   },

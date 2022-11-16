@@ -1,7 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <div v-if="isProduct">
-    <label for="null">Вложения</label>
+  <div>
+    <label>Вложения</label>
     <div class="mt-2 grid">
       <div class="col-12 md:col-6" v-for="doc in documents" :key="doc.fileId">
         <product-document-display :document="doc"></product-document-display>
@@ -11,7 +11,6 @@
       <input mt-2 type="file" @input="onFileInput" />
     </div>
   </div>
-  <div v-else>Данный компонент работатет только с товарами</div>
 </template>
 
 <script lang="ts">
@@ -19,19 +18,10 @@ import type { ProductFullModel } from '@/app/product-full/models/product-full.mo
 import { useBase64 } from '@vueuse/core';
 import { computed, defineComponent, Ref, ref, toRaw, watch } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
-import { itemSelectedProvider } from '../base/presentational/state/collection/providers/item-selected.provider';
 import { useSelectedData } from '../base/presentational/state/collection/composables/selected-data.composable';
 
 export default defineComponent({
   setup() {
-    const selectedItem = itemSelectedProvider.inject();
-    const isProduct = computed(() => {
-      if (selectedItem.value == null || selectedItem.value.value == null) {
-        return false;
-      }
-      return Array.isArray((selectedItem.value.value.data as ProductFullModel).documents);
-    });
-
     const product = useSelectedData<ProductFullModel>();
 
     const documents = computed({
@@ -44,7 +34,6 @@ export default defineComponent({
         }
         const newProduct = oldProduct.clone();
         newProduct.documents = docs;
-        console.log('updating product');
         product.value = newProduct;
       },
     });
@@ -75,7 +64,7 @@ export default defineComponent({
       [file.value] = files;
     };
 
-    return { isProduct, documents, onFileInput };
+    return { documents, onFileInput };
   },
 });
 </script>

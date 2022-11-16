@@ -129,6 +129,8 @@ export function useSelectedItemForSingle<
     if (itemSelected.value == null) {
       return;
     }
+    console.log('saving...');
+
     const { mode, data: itemToSave } = itemSelected.value;
     if (mode === 'create') {
       const { status: responseStatus, data: itemToAdd } = await parse(Model)(

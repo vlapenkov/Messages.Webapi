@@ -6,6 +6,8 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { ProductFullModel } from '../models/product-full.model';
 
 export class ProductFullState extends StateBase {
+  id: number | null = null;
+
   @item
   item = new ProductFullModel();
 

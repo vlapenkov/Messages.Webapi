@@ -21,6 +21,9 @@
               }"
               :data="data"
             >
+              <template #footer>
+                <slot name="item-footer"></slot>
+              </template>
             </data-card>
           </div>
         </slot>
@@ -28,7 +31,11 @@
       <template #grid="{ data, index }">
         <slot name="grid" :data="data" :index="index">
           <div class="col-12 md:col-6 xl:col-4 p-1">
-            <data-card class="h-full" :data="data"></data-card>
+            <data-card class="h-full" :data="data">
+              <template #footer>
+                <slot name="item-footer"></slot>
+              </template>
+            </data-card>
           </div>
         </slot>
       </template>

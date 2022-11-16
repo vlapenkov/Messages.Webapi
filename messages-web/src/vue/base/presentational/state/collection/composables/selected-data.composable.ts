@@ -10,7 +10,7 @@ export function useSelectedData<T extends ModelBase>() {
   const selectedData = computed({
     get: () => itemSelected?.value?.value?.data as T | undefined,
     set: (val) => {
-      console.log('setting', { val, si: itemSelected.value, mode: mode.value });
+      // console.log('setting', { val, si: itemSelected.value, mode: mode.value });
 
       if (itemSelected.value == null || val == null || mode.value == null) {
         return;

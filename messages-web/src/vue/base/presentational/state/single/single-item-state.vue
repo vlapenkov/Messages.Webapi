@@ -7,9 +7,9 @@
             <slot name="footer-view"></slot>
           </template>
         </data-card>
-        <custom-form v-else :data="item">
+        <custom-form v-else v-model:data="selectedData">
           <template #footer>
-            <slot name="footer-edit"></slot>
+            <slot name="footer-edit"> </slot>
           </template>
         </custom-form>
       </transition-fade>
@@ -20,7 +20,8 @@
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ISingleItemStore } from '@/app/core/services/harlem/custom-stores/single-Item/@types/ISingleItemStore';
-import { defineComponent, PropType } from 'vue';
+import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
+import { computed, defineComponent, PropType } from 'vue';
 import { createItemProvider } from '../collection/providers/create-item.provider';
 import { editOrCreateModeProvider } from '../collection/providers/edit-or-create-mode.provider';
 import { itemSelectedProvider } from '../collection/providers/item-selected.provider';
@@ -44,10 +45,22 @@ export default defineComponent({
     selectItemSingleProvider.provideFrom(() => props.state.selectItem ?? null);
     createItemProvider.provideFrom(() => props.state.createItem);
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
-    itemSelectedProvider.provideFrom(() => props.state.itemSelected);
+    const itemSelected = itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     const mode = editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
+    const selectedData = computed({
+      get: () => itemSelected?.value?.value?.data as ModelBase | undefined,
+      set: (val) => {
+        // console.log('setting', { val, si: itemSelected.value, mode: mode.value });
+
+        if (itemSelected.value == null || val == null || mode.value == null) {
+          return;
+        }
+        itemSelected.value.value = new NotValidData(val, mode.value);
+      },
+    });
+
     const item = props.state.itemSmart();
-    return { item, mode };
+    return { item, mode, selectedData };
   },
 });
 </script>

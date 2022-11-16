@@ -18,13 +18,13 @@ namespace Rk.Messages.Logic.SectionsNS.Validations
                 .MinimumLength(5)
                 .WithMessage("Минимальная длина продукта не менее 5 символов");
 
-            RuleFor(x => x.Request).Custom((request, context) =>
-            {
-                if (request.AttributeValues == null || !request.AttributeValues.Any())
-                {
-                    context.AddFailure("Атрибуты продукта должны быть указаны");
-                }
-            });
+            //RuleFor(x => x.Request).Custom((request, context) =>
+            //{
+            //    if (request.AttributeValues == null || !request.AttributeValues.Any())
+            //    {
+            //        context.AddFailure("Атрибуты продукта должны быть указаны");
+            //    }
+            //});
         }
     }
 }

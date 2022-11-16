@@ -50,7 +50,7 @@ export default defineComponent({
     'update:data': (_: ModelBase) => true,
   },
   setup(props, { emit }) {
-    const getProp = (key: string) =>
+    const getPropAccessor = (key: string) =>
       computed({
         get: () => (props.data ? props.data[key as keyof ModelBase] : null),
         set: (val) => {
@@ -72,7 +72,7 @@ export default defineComponent({
             ),
           ]
             .filter((p) => p != null && p.key != null)
-            .map((i) => ({ ...i, model: getProp(i?.key) })),
+            .map((i) => ({ ...i, model: getPropAccessor(i?.key) })),
     );
 
     // watchEffect(() => {

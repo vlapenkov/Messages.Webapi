@@ -28,7 +28,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Currency { get; set; }
 
-        public int Status { get; set; }
+        public string StatusText { get; set; }
 
         /// <summary>атрибуты</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }

@@ -20,11 +20,7 @@
       </collection-state>
     </splitter-panel>
     <splitter-panel class="pl-2" :size="70">
-      <router-view v-slot="{ Component }">
-        <transition-fade>
-          <component :is="Component"></component>
-        </transition-fade>
-      </router-view>
+      <products-viewer :categoryId="selectedKey" />
     </splitter-panel>
   </splitter>
 </template>
@@ -32,25 +28,24 @@
 <script lang="ts">
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { TreeSelectionKeys } from 'primevue/tree';
-import { defineComponent, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
   setup() {
     const selectedKeys = ref<TreeSelectionKeys>();
-    const router = useRouter();
-    watch(selectedKeys, (val) => {
-      if (val == null) {
-        return;
+
+    const selectedKey = computed(() => {
+      const keys = selectedKeys.value;
+      if (keys == null) {
+        return undefined;
       }
-      const selectedKey = Object.keys(val).find((k) => val[k] === true);
-      if (selectedKey != null) {
-        router.push({ name: 'section-products', params: { sectionId: selectedKey } });
-      }
+      const sk = Object.keys(keys).find((k) => keys[k] === true);
+      return sk == null ? undefined : +sk;
     });
     return {
       sectionsStore,
       selectedKeys,
+      selectedKey,
     };
   },
 });

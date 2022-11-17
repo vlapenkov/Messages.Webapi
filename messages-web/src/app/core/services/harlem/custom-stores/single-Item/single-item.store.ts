@@ -49,8 +49,9 @@ export function defineSingleItemStore<
 
   const status = computeState((state) => state[dataStatusKey] as unknown as DataStatus);
 
-  const getDataAsync: Action<IQueryOtions & { arg?: Record<string, string | number> }, TModel> =
-    action('get-item-async', async (ops = { force: false }) => {
+  const getDataAsync: Action<IQueryOtions, TModel> = action(
+    'get-item-async',
+    async (ops = { force: false }) => {
       const currentStatus = status.value.status;
       if (!ops.force && currentStatus === 'loaded') {
         return item.value;
@@ -58,7 +59,7 @@ export function defineSingleItemStore<
 
       status.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const requestFn = extend(service.get).pipe(parse(Model)).done();
-      const response = await requestFn(ops.arg as unknown as void);
+      const response = await requestFn(ops.arguments as unknown as void);
       if (response.status === HttpStatus.Success) {
         if (response.data != null) {
           item.value = response.data;
@@ -69,7 +70,8 @@ export function defineSingleItemStore<
       }
 
       return item.value;
-    });
+    },
+  );
 
   const itemSmart = (ops: IQueryOtions = { force: false }) => {
     if (!ignoreMounted) {
@@ -93,6 +95,7 @@ export function defineSingleItemStore<
 
   return [
     {
+      getDataAsync,
       itemSmart,
       status,
       createItem,

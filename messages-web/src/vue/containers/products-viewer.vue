@@ -8,14 +8,14 @@
       <template #toolbar-end>
         <prime-button-add
           label="Добавить товар"
-          :disabled="sectionId == null"
+          :disabled="categoryId == null"
           @click="addNewProduct"
         />
       </template>
       <template #data-view>
         <data-view-collection>
-          <template #item-footer>
-            <prime-button-edit />
+          <template #item-footer="{ data }">
+            <prime-button-edit @click="selectProduct(data)" />
           </template>
         </data-view-collection>
       </template>
@@ -27,7 +27,7 @@
       class="re-padding"
       :draggable="false"
       modal
-      v-model:visible="showAddProductDialog"
+      v-model:visible="showFullProductDialog"
     >
       <single-item-state :state="productFullStore">
         <template #footer-edit>
@@ -52,31 +52,29 @@
 <script lang="ts">
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
+import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { sectionId, productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { computed, defineComponent, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
 export default defineComponent({
-  setup() {
-    const route = useRoute();
+  props: {
+    categoryId: {
+      type: Number,
+    },
+  },
+  setup(props) {
     watch(
-      () => route.params.sectionId,
+      () => props.categoryId,
       (id) => {
-        if (id == null) {
-          if (sectionId.value != null) {
-            sectionId.value = undefined;
-          }
-        } else {
-          sectionId.value = +id;
-        }
+        sectionId.value = id;
       },
       {
         immediate: true,
       },
     );
 
-    const showAddProductDialog = ref(false);
+    const showFullProductDialog = ref(false);
     const mode = computed(() => productFullStore.itemSelected?.value?.mode);
     const addNewProduct = () => {
       if (productFullStore.createItem == null) {
@@ -96,7 +94,7 @@ export default defineComponent({
         const clone = selectedItem.clone();
         clone.catalogSectionId = sectionId.value;
         productFullStore.itemSelected.value = new NotValidData(clone, mode.value);
-        showAddProductDialog.value = true;
+        showFullProductDialog.value = true;
       }
     };
 
@@ -105,17 +103,32 @@ export default defineComponent({
         return;
       }
       await productFullStore.saveChanges();
-      showAddProductDialog.value = false;
+      showFullProductDialog.value = false;
+    };
+    const selectProduct = (item: ProductShortModel) => {
+      console.log({ item });
+
+      productFullStore
+        .getDataAsync({
+          force: true,
+          arguments: item.id,
+        })
+        .then(() => {
+          if (productFullStore.selectItem != null) {
+            productFullStore.selectItem();
+            showFullProductDialog.value = true;
+          }
+        });
     };
 
     return {
       productShortsStore,
-      sectionId,
       productFullStore,
       mode,
       addNewProduct,
-      showAddProductDialog,
+      showFullProductDialog,
       saveChanges,
+      selectProduct,
     };
   },
   components: { PrimeDialog },

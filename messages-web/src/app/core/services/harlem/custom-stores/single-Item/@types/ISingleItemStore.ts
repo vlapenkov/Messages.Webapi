@@ -12,4 +12,5 @@ export interface ISingleItemStore<TModel extends ModelBase> {
   selectItem?: ((payload?: void | undefined) => void) | null;
   itemSelected?: WritableComputedRef<NotValidData<TModel> | null>;
   saveChanges?: Action<void>;
+  getDataAsync: Action<IQueryOtions, TModel>;
 }

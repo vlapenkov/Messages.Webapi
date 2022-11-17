@@ -22,7 +22,7 @@
               :data="data"
             >
               <template #footer>
-                <slot name="item-footer"></slot>
+                <slot name="item-footer" :data="data" :index="index"></slot>
               </template>
             </data-card>
           </div>
@@ -33,7 +33,7 @@
           <div class="col-12 md:col-6 xl:col-4 p-1">
             <data-card class="h-full" :data="data">
               <template #footer>
-                <slot name="item-footer"></slot>
+                <slot name="item-footer" :data="data" :index="index"></slot>
               </template>
             </data-card>
           </div>

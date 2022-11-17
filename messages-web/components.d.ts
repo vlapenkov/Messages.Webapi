@@ -45,7 +45,7 @@ declare module '@vue/runtime-core' {
     ProductAttributesEditor: typeof import('./src/vue/containers/product-attributes-editor.vue')['default']
     ProductDocumentDisplay: typeof import('./src/vue/presentational/product-document-display.vue')['default']
     ProductFileEditor: typeof import('./src/vue/containers/product-file-editor.vue')['default']
-    ProductsView: typeof import('./src/vue/views/products-view.vue')['default']
+    ProductsViewer: typeof import('./src/vue/containers/products-viewer.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RadioButton: typeof import('primevue/radiobutton')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

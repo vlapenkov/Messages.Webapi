@@ -10,6 +10,7 @@ import { render } from '@/app/core/models/decorators/render.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
 
 export interface IProductShortModel extends IModel {
+  id: number;
   name: string;
   price: number;
   description: string;
@@ -20,6 +21,9 @@ export interface IProductShortModel extends IModel {
 }
 
 export class ProductShortModel extends ModelBase<IProductShortModel> {
+  @hidden()
+  id = -1;
+
   @description('Описание товара')
   description = '';
 
@@ -65,6 +69,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
 
   fromResponse(model: IProductShortModel): boolean {
     try {
+      this.id = model.id;
       this.description = model.description;
       this.price = model.price;
       this.createdBy = model.createdBy;
@@ -80,6 +85,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
 
   toRequest(): IProductShortModel {
     return {
+      id: this.id,
       created: this.created?.toUTCString() ?? '',
       lastModified: this.lastModified?.toUTCString() ?? '',
       createdBy: this.createdBy ?? '',

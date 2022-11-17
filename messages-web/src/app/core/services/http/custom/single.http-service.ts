@@ -5,7 +5,8 @@ import { HttpServiceOptions, defineHttpService } from '../define-http.service';
 import { useDefaultQueries } from '../handlers/use-default-queries';
 
 export interface ISingleHttpService<TIModel extends IModel> {
-  get: RequetstHandler<TIModel, void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get: RequetstHandler<TIModel, void | any>;
   post: RequetstHandler<TIModel, TIModel>;
   put: RequetstHandler<TIModel, TIModel>;
   patch: RequetstHandler<TIModel, TIModel>;

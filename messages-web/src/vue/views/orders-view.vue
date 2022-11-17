@@ -4,9 +4,6 @@
       <template #data-view>
         <data-view-collection></data-view-collection>
       </template>
-      <template #tree-view>
-        <tree-view-collection></tree-view-collection>
-      </template>
     </collection-state>
   </div>
 </template>

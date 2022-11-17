@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/component-name-in-template-casing -->
 <template>
   <img
-    class="max-w-full"
+    class="max-w-full border-round"
     style="max-height: 150px"
     :src="fileData"
     ref="imgRef"

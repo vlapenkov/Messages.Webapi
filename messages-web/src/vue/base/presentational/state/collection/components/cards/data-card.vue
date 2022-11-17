@@ -1,10 +1,10 @@
 <template>
   <card class="re-padding" :class="{ 'no-body': fieldsEmpty, 'no-footer': !canEdit }">
     <template #title>
-      <template v-if="data != null">
+      <template v-if="data != null && !data.title.noLabel">
         {{ data.title.value }}
       </template>
-      <skeleton v-else class="h-2rem w-full"></skeleton>
+      <skeleton v-else-if="!data?.title.noLabel" class="h-2rem w-full"></skeleton>
     </template>
     <template #content>
       <template v-if="fieldsEmpty">
@@ -59,6 +59,7 @@ export default defineComponent({
   },
   setup(props) {
     const selectItem = selectItemProvider.inject();
+
     modelProvider.provideFrom(() => props.data);
     const visibleFields = computed(() =>
       props.data?.fields?.filter((p) => p.hide !== 'always' && p.hide !== props.mode),
@@ -89,6 +90,14 @@ export default defineComponent({
 .re-padding {
   :deep(.p-card-content) {
     padding-bottom: 0;
+  }
+  :deep(.p-card-body) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .p-card-content {
+      flex-grow: 1;
+    }
   }
 }
 

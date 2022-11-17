@@ -36,6 +36,11 @@ export default defineComponent({
         icon: 'pi pi-th-large',
       },
       {
+        label: 'Корзина',
+        to: { name: 'shopping-cart' },
+        icon: 'pi pi-shopping-cart',
+      },
+      {
         label: 'Заказы',
         to: { name: 'orders' },
         icon: 'pi pi-box',

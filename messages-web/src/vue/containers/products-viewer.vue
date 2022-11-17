@@ -15,13 +15,26 @@
       <template #data-view>
         <data-view-collection>
           <template #item-footer="{ data }">
-            <prime-button-edit @click="selectProduct(data)" />
+            <div class="flex flex-row justify-content-end gap-2">
+              <prime-button @click="intoCard(data)" icon="pi pi-shopping-cart" label="В корзину" />
+              <prime-button
+                icon="pi pi-eye"
+                class="p-button-info p-button-rounded"
+                @click="selectProduct(data)"
+              />
+            </div>
           </template>
         </data-view-collection>
       </template>
     </collection-state>
     <prime-dialog
-      :header="mode === 'create' ? 'Создание нового товара' : 'Редактирование товара'"
+      :header="
+        mode === 'create'
+          ? 'Создание нового товара'
+          : mode === 'edit'
+          ? 'Редактирование товара'
+          : productTitle
+      "
       :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
       :style="{ 'width': '50vw', 'max-width': '800px' }"
       class="re-padding"
@@ -29,22 +42,24 @@
       modal
       v-model:visible="showFullProductDialog"
     >
-      <single-item-state :state="productFullStore">
-        <template #footer-edit>
-          <div class="flex flex-row justify-content-end">
-            <prime-button-add
-              @click="saveChanges"
-              label="Добавить товар"
-              v-if="mode === 'create'"
-            />
-            <prime-button-save
-              @click="saveChanges"
-              label="Сохранить изменения"
-              v-if="mode === 'edit'"
-            />
-          </div>
-        </template>
-      </single-item-state>
+      <div class="px-2">
+        <single-item-state :state="productFullStore">
+          <template #footer-edit>
+            <div class="flex flex-row justify-content-end">
+              <prime-button-add
+                @click="saveChanges"
+                label="Добавить товар"
+                v-if="mode === 'create'"
+              />
+              <prime-button-save
+                @click="saveChanges"
+                label="Сохранить изменения"
+                v-if="mode === 'edit'"
+              />
+            </div>
+          </template>
+        </single-item-state>
+      </div>
     </prime-dialog>
   </div>
 </template>
@@ -54,6 +69,7 @@ import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { sectionId, productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
+import { addToCard } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { computed, defineComponent, ref, watch } from 'vue';
 
@@ -106,8 +122,6 @@ export default defineComponent({
       showFullProductDialog.value = false;
     };
     const selectProduct = (item: ProductShortModel) => {
-      console.log({ item });
-
       productFullStore
         .getDataAsync({
           force: true,
@@ -115,10 +129,20 @@ export default defineComponent({
         })
         .then(() => {
           if (productFullStore.selectItem != null) {
-            productFullStore.selectItem();
             showFullProductDialog.value = true;
           }
         });
+    };
+
+    const productTitle = computed(
+      () => (productFullStore.itemSmart().value.title.value as string) ?? '',
+    );
+
+    const intoCard = (item: ProductShortModel) => {
+      addToCard({
+        productId: item.id,
+        quantity: 1,
+      });
     };
 
     return {
@@ -129,6 +153,8 @@ export default defineComponent({
       showFullProductDialog,
       saveChanges,
       selectProduct,
+      productTitle,
+      intoCard,
     };
   },
   components: { PrimeDialog },

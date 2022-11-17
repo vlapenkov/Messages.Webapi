@@ -29,6 +29,7 @@ namespace Rk.Messages.Webapi.Controllers
             return await _mediator.Send(new GetOrganizationQuery { Id = id });
         }
 
+        [HttpPost]
         public async Task<long> CreateOrganization([FromBody] CreateOrganizationRequest request)
         {
             return await _mediator.Send(new CreateOrganizationCommand { Request = request });

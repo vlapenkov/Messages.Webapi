@@ -298,9 +298,9 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_organizations");
 
-                    b.HasIndex("Ogrn")
-                        .IsUnique()
-                        .HasDatabaseName("ix_organizations_ogrn");
+                    // b.HasIndex("Ogrn")
+                    //     .IsUnique()
+                    //     .HasDatabaseName("ix_organizations_ogrn");
 
                     b.ToTable("organizations", (string)null);
 

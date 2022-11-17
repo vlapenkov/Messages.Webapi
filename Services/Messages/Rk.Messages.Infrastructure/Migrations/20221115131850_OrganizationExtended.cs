@@ -63,18 +63,18 @@ namespace Rk.Messages.Infrastructure.Migrations
                 column: "status",
                 value: 1);
 
-            migrationBuilder.CreateIndex(
-                name: "ix_organizations_ogrn",
-                table: "organizations",
-                column: "ogrn",
-                unique: true);
+            // migrationBuilder.CreateIndex(
+            //     name: "ix_organizations_ogrn",
+            //     table: "organizations",
+            //     column: "ogrn",
+            //     unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "ix_organizations_ogrn",
-                table: "organizations");
+            // migrationBuilder.DropIndex(
+            //     name: "ix_organizations_ogrn",
+            //     table: "organizations");
 
             migrationBuilder.DropColumn(
                 name: "created",

@@ -10,6 +10,7 @@ import { parseArray } from '../../../http/handlers/parse.handlers';
 import { DefaultStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { getCollectionProp } from '../../state/decorators/property-keys/collection.prop-key';
+import { getIgnoreMountedOpt } from '../../state/decorators/property-keys/ignore-mounted.prop-key';
 import { DataStatus } from '../../tools/data-status';
 import { IQueryOtions } from './@types/IQueryOptions';
 
@@ -31,6 +32,8 @@ export function useCollectionItems<
   const itemsDumb = store.computeState(
     (state) => state[collectionKey as keyof TState] as unknown as TModel[] | null,
   );
+
+  const ignoreMounted = getIgnoreMountedOpt(store.state, collectionKey as string) ?? false;
 
   const getDataAsync: Action<{ force: boolean } | undefined, TModel[] | null> = store.action(
     'get-data-async',
@@ -55,11 +58,13 @@ export function useCollectionItems<
   );
 
   const itemsSmart = (ops: IQueryOtions = { force: false }) => {
-    onMounted(() => {
-      if (ops.force || status.value.status === 'initial') {
-        getDataAsync(ops);
-      }
-    });
+    if (!ignoreMounted) {
+      onMounted(() => {
+        if (ops.force || status.value.status === 'initial') {
+          getDataAsync(ops);
+        }
+      });
+    }
     return itemsDumb;
   };
 

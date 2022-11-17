@@ -10,6 +10,7 @@ import { useCollectionItems } from '../tools/useCollectionItems';
 import { useSelectedItemForCollection } from '../tools/useSelectedItem';
 import { useTreeView } from '../tools/useTreeView';
 import { CollectionStore } from './@types/CollectionStore';
+import { useTriggers } from '../tools/useTriggers';
 
 export function defineCollectionStore<
   TIModel extends IModel,
@@ -43,6 +44,11 @@ export function defineCollectionStore<
     ...selected,
     treeView,
   } as CollectionStore<TIModel, TModel>;
+
+  useTriggers(store, {
+    getDataAsync,
+    saveChanges: selected.saveChanges,
+  });
 
   return [editableCollectionStore, store];
 }

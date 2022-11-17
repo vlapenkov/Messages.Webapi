@@ -7,6 +7,7 @@ import { StateBase } from '../../state/base/state-base';
 import { useDataStatus } from '../tools/useDataStatus';
 import { usePages } from '../tools/usePages';
 import { useSelectedItemForCollection } from '../tools/useSelectedItem';
+import { useTriggers } from '../tools/useTriggers';
 import { IPageableCollectionStore } from './@types/IPageableCollectionStore';
 
 export function definePageableCollectionStore<
@@ -32,6 +33,11 @@ export function definePageableCollectionStore<
   };
 
   const editItem = useSelectedItemForCollection(store, Model, service, pages.currentPageItems);
+
+  useTriggers(store, {
+    getPage: pages.getPage,
+    saveChanges: editItem.saveChanges,
+  });
 
   return [{ ...readonlyStore, ...editItem }, store] as const;
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Elasticsearch.Net;
+using Rk.Messages.Common.Helpers;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Logic.CommonNS.Dto;
@@ -28,6 +29,7 @@ namespace Rk.Messages.Logic.ProductsNS.Mappings
 
              CreateMap<Product, ProductResponse>()
                .ForMember(dest => dest.Documents, opt => opt.Ignore())
+               .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
               .ReverseMap();
 
             CreateMap<Organization, OrganizationShortDto>()                

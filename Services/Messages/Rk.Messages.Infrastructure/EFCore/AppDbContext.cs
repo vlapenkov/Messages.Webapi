@@ -147,11 +147,17 @@ namespace Rk.Messages.Infrastructure.EFCore
           );
 
             modelBuilder.Entity<ProductAttribute>().HasData(
-                new ProductAttribute(1,"Вес"),
-                new ProductAttribute(2, "Длина"),
-                new ProductAttribute(3, "Ширина"),
+                new ProductAttribute(1,"Масса, кг"),
+                new ProductAttribute(2, "Длина, м"),
+                new ProductAttribute(3, "Ширина, м "),
                 new ProductAttribute(4, "Цвет"),
-                new ProductAttribute(5, "Объем")
+                new ProductAttribute(5, "Объем, куб. м"),
+                new ProductAttribute(6, "Диапазон измерений,  Дб"),
+                new ProductAttribute(7, "Частотный диапазон,  Гц"),
+                new ProductAttribute(8, "Срок службы,  лет"),
+                new ProductAttribute(9, "Погрешность, не более,  Дб"),
+                new ProductAttribute(10, "Напряжение питания постоянного тока,  В"),
+                new ProductAttribute(11, "Ток потребления, не более,  мА")
         );
 
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full flex flex-column flex-grow-1">
+  <div class="min-h-full flex flex-column flex-grow-1 imaged">
     <collection-state
       :modes="[{ label: 'Сеткой', mode: 'data-view' }]"
       class="flex-grow-1"

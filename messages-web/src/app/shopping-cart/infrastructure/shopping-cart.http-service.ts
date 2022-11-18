@@ -14,4 +14,6 @@ shoppingCartService.del = defineDelete((model) => ({
   bodyOrParams: {},
 }));
 
+export const createOrder = definePost<void, void>();
+
 export { shoppingCartService };

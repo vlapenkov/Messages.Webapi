@@ -6,7 +6,7 @@
     <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-2 min-w-full z-2">
       <slot name="head"></slot>
     </div>
-    <div :style="bodyStyle" class="flex-grow-1 mb-7">
+    <div :style="bodyStyle" class="flex-grow-1">
       <slot name="body"></slot>
     </div>
     <div v-if="hasFooter">
@@ -19,6 +19,7 @@
 <script lang="ts">
 import { useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, ref } from 'vue';
+import { headerHeightProvider } from './providers/headerHeightProvider';
 
 export default defineComponent({
   setup(_, { slots }) {
@@ -27,6 +28,7 @@ export default defineComponent({
     const bodyStyle = computed<CSSProperties>(() => ({
       paddingTop: `${height.value}px`,
     }));
+    headerHeightProvider.provide(height);
     const hasFooter = computed(() => slots.footer != null);
     const headBackStyle = computed<CSSProperties>(() => ({
       height: `${height.value}px`,

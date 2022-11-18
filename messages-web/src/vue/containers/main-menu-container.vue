@@ -21,16 +21,6 @@ export default defineComponent({
   setup() {
     const items = [
       {
-        label: 'Главная',
-        to: { name: 'home' },
-        icon: 'pi pi-home',
-      },
-      {
-        label: 'О нас',
-        to: { name: 'about' },
-        icon: 'pi pi-info',
-      },
-      {
         label: 'Товары',
         to: { name: 'sections' },
         icon: 'pi pi-th-large',
@@ -44,6 +34,11 @@ export default defineComponent({
         label: 'Заказы',
         to: { name: 'orders' },
         icon: 'pi pi-box',
+      },
+      {
+        label: 'О нас',
+        to: { name: 'home' },
+        icon: 'pi pi-info',
       },
     ];
     const { y } = useWindowScroll();

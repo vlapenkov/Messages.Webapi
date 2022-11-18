@@ -3,7 +3,7 @@ import { isDark } from '@/store/theme.store';
 import Button from 'primevue/button';
 import { computed, defineComponent, h } from 'vue';
 
-export const defaultButtonStyle = 'p-button-rounded';
+export const defaultButtonStyle = '';
 
 export default defineComponent({
   props: {
@@ -40,7 +40,7 @@ export default defineComponent({
   setup(props, { slots, attrs }) {
     const buttonStyle = computed(() => ({
       [defaultButtonStyle]: attrs.class == null,
-      ' p-button-outlined': isDark.value,
+      ' p-button-outlined blurred': isDark.value,
     }));
 
     return () =>
@@ -49,3 +49,8 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss">
+.blurred {
+  backdrop-filter: blur(1rem);
+}
+</style>

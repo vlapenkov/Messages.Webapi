@@ -77,6 +77,22 @@ export function useSelectedItemForCollection<
     }
   });
 
+  const deleteItem = !itemOptions.delete
+    ? null
+    : store.action<string | number | symbol>('delete-item', async (key) => {
+        if (itemsDumb.value == null) {
+          return;
+        }
+        const items = [...itemsDumb.value];
+        const selectedIndex = items.findIndex((i) => i.key === key);
+        if (selectedIndex == null) {
+          return;
+        }
+        await service.del(items[selectedIndex].toRequest());
+        items.splice(selectedIndex, 1);
+        itemsDumb.value = items;
+      });
+
   const selectItem = !itemOptions.update
     ? null
     : store.mutation<string | number | symbol>('select-item', (_, key) => {
@@ -91,9 +107,9 @@ export function useSelectedItemForCollection<
     : store.mutation<void>('create-item', () => {
         itemSelected.value = new Creation(new Model());
       });
-  return { itemSelected, saveChanges, selectItem, createItem };
+  return { itemSelected, saveChanges, selectItem, createItem, deleteItem };
 }
-
+/** Для сторы с одним элементом */
 export function useSelectedItemForSingle<
   TState extends StateBase,
   TIModel extends IModel,
@@ -149,6 +165,15 @@ export function useSelectedItemForSingle<
     }
   });
 
+  const deleteItem = !itemOptions.delete
+    ? undefined
+    : store.action('delete-item', async () => {
+        if (itemSelected.value?.data == null) {
+          return;
+        }
+        await service.del(itemSelected.value.data.toRequest());
+      });
+
   const selectItem = !itemOptions.update
     ? undefined
     : store.mutation<void>('select-item', () => {
@@ -163,5 +188,5 @@ export function useSelectedItemForSingle<
     : store.mutation<void>('create-item', () => {
         itemSelected.value = new Creation(new Model());
       });
-  return { itemSelected, saveChanges, selectItem, createItem };
+  return { itemSelected, saveChanges, selectItem, createItem, deleteItem };
 }

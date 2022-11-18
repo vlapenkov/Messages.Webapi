@@ -4,4 +4,5 @@ import { RequetstHandler } from '@/app/core/services/http/@types/requetst-handle
 export interface IModelPostPut<TIModel extends IModel> {
   post: RequetstHandler<TIModel, TIModel>;
   put: RequetstHandler<TIModel, TIModel>;
+  del: RequetstHandler<boolean, TIModel>;
 }

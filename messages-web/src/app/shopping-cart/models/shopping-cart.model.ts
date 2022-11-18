@@ -1,17 +1,26 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
+import { description } from '@/app/core/models/decorators/description.decorator';
+import { hidden } from '@/app/core/models/decorators/hidden.decorator';
+import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { IShoppingCartModel } from '../@types/IShoppingCartModel';
 
 export class ShoppingCartModel extends ModelBase<IShoppingCartModel> implements IShoppingCartModel {
+  @hidden()
   productId = 0;
 
+  @title
   productName = '';
 
+  @hidden()
   documentId = '';
 
+  @description('Цена')
   price = 0;
 
+  @description('Количество')
   quantity = 0;
 
+  @description('Итоговая цена')
   sum = 0;
 
   fromResponse(model: IShoppingCartModel): boolean {

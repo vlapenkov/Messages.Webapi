@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
@@ -22,6 +23,12 @@ namespace Rk.Messages.Spa.Controllers
         public async Task<OrganizationDto> GetOrganization(long id)
         {
             return await _service.GetOrganization(id);
+        }
+
+        [HttpGet]
+        public async Task<PagedResponse<OrganizationDto>> GetOrganizations()
+        {
+            return await _service.GetOrganizations();
         }
 
         [HttpPost]

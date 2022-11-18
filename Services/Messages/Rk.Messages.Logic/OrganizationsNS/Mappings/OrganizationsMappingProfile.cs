@@ -17,7 +17,8 @@ namespace Rk.Messages.Logic.OrdersNS.Mappings
     public class OrganizationsMappingProfile : Profile
     {
         public OrganizationsMappingProfile()
-        {            
+        {
+            CreateMap(typeof(IPagedList<Organization>), typeof(PagedResponse<OrganizationDto>));
 
             CreateMap<Organization, OrganizationDto>()
                  .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))

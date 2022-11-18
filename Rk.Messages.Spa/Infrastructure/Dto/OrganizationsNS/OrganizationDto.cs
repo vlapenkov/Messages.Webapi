@@ -4,6 +4,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
 {
     public record OrganizationDto : AuditableEntityDto
     {
+        public long Id { get; set; }
 
         public string Name { get; set; }
 

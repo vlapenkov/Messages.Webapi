@@ -33,16 +33,7 @@ namespace Rk.Messages.Logic.OrganizationsNS.Dto
         public string Okved { get; set; }
 
         public string Okved2 { get; set; }
-
-        public OrganizationStatus Status { get; set; }
-
-        ////TODO: поменять хардкод
-        //public override DateTime Created { get => DateTime.UtcNow; }
-
-        //public override DateTime LastModified { get => DateTime.UtcNow; }
-
-        //public override string CreatedBy { get => "Сергей Иванов"; }
-
-        //public override string LastModifiedBy { get => "Сергей Иванов"; }
+       
+        public string StatusText { get; set; }
     }
 }

@@ -25,9 +25,9 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
 
         public string Okved { get; set; }
 
-        public string Okved2 { get; set; }
+        public string Okved2 { get; set; }      
 
-        public long Status { get; set; }        
+        public string StatusText { get; set; }
 
     }
 }

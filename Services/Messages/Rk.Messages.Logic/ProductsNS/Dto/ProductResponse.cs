@@ -32,6 +32,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public ProductStatus Status { get; set; }
 
+        public string StatusText { get; set; }
+
 
         /// <summary>значения атрибутов</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }

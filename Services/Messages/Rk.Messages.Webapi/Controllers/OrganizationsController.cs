@@ -1,12 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Rk.Messages.Logic.OrdersNS.Queries.GetOrder;
 using Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganization;
-using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 using System.Threading.Tasks;
 
 namespace Rk.Messages.Webapi.Controllers

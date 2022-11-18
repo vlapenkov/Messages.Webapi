@@ -32,7 +32,7 @@
     </template>
     <template #footer>
       <slot name="footer">
-        <div v-if="canEdit" class="flex flex-row justify-content-end">
+        <div v-if="canEdit || canDelete" class="flex flex-row justify-content-end">
           <edit-item-button />
         </div>
       </slot>
@@ -44,8 +44,8 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ViewMode } from '@/app/core/models/decorators/@types/ViewMode';
 import { defineComponent, PropType, computed } from 'vue';
+import { useEditableChecks } from '../../composables/editable-checks.composable';
 import { modelProvider } from '../../providers/model-provider';
-import { selectItemProvider } from '../../providers/select-item.provider';
 
 export default defineComponent({
   props: {
@@ -58,8 +58,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const selectItem = selectItemProvider.inject();
-
     modelProvider.provideFrom(() => props.data);
     const visibleFields = computed(() =>
       props.data?.fields?.filter((p) => p.hide !== 'always' && p.hide !== props.mode),
@@ -68,9 +66,9 @@ export default defineComponent({
       () => visibleFields.value == null || visibleFields.value.length === 0,
     );
 
-    const canEdit = computed(() => selectItem.value != null);
+    const { canEdit, canDelete } = useEditableChecks();
 
-    return { visibleFields, fieldsEmpty, canEdit };
+    return { visibleFields, fieldsEmpty, canEdit, canDelete };
   },
 });
 </script>

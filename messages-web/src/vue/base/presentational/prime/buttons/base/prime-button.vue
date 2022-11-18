@@ -3,7 +3,7 @@ import { isDark } from '@/store/theme.store';
 import Button from 'primevue/button';
 import { computed, defineComponent, h } from 'vue';
 
-export const defaultButtonStyle = 'p-button-rounded p-button-sm';
+export const defaultButtonStyle = 'p-button-rounded';
 
 export default defineComponent({
   props: {

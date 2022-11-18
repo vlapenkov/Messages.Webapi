@@ -58,6 +58,7 @@ import {
   pageNumberProvider,
   totalItemsCountProvider,
 } from './providers/pages.provider';
+import { deleteItemProvider } from './providers/delete-item.provider';
 
 type CollectionStoreMixed = Partial<CollectionStore<IModel, ModelBase>> &
   Partial<PageableCollectionStore<IModel, ModelBase>>;
@@ -90,6 +91,7 @@ export default defineComponent({
     selectItemProvider.provideFrom(() => props.state.selectItem);
     createItemProvider.provideFrom(() => props.state.createItem);
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
+    deleteItemProvider.provideFrom(() => props.state.deleteItem);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
     editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
     // Идёт ли загрузка

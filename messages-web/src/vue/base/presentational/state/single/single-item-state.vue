@@ -23,6 +23,7 @@ import { ISingleItemStore } from '@/app/core/services/harlem/custom-stores/singl
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { computed, defineComponent, PropType } from 'vue';
 import { createItemProvider } from '../collection/providers/create-item.provider';
+import { deleteItemProvider } from '../collection/providers/delete-item.provider';
 import { editOrCreateModeProvider } from '../collection/providers/edit-or-create-mode.provider';
 import { itemSelectedProvider } from '../collection/providers/item-selected.provider';
 import { loadingStatusProvider } from '../collection/providers/loading-status.provider';
@@ -43,6 +44,7 @@ export default defineComponent({
     showDialogProvider.provide();
     singleItemProvider.provideFrom(() => props.state.itemSmart);
     selectItemSingleProvider.provideFrom(() => props.state.selectItem ?? null);
+    deleteItemProvider.provideFrom(() => props.state.deleteItem);
     createItemProvider.provideFrom(() => props.state.createItem);
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     const itemSelected = itemSelectedProvider.provideFrom(() => props.state.itemSelected);

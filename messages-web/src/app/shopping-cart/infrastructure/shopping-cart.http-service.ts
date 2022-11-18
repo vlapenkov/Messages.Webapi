@@ -4,7 +4,7 @@ import { IShoppingCartModel } from '../@types/IShoppingCartModel';
 
 const [shoppingCartService, { definePost, defineDelete }] =
   defineCollectionService<IShoppingCartModel>({
-    url: 'api/v1/ShoppingCart',
+    url: 'api/ShoppingCart',
   });
 
 export const addToCard = definePost<void, IAddToShoppingCartRequest>();

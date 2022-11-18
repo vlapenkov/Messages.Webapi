@@ -25,6 +25,13 @@ builder.Services.AddAppAuthorization();
 builder.Services.AddSwaggerGeneration();
 
 var app = builder.Build();
+app.UseCors(policyBuilder =>
+{
+    policyBuilder.AllowAnyOrigin();
+    policyBuilder.AllowAnyMethod();
+    policyBuilder.AllowAnyHeader();
+});
+
 app.UseStaticFiles();
 app.UseRouting();
 

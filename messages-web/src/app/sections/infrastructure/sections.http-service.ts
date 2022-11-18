@@ -4,7 +4,7 @@ import { defineCollectionService } from '@/app/core/services/http/custom/collect
 import { ISectionModel } from '../models/ISectionModel';
 
 const [service, { defineGet, definePost }] = defineCollectionService<ISectionModel>({
-  url: 'api/v1/Sections/',
+  url: 'api/Sections/',
 });
 
 // const fakeSections = new FakeRepository(SectionModel, 15);

@@ -2,7 +2,7 @@ import { definePageableCollectionService } from '@/app/core/services/http/custom
 import { IOrderModel } from '../model/IOrderModel';
 
 const [ordersHttpService] = definePageableCollectionService<IOrderModel>({
-  url: 'api/v1/Orders',
+  url: 'api/Orders',
 });
 
 export { ordersHttpService };

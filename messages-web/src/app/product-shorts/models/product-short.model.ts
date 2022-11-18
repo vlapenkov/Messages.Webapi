@@ -11,6 +11,7 @@ import { title } from '@/app/core/models/decorators/tittle.decorator';
 
 export interface IProductShortModel extends IModel {
   id: number;
+  documentId: string;
   name: string;
   price: number;
   description: string;
@@ -60,6 +61,9 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
   )
   lastModified: Date | null = null;
 
+  @hidden()
+  documentId = '';
+
   get key(): string {
     return JSON.stringify({
       price: this.price,
@@ -86,6 +90,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
   toRequest(): IProductShortModel {
     return {
       id: this.id,
+      documentId: this.documentId,
       created: this.created?.toUTCString() ?? '',
       lastModified: this.lastModified?.toUTCString() ?? '',
       createdBy: this.createdBy ?? '',

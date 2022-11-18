@@ -52,7 +52,6 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   @hidden()
   status = 0;
 
-  @hidden()
   @description('Атрибуты')
   @render(() => h(ProductAttributesEditor), 'edit')
   @render(

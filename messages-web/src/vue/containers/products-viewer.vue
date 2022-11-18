@@ -16,7 +16,7 @@
         <data-view-collection>
           <template #item-footer="{ data }">
             <div class="flex flex-row justify-content-end gap-2">
-              <prime-button @click="intoCard(data)" icon="pi pi-shopping-cart" label="В корзину" />
+              <prime-button @click="intoCart(data)" icon="pi pi-shopping-cart" label="В корзину" />
               <prime-button
                 icon="pi pi-eye"
                 class="p-button-info p-button-rounded"
@@ -138,7 +138,7 @@ export default defineComponent({
       () => (productFullStore.itemSmart().value.title.value as string) ?? '',
     );
 
-    const intoCard = (item: ProductShortModel) => {
+    const intoCart = (item: ProductShortModel) => {
       addToCard({
         productId: item.id,
         quantity: 1,
@@ -154,7 +154,7 @@ export default defineComponent({
       saveChanges,
       selectProduct,
       productTitle,
-      intoCard,
+      intoCart,
     };
   },
   components: { PrimeDialog },

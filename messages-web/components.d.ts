@@ -55,7 +55,6 @@ declare module '@vue/runtime-core' {
     RadioButton: typeof import('primevue/radiobutton')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ScrollPanel: typeof import('primevue/scrollpanel')['default']
     SectionsView: typeof import('./src/vue/views/sections-view.vue')['default']
     SelectedItemDialog: typeof import('./src/vue/base/presentational/state/collection/components/dialog/selected-item-dialog.vue')['default']
     ShoppingCartView: typeof import('./src/vue/views/shopping-cart-view.vue')['default']

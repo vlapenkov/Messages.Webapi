@@ -1,30 +1,28 @@
 <template>
-  <app-scroller>
-    <splitter class="re-splitter">
-      <splitter-panel class="pr-2" :size="30">
-        <collection-state
-          :modes="[{ label: 'Деревом', mode: 'tree-view' }]"
-          :state="sectionsStore"
-          reload-on-save
-        >
-          <template #data-view>
-            <data-view-collection></data-view-collection>
-          </template>
-          <template #tree-view>
-            <tree-view-collection
-              v-model:selectedKeys="selectedKeys"
-              selectionMode="single"
-              class="reshape-tree"
-            >
-            </tree-view-collection>
-          </template>
-        </collection-state>
-      </splitter-panel>
-      <splitter-panel class="pl-2" :size="70">
-        <products-viewer :categoryId="selectedKey" />
-      </splitter-panel>
-    </splitter>
-  </app-scroller>
+  <splitter class="re-splitter">
+    <splitter-panel class="pr-2" :size="30">
+      <collection-state
+        :modes="[{ label: 'Деревом', mode: 'tree-view' }]"
+        :state="sectionsStore"
+        reload-on-save
+      >
+        <template #data-view>
+          <data-view-collection></data-view-collection>
+        </template>
+        <template #tree-view>
+          <tree-view-collection
+            v-model:selectedKeys="selectedKeys"
+            selectionMode="single"
+            class="reshape-tree"
+          >
+          </tree-view-collection>
+        </template>
+      </collection-state>
+    </splitter-panel>
+    <splitter-panel class="pl-2" :size="70">
+      <products-viewer :categoryId="selectedKey" />
+    </splitter-panel>
+  </splitter>
 </template>
 
 <script lang="ts">

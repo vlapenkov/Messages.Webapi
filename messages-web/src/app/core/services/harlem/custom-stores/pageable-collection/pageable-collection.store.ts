@@ -4,10 +4,10 @@ import { ModelBase } from '@/app/core/models/base/model-base';
 import { IPageableCollectionHttpServie } from '../../../http/custom/pageable-collection.http-service';
 import { DefaultStore, createDefaultStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
-import { useDataStatus } from '../tools/useDataStatus';
-import { usePages } from '../tools/usePages';
-import { useSelectedItemForCollection } from '../tools/useSelectedItem';
-import { useTriggers } from '../tools/useTriggers';
+import { useDataStatus } from '../composables/data-status.composable';
+import { usePages } from '../composables/pages.composable';
+import { useSelectedItemForCollection } from '../composables/selected-item.composable';
+import { useTriggers } from '../composables/triggers.composable';
 import { IPageableCollectionStore } from './@types/IPageableCollectionStore';
 
 export function definePageableCollectionStore<

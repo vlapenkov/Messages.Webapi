@@ -80,3 +80,7 @@ export async function initKeycloak() {
     }, tokenRefreshInterval * 1000);
   }
 }
+
+export function logout() {
+  keycloakInst.logout();
+}

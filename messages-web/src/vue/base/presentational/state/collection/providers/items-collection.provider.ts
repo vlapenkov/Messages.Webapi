@@ -1,5 +1,5 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { IQueryOtions } from '@/app/core/services/harlem/custom-stores/tools/@types/IQueryOptions';
+import { IQueryOtions } from '@/app/core/services/harlem/custom-stores/composables/@types/IQueryOptions';
 import { ShallowProvider } from '@/app/core/tools/shallow.provider';
 import { shallowRef, WritableComputedRef } from 'vue';
 

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>Корзина</h2>
     <collection-state :modes="[{ label: 'Списком', mode: 'data-view' }]" :state="shoppingCartStore">
       <template #data-view>
         <data-view-collection></data-view-collection>

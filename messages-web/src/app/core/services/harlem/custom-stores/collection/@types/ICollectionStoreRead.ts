@@ -3,7 +3,7 @@ import { ModelBase } from '@/app/core/models/base/model-base';
 import type { Action } from '@harlem/extension-action';
 import { WritableComputedRef } from 'vue';
 import { DataStatus } from '../../../tools/data-status';
-import { IQueryOtions } from '../../tools/@types/IQueryOptions';
+import { IQueryOtions } from '../../composables/@types/IQueryOptions';
 
 export interface ICollectionStoreRead<TIModel extends IModel, TModel extends ModelBase<TIModel>> {
   readonly status: WritableComputedRef<DataStatus>;

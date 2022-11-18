@@ -1,7 +1,10 @@
+<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
   <div
+    aria-controls="overlay_menu"
+    aria-haspopup="true"
+    @click="toggleMenu"
     class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
-    :style="selectionColor"
     v-if="isAuthenticated"
   >
     <div>
@@ -9,17 +12,20 @@
     </div>
     <avatar shape="circle" :image="gravatarUrl"></avatar>
   </div>
+  <prime-menu class="mt-3" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />
 </template>
 
 <script lang="ts">
 import { isAuthenticated, userInfo } from '@/store/user.store';
-import { computed, CSSProperties, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { url } from 'gravatar';
 import { screenSmall } from '@/app/core/services/window/window.service';
-import { isDark } from '@/store/theme.store';
+import { logout } from '@/app/core/services/keycloak/keycloak.service';
+import Menu from 'primevue/menu';
 
 const avatarSize = 100;
 export default defineComponent({
+  components: { PrimeMenu: Menu },
   setup() {
     const gravatarUrl = computed(() =>
       userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
@@ -29,10 +35,26 @@ export default defineComponent({
         .map((part) => (!screenSmall.value ? `${part[0]}.` : part))
         .join(' '),
     );
-    const selectionColor = computed<CSSProperties>(() => ({
-      '--user-selection-olor': !isDark.value ? '#000000' : '#ffffff',
-    }));
-    return { isAuthenticated, gravatarUrl, userShortName, selectionColor };
+
+    const menuItems = [
+      {
+        label: 'Выход',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          logout();
+        },
+      },
+    ];
+
+    const menu = ref();
+
+    const toggleMenu = (event: Event) => {
+      console.log('menu', menu.value);
+
+      menu.value.toggle(event);
+    };
+
+    return { isAuthenticated, gravatarUrl, userShortName, menu, menuItems, toggleMenu };
   },
 });
 </script>

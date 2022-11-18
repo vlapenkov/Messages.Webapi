@@ -5,12 +5,12 @@ import { ICollectionHttpService } from '../../../http/custom/collection.http-ser
 import { createDefaultStore, DefaultStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { ICollectionStoreRead } from './@types/ICollectionStoreRead';
-import { useDataStatus } from '../tools/useDataStatus';
-import { useCollectionItems } from '../tools/useCollectionItems';
-import { useSelectedItemForCollection } from '../tools/useSelectedItem';
-import { useTreeView } from '../tools/useTreeView';
+import { useDataStatus } from '../composables/data-status.composable';
+import { useCollectionItems } from '../composables/collection-items.composable';
+import { useSelectedItemForCollection } from '../composables/selected-item.composable';
+import { useTreeView } from '../composables/tree-view.composable';
 import { CollectionStore } from './@types/CollectionStore';
-import { useTriggers } from '../tools/useTriggers';
+import { useTriggers } from '../composables/triggers.composable';
 
 export function defineCollectionStore<
   TIModel extends IModel,

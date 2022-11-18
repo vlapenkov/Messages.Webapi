@@ -13,9 +13,9 @@ import { getDataStatusProp } from '../../state/decorators/property-keys/data-sta
 import { getIgnoreMountedOpt } from '../../state/decorators/property-keys/ignore-mounted.prop-key';
 import { getItemKey } from '../../state/decorators/property-keys/item.prop-key';
 import { DataStatus } from '../../tools/data-status';
-import { IQueryOtions } from '../tools/@types/IQueryOptions';
-import { useSelectedItemForSingle } from '../tools/useSelectedItem';
-import { useTriggers } from '../tools/useTriggers';
+import { IQueryOtions } from '../composables/@types/IQueryOptions';
+import { useSelectedItemForSingle } from '../composables/selected-item.composable';
+import { useTriggers } from '../composables/triggers.composable';
 import { ISingleItemStore } from './@types/ISingleItemStore';
 
 export function defineSingleItemStore<

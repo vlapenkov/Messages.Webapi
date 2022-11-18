@@ -3,7 +3,7 @@ import type { Action } from '@harlem/extension-action';
 import { WritableComputedRef } from 'vue';
 import { DataStatus } from '../../../tools/data-status';
 import { NotValidData } from '../../../tools/not-valid-data';
-import { IQueryOtions } from '../../tools/@types/IQueryOptions';
+import { IQueryOtions } from '../../composables/@types/IQueryOptions';
 
 export interface ISingleItemStore<TModel extends ModelBase> {
   itemSmart: (ops?: IQueryOtions) => WritableComputedRef<TModel>;

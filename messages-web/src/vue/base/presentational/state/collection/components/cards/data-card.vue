@@ -1,5 +1,5 @@
 <template>
-  <card class="re-padding" :class="{ 'no-body': fieldsEmpty, 'no-footer': !canEdit }">
+  <card class="re-padding" :class="{ 'no-body': fieldsEmpty, 'no-footer': !canEditOrDelete }">
     <template #title>
       <template v-if="data != null && !data.title.noLabel">
         {{ data.title.value }}
@@ -32,8 +32,9 @@
     </template>
     <template #footer>
       <slot name="footer">
-        <div v-if="canEdit || canDelete" class="flex flex-row justify-content-end">
+        <div v-if="canEditOrDelete" class="flex flex-row justify-content-end">
           <edit-item-button />
+          <delete-item-button />
         </div>
       </slot>
     </template>
@@ -68,7 +69,9 @@ export default defineComponent({
 
     const { canEdit, canDelete } = useEditableChecks();
 
-    return { visibleFields, fieldsEmpty, canEdit, canDelete };
+    const canEditOrDelete = computed(() => canEdit.value || canDelete.value);
+
+    return { visibleFields, fieldsEmpty, canEditOrDelete };
   },
 });
 </script>

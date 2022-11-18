@@ -1,7 +1,10 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
+import { render } from '@/app/core/models/decorators/render.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
+import ShoppingCartSelector from '@/vue/containers/shopping-cart-selector.vue';
+import { h } from 'vue';
 import { IShoppingCartModel } from '../@types/IShoppingCartModel';
 
 export class ShoppingCartModel extends ModelBase<IShoppingCartModel> implements IShoppingCartModel {
@@ -22,6 +25,10 @@ export class ShoppingCartModel extends ModelBase<IShoppingCartModel> implements 
 
   @description('Итоговая цена')
   sum = 0;
+
+  @description('Выбрано')
+  @render(() => h(ShoppingCartSelector), 'view')
+  selected = false;
 
   fromResponse(model: IShoppingCartModel): boolean {
     try {

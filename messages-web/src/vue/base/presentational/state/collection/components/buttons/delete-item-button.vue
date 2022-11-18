@@ -3,13 +3,13 @@
     v-if="canDelete"
     :disabled="disabled"
     @click="deleteItem"
-    label="Добавить"
+    label="Удалить"
   ></prime-button-delete>
 </template>
 
 <script lang="ts">
-import { useDelete } from '@/app/core/handlers/http/queries/htttp-queries.wrappers';
 import { defineComponent } from 'vue';
+import { useDelete } from '../../composables/delete-item.composable';
 import { useEditableChecks } from '../../composables/editable-checks.composable';
 
 export default defineComponent({

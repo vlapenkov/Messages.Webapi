@@ -29,6 +29,7 @@ export function useSelectedItemForCollection<
   itemsDumb: WritableComputedRef<TModel[] | null>,
 ) {
   const selectedItemKey = getSelectedItemPropKey(store.state);
+
   if (selectedItemKey == null) {
     return {};
   }
@@ -41,7 +42,7 @@ export function useSelectedItemForCollection<
     throw new Error('Options value (ISelectedItemOptions) must be provided!');
   }
 
-  if (!itemOptions.create && !itemOptions.update && itemOptions.delete) {
+  if (!itemOptions.create && !itemOptions.update && !itemOptions.delete) {
     return {};
   }
 

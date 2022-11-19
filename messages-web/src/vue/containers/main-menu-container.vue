@@ -40,6 +40,11 @@ export default defineComponent({
         to: { name: 'home' },
         icon: 'pi pi-info',
       },
+      {
+        label: 'Эксперименты',
+        to: { name: 'labs' },
+        icon: 'pi pi-verified',
+      },
     ];
     const { y } = useWindowScroll();
 

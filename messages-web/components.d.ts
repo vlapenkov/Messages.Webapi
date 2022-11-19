@@ -7,7 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AboutView: typeof import('./src/vue/views/about-view.vue')['default']
     AppGrid: typeof import('./src/vue/base/presentational/grid/app-grid.vue')['default']
     AppLayout: typeof import('./src/vue/presentational/app-layout.vue')['default']
     AppRoot: typeof import('./src/vue/app-root.vue')['default']
@@ -34,6 +33,7 @@ declare module '@vue/runtime-core' {
     HoverTag: typeof import('./src/vue/base/presentational/hover-tag.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    LabsView: typeof import('./src/vue/views/labs-view.vue')['default']
     LoadingStatusHandler: typeof import('./src/vue/base/presentational/loading-status-handler.vue')['default']
     MainMenuContainer: typeof import('./src/vue/containers/main-menu-container.vue')['default']
     ModelProvider: typeof import('./src/vue/base/presentational/state/collection/components/model-provider.vue')['default']

@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="relative min-h-screen ml-2 mr-2 pt-3 pb-3 flex flex-column justify-content-between gap-3"
-  >
-    <div class="fixed top-0 left-0 min-w-full blurred z-2" :style="headBackStyle"></div>
-    <div ref="headRef" class="fixed top-0 left-0 pl-2 pr-2 pt-2 min-w-full z-2">
+  <div class="relative min-h-screen ml-2 mr-2 pb-3 flex flex-column justify-content-between gap-3">
+    <div ref="headRef" class="fixed top-0 left-0 min-w-full z-2">
       <slot name="head"></slot>
     </div>
     <div :style="bodyStyle" class="flex-grow-1">
-      <slot name="body"></slot>
+      <app-container>
+        <slot name="body"></slot>
+      </app-container>
     </div>
     <div v-if="hasFooter">
       <prime-divider></prime-divider>

@@ -19,7 +19,7 @@
 import { isAuthenticated, userInfo } from '@/store/user.store';
 import { computed, defineComponent, ref } from 'vue';
 import { url } from 'gravatar';
-import { screenSmall } from '@/app/core/services/window/window.service';
+import { screenMiddle } from '@/app/core/services/window/window.service';
 import { logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 
@@ -32,11 +32,26 @@ export default defineComponent({
     );
     const userShortName = computed(() =>
       [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
-        .map((part) => (!screenSmall.value ? `${part[0]}.` : part))
+        .map((part) => (!screenMiddle.value ? `${part[0]}.` : part))
         .join(' '),
     );
 
     const menuItems = [
+      {
+        label: 'Товары',
+        to: { name: 'sections' },
+        icon: 'pi pi-th-large',
+      },
+      {
+        label: 'Корзина',
+        to: { name: 'shopping-cart' },
+        icon: 'pi pi-shopping-cart',
+      },
+      {
+        label: 'Заказы',
+        to: { name: 'orders' },
+        icon: 'pi pi-box',
+      },
       {
         label: 'Выход',
         icon: 'pi pi-sign-out',

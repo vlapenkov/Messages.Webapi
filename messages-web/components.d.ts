@@ -7,8 +7,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AppContainer: typeof import('./src/vue/presentational/app-container.vue')['default']
     AppGrid: typeof import('./src/vue/base/presentational/grid/app-grid.vue')['default']
     AppLayout: typeof import('./src/vue/presentational/app-layout.vue')['default']
+    AppPage: typeof import('./src/vue/presentational/app-page.vue')['default']
     AppRoot: typeof import('./src/vue/app-root.vue')['default']
     AppScroller: typeof import('./src/vue/presentational/app-scroller.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']

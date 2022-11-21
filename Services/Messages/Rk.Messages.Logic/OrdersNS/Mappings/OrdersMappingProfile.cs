@@ -31,7 +31,8 @@ namespace Rk.Messages.Logic.OrdersNS.Mappings
 
             CreateMap<Order, OrderShortDto>()
               .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))
-              .ForMember(dest => dest.Sum, opt => opt.MapFrom(src => src.OrderItems.Sum(oi=>oi.Sum)))
+              .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.OrderItems.Sum(oi=>oi.Quantity)))
+              .ForMember(dest => dest.Sum, opt => opt.MapFrom(src => src.OrderItems.Sum(oi => oi.Sum)))
               .ReverseMap();
 
         }

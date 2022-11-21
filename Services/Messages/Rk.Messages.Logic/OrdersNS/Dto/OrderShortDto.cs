@@ -13,11 +13,15 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
     /// </summary>
     public record OrderShortDto :AuditableEntityDto
     {
+        public long Id { get; set; }
+
         public string OrganisationName { get; set; }
 
         public string UserName { get; set; }
         
         public string Comments { get; set; }
+
+        public long Quantity { get; set; }
 
         public decimal Sum { get; set; }
     }

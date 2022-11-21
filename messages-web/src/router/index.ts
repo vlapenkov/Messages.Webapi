@@ -4,7 +4,7 @@ import HomeView from '../vue/views/home-view.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: () => ({ name: 'labs' }),
+    redirect: () => ({ name: 'sections' }),
   },
   {
     path: '/home',

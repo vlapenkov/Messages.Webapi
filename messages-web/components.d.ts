@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AppAffix: typeof import('./src/vue/presentational/app-affix.vue')['default']
     AppContainer: typeof import('./src/vue/presentational/app-container.vue')['default']
     AppGrid: typeof import('./src/vue/base/presentational/grid/app-grid.vue')['default']
     AppLayout: typeof import('./src/vue/presentational/app-layout.vue')['default']

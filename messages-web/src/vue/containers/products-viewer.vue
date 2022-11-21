@@ -5,7 +5,7 @@
       class="flex-grow-1"
       :state="productShortsStore"
     >
-      <template #toolbar-end>
+      <template #actions>
         <prime-button-add
           label="Добавить товар"
           :disabled="categoryId == null"

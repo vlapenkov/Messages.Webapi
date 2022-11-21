@@ -30,6 +30,9 @@
         <slot :name="slotName" :node="node"> </slot>
       </template>
     </tree>
+    <div class="mt-2">
+      <slot name="actions"> </slot>
+    </div>
   </loading-status-handler>
 </template>
 

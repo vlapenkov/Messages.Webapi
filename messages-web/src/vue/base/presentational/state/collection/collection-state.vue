@@ -21,11 +21,13 @@
       </transition-fade>
     </div>
     <collection-state-paginator></collection-state-paginator>
-    <div v-if="canAdd" class="flex justify-content-end mt-1">
-      <slot name="actions">
-        <create-item-button />
-      </slot>
-    </div>
+    <app-affix class="w-full">
+      <div v-if="canAdd" class="flex justify-content-end mt-1">
+        <slot name="actions">
+          <create-item-button />
+        </slot>
+      </div>
+    </app-affix>
     <slot>
       <selected-item-dialog></selected-item-dialog>
     </slot>

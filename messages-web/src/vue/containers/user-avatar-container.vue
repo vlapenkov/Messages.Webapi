@@ -12,7 +12,7 @@
     </div>
     <avatar shape="circle" :image="gravatarUrl"></avatar>
   </div>
-  <prime-menu class="mt-3" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />
+  <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />
 </template>
 
 <script lang="ts">

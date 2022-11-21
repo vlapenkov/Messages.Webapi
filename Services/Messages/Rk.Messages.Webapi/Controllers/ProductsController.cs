@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,13 @@ namespace Rk.Messages.Webapi.Controllers
             return result;
         }
 
+        /// <summary>Получить информацию об атрибутах всей продукции</summary>
+        [HttpGet("attributes")]
+        public async Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes()
+        {
+            var result = await _mediator.Send(new GetProductAttributesQuery {  });
+            return result;
+        }
 
     }
 }

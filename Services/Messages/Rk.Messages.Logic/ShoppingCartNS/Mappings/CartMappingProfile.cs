@@ -17,6 +17,7 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Mappings
                 CreateMap<ShoppingCartItem, ShoppingCartItemDto>()
                     .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
                     .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Product.Id))
+                    .ForMember(dest => dest.Organization, opt => opt.MapFrom(src => src.Product.Organization))
                     .ForMember(dest => dest.DocumentId, opt => opt.MapFrom(src => src.Product.GetProductDocument().Document.FileId))
                     .ReverseMap();
             }

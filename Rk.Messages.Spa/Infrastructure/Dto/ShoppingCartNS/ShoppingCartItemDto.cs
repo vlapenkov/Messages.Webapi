@@ -1,4 +1,6 @@
 ﻿
+using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
+
 namespace Rk.Messages.Spa.Infrastructure.Dto.ShoppingCartNS
 {
     public class ShoppingCartItemDto
@@ -14,5 +16,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ShoppingCartNS
         public int Quantity { get; set; }
 
         public decimal Sum => Price * Quantity;
+
+        public OrganizationShortDto Organization { get; set; }
     }
 }

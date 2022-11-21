@@ -14,7 +14,7 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Dto
         /// <summary>Id продукции</summary>
         public long ProductId { get; set; }
 
-        /// <summary>Количество</summary>
+        /// <summary>Количество добавляемой продукции , если вычитаем то 0</summary>
         public int Quantity { get; set; }
     }
 }

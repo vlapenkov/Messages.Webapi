@@ -31,6 +31,7 @@ namespace Rk.Messages.Webapi.Controllers
             await _mediatr.Send(new AddToShoppingCartCommand {Request = request });
         }
 
+
         /// <summary>Удалить товар из корзины</summary>           
         [HttpDelete("{productId:long}")]
         public async Task DeleteFromCart(long productId)

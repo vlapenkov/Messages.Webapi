@@ -30,13 +30,14 @@ namespace Rk.Messages.Logic.OrdersNS.Commands.CreateOrder
         public async Task<long> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
 
-            if (!_userService.IsAuthenticated) throw new RkErrorException("Пользователь не авторизован");
+            if (!_userService.IsAuthenticated) throw new RkUnauthorizedAccessException("Пользователь не авторизован");
 
 
 
             var cartItemsFound = await _appDbContext.ShoppingCartItems.Where(self => self.UserName == _userService.UserName).ToListAsync();
 
             if (!cartItemsFound.Any()) throw new RkErrorException($"Не найдено ни одной позиции в корзине для пользователя {_userService.UserName}");
+
             Organization organisationFound = await GetOrganizationByUser();
 
             var order = new Order(organisationFound.Id, _userService.UserName);

@@ -19,7 +19,7 @@
               <prime-button @click="intoCart(data)" icon="pi pi-shopping-cart" label="В корзину" />
               <prime-button
                 icon="pi pi-eye"
-                class="p-button-info p-button-rounded"
+                class="p-button-secondary"
                 @click="selectProduct(data)"
               />
             </div>

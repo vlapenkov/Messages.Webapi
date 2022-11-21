@@ -1,18 +1,11 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <div class="flex flex-column">
-    <toolbar v-if="canAdd || modes.length > 1" class="mb-2 pt-2 pb-2 pr-2">
+    <toolbar v-if="modes.length > 1" class="mb-2 pt-2 pb-2 pr-2">
       <template #start>
         <slot name="toolbar-start">
           <div class="flex flex-row gap-5">
             <view-switcher :modes="modes" v-model="viewMode"></view-switcher>
-          </div>
-        </slot>
-      </template>
-      <template #end>
-        <slot name="toolbar-end">
-          <div v-if="canAdd" class="flex justify-content-end">
-            <create-item-button />
           </div>
         </slot>
       </template>
@@ -28,6 +21,11 @@
       </transition-fade>
     </div>
     <collection-state-paginator></collection-state-paginator>
+    <div v-if="canAdd" class="flex justify-content-end mt-1">
+      <slot name="actions">
+        <create-item-button />
+      </slot>
+    </div>
     <slot>
       <selected-item-dialog></selected-item-dialog>
     </slot>

@@ -8,11 +8,11 @@
         <div class="w-full">
           <app-container>
             <div class="flex flex-row justify-content-between align-items-center gap-3">
-              <div class="flex gap-3">
+              <div class="flex gap-3 align-items-center">
                 <img src="@/assets/images/logo.svg" alt="" width="30" height="24" />
                 <div class="text-sm lg:text-lg">Маркетплейс продукции гражданского назначения</div>
               </div>
-              <div class="flex flex-row flex-shrink-0 align-items-center">
+              <div class="flex flex-row align-items-center flex-shrink-0">
                 <theme-switch-container></theme-switch-container>
                 <user-avatar-container />
               </div>
@@ -30,36 +30,9 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    const items = [
-      {
-        label: 'Товары',
-        to: { name: 'sections' },
-        icon: 'pi pi-th-large',
-      },
-      {
-        label: 'Корзина',
-        to: { name: 'shopping-cart' },
-        icon: 'pi pi-shopping-cart',
-      },
-      {
-        label: 'Заказы',
-        to: { name: 'orders' },
-        icon: 'pi pi-box',
-      },
-      // {
-      //   label: 'О нас',
-      //   to: { name: 'home' },
-      //   icon: 'pi pi-info',
-      // },
-      // {
-      //   label: 'Эксперименты',
-      //   to: { name: 'labs' },
-      //   icon: 'pi pi-verified',
-      // },
-    ];
     const { y } = useWindowScroll();
 
-    return { items, y };
+    return { y };
   },
 });
 </script>

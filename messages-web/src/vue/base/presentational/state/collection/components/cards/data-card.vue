@@ -1,9 +1,5 @@
 <template>
-  <card
-    class="re-padding"
-    :style="style"
-    :class="{ 'no-body': fieldsEmpty, 'no-footer': !canEditOrDelete }"
-  >
+  <card class="re-padding" :class="{ 'no-body': fieldsEmpty, 'no-footer': !canEditOrDelete }">
     <template #title>
       <template v-if="data != null && !data.title.noLabel">
         {{ data.title.value }}
@@ -48,8 +44,7 @@
 <script lang="ts">
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ViewMode } from '@/app/core/models/decorators/@types/ViewMode';
-import { isDark } from '@/store/theme.store';
-import { defineComponent, PropType, computed, CSSProperties } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import { useEditableChecks } from '../../composables/editable-checks.composable';
 import { modelProvider } from '../../providers/model-provider';
 
@@ -75,18 +70,8 @@ export default defineComponent({
     const { canEdit, canDelete } = useEditableChecks();
 
     const canEditOrDelete = computed(() => canEdit.value || canDelete.value);
-    const style = computed<CSSProperties>(() => {
-      const size = Math.floor(Math.random() * 100 + 500);
 
-      return {
-        '--custom-card-background-image': `url(https://random.imagecdn.app/500/${size})`,
-        '--custom-card-background': !isDark.value
-          ? 'rgba(255, 255, 255, 0.7)'
-          : 'rgba(0, 0, 0, 0.3)',
-      };
-    });
-
-    return { visibleFields, fieldsEmpty, canEditOrDelete, style };
+    return { visibleFields, fieldsEmpty, canEditOrDelete };
   },
 });
 </script>

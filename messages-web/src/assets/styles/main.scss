@@ -27,16 +27,6 @@ body {
   }
 }
 
-.imaged {
-  .p-card {
-    background-image: var(--custom-card-background-image);
-  }
-  .p-card-body {
-    background-color: var(--custom-card-background);
-    backdrop-filter: blur(2rem);
-  }
-}
-
 .p-component-overlay {
   backdrop-filter: blur(1rem);
 }

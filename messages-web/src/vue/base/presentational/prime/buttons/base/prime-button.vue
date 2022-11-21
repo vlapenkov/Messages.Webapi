@@ -3,7 +3,7 @@ import { isDark } from '@/store/theme.store';
 import Button from 'primevue/button';
 import { computed, defineComponent, h } from 'vue';
 
-export const defaultButtonStyle = '';
+export const defaultButtonStyle = 'p-button-sm';
 
 export default defineComponent({
   props: {

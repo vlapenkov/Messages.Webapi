@@ -38,7 +38,7 @@ export default defineComponent({
 
     const menuItems = [
       {
-        label: 'Товары',
+        label: 'Каталог товаров',
         to: { name: 'sections' },
         icon: 'pi pi-th-large',
       },

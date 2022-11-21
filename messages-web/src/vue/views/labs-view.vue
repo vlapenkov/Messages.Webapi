@@ -1,6 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <app-page>
+  <app-page title="Эксперименты">
     <div>
       <card v-for="i in 50" :key="i" class="mt-2 shadow-3">
         <template #content>

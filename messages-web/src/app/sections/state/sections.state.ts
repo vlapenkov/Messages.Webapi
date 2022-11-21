@@ -17,7 +17,6 @@ export class SectionState extends StateBase {
       data: section,
       children: models.filter((m) => m.parentSectionId === section.id).map(modelToTree),
     });
-
     return models
       .filter((s) => s.parentSectionId == null || s.parentSectionId < 0)
       .map(modelToTree);

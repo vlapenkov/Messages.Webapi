@@ -35,6 +35,9 @@ namespace Rk.Messages.Logic.ProductsNS.Mappings
             CreateMap<Organization, OrganizationShortDto>()                
                 .ReverseMap();
 
+            CreateMap<ProductAttribute, AttributeDto>()
+              .ReverseMap();
+
         }
     }
 }

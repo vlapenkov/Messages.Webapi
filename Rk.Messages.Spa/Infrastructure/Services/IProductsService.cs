@@ -20,5 +20,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>Получить инфо о продукции</summary>  
         [Get("/api/v1/Products/{id}")]
         Task<ProductResponse> GetProduct(long id);
+
+        /// <summary>Получить инфо о продукции</summary>  
+        [Get("/api/v1/Products/attributes")]
+        Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes();
     }
 }

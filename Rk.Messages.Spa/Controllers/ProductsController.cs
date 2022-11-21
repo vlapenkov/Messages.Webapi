@@ -58,5 +58,14 @@ namespace Rk.Messages.Spa.Controllers
             return await _productsService.GetProduct(id);
 
         }
+
+        /// <summary>Получить информацию об атрибутах всей продукции</summary>
+        [HttpGet("attributes")]
+        public async Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes()
+        {
+            var result = await _productsService.GetProductAttributes();
+
+            return result;
+        }
     }
 }

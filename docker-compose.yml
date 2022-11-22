@@ -1,6 +1,17 @@
 version: '3.4'
 
 services:
+  db:
+    image: docker-proxy.dev.roscosmos.digital/postgres:14.2
+    hostname: "db"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: "postgres"
+    ports:
+      - 5432:5432 
+
   es01:
     image: docker-proxy.dev.roscosmos.digital/elastic/elasticsearch:7.10.1
     container_name: es01
@@ -27,4 +38,6 @@ services:
 
 volumes:
   data01:
+    driver: local
+  db_data:
     driver: local

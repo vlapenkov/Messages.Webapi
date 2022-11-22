@@ -79,7 +79,7 @@ export default defineComponent({
         },
         datalabels: {
           formatter: (value: string, context: DataLables.Context): unknown =>
-          // eslint-disable-next-line
+            // eslint-disable-next-line
             `${context.chart.data.labels![context.dataIndex]}\n${value}%`,
           anchor: 'end',
           align: 'end',

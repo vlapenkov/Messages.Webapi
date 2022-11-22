@@ -2,7 +2,7 @@ import { Constructor } from '@/app/@types/constructor';
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { ICollectionHttpService } from '../../../http/custom/collection.http-service';
-import { createDefaultStore, DefaultStore } from '../../harlem.service';
+import { defineStore, DefaultStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { ICollectionStoreRead } from './@types/ICollectionStoreRead';
 import { useDataStatus } from '../composables/data-status.composable';
@@ -23,7 +23,7 @@ export function defineCollectionStore<
   service: ICollectionHttpService<TIModel>,
 ) {
   const stateDefault = new State();
-  const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
+  const store: DefaultStore<TState> = defineStore(name, stateDefault);
 
   const status = useDataStatus(store);
 

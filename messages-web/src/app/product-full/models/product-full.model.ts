@@ -6,8 +6,6 @@ import { title } from '@/app/core/models/decorators/tittle.decorator';
 import { h } from 'vue';
 import ProductFileEdifor from '@/vue/containers/product-file-editor.vue';
 import ProductFileViewer from '@/vue/containers/product-file-viewer.vue';
-import ProductAttributesEditor from '@/vue/containers/product-attributes-editor.vue';
-import ProductAttributesViewer from '@/vue/containers/product-attributes-viewer.vue';
 import { noLabel } from '@/app/core/models/decorators/no-label.decorator';
 import { IProductFullModel } from '../@types/IProductFullModel';
 import { IProductDocument } from '../@types/IProductDocument';
@@ -53,14 +51,6 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   status = 0;
 
   @description('Атрибуты')
-  @render(() => h(ProductAttributesEditor), 'edit')
-  @render(
-    (md: ProductFullModel) =>
-      h(ProductAttributesViewer, {
-        attrs: md.attributeValues,
-      }),
-    'view',
-  )
   attributeValues: IProductAttribute[] = [];
 
   @noLabel

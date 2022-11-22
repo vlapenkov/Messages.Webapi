@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/sections',
     name: 'sections',
-    component: () => import(/* webpackChunkName: "sections" */ '../vue/views/products-view.vue'),
+    component: () => import(/* webpackChunkName: "sections" */ '../vue/views/catalog-view.vue'),
   },
   {
     path: '/orders',

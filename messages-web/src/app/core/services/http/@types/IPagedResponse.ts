@@ -1,6 +1,4 @@
-import { IModel } from '@/app/core/models/@types/IModel';
-
-export interface IPagedResponse<TModel extends IModel> {
+export interface IPagedResponse<TModel> {
   firstItemOnPage: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;

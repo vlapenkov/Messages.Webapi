@@ -8,7 +8,13 @@ namespace Rk.Messages.Domain.Entities.Products
     public class ServiceProduct : BaseProduct
     {
         private ServiceProduct() { }
-        public ServiceProduct(int catalogSectionId, string name, string description, IReadOnlyCollection<AttributeValue> attributeValues) : base(catalogSectionId, name, description, attributeValues)
+        public ServiceProduct(
+            long organizationId,
+            long catalogSectionId, 
+            string name, 
+            string description, 
+            IReadOnlyCollection<AttributeValue> attributeValues) : 
+            base(organizationId,catalogSectionId, name, description, attributeValues)
         {
         }
     }

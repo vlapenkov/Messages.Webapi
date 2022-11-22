@@ -12,5 +12,7 @@
 
         /// <summary>размер страницы</summary>
         public int PageSize { get; set; } = _defaultPageSize;
+
+        public static int DefaultPageSize = _defaultPageSize;
     }
 }

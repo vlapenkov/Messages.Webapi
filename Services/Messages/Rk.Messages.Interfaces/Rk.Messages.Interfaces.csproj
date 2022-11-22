@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,11 +9,15 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="Contracts\" />
 	  <Folder Include="Interfaces\Services\" />
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\Rk.Messages.Domain\Rk.Messages.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>		
+		<PackageReference Include="refit" Version="6.3.2" />
+		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />		
 	</ItemGroup>
 </Project>

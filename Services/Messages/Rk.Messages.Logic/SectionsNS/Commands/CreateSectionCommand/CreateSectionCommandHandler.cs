@@ -25,7 +25,7 @@ namespace Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand
 
         public async Task<long> Handle(CreateSectionCommand command, CancellationToken cancellationToken)
         {
-           var validationResult = await _validator.ValidateAsync(command);
+           var validationResult = _validator.Validate(command);
 
             if (!validationResult.IsValid)
             {

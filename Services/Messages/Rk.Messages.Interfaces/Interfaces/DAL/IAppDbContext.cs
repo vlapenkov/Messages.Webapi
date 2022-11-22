@@ -16,6 +16,15 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
         DbSet<Product> Products { get; }
         DbSet<ServiceProduct> ServiceProducts { get; }
         DbSet<Technology> TechnologyProducts { get; }
+        DbSet<ProductDocument> ProductDocuments { get; }
+
+        DbSet<Document> Documents { get; }
+
+        DbSet<Order> Orders { get; set; }
+
+        DbSet<OrderItem> OrderItems { get; set; }
+
+        DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

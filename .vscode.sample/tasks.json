@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "serve",
+			"path": "messages-web",
+			"isBackground": true,
+			"problemMatcher": [
+				{
+					"owner": "npm",
+					"background": {
+						"endsPattern": "DONE.",
+						"beginsPattern": ".",
+						"activeOnStart": true
+					},
+					"pattern": {
+						"regexp": "."
+					}
+				}
+			],
+			"label": "npm: serve - messages-web",
+			"detail": "vue-cli-service serve"
+		},
+		{
+			"label": "kill-all",
+			"command": "echo ${input:terminate}",
+			"type": "shell",
+			"problemMatcher": []
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "terminateAll"
+		}
+	]
+}

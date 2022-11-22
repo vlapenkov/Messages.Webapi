@@ -1,7 +1,37 @@
 <template>
-  <div class="min-h-full flex flex-column flex-grow-1 imaged">
-    <data-view></data-view>
+  <div class="grid">
+    <template v-if="productShortsItems != null">
+      <div v-for="item in productShortsItems" :key="item.id" class="col-3">
+        <card class="h-full re-padding-card">
+          <template #header>
+            <product-image :id="item.documentId"></product-image>
+          </template>
+          <template #content>
+            <div class="text-sm">{{ item.name }}</div>
+            <div class="text-sm">{{ item.organization.name }}</div>
+            <div class="text-sm">{{ item.organization.region }}</div>
+            <prime-button-edit
+              class="w-full p-button-sm py-1 mt-2"
+              label="редактировать"
+            ></prime-button-edit>
+          </template>
+        </card>
+      </div>
+    </template>
+    <template v-else>
+      <div>
+        <skeleton he />
+      </div>
+    </template>
   </div>
+  <prime-paginator
+    class="mt-2 border-1 shadow-1"
+    v-if="pageNumber && pageSize"
+    @page="changePage"
+    :rows="pageSize"
+    :first="pageSize * (pageNumber - 1)"
+    :totalRecords="currentPage?.totalItemCount ?? 0"
+  ></prime-paginator>
 </template>
 
 <script lang="ts">
@@ -10,10 +40,16 @@ import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { addToCard } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, PropType, ref, watch } from 'vue';
+import { PrimePaginator } from '@/tools/prime-vue-components';
 
 export default defineComponent({
+  components: { PrimePaginator },
   props: {
+    viewMode: {
+      type: String as PropType<'user' | 'admin'>,
+      default: 'user',
+    },
     categoryId: {
       type: Number,
     },
@@ -30,7 +66,7 @@ export default defineComponent({
     );
 
     const showFullProductDialog = ref(false);
-    const mode = computed(() => productFullStore.itemSelected?.value?.mode);
+    const modeFull = computed(() => productFullStore.itemSelected?.value?.mode);
     const addNewProduct = () => {
       if (productFullStore.createItem == null) {
         return;
@@ -44,11 +80,11 @@ export default defineComponent({
       if (
         productFullStore.itemSelected?.value != null &&
         productShortsStore.parentSectionId.value != null &&
-        mode.value != null
+        modeFull.value != null
       ) {
         const clone = selectedItem.clone();
         clone.catalogSectionId = productShortsStore.parentSectionId.value;
-        productFullStore.itemSelected.value = new NotValidData(clone, mode.value);
+        productFullStore.itemSelected.value = new NotValidData(clone, modeFull.value);
         showFullProductDialog.value = true;
       }
     };
@@ -84,22 +120,40 @@ export default defineComponent({
       });
     };
 
+    const productShortsItems = computed(() => productShortsStore.currentPageItems.value);
+    const { status: productShortsStatus, pageNumber, pageSize, currentPage } = productShortsStore;
+
+    const changePage = ({ page }: { page: number }) => {
+      pageNumber.value = page + 1;
+    };
+
     return {
-      productShortsStore,
-      productFullStore,
-      mode,
       addNewProduct,
+      intoCart,
+      modeFull,
+      productFullStore,
+      productShortsItems,
+      productShortsStatus,
+      productTitle,
       showFullProductDialog,
       saveChanges,
       selectProduct,
-      productTitle,
-      intoCart,
+      pageNumber,
+      pageSize,
+      currentPage,
+      changePage,
     };
   },
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.no-background {
+  :deep(.p-dataview-content) {
+    background-color: var(--surface-ground);
+  }
+}
+
 .re-padding {
   .p-card {
     box-shadow: none;
@@ -115,6 +169,22 @@ export default defineComponent({
   }
   .p-dialog-header {
     padding-bottom: 0;
+  }
+}
+
+.re-padding-card {
+  :deep(.p-card-content) {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  :deep(.p-card-body) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .p-card-content {
+      flex-grow: 1;
+    }
   }
 }
 </style>

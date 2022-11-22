@@ -2,14 +2,7 @@
   <app-page title="Каталог товаров">
     <div class="grid">
       <div class="col-3">
-        <collection-state
-          :modes="[{ label: 'Деревом', mode: 'tree-view' }]"
-          :state="sectionsStore"
-          reload-on-save
-        >
-          <template #data-view>
-            <data-view-collection></data-view-collection>
-          </template>
+        <collection-state :modes="[{ mode: 'tree-view' }]" :state="sectionsStore" reload-on-save>
           <template #tree-view>
             <tree-view-collection
               v-model:selectedKeys="selectedKeys"
@@ -28,13 +21,39 @@
 </template>
 
 <script lang="ts">
+import { IproductsPageRequest } from '@/app/product-shorts/@types/IproductsPageRequest';
+import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
+import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { TreeSelectionKeys } from 'primevue/tree';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
   setup() {
     const selectedKeys = ref<TreeSelectionKeys>();
+
+    watch(
+      [
+        productShortsStore.pageNumber,
+        productShortsStore.pageSize,
+        productShortsStore.searchQuery,
+        productShortsStore.parentSectionId,
+      ],
+      ([pageNumber, pageSize, query, catalogSectionId]) => {
+        console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
+
+        const request: IproductsPageRequest = {
+          name: query == null || query === '' || query.trim() === '' ? null : query,
+          catalogSectionId,
+          pageNumber,
+          pageSize,
+        };
+        productShortsService.loadPage(request);
+      },
+      {
+        immediate: true,
+      },
+    );
 
     const selectedKey = computed(() => {
       const keys = selectedKeys.value;

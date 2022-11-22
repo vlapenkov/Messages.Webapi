@@ -1,6 +1,5 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
-import { watch } from 'vue';
 import { IproductsPageRequest } from '../@types/IproductsPageRequest';
 import { productShortsHttpService } from '../infrastructure/product-shorts.http-service';
 import { IProductShortModel, ProductShortModel } from '../models/product-short.model';
@@ -21,24 +20,6 @@ async function loadPage(request: IproductsPageRequest) {
     productShortsStore.insertPage(newItem);
   }
 }
-
-watch(
-  [
-    productShortsStore.pageNumber,
-    productShortsStore.pageSize,
-    productShortsStore.searchQuery,
-    productShortsStore.parentSectionId,
-  ],
-  ([pageNumber, pageSize, query, catalogSectionId]) => {
-    const request: IproductsPageRequest = {
-      name: query == null || query === '' || query.trim() === '' ? null : query,
-      catalogSectionId,
-      pageNumber,
-      pageSize,
-    };
-    loadPage(request);
-  },
-);
 
 export const productShortsService = {
   loadPage,

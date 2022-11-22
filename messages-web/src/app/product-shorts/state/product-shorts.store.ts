@@ -54,7 +54,7 @@ const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (s
   const pageIndex = state.pages.findIndex(
     (p) => p.pageNumber === payload.pageNumber && p.pageSize === payload.pageSize,
   );
-  if (pageIndex > 0) {
+  if (pageIndex !== -1) {
     state.pages[pageIndex] = payload;
   } else {
     state.pages.push(payload);

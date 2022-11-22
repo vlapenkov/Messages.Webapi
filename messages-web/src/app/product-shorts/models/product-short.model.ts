@@ -11,6 +11,11 @@ export interface IProductShortModel extends IModel {
   lastModifiedBy: string;
   created: string;
   lastModified: string;
+  organization: {
+    id: number;
+    name: string;
+    region: string;
+  };
 }
 
 export class ProductShortModel extends ModelBase<IProductShortModel> {
@@ -29,6 +34,16 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
   created: Date | null = null;
 
   lastModified: Date | null = null;
+
+  organization: {
+    id: number;
+    name: string;
+    region: string;
+  } = {
+    id: -1,
+    name: 'Неизвестная организация',
+    region: 'Неизвнстный регион',
+  };
 
   documentId = '';
 
@@ -49,6 +64,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
       this.created = new Date(model.created);
       this.lastModified = new Date(model.lastModified);
       this.name = model.name;
+      this.organization = model.organization;
       return true;
     } catch (error) {
       return false;
@@ -66,6 +82,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
       description: this.description,
       price: this.price ?? 0,
       name: this.name,
+      organization: this.organization,
       [modelMarker]: null as never,
     };
   }

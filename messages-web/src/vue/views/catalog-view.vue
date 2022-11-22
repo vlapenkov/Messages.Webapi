@@ -1,5 +1,13 @@
 <template>
   <app-page title="Каталог товаров">
+    <template #subheader>
+      <div class="flex-grow-1">
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-search" />
+          <input-text class="w-full" type="text" placeholder="Search" />
+        </span>
+      </div>
+    </template>
     <div class="grid">
       <div class="col-3">
         <collection-state :modes="[{ mode: 'tree-view' }]" :state="sectionsStore" reload-on-save>

@@ -58,6 +58,7 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
     try {
       this.id = model.id;
       this.description = model.description;
+      this.documentId = model.documentId;
       this.price = model.price;
       this.createdBy = model.createdBy;
       this.lastModifiedBy = model.lastModifiedBy;

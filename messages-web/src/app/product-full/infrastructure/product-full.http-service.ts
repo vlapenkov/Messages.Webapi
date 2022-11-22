@@ -5,8 +5,8 @@ const [productFullService, { defineGet, definePost }] = defineSingleHttpService<
   url: 'api/Products',
 });
 
-productFullService.get = defineGet((arg: number) => ({
-  url: `/${arg}`,
+productFullService.get = defineGet((arg: { id: number }) => ({
+  url: `/${arg.id}`,
 }));
 
 productFullService.post = definePost((md: IProductFullModel) => ({

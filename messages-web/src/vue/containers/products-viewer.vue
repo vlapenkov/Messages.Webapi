@@ -1,6 +1,6 @@
 <template>
   <div class="grid">
-    <template v-if="productShortsItems != null">
+    <template v-if="productShortsItems != null && productShortsItems.length > 0">
       <div v-for="item in productShortsItems" :key="item.id" class="col-3">
         <card class="h-full re-padding-card">
           <template #header>
@@ -10,23 +10,34 @@
             <div class="text-sm">{{ item.name }}</div>
             <div class="text-sm">{{ item.organization.name }}</div>
             <div class="text-sm">{{ item.organization.region }}</div>
-            <prime-button-edit
-              class="w-full p-button-sm py-1 mt-2"
-              label="редактировать"
-            ></prime-button-edit>
+            <router-link
+              :to="{
+                name: 'product',
+                params: { id: item.id },
+              }"
+              style="text-decoration: none"
+            >
+              <template #default="{ href }">
+                <prime-button
+                  class="w-full p-button-sm py-1 mt-2"
+                  label="редактировать"
+                  :href="href"
+                ></prime-button>
+              </template>
+            </router-link>
           </template>
         </card>
       </div>
     </template>
     <template v-else>
-      <div>
-        <skeleton he />
+      <div v-for="i in 12" :key="i" class="col-3">
+        <skeleton height="150px" />
       </div>
     </template>
   </div>
   <prime-paginator
     class="mt-2 border-1 shadow-1"
-    v-if="pageNumber && pageSize"
+    v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
     @page="changePage"
     :rows="pageSize"
     :first="pageSize * (pageNumber - 1)"
@@ -152,6 +163,10 @@ export default defineComponent({
   :deep(.p-dataview-content) {
     background-color: var(--surface-ground);
   }
+}
+
+.td-none {
+  text-decoration: none !important;
 }
 
 .re-padding {

@@ -50,6 +50,8 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   @hidden()
   status = 0;
 
+  statusText = '';
+
   @description('Атрибуты')
   attributeValues: IProductAttribute[] = [];
 

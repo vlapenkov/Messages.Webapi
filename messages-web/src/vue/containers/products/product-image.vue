@@ -24,9 +24,9 @@ export default defineComponent({
       () => props.id,
       (idVal) => {
         if (idVal != null && idVal !== '' && idVal.trim() !== '') {
-          http.get(`/files/${idVal}`).then((response) => {
+          http.get(`api/files/${idVal}`).then((response) => {
             if (response.status === 200) {
-              imageData.value = response.data;
+              imageData.value = `data:image/png;base64,${response.data}`;
             }
           });
         }

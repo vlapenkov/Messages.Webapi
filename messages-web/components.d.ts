@@ -53,6 +53,7 @@ declare module '@vue/runtime-core' {
     ProductFileViewer: typeof import('./src/vue/containers/product-file-viewer.vue')['default']
     ProductImage: typeof import('./src/vue/containers/products/product-image.vue')['default']
     ProductsViewer: typeof import('./src/vue/containers/products-viewer.vue')['default']
+    ProductView: typeof import('./src/vue/views/product-view.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RadioButton: typeof import('primevue/radiobutton')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

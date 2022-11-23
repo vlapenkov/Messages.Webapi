@@ -1,11 +1,19 @@
 <template>
   <app-page title="Каталог товаров">
     <template #subheader>
-      <div class="flex-grow-1">
+      <div
+        :style="{ maxWidth: productsContainerSize + 'px' }"
+        class="flex-grow-1 flex flex-row justify-content-between gap-2"
+      >
         <span class="p-input-icon-left w-full">
           <i class="pi pi-search" />
-          <input-text class="w-full" type="text" placeholder="Search" />
+          <input-text class="w-full" v-model="search" type="text" placeholder="Поиск" />
         </span>
+        <prime-button
+          class="flex-shrink-0"
+          @click="switchViewMode"
+          :label="viewMode === 'user' ? 'Администрирование' : 'Представление пользователя'"
+        ></prime-button>
       </div>
     </template>
     <div class="grid">
@@ -21,7 +29,7 @@
           </template>
         </collection-state>
       </div>
-      <div class="col-9">
+      <div ref="productsContainerRef" class="col-9">
         <products-viewer :categoryId="selectedKey" />
       </div>
     </div>
@@ -33,12 +41,20 @@ import { IproductsPageRequest } from '@/app/product-shorts/@types/IproductsPageR
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
+import { useElementSize } from '@vueuse/core';
 import { TreeSelectionKeys } from 'primevue/tree';
 import { computed, defineComponent, ref, watch } from 'vue';
+import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
     const selectedKeys = ref<TreeSelectionKeys>();
+
+    const viewMode = viewModeProvider.provide();
+
+    const switchViewMode = () => {
+      viewMode.value = viewMode.value === 'user' ? 'admin' : 'user';
+    };
 
     watch(
       [
@@ -71,10 +87,18 @@ export default defineComponent({
       const sk = Object.keys(keys).find((k) => keys[k] === true);
       return sk == null ? undefined : +sk;
     });
+    const productsContainerRef = ref<HTMLElement>();
+    const { width: productsContainerSize } = useElementSize(productsContainerRef);
+
     return {
       sectionsStore,
       selectedKeys,
       selectedKey,
+      search: productShortsStore.searchQuery,
+      productsContainerRef,
+      productsContainerSize,
+      viewMode,
+      switchViewMode,
     };
   },
 });

@@ -1,19 +1,34 @@
 <template>
-  <img
-    v-if="id != null && imageData != null"
-    class="max-height"
-    :src="imageData"
-    alt="Изображение товара"
-  />
-  <skeleton v-else height="100px" class="max-height"></skeleton>
+  <div :style="imageStyle" class="max-height border-round overflow-hidden">
+    <img
+      v-if="id != null && imageData != null"
+      class="border-round"
+      :style="{ minWidth: minWidth != null ? minWidth + 'px' : undefined }"
+      :class="{ 'max-w-full': fitWidth }"
+      :src="imageData"
+      alt="Изображение товара"
+    />
+    <skeleton v-else :width="'' + minWidth + 'px'" :height="'' + maxHeight + 'px'"></skeleton>
+  </div>
 </template>
 
 <script lang="ts">
 import { http } from '@/app/core/services/http/axios/axios.service';
-import { defineComponent, ref, watch } from 'vue';
+import { computed, CSSProperties, defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
   props: {
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    minWidth: {
+      type: Number,
+    },
+    maxHeight: {
+      type: Number,
+      default: 100,
+    },
     id: {
       type: String,
     },
@@ -36,13 +51,17 @@ export default defineComponent({
       },
     );
 
-    return { imageData };
+    const imageStyle = computed<CSSProperties>(() => ({
+      '--custom--image--max-height': `${props.maxHeight}px`,
+    }));
+
+    return { imageData, imageStyle };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .max-height {
-  max-height: 100px;
+  max-height: var(--custom--image--max-height);
 }
 </style>

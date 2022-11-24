@@ -27,6 +27,9 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetAllSections
         {
             var result =await _appDbContext.CatalogSections
                 .Where(self => request.ParentSectionId == null || self.ParentCatalogSectionId == request.ParentSectionId)
+                .Where(self => self.ParentCatalogSectionId != null)
+                  .Include(product => product.SectionDocuments)
+                     .ThenInclude(pd => pd.Document)
                 .ProjectTo<SectionDto>(_mapper.ConfigurationProvider).
                 ToListAsync(cancellationToken);
 

@@ -3,7 +3,7 @@
     v-if="canAdd"
     :disabled="disabled"
     @click="create"
-    label="Добавить"
+    :label="label"
   ></prime-button-add>
 </template>
 
@@ -17,6 +17,10 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false,
+    },
+    label: {
+      type: String,
+      default: 'Добавить',
     },
   },
   setup() {

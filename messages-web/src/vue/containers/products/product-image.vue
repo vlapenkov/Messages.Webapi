@@ -8,7 +8,11 @@
       :src="imageData"
       alt="Изображение товара"
     />
-    <skeleton v-else :width="'' + minWidth + 'px'" :height="'' + maxHeight + 'px'"></skeleton>
+    <skeleton
+      v-else
+      :width="minWidth ? '' + minWidth + 'px' : undefined"
+      :height="'' + maxHeight + 'px'"
+    ></skeleton>
   </div>
 </template>
 

@@ -3,96 +3,98 @@
     <transition-fade>
       <template v-if="productShortsItems != null">
         <div v-if="productShortsItems.length > 0" class="grid">
-          <template v-if="viewMode === 'user'">
-            <div v-for="item in productShortsItems" :key="item.id" class="col-3">
-              <card class="h-full re-padding-card">
-                <template #header>
-                  <product-image :max-height="140" :id="item.documentId"></product-image>
-                </template>
-                <template #content>
-                  <div class="p-2 flex flex-column justify-content-between gap-1">
-                    <div class="text-sm font-bold">{{ item.name }}</div>
-                    <div class="text-sm text-primary">{{ item.organization.name }}</div>
-                    <div class="text-sm">{{ item.organization.region }}</div>
-                    <div
-                      class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
-                    >
-                      <router-link
-                        :to="{
-                          name: 'product',
-                          params: { id: item.id },
-                        }"
-                        style="text-decoration: none"
-                      >
-                        <template #default="{ href }">
-                          <prime-button
-                            class="p-button-sm h-full py-1"
-                            label="заказать"
-                            :href="href"
-                          ></prime-button>
-                        </template>
-                      </router-link>
-                      <prime-button
-                        disabled
-                        icon="pi pi-heart"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-chart-bar"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-arrows-h"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                    </div>
-                  </div>
-                </template>
-              </card>
-            </div>
-          </template>
-          <template v-else>
-            <div v-for="item in productShortsItems" :key="item.id" class="col-12">
-              <card class="h-full re-padding-card">
-                <template #content>
-                  <div class="flex flex-row justify-content-between gap-2">
-                    <div style="max-width: 200px">
-                      <product-image
-                        fit-width
-                        :min-width="200"
-                        :max-height="140"
-                        :id="item.documentId"
-                      ></product-image>
-                    </div>
-                    <div class="p-2 flex-grow-1 flex flex-column justify-content-between gap-1">
+          <transition-fade>
+            <template v-if="viewMode === 'user'">
+              <div v-for="item in productShortsItems" :key="item.id" class="col-3">
+                <card class="h-full re-padding-card">
+                  <template #header>
+                    <product-image :max-height="140" :id="item.documentId"></product-image>
+                  </template>
+                  <template #content>
+                    <div class="p-2 flex flex-column justify-content-between gap-1">
                       <div class="text-sm font-bold">{{ item.name }}</div>
                       <div class="text-sm text-primary">{{ item.organization.name }}</div>
                       <div class="text-sm">{{ item.organization.region }}</div>
-                    </div>
-                    <div class="flex flex-column justify-content-end p-2">
-                      <router-link
-                        :to="{
-                          name: 'product',
-                          params: { id: item.id },
-                        }"
-                        style="text-decoration: none"
+                      <div
+                        class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
                       >
-                        <template #default="{ href }">
-                          <prime-button
-                            class="p-button-sm py-1"
-                            label="редактировать"
-                            :href="href"
-                          ></prime-button>
-                        </template>
-                      </router-link>
+                        <router-link
+                          :to="{
+                            name: 'product',
+                            params: { id: item.id },
+                          }"
+                          style="text-decoration: none"
+                        >
+                          <template #default="{ href }">
+                            <prime-button
+                              class="p-button-sm h-full py-1"
+                              label="заказать"
+                              :href="href"
+                            ></prime-button>
+                          </template>
+                        </router-link>
+                        <prime-button
+                          disabled
+                          icon="pi pi-heart"
+                          class="p-button-secondary py-1"
+                        ></prime-button>
+                        <prime-button
+                          disabled
+                          icon="pi pi-chart-bar"
+                          class="p-button-secondary py-1"
+                        ></prime-button>
+                        <prime-button
+                          disabled
+                          icon="pi pi-arrows-h"
+                          class="p-button-secondary py-1"
+                        ></prime-button>
+                      </div>
                     </div>
-                  </div>
-                </template>
-              </card>
-            </div>
-          </template>
+                  </template>
+                </card>
+              </div>
+            </template>
+            <template v-else>
+              <div v-for="item in productShortsItems" :key="item.id" class="col-12">
+                <card class="h-full re-padding-card">
+                  <template #content>
+                    <div class="flex flex-row justify-content-between gap-2">
+                      <div style="max-width: 200px">
+                        <product-image
+                          fit-width
+                          :min-width="200"
+                          :max-height="140"
+                          :id="item.documentId"
+                        ></product-image>
+                      </div>
+                      <div class="p-2 flex-grow-1 flex flex-column justify-content-between gap-1">
+                        <div class="text-sm font-bold">{{ item.name }}</div>
+                        <div class="text-sm text-primary">{{ item.organization.name }}</div>
+                        <div class="text-sm">{{ item.organization.region }}</div>
+                      </div>
+                      <div class="flex flex-column justify-content-end p-2">
+                        <router-link
+                          :to="{
+                            name: 'product',
+                            params: { id: item.id },
+                          }"
+                          style="text-decoration: none"
+                        >
+                          <template #default="{ href }">
+                            <prime-button
+                              class="p-button-sm py-1"
+                              label="редактировать"
+                              :href="href"
+                            ></prime-button>
+                          </template>
+                        </router-link>
+                      </div>
+                    </div>
+                  </template>
+                </card>
+              </div>
+            </template>
+          </transition-fade>
         </div>
         <div
           v-else

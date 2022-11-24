@@ -18,19 +18,10 @@
     </template>
     <div class="grid">
       <div class="col-3">
-        <collection-state :modes="[{ mode: 'tree-view' }]" :state="sectionsStore" reload-on-save>
-          <template #tree-view>
-            <tree-view-collection
-              v-model:selectedKeys="selectedKeys"
-              selectionMode="single"
-              class="reshape-tree"
-            >
-            </tree-view-collection>
-          </template>
-        </collection-state>
+        <sections-container v-model:selected="selectedKey"></sections-container>
       </div>
       <div ref="productsContainerRef" class="col-9">
-        <products-viewer :categoryId="selectedKey" />
+        <products-viewer :categoryId="selectedKey"></products-viewer>
       </div>
     </div>
   </app-page>
@@ -42,14 +33,11 @@ import { productShortsService } from '@/app/product-shorts/services/product-shor
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
-import { TreeSelectionKeys } from 'primevue/tree';
-import { computed, defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
-    const selectedKeys = ref<TreeSelectionKeys>();
-
     const viewMode = viewModeProvider.provide();
 
     const switchViewMode = () => {
@@ -79,20 +67,12 @@ export default defineComponent({
       },
     );
 
-    const selectedKey = computed(() => {
-      const keys = selectedKeys.value;
-      if (keys == null) {
-        return undefined;
-      }
-      const sk = Object.keys(keys).find((k) => keys[k] === true);
-      return sk == null ? undefined : +sk;
-    });
+    const selectedKey = ref<number>();
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
     return {
       sectionsStore,
-      selectedKeys,
       selectedKey,
       search: productShortsStore.searchQuery,
       productsContainerRef,

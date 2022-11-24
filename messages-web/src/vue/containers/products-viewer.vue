@@ -101,11 +101,15 @@
                   <column field="name" header="Название"> </column>
                   <column field="description" header="Описание"> </column>
                   <column field="created" header="Создан">
-                    <!-- <template #body="{ data }">
-
-                    </template> -->
+                    <template #body="{ data }">
+                      {{ (data.created as Date).toLocaleString() }}
+                    </template>
                   </column>
-                  <column field="lastModified" header="Изменён"> </column>
+                  <column field="lastModified" header="Изменён">
+                    <template #body="{ data }">
+                      {{ (data.lastModified as Date).toLocaleString() }}
+                    </template>
+                  </column>
                 </data-table>
               </template>
             </card>

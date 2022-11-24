@@ -1,104 +1,68 @@
 <template>
-  <doughnut
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-  />
+  <v-chart class="chart" :option="option" />
 </template>
 
 <script lang="ts">
-import { defineComponent, h } from 'vue';
-import { Doughnut } from 'vue-chartjs';
-import * as DataLables from 'chartjs-plugin-datalabels';
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from 'chart.js';
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { PieChart } from 'echarts/charts';
+import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components';
+import VChart from 'vue-echarts';
+import { ref, defineComponent } from 'vue';
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, DataLables.default);
+use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent]);
 
 export default defineComponent({
+  name: 'doughnut-chart',
   components: {
-    Doughnut,
+    VChart,
   },
-  props: {
-    chartId: {
-      type: String,
-      default: 'doughnut-chart',
-    },
-    cssClasses: {
-      default: '',
-      type: String,
-    },
-    title: {
-      default: '',
-      type: String,
-    },
-  },
-  setup(props) {
-    const chartData = {
-      labels: [
-        'Автоматические системы\nуправления',
-        'Геоинформацион\nные сервисы',
-        'Продукция для ЖКХ \nи инфраструктуры',
-        'Легкорельсовый транспорт\n и машиностроение',
-        'Медицинская \nпродукцуия',
-        'ТЭК',
-      ],
-      datasets: [
+  setup() {
+    const option = ref({
+      color: ['#3275E1', '#7FE0FF', '#BB87FC', '#FFB169', '#A5E763', '#FF6971'],
+      title: {
+        show: false,
+      },
+      tooltip: {
+        show: true,
+        trigger: 'item',
+        formatter: '{b}',
+      },
+      legend: {
+        show: false,
+      },
+      series: [
         {
-          backgroundColor: ['#3275E1', '#7FE0FF', '#BB87FC', '#FFB169', '#A5E763', '#FF6971'],
-          data: [25, 6, 9, 18, 12, 30],
-          // eslint-disable-next-line
-        } as any,
+          name: '',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          data: [
+            { value: 25, name: 'Автоматические системы\nуправления\n25%' },
+            { value: 6, name: 'Геоинформацион\nные сервисы\n6%' },
+            { value: 9, name: 'Продукция для ЖКХ \nи инфраструктуры\n9%' },
+            { value: 18, name: 'Легкорельсовый\nтранспорт\n и машиностроение\n18%' },
+            { value: 12, name: 'Медицинская \nпродукцуия\n12%' },
+            { value: 30, name: 'ТЭК\n30%' },
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+        },
       ],
-    };
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 12 / 6,
-      cutout: '65%',
-      layout: {
-        padding: {
-          left: 150,
-          right: 150,
-          top: 20,
-          bottom: 20,
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          enabled: false,
-        },
-        title: {
-          display: false,
-          text: props.title,
-        },
-        datalabels: {
-          formatter: (value: string, context: DataLables.Context): unknown =>
-            // eslint-disable-next-line
-            `${context.chart.data.labels![context.dataIndex]}\n${value}%`,
-          anchor: 'end',
-          align: 'end',
-          // eslint-disable-next-line
-        } as any,
-      },
-    };
+    });
 
-    return () =>
-      h(Doughnut, {
-        chartData,
-        chartOptions,
-        chartId: props.chartId,
-        cssClasses: props.cssClasses,
-        styles: {},
-        plugins: [],
-      });
+    return { option };
   },
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.chart {
+  height: 30vh;
+  width: 30vw;
+}
+</style>

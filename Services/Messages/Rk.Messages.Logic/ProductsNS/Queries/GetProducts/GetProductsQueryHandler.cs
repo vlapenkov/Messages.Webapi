@@ -40,7 +40,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
                 productsQuery = productsQuery.Where(product => product.CatalogSectionId == request.CatalogSectionId);
 
             if (request.Name != null)
-                productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower()==request.Name.ToLower());
+                productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
 
                // productsQuery = productsQuery.Where(product => product.Name != null && product.Name == request.Name);
 

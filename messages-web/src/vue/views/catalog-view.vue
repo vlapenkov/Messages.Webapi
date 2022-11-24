@@ -10,13 +10,18 @@
           <input-text class="w-full" v-model="search" type="text" placeholder="Поиск" />
         </span>
         <prime-button
-          class="flex-shrink-0"
+          class="flex-shrink-0 p-button-secondary"
           @click="switchViewMode"
-          :label="viewMode === 'user' ? 'Администрирование' : 'Представление пользователя'"
+          v-tooltip="
+            viewMode === 'user'
+              ? 'Перейти в режим администрирования'
+              : 'Перейти в режим пользователя'
+          "
+          :icon="viewMode === 'user' ? 'pi pi-unlock' : 'pi pi-lock-open'"
         ></prime-button>
       </div>
     </template>
-    <div class="grid">
+    <div class="grid mt-1">
       <div class="col-3">
         <sections-container v-model:selected="selectedKey"></sections-container>
       </div>
@@ -52,8 +57,7 @@ export default defineComponent({
         productShortsStore.parentSectionId,
       ],
       ([pageNumber, pageSize, query, catalogSectionId]) => {
-        console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
-
+        // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
         const request: IproductsPageRequest = {
           name: query == null || query === '' || query.trim() === '' ? null : query,
           catalogSectionId,

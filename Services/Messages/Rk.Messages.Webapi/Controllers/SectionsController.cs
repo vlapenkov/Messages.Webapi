@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Logic.ProductsNS.Dto;
+using Rk.Messages.Logic.SectionsNS.Commands.AddDocument;
 using Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
 using Rk.Messages.Logic.SectionsNS.Dto;
 using Rk.Messages.Logic.SectionsNS.Queries.GetAllSections;
@@ -25,6 +28,14 @@ namespace Rk.Messages.Webapi.Controllers
         public async Task<long> CreateSection([FromBody] CreateSectionRequest request) {
 
            return await _mediatr.Send(new CreateSectionCommand { ParentSectionId = request.ParentSectionId, Name = request.Name });
+        }
+
+        /// <summary>Создать документ для раздела</summary>        
+        [HttpPut("{sectionId:long}/document")]
+        public async Task UpsertDocument(long sectionId, [FromBody] FileDataDto document)
+        {
+
+            await _mediatr.Send(new UpsertDocumentCommand {SectionId = sectionId, Document = document });
         }
 
         /// <summary>Получить список разделов </summary>

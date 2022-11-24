@@ -67,9 +67,7 @@ namespace Rk.Messages.Spa
 
             Uri fileStoreUri = new Uri(config["Services:FileStore:BaseUrl"]);
 
-            services.AddRefitClient<IMessagesServices>(messagesUri)
-
-                    .AddRefitClient<ISectionsServices>(messagesUri)
+            services.AddRefitClient<ISectionsServices>(messagesUri)
 
                     .AddRefitClient<IProductsService>(messagesUri)
 

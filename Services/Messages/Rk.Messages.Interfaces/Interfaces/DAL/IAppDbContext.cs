@@ -16,6 +16,8 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
         DbSet<Product> Products { get; }
         DbSet<ServiceProduct> ServiceProducts { get; }
         DbSet<Technology> TechnologyProducts { get; }
+
+        DbSet<SectionDocument> SectionDocuments { get; }
         DbSet<ProductDocument> ProductDocuments { get; }
 
         DbSet<Document> Documents { get; }

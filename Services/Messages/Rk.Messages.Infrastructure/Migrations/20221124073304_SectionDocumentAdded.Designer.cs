@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Rk.Messages.Infrastructure.EFCore;
@@ -11,9 +12,10 @@ using Rk.Messages.Infrastructure.EFCore;
 namespace Rk.Messages.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124073304_SectionDocumentAdded")]
+    partial class SectionDocumentAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,6 +91,10 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Property<long?>("ParentCatalogSectionId")
                         .HasColumnType("bigint")
                         .HasColumnName("parentcatalogsectionid");
+
+                    b.Property<long?>("SectionDocumentId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("sectiondocumentid");
 
                     b.HasKey("Id")
                         .HasName("pk_catalogsections");
@@ -296,9 +302,9 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_organizations");
 
-                    // b.HasIndex("Ogrn")
-                    //     .IsUnique()
-                    //     .HasDatabaseName("ix_organizations_ogrn");
+                    b.HasIndex("Ogrn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_organizations_ogrn");
 
                     b.ToTable("organizations", (string)null);
 
@@ -747,11 +753,11 @@ namespace Rk.Messages.Infrastructure.Migrations
             modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
                 {
                     b.HasOne("Rk.Messages.Domain.Entities.CatalogSection", "Section")
-                        .WithMany("SectionDocuments")
+                        .WithMany()
                         .HasForeignKey("CatalogSectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_sectiondocuments_catalogsections_catalogsectionid");
+                        .HasConstraintName("fk_sectiondocuments_catalogsections_sectionid");
 
                     b.HasOne("Rk.Messages.Domain.Entities.Document", "Document")
                         .WithMany()
@@ -782,8 +788,6 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Products");
-
-                    b.Navigation("SectionDocuments");
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Order", b =>

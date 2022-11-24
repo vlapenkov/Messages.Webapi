@@ -12,7 +12,7 @@ namespace Rk.Messages.Domain.Entities
         public CatalogSection(long? parentCatalogSectionId,  string name)
         {
             ParentCatalogSectionId = parentCatalogSectionId;           
-            Name = name;
+            Name = name;            
         }
 
         /// <summary>Родительский id раздела</summary>
@@ -28,9 +28,17 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>Разделы внутри текущего</summary>
         private readonly List<CatalogSection> _children;
         public virtual IReadOnlyCollection<CatalogSection> Children => _children;
-        
 
+        /// <summary>Продукция внутри текущего раздела</summary>
         private readonly List<BaseProduct> _products;
         public virtual IReadOnlyCollection<BaseProduct> Products => _products;
+
+        /// <summary>Документы текущего раздела</summary>
+        private readonly List<SectionDocument> _sectionDocuments = new List<SectionDocument>();
+        public virtual IReadOnlyCollection<SectionDocument> SectionDocuments => _sectionDocuments;
+
+        public void UpsertDocument(SectionDocument document) { 
+            _sectionDocuments.Add(document);
+        }
     }
 }

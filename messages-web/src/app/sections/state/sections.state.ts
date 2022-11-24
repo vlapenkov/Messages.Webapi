@@ -6,11 +6,14 @@ import { treeView } from '@/app/core/services/harlem/state/decorators/tree-view.
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { TreeNode } from 'primevue/tree';
+import { toRaw } from 'vue';
 import { SectionModel } from '../models/section.model';
 
 export class SectionState extends StateBase {
   @collection
   @treeView((models: SectionModel[]) => {
+    console.log('models', toRaw(models));
+
     const modelToTree = (section: SectionModel): TreeNode => ({
       label: section.title.value as string,
       key: `${section.key}`,

@@ -92,6 +92,7 @@ export default defineComponent({
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     deleteItemProvider.provideFrom(() => props.state.deleteItem);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
+
     editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
     // Идёт ли загрузка
     loadingStatusProvider.provideFrom(() => props.state.status);

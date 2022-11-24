@@ -16,10 +16,10 @@
         <div v-if="isAdmin" class="flex flex-row justify-content-end">
           <create-item-button :label="null"></create-item-button>
         </div>
-        <selected-item-dialog></selected-item-dialog>
       </template>
     </card>
   </loading-status-handler>
+  <selected-item-dialog></selected-item-dialog>
 </template>
 
 <script lang="ts">
@@ -29,6 +29,7 @@ import { createItemProvider } from '@/vue/base/presentational/state/collection/p
 import { deleteItemProvider } from '@/vue/base/presentational/state/collection/providers/delete-item.provider';
 import { editOrCreateModeProvider } from '@/vue/base/presentational/state/collection/providers/edit-or-create-mode.provider';
 import { itemSelectedProvider } from '@/vue/base/presentational/state/collection/providers/item-selected.provider';
+import { itemsCollectionProvider } from '@/vue/base/presentational/state/collection/providers/items-collection.provider';
 import { loadingStatusProvider } from '@/vue/base/presentational/state/collection/providers/loading-status.provider';
 import { refreshProvider } from '@/vue/base/presentational/state/collection/providers/refresh.provider';
 import { reloadOnSaveProvider } from '@/vue/base/presentational/state/collection/providers/reload-on-save.provider';
@@ -52,6 +53,9 @@ export default defineComponent({
     const state = sectionsStore as CollectionStoreMixed;
     const viewMode = viewModeProvider.inject();
     const isAdmin = computed(() => viewMode.value === 'admin');
+    if (state.items != null) {
+      itemsCollectionProvider.provideFrom(() => state.items);
+    }
     refreshProvider.provideFrom(() => state.getDataAsync);
     showDialogProvider.provide();
     selectItemProvider.provideFrom(() => state.selectItem);
@@ -65,7 +69,17 @@ export default defineComponent({
     if (state.treeView == null) {
       throw new Error('Что-то пошло не так');
     }
+
     const tree = state.treeView();
+    watch(
+      tree,
+      (is) => {
+        console.log({ is });
+      },
+      {
+        immediate: true,
+      },
+    );
     const selectedKeys = ref<TreeSelectionKeys>();
 
     const expandedKeys = computed<TreeSelectionKeys>(() => {

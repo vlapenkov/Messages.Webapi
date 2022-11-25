@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-column justify-content-between h-full">
+    <toast position="top-right" group="tr" />
     <transition-fade>
       <template v-if="productShortsItems != null">
         <div v-if="productShortsItems.length > 0" class="grid">
@@ -17,21 +18,14 @@
                     <div
                       class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
                     >
-                      <router-link
-                        :to="{
-                          name: 'product',
-                          params: { id: item.id },
-                        }"
-                        style="text-decoration: none"
-                      >
-                        <template #default="{ href }">
-                          <prime-button
-                            class="p-button-sm h-full py-1"
-                            label="заказать"
-                            :href="href"
-                          ></prime-button>
-                        </template>
-                      </router-link>
+                      <span>
+                        <prime-button
+                          @click="addToCart(item)"
+                          class="p-button-sm h-full py-1"
+                          label="заказать"
+                        ></prime-button>
+                      </span>
+
                       <prime-button
                         disabled
                         icon="pi pi-heart"
@@ -54,44 +48,6 @@
             </div>
           </template>
           <template v-else>
-            <!-- <div v-for="item in productShortsItems" :key="item.id" class="col-12">
-              <card class="h-full re-padding-card">
-                <template #content>
-                  <div class="flex flex-row justify-content-between gap-2">
-                    <div style="max-width: 200px">
-                      <product-image
-                        fit-width
-                        :min-width="200"
-                        :max-height="140"
-                        :id="item.documentId"
-                      ></product-image>
-                    </div>
-                    <div class="p-2 flex-grow-1 flex flex-column justify-content-between gap-1">
-                      <div class="text-sm font-bold">{{ item.name }}</div>
-                      <div class="text-sm text-primary">{{ item.organization.name }}</div>
-                      <div class="text-sm">{{ item.organization.region }}</div>
-                    </div>
-                    <div class="flex flex-column justify-content-end p-2">
-                      <router-link
-                        :to="{
-                          name: 'product',
-                          params: { id: item.id },
-                        }"
-                        style="text-decoration: none"
-                      >
-                        <template #default="{ href }">
-                          <prime-button
-                            class="p-button-sm py-1"
-                            label="редактировать"
-                            :href="href"
-                          ></prime-button>
-                        </template>
-                      </router-link>
-                    </div>
-                  </div>
-                </template>
-              </card>
-            </div> -->
             <card class="mx-2 mt-2">
               <template #title> <span class="text-xl"> Товары </span> </template>
 
@@ -151,13 +107,15 @@ import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
-import { addToCard } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
 import { viewModeProvider } from '../views/providers/view-mode.provider';
 
 export default defineComponent({
-  components: { PrimePaginator },
+  components: { PrimePaginator, Toast },
   props: {
     categoryId: {
       type: Number,
@@ -165,6 +123,7 @@ export default defineComponent({
   },
   setup(props) {
     const viewMode = viewModeProvider.inject();
+    const toast = useToast();
     watch(
       () => props.categoryId,
       (id) => {
@@ -223,13 +182,6 @@ export default defineComponent({
       () => (productFullStore.itemSmart().value.title.value as string) ?? '',
     );
 
-    const intoCart = (item: ProductShortModel) => {
-      addToCard({
-        productId: item.id,
-        quantity: 1,
-      });
-    };
-
     const productShortsItems = computed(() => productShortsStore.currentPageItems.value);
     const { status: productShortsStatus, pageNumber, pageSize, currentPage } = productShortsStore;
 
@@ -237,9 +189,23 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
 
+    const addProductToShopingCart = async (model: ProductShortModel) => {
+      await addToCart({
+        productId: model.id,
+        quantity: 1,
+      });
+      console.log({ toast });
+
+      toast.add({
+        severity: 'success',
+        group: 'tr',
+        detail: `${model.name} был успешно добавлен в корзину`,
+        life: 3000,
+      });
+    };
+
     return {
       addNewProduct,
-      intoCart,
       modeFull,
       productFullStore,
       productShortsItems,
@@ -253,6 +219,7 @@ export default defineComponent({
       viewMode,
       currentPage,
       changePage,
+      addToCart: addProductToShopingCart,
     };
   },
 });

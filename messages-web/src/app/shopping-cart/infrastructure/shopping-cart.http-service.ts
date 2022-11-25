@@ -7,7 +7,7 @@ const [shoppingCartService, { definePost, defineDelete }] =
     url: 'api/ShoppingCart',
   });
 
-export const addToCard = definePost<void, IAddToShoppingCartRequest>();
+export const addToCart = definePost<void, IAddToShoppingCartRequest>();
 
 shoppingCartService.del = defineDelete((model) => ({
   url: `/${model.productId}`,

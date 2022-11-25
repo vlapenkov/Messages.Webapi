@@ -76,6 +76,9 @@ declare module '@vue/runtime-core' {
     TransitionFade: typeof import('./src/vue/base/presentational/transitions/transition-fade.vue')['default']
     Tree: typeof import('primevue/tree')['default']
     TreeViewCollection: typeof import('./src/vue/base/presentational/state/collection/components/data-views/tree-view-collection.vue')['default']
+    Trend1Chart: typeof import('./src/vue/presentational/charts/trend1-chart.vue')['default']
+    Trend2Chart: typeof import('./src/vue/presentational/charts/trend2-chart.vue')['default']
+    Trend3Chart: typeof import('./src/vue/presentational/charts/trend3-chart.vue')['default']
     UserAvatarContainer: typeof import('./src/vue/containers/user-avatar-container.vue')['default']
     ViewSwitcher: typeof import('./src/vue/base/presentational/state/collection/components/view-switcher.vue')['default']
   }

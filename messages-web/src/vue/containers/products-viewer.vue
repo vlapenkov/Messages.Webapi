@@ -123,6 +123,7 @@
           <div class="text-center">
             <i class="pi pi-inbox text-8xl opacity-50"></i>
             <div class="p-component text-lg mt-3">Товаров не найдено</div>
+            <prime-button-add class="mt-2" v-if="viewMode === 'admin'" label="Добавить товар" />
           </div>
         </div>
       </template>

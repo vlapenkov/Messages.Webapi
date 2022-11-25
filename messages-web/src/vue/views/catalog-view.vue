@@ -12,7 +12,7 @@
         <prime-button
           class="flex-shrink-0 p-button-secondary"
           @click="switchViewMode"
-          v-tooltip="
+          v-tooltip.bottom="
             viewMode === 'user'
               ? 'Перейти в режим администрирования'
               : 'Перейти в режим пользователя'

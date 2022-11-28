@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rk.Messages.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,11 +27,16 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>Организация покупателя</summary>
         public virtual Organization Organization { get;}
 
+        /// <summary>Имя пользователя</summary>        
         [StringLength(255)]
         public string UserName { get; private set; }
 
+        /// <summary>Комментарий</summary>        
         [StringLength(1024)]
         public string Comments { get; private set; }
+
+        /// <summary>Статус заказа</summary>        
+        public OrderStatus Status { get; private set; } = OrderStatus.New;
 
         /// <summary>Состав заказа</summary>
         private readonly List<OrderItem> _orderItems = new List<OrderItem>();

@@ -1,4 +1,4 @@
-﻿using Rk.Messages.Domain.Entities;
+﻿using Rk.Messages.Domain.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

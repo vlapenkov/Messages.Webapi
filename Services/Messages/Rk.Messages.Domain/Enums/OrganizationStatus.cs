@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rk.Messages.Domain.Entities
+namespace Rk.Messages.Domain.Enums
 {
     /// <summary>
     /// Статусы организаций
@@ -17,7 +17,7 @@ namespace Rk.Messages.Domain.Entities
 
         [Description("Активная")]
         Working = 1,
-        
+
 
         [Description("Закрыта")]
         Closed = 10,

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Interfaces.Services;
 

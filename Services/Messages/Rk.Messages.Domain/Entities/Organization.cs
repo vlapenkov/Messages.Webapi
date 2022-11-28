@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Rk.Messages.Domain.Enums;
 
 namespace Rk.Messages.Domain.Entities
 {

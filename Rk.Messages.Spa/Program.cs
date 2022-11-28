@@ -1,6 +1,4 @@
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
@@ -56,7 +54,5 @@ app.UseSwaggerUI(builder.Configuration, "Api gateway");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html");
 
 app.Run();

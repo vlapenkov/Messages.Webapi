@@ -5,14 +5,15 @@
     <Nullable>enable</Nullable>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
-	  <SpaRoot>ClientApp\</SpaRoot>
-	  <SpaProxyServerUrl>http://localhost:44449</SpaProxyServerUrl>
-	  <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+	 
 	  <ImplicitUsings>enable</ImplicitUsings>
+	 
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -26,16 +27,8 @@
 		<PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.5" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
-
 	</ItemGroup>
-
-  <ItemGroup>
-    <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Content Remove="$(SpaRoot)**" />
-    <None Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
+	
 	<ItemGroup>
 		<Compile Remove="Logs\**" />		
 		<Content Remove="Logs\**" />		
@@ -46,6 +39,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
   </ItemGroup>
-	
-	
+
 </Project>

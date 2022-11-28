@@ -22,7 +22,7 @@ messages_ui_build_push_registry:
 gateway_api_build_push_registry:
   stage: build
   variables:
-    PROJECT_SUBNAME: " gateway-api"
+    PROJECT_SUBNAME: "gateway-api"
   before_script:
     - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $REGISTRY
     - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $DOCKER_PROXY

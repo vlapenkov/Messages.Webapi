@@ -53,6 +53,11 @@ export default defineComponent({
         icon: 'pi pi-box',
       },
       {
+        label: 'Отчеты',
+        to: { name: 'reports' },
+        icon: 'pi pi-th-large',
+      },
+      {
         label: 'Выход',
         icon: 'pi pi-sign-out',
         command: () => {

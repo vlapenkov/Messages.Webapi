@@ -57,6 +57,10 @@ export async function initKeycloak() {
       immediate: true,
     },
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const disableRefreshStatus = await keycloakInst.init({
+    checkLoginIframe: false,
+  });
   const authSuccess = await keycloakInst.init({
     onLoad: 'login-required',
   });
@@ -84,3 +88,4 @@ export async function initKeycloak() {
 export function logout() {
   keycloakInst.logout();
 }
+

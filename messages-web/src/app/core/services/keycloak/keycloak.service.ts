@@ -57,12 +57,10 @@ export async function initKeycloak() {
       immediate: true,
     },
   );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const disableRefreshStatus = await keycloakInst.init({
-    checkLoginIframe: false,
-  });
   const authSuccess = await keycloakInst.init({
+    checkLoginIframe: false,
     onLoad: 'login-required',
+    // silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
   });
   if (!authSuccess) {
     cleanTokens();
@@ -88,4 +86,3 @@ export async function initKeycloak() {
 export function logout() {
   keycloakInst.logout();
 }
-

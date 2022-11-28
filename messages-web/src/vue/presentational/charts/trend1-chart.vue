@@ -45,6 +45,7 @@ export default defineComponent({
       },
       legend: {
         show: true,
+        selectedMode: false,
         bottom: '0%',
         left: '10%',
         data: [

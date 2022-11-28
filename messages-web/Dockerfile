@@ -14,5 +14,6 @@ RUN ["sh","-c","npm run build -- --mode ${MODE}"]
 FROM docker-proxy.dev.roscosmos.digital/nginx:stable-alpine as production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY --from=build-stage /app/deploy/nginx.conf /etc/nginx/
+COPY --from=build-stage /app/deploy/proxy.conf /etc/nginx/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

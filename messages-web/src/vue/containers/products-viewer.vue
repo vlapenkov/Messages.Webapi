@@ -23,7 +23,8 @@
                           @click="addToCart(item)"
                           class="p-button-sm h-full py-1"
                           label="заказать"
-                        ></prime-button>
+                        >
+                        </prime-button>
                       </span>
 
                       <prime-button
@@ -194,7 +195,7 @@ export default defineComponent({
         productId: model.id,
         quantity: 1,
       });
-      console.log({ toast });
+      // console.log({ toast });
 
       toast.add({
         severity: 'success',
@@ -240,15 +241,19 @@ export default defineComponent({
   .p-card {
     box-shadow: none;
   }
+
   .p-dialog-content {
     padding: 1rem;
+
     .p-card-body {
       padding: 0;
     }
+
     .p-card-content {
       padding-bottom: 0;
     }
   }
+
   .p-dialog-header {
     padding-bottom: 0;
   }
@@ -259,9 +264,11 @@ export default defineComponent({
     padding-bottom: 0;
     padding-top: 0;
   }
+
   :deep(.p-card-body) {
     padding: 0;
   }
+
   :deep(.p-card-header) {
     line-height: 0;
     text-align: center;
@@ -272,9 +279,11 @@ export default defineComponent({
   :deep(.p-card-body) {
     padding: 0.5rem 1rem;
   }
+
   :deep(.p-card-content) {
     padding: 0.5rem 0;
   }
+
   :deep(.p-card-footer) {
     padding: 0.5rem 0;
   }

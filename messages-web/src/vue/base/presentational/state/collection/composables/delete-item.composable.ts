@@ -5,7 +5,7 @@ export function useDelete() {
   const deleteItem = deleteItemProvider.inject();
   const currentItem = modelProvider.inject();
   return async () => {
-    console.log('Удаляем', currentItem.value?.key ?? 'Ничего');
+    // console.log('Удаляем', currentItem.value?.key ?? 'Ничего');
 
     if (deleteItem.value == null || currentItem.value === undefined) {
       throw new Error('Canot delete undeletable Item!');

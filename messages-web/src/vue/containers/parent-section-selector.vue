@@ -30,7 +30,7 @@ export default defineComponent({
       get: () => itemSelected.value?.value?.data as SectionModel,
       set: (val) => {
         const mode = itemSelected.value?.value?.mode;
-        console.log({ val, mode });
+        // console.log({ val, mode });
 
         if (mode == null || val == null || itemSelected.value == null) {
           return;
@@ -47,7 +47,7 @@ export default defineComponent({
         const cloned = selectedItem.value.clone() as SectionModel;
         cloned.parentSectionId = option?.value ?? null;
         selectedItem.value = cloned;
-        console.log({ option });
+        // ({ option });
       },
     });
     return { itemsAsOptions, parentId };

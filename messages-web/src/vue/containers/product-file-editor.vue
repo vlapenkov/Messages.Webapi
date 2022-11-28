@@ -28,7 +28,7 @@ export default defineComponent({
       get: () => product.value?.documents ?? null,
       set: (docs) => {
         const oldProduct = product.value;
-        console.log({ oldProduct, docs });
+        // console.log({ oldProduct, docs });
         if (oldProduct == null || docs == null) {
           return;
         }

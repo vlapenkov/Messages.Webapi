@@ -11,6 +11,22 @@ services:
   #     POSTGRES_DB: "postgres"
   #   ports:
   #     - 5432:5432 
+  messages-ui:
+    image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-ui:develop
+    hostname: "messages-ui"
+    restart: always
+    ports:
+      - 5000:5000
+  
+  messages-api:
+    image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-api:develop
+    hostname: "messages-api"
+    restart: always
+
+  file-store-api:
+    image: registry.dev.roscosmos.digital/templates/net-core-messages/file-store-api:develop
+    hostname: "file-store-api"
+    restart: always
 
   es01:
     image: docker-proxy.dev.roscosmos.digital/elastic/elasticsearch:7.10.1

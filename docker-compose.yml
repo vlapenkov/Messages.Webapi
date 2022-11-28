@@ -11,9 +11,9 @@ services:
   #     POSTGRES_DB: "postgres"
   #   ports:
   #     - 5432:5432 
-  messages-ui:
-    image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-ui:develop
-    hostname: "messages-ui"
+  gateway-api:
+    image: registry.dev.roscosmos.digital/templates/net-core-messages/gateway-api:develop
+    hostname: "gateway-api"
     restart: always
     ports:
       - 5000:5000

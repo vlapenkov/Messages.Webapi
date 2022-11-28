@@ -127,12 +127,47 @@
             </card>
             <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
               <template #content>
-                <trend2-chart></trend2-chart>
+                <div class="flex">
+                  <trend2-chart></trend2-chart>
+                </div>
               </template>
             </card>
             <card class="flex-1 flex align-items-center justify-content-center border-round">
               <template #content>
                 <trend3-chart></trend3-chart>
+              </template>
+            </card>
+          </div>
+          <div class="flex mt-3">
+            <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
+              <template #content>
+                <top-chart2
+                  chartId="id5"
+                  cssClasses="chart-size"
+                  title="Топ популярных категорий"
+                />
+              </template>
+            </card>
+            <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
+              <template #content>
+                <div class="flex">
+                  <top-chart3
+                    chartId="id6"
+                    cssClasses="chart-size"
+                    title="Топ популярных товаров"
+                  />
+                </div>
+              </template>
+            </card>
+          </div>
+          <div class="flex mt-3">
+            <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
+              <template #content>
+                <doughnut-chart2
+                  chartId="id9"
+                  cssClasses="full-chart-size"
+                  title="Топ организаций производителей"
+                />
               </template>
             </card>
           </div>
@@ -156,6 +191,11 @@ export default defineComponent({
 .chart-size {
   min-width: 28vw;
   min-height: 28vh;
+}
+
+.full-chart-size {
+  min-width: 38vw;
+  min-height: 56vh;
 }
 
 ::v-deep(.p-tabview-nav) {

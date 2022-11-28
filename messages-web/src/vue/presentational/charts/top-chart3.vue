@@ -18,7 +18,7 @@ import { ref, defineComponent } from 'vue';
 use([CanvasRenderer, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent]);
 
 export default defineComponent({
-  name: 'top-chart',
+  name: 'top-chart3',
   components: {
     VChart,
   },
@@ -42,7 +42,7 @@ export default defineComponent({
       tooltip: {
         show: true,
         trigger: 'item',
-        formatter: '{b} {c} тыс.руб',
+        formatter: '{b} {c} %',
       },
       legend: {
         show: false,
@@ -50,12 +50,12 @@ export default defineComponent({
       label: {
         show: true,
         position: 'outside',
-        formatter: '{c} тыс. руб',
+        formatter: '{c} %',
       },
       xAxis: {
         show: false,
-        max: 110,
-        interval: 110,
+        max: 30,
+        interval: 30,
       },
       yAxis: {
         type: 'category',
@@ -65,20 +65,13 @@ export default defineComponent({
         axisTick: {
           show: false,
         },
-        data: [
-          'ТЭК',
-          'Автоматические системы\nуправления',
-          'Легкорельсовый транспорт\nи машиностроение',
-          'Продукция для ЖКХ\nи инфраструктуры',
-          'Медицинская\nпродукцуия',
-          'Геоинформационные\nсервисы',
-        ].reverse(),
+        data: ['Товар 1', 'Товар 2', 'Товар 3', 'Товар 4', 'Товар 5', 'Товар 6'].reverse(),
       },
       series: [
         {
-          name: '',
+          name: props.title,
           type: 'bar',
-          data: [78.1, 38.2, 35.7, 26.3, 1.4, 1.2].reverse(),
+          data: [26.79, 22.1, 16.45, 14.44, 5.2, 2.28].reverse(),
         },
       ],
     });

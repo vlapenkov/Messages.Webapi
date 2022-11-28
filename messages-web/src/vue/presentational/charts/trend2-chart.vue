@@ -4,7 +4,7 @@
 
 <script lang="ts">
 // import { use, graphic } from 'echarts/core';
-import { use } from 'echarts/core';
+import { use, graphic } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { LineChart } from 'echarts/charts';
 import {
@@ -26,7 +26,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      default: 'Новые посетители',
+      default: 'Глубина просмотра',
     },
   },
   setup(props) {
@@ -34,8 +34,9 @@ export default defineComponent({
       grid: {
         containLabel: true,
         height: '50%',
+        left: '25%',
       },
-      color: ['#ffe92c'],
+      color: ['#3275e1'],
       title: {
         show: true,
         text: props.title,
@@ -45,14 +46,31 @@ export default defineComponent({
       },
       legend: {
         show: true,
-        bottom: '0%',
-        left: '10%',
+        orient: 'vertical',
+        selectedMode: false,
+        left: 'left',
+        top: 'bottom',
+        padding: [
+          0, // up
+          0, // right
+          50, // down
+          0, // left
+        ],
         data: [
           {
-            name: 'Новые посетители: 265',
-            icon: 'circle',
-            lineStyle: {
-              color: '#ffe92c',
+            name: '6,9',
+            icon: 'none',
+            textStyle: {
+              fontSize: 42,
+              fontWeight: 'bold',
+            },
+          },
+          {
+            name: '+25,2 %',
+            icon: 'none',
+            textStyle: {
+              fontSize: 16,
+              color: '#3bdd85',
             },
           },
         ],
@@ -61,38 +79,49 @@ export default defineComponent({
         show: false,
       },
       xAxis: {
-        show: true,
-        splitNumber: 1,
+        show: false,
         type: 'time',
         axisLabel: {
-          show: true,
-          margin: 15,
-          showMinLabel: true,
-          showMaxLabel: true,
-          formatter: '{dd}.{MM}.{yyyy}',
+          show: false,
         },
         axisTick: {
           show: false,
         },
       },
       yAxis: {
+        show: false,
         type: 'value',
         min: 55,
-        max: 100,
+        max: 85,
         interval: 25,
       },
       series: [
+        { name: '6,9', data: [], type: 'line' },
         {
-          name: 'Новые посетители: 265',
+          name: '+25,2 %',
           showSymbol: false,
           type: 'line',
           data: [
-            ['2022-10-23', 100],
-            ['2022-10-26', 74],
-            ['2022-11-7', 60],
-            ['2022-11-15', 80],
+            ['2022-10-1', 65],
+            ['2022-10-15', 60],
+            ['2022-10-28', 75],
+            ['2022-11-7', 65],
+            ['2022-11-15', 70],
             ['2022-11-23', 65],
           ],
+          areaStyle: {
+            opacity: 0.5,
+            color: new graphic.LinearGradient(1, 0, 1, 1, [
+              {
+                offset: 0,
+                color: 'rgb(0, 0, 255)',
+              },
+              {
+                offset: 0.9,
+                color: 'rgb(0, 0, 255, 0)',
+              },
+            ]),
+          },
         },
       ],
     });
@@ -108,15 +137,3 @@ export default defineComponent({
   width: 350px;
 }
 </style>
-
-<!-- areaStyle: {
-  color: new echarts.graphic.LinearGradient(1, 0, 1, 1, [
-      {
-        offset: 0,
-        color: 'rgb(0, 0, 255)'
-      },
-      {
-        offset: 1,
-        color: 'rgb(255, 255, 255, 0)'
-      }])
-} -->

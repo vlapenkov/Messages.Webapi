@@ -7,7 +7,7 @@ import type { Action } from '@harlem/extension-action';
 import { onMounted } from 'vue';
 import { ISingleHttpService } from '../../../http/custom/single.http-service';
 import { parse } from '../../../http/handlers/parse.handlers';
-import { DefaultStore, createDefaultStore } from '../../harlem.service';
+import { DefaultStore, defineStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { getDataStatusProp } from '../../state/decorators/property-keys/data-status.prop-key';
 import { getIgnoreMountedOpt } from '../../state/decorators/property-keys/ignore-mounted.prop-key';
@@ -29,7 +29,7 @@ export function defineSingleItemStore<
   service: ISingleHttpService<TIModel>,
 ): [ISingleItemStore<TModel>, DefaultStore<TState>] {
   const stateDefault = new State();
-  const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
+  const store: DefaultStore<TState> = defineStore(name, stateDefault);
   const { computeState, action } = store;
 
   const itemKey = getItemKey(stateDefault);
@@ -60,6 +60,8 @@ export function defineSingleItemStore<
       status.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const requestFn = extend(service.get).pipe(parse(Model)).done();
       const response = await requestFn(ops.arguments as unknown as void);
+      console.log({ response });
+
       if (response.status === HttpStatus.Success) {
         if (response.data != null) {
           item.value = response.data;

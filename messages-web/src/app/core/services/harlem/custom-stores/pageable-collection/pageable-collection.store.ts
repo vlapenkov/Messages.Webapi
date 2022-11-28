@@ -2,7 +2,7 @@ import { Constructor } from '@/app/@types/constructor';
 import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { IPageableCollectionHttpServie } from '../../../http/custom/pageable-collection.http-service';
-import { DefaultStore, createDefaultStore } from '../../harlem.service';
+import { DefaultStore, defineStore } from '../../harlem.service';
 import { StateBase } from '../../state/base/state-base';
 import { useDataStatus } from '../composables/data-status.composable';
 import { usePages } from '../composables/pages.composable';
@@ -21,7 +21,7 @@ export function definePageableCollectionStore<
   service: IPageableCollectionHttpServie<TIModel>,
 ) {
   const stateDefault = new State();
-  const store: DefaultStore<TState> = createDefaultStore(name, stateDefault);
+  const store: DefaultStore<TState> = defineStore(name, stateDefault);
 
   const status = useDataStatus(store);
 

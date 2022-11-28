@@ -1,7 +1,7 @@
 import { definePageableCollectionService } from '@/app/core/services/http/custom/pageable-collection.http-service';
 
-const [productsHttpService] = definePageableCollectionService({
+const [productShortsHttpService] = definePageableCollectionService({
   url: 'api/Products',
 });
 
-export { productsHttpService };
+export { productShortsHttpService };

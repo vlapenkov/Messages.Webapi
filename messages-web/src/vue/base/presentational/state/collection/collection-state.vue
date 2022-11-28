@@ -21,13 +21,11 @@
       </transition-fade>
     </div>
     <collection-state-paginator></collection-state-paginator>
-    <app-affix class="w-full">
-      <div v-if="canAdd" class="flex justify-content-end mt-1">
-        <slot name="actions">
-          <create-item-button />
-        </slot>
-      </div>
-    </app-affix>
+    <div v-if="canAdd" class="flex justify-content-end mt-1">
+      <slot name="actions">
+        <create-item-button />
+      </slot>
+    </div>
     <slot>
       <selected-item-dialog></selected-item-dialog>
     </slot>
@@ -60,7 +58,7 @@ import {
 } from './providers/pages.provider';
 import { deleteItemProvider } from './providers/delete-item.provider';
 
-type CollectionStoreMixed = Partial<CollectionStore<IModel, ModelBase>> &
+export type CollectionStoreMixed = Partial<CollectionStore<IModel, ModelBase>> &
   Partial<PageableCollectionStore<IModel, ModelBase>>;
 
 export default defineComponent({
@@ -94,6 +92,7 @@ export default defineComponent({
     saveChangesProvider.provideFrom(() => props.state.saveChanges);
     deleteItemProvider.provideFrom(() => props.state.deleteItem);
     itemSelectedProvider.provideFrom(() => props.state.itemSelected);
+
     editOrCreateModeProvider.provideFrom(() => props.state.itemSelected?.value?.mode);
     // Идёт ли загрузка
     loadingStatusProvider.provideFrom(() => props.state.status);

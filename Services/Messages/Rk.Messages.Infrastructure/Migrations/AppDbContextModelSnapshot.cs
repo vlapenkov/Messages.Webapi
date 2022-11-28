@@ -503,6 +503,35 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasDiscriminator<int>("ItemType");
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CatalogSectionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("catalogsectionid");
+
+                    b.Property<long>("DocumentId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("documentid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_sectiondocuments");
+
+                    b.HasIndex("CatalogSectionId")
+                        .HasDatabaseName("ix_sectiondocuments_catalogsectionid");
+
+                    b.HasIndex("DocumentId")
+                        .HasDatabaseName("ix_sectiondocuments_documentid");
+
+                    b.ToTable("sectiondocuments", (string)null);
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ShoppingCartItem", b =>
                 {
                     b.Property<long>("Id")
@@ -715,6 +744,27 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
+                {
+                    b.HasOne("Rk.Messages.Domain.Entities.CatalogSection", "Section")
+                        .WithMany("SectionDocuments")
+                        .HasForeignKey("CatalogSectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_sectiondocuments_catalogsections_catalogsectionid");
+
+                    b.HasOne("Rk.Messages.Domain.Entities.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_sectiondocuments_documents_documentid");
+
+                    b.Navigation("Document");
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ShoppingCartItem", b =>
                 {
                     b.HasOne("Rk.Messages.Domain.Entities.Products.BaseProduct", "Product")
@@ -732,6 +782,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Products");
+
+                    b.Navigation("SectionDocuments");
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Order", b =>

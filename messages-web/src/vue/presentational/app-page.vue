@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1 class="p-component text-xl sm:text-2xl">{{ title }}</h1>
+    <div class="flex flex-row justify-content-between gap-5 align-items-center">
+      <h1 class="p-component text-xl sm:text-2xl">{{ title }}</h1>
+      <slot name="subheader"></slot>
+    </div>
     <slot></slot>
   </div>
 </template>

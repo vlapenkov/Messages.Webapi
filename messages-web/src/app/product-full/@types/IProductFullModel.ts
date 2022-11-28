@@ -12,6 +12,7 @@ export interface IProductFullModel extends IModel {
   country: string;
   currency: string;
   status: number;
+  statusText: string;
   attributeValues: {
     baseProductId: number;
     attributeId: number;

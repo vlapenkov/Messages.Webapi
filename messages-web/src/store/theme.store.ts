@@ -1,4 +1,4 @@
-import { createDefaultStore } from '@/app/core/services/harlem/harlem.service';
+import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { useDark } from '@vueuse/core';
 import { computed } from 'vue';
 
@@ -8,7 +8,7 @@ const themeStoreDefault = {
   dark: isDarkUsed.value,
 };
 
-const { getter, mutation } = createDefaultStore('theme', themeStoreDefault);
+const { getter, mutation } = defineStore('theme', themeStoreDefault);
 
 const getDark = getter('get-theme', (state) => state.dark);
 

@@ -21,7 +21,7 @@ export default defineComponent({
       (items.value ?? []).map((i) => {
         const item = i as SectionModel;
         return {
-          label: `${item.name} (id: ${item.id})`,
+          label: item.name,
           value: item.id,
         };
       }),

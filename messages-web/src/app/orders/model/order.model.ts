@@ -5,6 +5,8 @@ import { render } from '@/app/core/models/decorators/render.decorator';
 import { IOrderModel } from './IOrderModel';
 
 export class OrderModel extends ModelBase<IOrderModel> {
+  id = -1;
+
   @description('Создал')
   createdBy = '';
 
@@ -31,8 +33,11 @@ export class OrderModel extends ModelBase<IOrderModel> {
   @description('Сумма')
   sum = -1;
 
+  quantity = -1;
+
   fromResponse(model: IOrderModel): boolean {
     try {
+      this.id = model.id;
       this.createdBy = model.createdBy;
       this.lastModifiedBy = model.lastModifiedBy;
       this.created = new Date(model.created);
@@ -40,6 +45,8 @@ export class OrderModel extends ModelBase<IOrderModel> {
       this.organisationName = model.organisationName;
       this.userName = model.userName;
       this.comments = model.comments;
+      this.sum = model.sum;
+      this.quantity = model.quantity;
       return true;
     } catch (error) {
       return false;
@@ -56,6 +63,8 @@ export class OrderModel extends ModelBase<IOrderModel> {
       comments: this.comments,
       sum: this.sum,
       organisationName: this.organisationName,
+      id: this.id,
+      quantity: this.quantity,
       [modelMarker]: this[modelMarker],
     };
   }

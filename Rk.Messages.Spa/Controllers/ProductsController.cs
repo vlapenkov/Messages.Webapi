@@ -23,12 +23,12 @@ namespace Rk.Messages.Spa.Controllers
         public ProductsController(IProductsService productsService, IFileStoreService fileService)
         {
             _productsService = productsService;
+
             _filesService = fileService;
         }
 
         /// <summary>Создать продукт </summary>
-        [HttpPost]
-        //[Authorize]
+        [HttpPost]        
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
 

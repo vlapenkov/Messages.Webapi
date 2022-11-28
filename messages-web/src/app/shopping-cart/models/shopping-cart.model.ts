@@ -23,6 +23,16 @@ export class ShoppingCartModel extends ModelBase<IShoppingCartModel> implements 
   @description('Итоговая цена')
   sum = 0;
 
+  organization: {
+    id: number;
+    name: string;
+    region: string;
+  } = {
+    id: -1,
+    name: 'Неизвестная организация',
+    region: 'Неизвнстный регион',
+  };
+
   fromResponse(model: IShoppingCartModel): boolean {
     try {
       Object.assign(this, model);

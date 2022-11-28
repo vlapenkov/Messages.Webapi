@@ -31,6 +31,7 @@ namespace Rk.Messages.Infrastructure.EFCore
         public DbSet<ServiceProduct> ServiceProducts { get; set; }
         public DbSet<Technology> TechnologyProducts { get; set; }
 
+        public DbSet<SectionDocument> SectionDocuments { get; set; }
         public DbSet<ProductDocument> ProductDocuments { get; set; }
 
         public DbSet<Document> Documents { get; set; }
@@ -82,6 +83,10 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasMany(self => self.Products)
                    .WithOne(self => self.CatalogSection)
                    .HasForeignKey(self => self.CatalogSectionId);
+
+                entity.HasMany(self => self.SectionDocuments)
+                  .WithOne(self => self.Section)
+                  .HasForeignKey(self => self.CatalogSectionId);
             });
 
             builder.Entity<AttributeValue>(entity =>
@@ -97,6 +102,18 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasOne(self => self.Document)
                     .WithMany()
                     .HasForeignKey(self => self.DocumentId);
+
+            });
+
+            builder.Entity<SectionDocument>(entity =>
+            {
+                entity.HasOne(self => self.Document)
+                    .WithMany()
+                    .HasForeignKey(self => self.DocumentId);
+
+                //entity.HasOne(self => self.Section)
+                //   .WithMany()
+                //   .HasForeignKey(self => self.CatalogSectionId);
 
             });
 

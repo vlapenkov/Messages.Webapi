@@ -1,13 +1,5 @@
 import { IModel, modelMarker } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { description } from '@/app/core/models/decorators/description.decorator';
-import { hidden } from '@/app/core/models/decorators/hidden.decorator';
-import { input } from '@/app/core/models/decorators/input.decorator';
-import { mock } from '@/app/core/models/decorators/mock.decorator';
-import { randomDate } from '@/app/core/models/decorators/mocks/random-date.mock';
-import { randomName } from '@/app/core/models/decorators/mocks/random-word.mock';
-import { render } from '@/app/core/models/decorators/render.decorator';
-import { title } from '@/app/core/models/decorators/tittle.decorator';
 
 export interface IProductShortModel extends IModel {
   id: number;
@@ -19,49 +11,40 @@ export interface IProductShortModel extends IModel {
   lastModifiedBy: string;
   created: string;
   lastModified: string;
+  organization: {
+    id: number;
+    name: string;
+    region: string;
+  };
 }
 
 export class ProductShortModel extends ModelBase<IProductShortModel> {
-  @hidden()
   id = -1;
 
-  @description('Описание товара')
   description = '';
 
-  @title
   name = '';
 
-  @description('Цена')
-  @input('number')
   price: number | null = null;
 
-  @hidden('always')
-  @description('Создал:')
-  @mock(randomName)
-  @render((m: ProductShortModel) => m.createdBy ?? 'неизвестный пользователь')
   createdBy: string | null = null;
 
-  @hidden('always')
-  @description('Внёс последние изменения')
-  @mock(randomName)
-  @render((m: ProductShortModel) => m.lastModifiedBy ?? 'неизвестный пользователь')
   lastModifiedBy: string | null = null;
 
-  @hidden('always')
-  @description('Дата создания')
-  @mock(randomDate())
-  @render((m: ProductShortModel) => (m.created ? m.created.toLocaleDateString() : 'неизвестна'))
   created: Date | null = null;
 
-  @hidden('always')
-  @description('Дата последних изменений')
-  @mock(randomDate())
-  @render((m: ProductShortModel) =>
-    m.lastModified ? m.lastModified.toLocaleDateString() : 'неизвестна',
-  )
   lastModified: Date | null = null;
 
-  @hidden()
+  organization: {
+    id: number;
+    name: string;
+    region: string;
+  } = {
+    id: -1,
+    name: 'Неизвестная организация',
+    region: 'Неизвнстный регион',
+  };
+
   documentId = '';
 
   get key(): string {
@@ -75,12 +58,14 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
     try {
       this.id = model.id;
       this.description = model.description;
+      this.documentId = model.documentId;
       this.price = model.price;
       this.createdBy = model.createdBy;
       this.lastModifiedBy = model.lastModifiedBy;
       this.created = new Date(model.created);
       this.lastModified = new Date(model.lastModified);
       this.name = model.name;
+      this.organization = model.organization;
       return true;
     } catch (error) {
       return false;
@@ -98,7 +83,8 @@ export class ProductShortModel extends ModelBase<IProductShortModel> {
       description: this.description,
       price: this.price ?? 0,
       name: this.name,
-      [modelMarker]: this[modelMarker],
+      organization: this.organization,
+      [modelMarker]: null as never,
     };
   }
 

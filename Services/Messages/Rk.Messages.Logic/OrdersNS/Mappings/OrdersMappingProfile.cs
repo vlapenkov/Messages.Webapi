@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using X.PagedList;
 using Rk.Messages.Logic.OrdersNS.Dto;
 using Rk.Messages.Logic.CommonNS.Dto;
+using Rk.Messages.Common.Helpers;
 
 namespace Rk.Messages.Logic.OrdersNS.Mappings
 {
@@ -26,7 +27,8 @@ namespace Rk.Messages.Logic.OrdersNS.Mappings
                .ReverseMap();
 
             CreateMap<Order, OrderResponse>()
-                .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))                
+                .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))
+                .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
                 .ReverseMap();
 
             CreateMap<Order, OrderShortDto>()

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Rk.Messages.Domain.Entities;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;

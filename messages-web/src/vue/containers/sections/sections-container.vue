@@ -74,7 +74,9 @@ export default defineComponent({
     watch(
       tree,
       (is) => {
-        console.log({ is });
+        // eslint-disable-next-line
+        const sdasd = is;
+        // console.log({ is });
       },
       {
         immediate: true,
@@ -118,17 +120,21 @@ export default defineComponent({
   :deep(.p-card-body) {
     padding: 0.5rem 1rem;
   }
+
   :deep(.p-card-content) {
     padding: 0.5rem 0;
   }
+
   :deep(.p-card-footer) {
     padding: 0.5rem 0;
   }
+
   :deep(.p-tree) {
     padding: 0;
     border: none;
   }
 }
+
 .hide-footer {
   :deep(.p-card-footer) {
     display: none;

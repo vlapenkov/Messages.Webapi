@@ -99,7 +99,7 @@ import { IOrderModelFull } from '@/app/orders/model/IOrderModel';
 import { ordersService } from '@/app/orders/services/orders.service';
 import { ordersStore } from '@/app/orders/state/orders.store';
 import { PrimePaginator } from '@/tools/prime-vue-components';
-import { defineComponent, ref, watch, computed, toRaw } from 'vue';
+import { defineComponent, ref, watch, computed } from 'vue'; // , toRaw
 
 export default defineComponent({
   components: { PrimePaginator },
@@ -134,7 +134,7 @@ export default defineComponent({
       computed({
         get: () => expandedOrderIds.value.find((x) => x === id) != null,
         set: (val) => {
-          console.log({ val, id });
+          // console.log({ val, id });
 
           if (val) {
             expandedOrderIds.value = [...expandedOrderIds.value, id];
@@ -156,13 +156,13 @@ export default defineComponent({
     watch(
       expandedOrderIds,
       (values) => {
-        console.log('values', toRaw(values));
+        // ('values', toRaw(values));
 
         values
           .filter((id) => expandedOrders.value[id] == null)
           .forEach((val) => {
             getOrder(val).then((result) => {
-              console.log({ result });
+              // console.log({ result });
 
               if (result.status === HttpStatus.Success && result.data != null) {
                 expandedOrders.value[result.data.id] = result.data;

@@ -60,7 +60,7 @@ export function defineSingleItemStore<
       status.value = new DataStatus(currentStatus === 'initial' ? 'loading' : 'updating');
       const requestFn = extend(service.get).pipe(parse(Model)).done();
       const response = await requestFn(ops.arguments as unknown as void);
-      console.log({ response });
+      // console.log({ response });
 
       if (response.status === HttpStatus.Success) {
         if (response.data != null) {

@@ -69,7 +69,7 @@ export default defineComponent({
     const menu = ref();
 
     const toggleMenu = (event: Event) => {
-      console.log('menu', menu.value);
+      // console.log('menu', menu.value);
 
       menu.value.toggle(event);
     };
@@ -83,6 +83,7 @@ export default defineComponent({
 .avatar {
   transition: background-color 0.35s ease-in-out;
   transition: color 0.35s ease-in-out;
+
   &:hover {
     background-color: var(--surface-ground);
     cursor: pointer;

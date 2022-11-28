@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.SectionsNS.Commands.AddDocument;
 using Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
+using Rk.Messages.Logic.SectionsNS.Commands.DeleteSection;
 using Rk.Messages.Logic.SectionsNS.Dto;
 using Rk.Messages.Logic.SectionsNS.Queries.GetAllSections;
 using Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree;
@@ -54,6 +56,13 @@ namespace Rk.Messages.Webapi.Controllers
             var rootSection = await _mediatr.Send(new GetSectionTreeQuery { ParentSectionId = parentSectionId });
 
             return rootSection;          
+        }
+
+        /// <summary>Удалить раздел </summary>
+        [HttpDelete("{id:long}")]
+        public async Task DeleteSectionById(long id)
+        {
+            await _mediatr.Send(new DeleteSectionCommand { SectionId = id });
         }
 
     }

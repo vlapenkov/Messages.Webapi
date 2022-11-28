@@ -69,5 +69,13 @@ namespace Rk.Messages.Spa.Controllers
 
             return result;
         }
+
+
+        /// <summary>Удалить раздел </summary>
+        [HttpDelete("{id:long}")]
+        public async Task DeleteSectionById(long id)
+        {
+            await _sectionsServices.DeleteSectionById(id);
+        }
     }
 }

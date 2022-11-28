@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
+using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery;
@@ -61,6 +62,12 @@ namespace Rk.Messages.Webapi.Controllers
         {
             var result = await _mediator.Send(new GetProductAttributesQuery {  });
             return result;
+        }
+
+        [HttpDelete("{id:long}")]
+        public async Task DeleteProductById(long id)
+        {
+            await _mediator.Send(new DeleteProductCommand { ProductId= id });            
         }
 
     }

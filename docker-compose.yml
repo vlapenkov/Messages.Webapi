@@ -17,20 +17,30 @@ services:
     restart: always
     ports:
       - 5000:5000
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
+
   
   messages-api:
     image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-api:develop
     hostname: "messages-api"
     restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
+
 
   file-store-api:
     image: registry.dev.roscosmos.digital/templates/net-core-messages/file-store-api:develop
     hostname: "file-store-api"
     restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
+
 
   es01:
     image: docker-proxy.dev.roscosmos.digital/elastic/elasticsearch:7.10.1
     container_name: es01
+    hostname: "es01"
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
@@ -46,6 +56,7 @@ services:
   kib01:
     image: docker-proxy.dev.roscosmos.digital/elastic/kibana:7.10.1
     container_name: kib01
+    hostname: "kib01"
     ports:
       - 5601:5601
     environment:

@@ -68,6 +68,7 @@ namespace Rk.Messages.Spa.Controllers
             return result;
         }
 
+        /// <summary>Удалить продукцию</summary>
         [HttpDelete("{id:long}")]
         public async Task DeleteProductById(long id)
         {

@@ -23,5 +23,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         [Get("/api/v1/Sections/tree")]
         Task<SectionTreeNode> GetSectionsAsTree([Query] long? parentSectionId);
 
+        /// <summary>Получить инфо о продукции</summary>  
+        [Delete("/api/v1/Sections/{id}")]
+        Task DeleteSectionById(long id);
+
     }
 }

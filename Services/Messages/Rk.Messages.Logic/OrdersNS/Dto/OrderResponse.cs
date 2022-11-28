@@ -27,5 +27,7 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
         public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
 
         public decimal Sum  => OrderItems.Sum(oi => oi.Sum);
+
+        public string StatusText { get; set; }
     }
 }

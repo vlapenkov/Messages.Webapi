@@ -19,7 +19,7 @@ messages_ui_build_push_registry:
     - master
 
 
- gateway_api_build_push_registry:
+gateway_api_build_push_registry:
   stage: build
   variables:
     PROJECT_SUBNAME: " gateway-api"

@@ -1,9 +1,9 @@
 <template>
   <div :style="imageStyle" class="max-height border-round overflow-hidden">
     <img
-      v-if="id != null && imageData != null"
+      v-if="documents != null && documents.length > 0 && imageData != null"
       class="border-round"
-      :style="{ minWidth: minWidth != null ? minWidth + 'px' : undefined }"
+      :style="{ width: '100%' }"
       :class="{ 'max-w-full': fitWidth }"
       :src="imageData"
       alt="Изображение товара"
@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts">
-import { http } from '@/app/core/services/http/axios/axios.service';
-import { computed, CSSProperties, defineComponent, ref, watch } from 'vue';
+import { IProductDocument } from '@/app/product-full/@types/IProductDocument';
+import { computed, CSSProperties, defineComponent, PropType, ref, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -31,23 +31,20 @@ export default defineComponent({
     },
     maxHeight: {
       type: Number,
-      default: 100,
+      default: 300,
     },
-    id: {
-      type: String,
+    documents: {
+      type: Array as PropType<IProductDocument[]>,
+      default: () => [],
     },
   },
   setup(props) {
     const imageData = ref<string>();
     watch(
-      () => props.id,
-      (idVal) => {
-        if (idVal != null && idVal !== '' && idVal.trim() !== '') {
-          http.get(`api/files/${idVal}`).then((response) => {
-            if (response.status === 200) {
-              imageData.value = `data:image/png;base64,${response.data}`;
-            }
-          });
+      () => props.documents,
+      (docs) => {
+        if (docs != null && docs.length > 0) {
+          imageData.value = `data:image/png;base64,${docs[0].data}`;
         }
       },
       {

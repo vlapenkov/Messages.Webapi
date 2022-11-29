@@ -12,20 +12,41 @@
                 </template>
                 <template #content>
                   <div class="p-2 flex flex-column justify-content-between gap-1">
-                    <prime-button class="p-button-text text-sm font-bold custom-button-text" @click="viewProduct(item)">
-                      {{
-                          item.name
-                      }}</prime-button>
+                    <prime-button
+                      class="p-button-text text-sm font-bold custom-button-text"
+                      @click="viewProduct(item)"
+                    >
+                      {{ item.name }}</prime-button
+                    >
                     <div class="text-sm text-primary">{{ item.organization.name }}</div>
-                    <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
+                    <div class="text-sm">{{ item.organization.region }}</div>
+                    <div
+                      class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
+                    >
                       <span>
-                        <prime-button @click="addToCart(item)" class="p-button-sm h-full py-1" label="заказать">
+                        <prime-button
+                          @click="addToCart(item)"
+                          class="p-button-sm h-full py-1"
+                          label="заказать"
+                        >
                         </prime-button>
                       </span>
 
-                      <prime-button disabled icon="pi pi-heart" class="p-button-secondary py-1"></prime-button>
-                      <prime-button disabled icon="pi pi-chart-bar" class="p-button-secondary py-1"></prime-button>
-                      <prime-button disabled icon="pi pi-arrows-h" class="p-button-secondary py-1"></prime-button>
+                      <prime-button
+                        disabled
+                        icon="pi pi-heart"
+                        class="p-button-secondary py-1"
+                      ></prime-button>
+                      <prime-button
+                        disabled
+                        icon="pi pi-chart-bar"
+                        class="p-button-secondary py-1"
+                      ></prime-button>
+                      <prime-button
+                        disabled
+                        icon="pi pi-arrows-h"
+                        class="p-button-secondary py-1"
+                      ></prime-button>
                     </div>
                   </div>
                 </template>
@@ -56,8 +77,11 @@
             </card>
           </template>
         </div>
-        <div v-else style="background-color: var(--surface-card)"
-          class="w-full h-full flex justify-content-center border-round align-items-center">
+        <div
+          v-else
+          style="background-color: var(--surface-card)"
+          class="w-full h-full flex justify-content-center border-round align-items-center"
+        >
           <div class="text-center">
             <i class="pi pi-inbox text-8xl opacity-50"></i>
             <div class="p-component text-lg mt-3">Товаров не найдено</div>
@@ -73,9 +97,14 @@
         </div>
       </template>
     </transition-fade>
-    <prime-paginator class="mt-2 border-1 shadow-1"
-      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0" @page="changePage" :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)" :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
+    <prime-paginator
+      class="mt-2 border-1 shadow-1"
+      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+      @page="changePage"
+      :rows="pageSize"
+      :first="pageSize * (pageNumber - 1)"
+      :totalRecords="currentPage?.totalItemCount ?? 0"
+    ></prime-paginator>
   </div>
 </template>
 
@@ -139,7 +168,7 @@ export default defineComponent({
 
     const viewProduct = (item: ProductShortModel) => {
       router.push({ name: 'product', params: { id: item.id } });
-    }
+    };
 
     const saveChanges = async () => {
       if (productFullStore.saveChanges == null) {

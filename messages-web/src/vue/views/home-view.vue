@@ -78,7 +78,7 @@
     </div>
     <div class="flex flex-row justify-space-between align-items-center">
       <div class="col-6 pl-0">
-        <checkbox inputId="chkbox1" :binary="true" />
+        <checkbox v-model="hasPhoto" inputId="chkbox1" :binary="true" />
         <label
           for="chkbox1"
           :style="{
@@ -119,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import PopularCategoriesCarousel from '@/components/PopularCategories/popular-categories-carousel.vue';
 import PopularGoodsList from '@/components/PopularGoods/popular-goods-list.vue';
 import ManufacturersList from '@/components/Manufacturers/manufacturers-list.vue';
@@ -131,7 +131,10 @@ export default defineComponent({
     ManufacturersList,
   },
   setup() {
-    return {};
+    const hasPhoto = ref(false);
+    return {
+      hasPhoto,
+    };
   },
 });
 </script>

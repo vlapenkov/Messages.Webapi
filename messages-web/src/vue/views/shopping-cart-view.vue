@@ -2,58 +2,59 @@
 <template>
   <app-page title="Корзина">
     <div class="flex flex-column">
-      <div v-for="item in items" :key="item.productId" class="grid">
-        <div class="col-2">
-          <product-image fit-width :id="item.documentId"></product-image>
-        </div>
-        <div class="col-4 flex flex-column gap-3">
-          <div class="p-component text-md">{{ item.productName }}</div>
-          <div class="p-component text-md text-primary">{{ item.organization.name }}</div>
-          <div class="flex flex-row gap-2">
-            <prime-button
-              class="text-sm font-normal p-bbutton-sm p-1 p-button-text"
-              icon="pi pi-heart"
-              label="Добавить в избранное"
-              disabled
-            ></prime-button>
-            <prime-button
-              class="text-sm font-normal tex p-bbutton-sm p-1 p-button-text p-button-danger"
-              icon="pi pi-trash"
-              label="Удалить"
-              disabled
-            ></prime-button>
+      <card class="shopping-cart-inner-card">
+        <template #content>
+          <div v-for="item in items" :key="item.productId" class="grid">
+            <div class="col-2">
+              <product-image fit-width :id="item.documentId"></product-image>
+            </div>
+            <div class="col-4 flex flex-column gap-3">
+              <div class="p-component text-md">{{ item.productName }}</div>
+              <div class="p-component text-md text-primary">{{ item.organization.name }}</div>
+              <div class="flex flex-row gap-2">
+                <prime-button
+                  class="text-sm font-normal p-bbutton-sm p-1 p-button-text"
+                  icon="pi pi-heart"
+                  label="Добавить в избранное"
+                  disabled
+                ></prime-button>
+                <prime-button
+                  class="text-sm font-normal tex p-bbutton-sm p-1 p-button-text p-button-danger"
+                  icon="pi pi-trash"
+                  label="Удалить"
+                  disabled
+                ></prime-button>
+              </div>
+            </div>
+            <div class="col-4 flex flex-column gap-3">
+              <div class="p-component text-md">Цена: {{ item.price }} ₽</div>
+            </div>
+            <div class="col-2">
+              <input-number
+                inputId="horizontal"
+                :modelValue="item.quantity"
+                :min="1"
+                @update:modelValue="($event:number) => updateItemQuantity(item, $event)"
+                class="re-scale"
+                :disabled="isQuantityUpdating(item.productId)"
+                showButtons
+                buttonLayout="horizontal"
+                decrementButtonClass="p-button-secondary"
+                incrementButtonClass="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+              />
+            </div>
+            <div class="col-12">
+              <prime-divider class="mb-2 mt-0"></prime-divider>
+            </div>
           </div>
-        </div>
-        <div class="col-4 flex flex-column gap-3">
-          <div class="p-component text-md">Цена: {{ item.price }}</div>
-        </div>
-        <div class="col-2">
-          <input-number
-            inputId="horizontal"
-            :modelValue="item.quantity"
-            @update:modelValue="($event:number) => updateItemQuantity(item, $event)"
-            class="re-scale"
-            :disabled="isQuantityUpdating(item.productId)"
-            showButtons
-            buttonLayout="horizontal"
-            decrementButtonClass="p-button-secondary"
-            incrementButtonClass="p-button-secondary"
-            incrementButtonIcon="pi pi-plus"
-            decrementButtonIcon="pi pi-minus"
-          />
-        </div>
-        <div class="col-12">
-          <prime-divider class="mb-2 mt-0"></prime-divider>
-        </div>
-      </div>
-      <div class="flex flex-row justify-content-between align-items-end">
-        <div class="p-component text-lg">Общая стоимость: {{ sum }}</div>
-        <prime-button
-          @click="createNewOrder"
-          icon="pi pi-shopping-cart"
-          label="Оформить заказ"
-        ></prime-button>
-      </div>
+          <div class="flex flex-row justify-content-between align-items-center">
+            <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
+            <prime-button @click="createNewOrder" label="Перейти к оформлению"></prime-button>
+          </div>
+        </template>
+      </card>
     </div>
   </app-page>
 </template>
@@ -143,7 +144,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .re-scale {
   :deep(.p-inputnumber-input) {
-    width: 47px;
+    min-width: 50px;
+    max-width: 55px;
     background-color: var(--surface-200);
   }
   :deep(.p-button) {
@@ -155,5 +157,11 @@ export default defineComponent({
     padding-left: 1rem;
   }
   transform: scale(0.5) translate(-50%, -50%);
+}
+.shopping-cart-inner-card {
+  :deep(.p-card-content) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 </style>

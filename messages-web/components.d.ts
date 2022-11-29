@@ -67,6 +67,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SectionsContainer: typeof import('./src/vue/containers/sections/sections-container.vue')['default']
     SelectedItemDialog: typeof import('./src/vue/base/presentational/state/collection/components/dialog/selected-item-dialog.vue')['default']
+    ShoppingCartItemView: typeof import('./src/vue/views/shopping-cart-item-view.vue')['default']
     ShoppingCartView: typeof import('./src/vue/views/shopping-cart-view.vue')['default']
     SingleItemState: typeof import('./src/vue/base/presentational/state/single/single-item-state.vue')['default']
     SizeProvider: typeof import('./src/vue/base/presentational/grid/size-provider.vue')['default']

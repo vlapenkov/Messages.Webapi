@@ -54,6 +54,16 @@ namespace Rk.Messages.Domain.Entities.Products
             _productDocuments.AddRange(productFiles);
         }
 
+        /// <summary>
+        /// Апдейт значений атрибутов
+        /// </summary>        
+        public void UpdateAttributeValues(IReadOnlyCollection<AttributeValue> attributeValues) {
+
+            _attributeValues.Clear();
+
+            _attributeValues.AddRange(attributeValues);
+        }
+
         public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
     }
 }

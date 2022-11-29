@@ -3,7 +3,6 @@ using MediatR;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Interfaces.Interfaces.DAL;
-using Rk.Messages.Interfaces.Services;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,17 +13,14 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
     {
         private readonly IAppDbContext _dbContext;
 
-        private readonly IValidator<CreateProductCommand> _validator;
-
-        private readonly IFileStoreService _fileService;
+        private readonly IValidator<CreateProductCommand> _validator;        
 
         private static readonly long _defaultOrganizationId = 1L;
 
-        public CreateProductCommandHandler(IAppDbContext dbContext, IValidator<CreateProductCommand> validator, IFileStoreService fileService)
+        public CreateProductCommandHandler(IAppDbContext dbContext, IValidator<CreateProductCommand> validator)
         {
             _dbContext = dbContext;
             _validator = validator;
-            _fileService = fileService;
         }
 
         public async Task<long> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -38,20 +34,18 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
 
             var request = command.Request;
 
-            var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.BaseProductId, av.AttributeId, av.Value)).ToArray();
+            var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.AttributeId, av.Value)).ToArray();
 
-            Product product = new Product
-                (
-                _defaultOrganizationId, 
-                request.CatalogSectionId, 
-                request.Name, 
-                request.FullName, 
-                request.Description, 
-                request.Price, 
+            Product product = new(
+                _defaultOrganizationId,
+                request.CatalogSectionId,
+                request.Name,
+                request.FullName,
+                request.Description,
+                request.Price,
                 attributeValues
                 );
 
-            //  await CreateDocuments(request.Documents);
 
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 
@@ -64,7 +58,6 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
             return product.Id;
 
         }
-
 
     }
 }

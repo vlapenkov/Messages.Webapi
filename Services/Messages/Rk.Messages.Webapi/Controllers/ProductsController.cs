@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
+using Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery;
@@ -54,6 +55,13 @@ namespace Rk.Messages.Webapi.Controllers
         {
             var result = await _mediator.Send(new GetProductQuery { Id=id });
             return result;
+        }
+
+        /// <summary>Апдейт значений атрибутов товара</summary>
+        [HttpPut("{id:long}/attributes")]
+        public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
+        {
+            await _mediator.Send(new UpdateProductAttributesCommand { ProductId = id , AttributeValues = attributeValues });            
         }
 
         /// <summary>Получить информацию об атрибутах всей продукции</summary>

@@ -59,6 +59,13 @@ namespace Rk.Messages.Spa.Controllers
 
         }
 
+        /// <summary>Апдейт значений атрибутов товара</summary>
+        [HttpPut("{id:long}/attributes")]
+        public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
+        {
+            await _productsService.UpdateAttributes(id, attributeValues);
+        }
+
         /// <summary>Получить информацию об атрибутах всей продукции</summary>
         [HttpGet("attributes")]
         public async Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes()

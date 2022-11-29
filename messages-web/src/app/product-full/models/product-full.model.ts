@@ -67,6 +67,22 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   )
   documents: IProductDocument[] = [];
 
+  @noLabel
+  @hidden()
+  organization: { id: number; name: string; region: string } = {
+    id: 0,
+    name: '',
+    region: '',
+  };
+
+  @noLabel
+  @hidden()
+  lastModified = '';
+
+  @noLabel
+  @hidden()
+  lastModifiedBy = '';
+
   fromResponse(model: IProductFullModel): boolean {
     try {
       Object.assign(this, model);

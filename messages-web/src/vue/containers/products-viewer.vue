@@ -27,7 +27,7 @@
                         <prime-button
                           @click="addToCart(item)"
                           class="p-button-sm h-full py-1"
-                          label="заказать"
+                          label="Заказать"
                         >
                         </prime-button>
                       </span>

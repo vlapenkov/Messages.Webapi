@@ -1,8 +1,17 @@
 <template>
-  <div class="text-lg">{{ product.name }}</div>
-  <div class="text-sm text-primary">{{ product.country }}</div>
-  <div class="text-sm">{{ product.price }} {{ product.currency }}</div>
-  <div class="text-sm text-info">{{ product.statusText }}</div>
+  <div class="text-2xl font-medium mt-1">{{ product.name }}</div>
+  <div class="text-base text-primary mt-1">{{ product.organization.name }}</div>
+  <div class="text-base mt-1">
+    <span class="text-color-secondary">Статус:</span>&nbsp;<span>{{ product.statusText }}</span>
+  </div>
+  <div class="text-base mt-1">
+    <span class="text-color-secondary">Цена:</span>&nbsp;<span>{{ product.price }} ₽</span>
+  </div>
+  <div class="text-base text-info mt-1">
+    <span class="text-color-secondary">Дата актуализации:</span>&nbsp;<span>{{
+      product.lastModified
+    }}</span>
+  </div>
 </template>
 
 <script lang="ts">

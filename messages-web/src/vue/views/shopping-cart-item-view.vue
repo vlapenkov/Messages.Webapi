@@ -8,16 +8,14 @@
       <div class="p-component text-md text-primary">{{ item.organization.name }}</div>
       <div class="flex flex-row gap-2">
         <prime-button
-          class="text-sm font-normal p-bbutton-sm p-1 p-button-text"
+          class="text-sm font-normal p-bbutton-sm p-1 p-button-text rk-button"
           icon="pi pi-heart"
           label="Добавить в избранное"
-          disabled
         ></prime-button>
         <prime-button
-          class="text-sm font-normal tex p-bbutton-sm p-1 p-button-text p-button-danger"
+          class="text-sm font-normal p-bbutton-sm p-1 p-button-text p-button-danger rk-button"
           icon="pi pi-trash"
           label="Удалить"
-          disabled
         ></prime-button>
       </div>
     </div>
@@ -94,6 +92,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.rk-button {
+  :deep(.p-button-label) {
+    font-weight: 500;
+  }
+}
 .re-scale {
   :deep(.p-inputnumber-input) {
     min-width: 50px;

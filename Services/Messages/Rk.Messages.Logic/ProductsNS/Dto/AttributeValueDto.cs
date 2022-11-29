@@ -6,7 +6,7 @@
     public record AttributeValueDto
     {
         /// <summary>Id товара</summary>
-        public long BaseProductId { get; set; }
+       //  public long BaseProductId { get; set; }
 
         /// <summary>Id атрибута</summary>
         public long AttributeId { get; set; }

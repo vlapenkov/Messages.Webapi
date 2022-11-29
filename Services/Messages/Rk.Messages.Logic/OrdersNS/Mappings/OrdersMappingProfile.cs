@@ -35,6 +35,7 @@ namespace Rk.Messages.Logic.OrdersNS.Mappings
               .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))
               .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.OrderItems.Sum(oi=>oi.Quantity)))
               .ForMember(dest => dest.Sum, opt => opt.MapFrom(src => src.OrderItems.Sum(oi => oi.Sum)))
+              .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
               .ReverseMap();
 
         }

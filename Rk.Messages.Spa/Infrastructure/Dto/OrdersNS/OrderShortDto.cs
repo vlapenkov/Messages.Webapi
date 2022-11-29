@@ -18,5 +18,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrdersNS
         public long Quantity { get; set; }
 
         public decimal Sum { get; set; }
+
+        public string StatusText { get; set; }
     }
 }

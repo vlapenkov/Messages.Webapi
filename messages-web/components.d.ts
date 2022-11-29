@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     Avatar: typeof import('primevue/avatar')['default']
     Card: typeof import('primevue/card')['default']
     CatalogView: typeof import('./src/vue/views/catalog-view.vue')['default']
+    Checkbox: typeof import('primevue/checkbox')['default']
     CollectionState: typeof import('./src/vue/base/presentational/state/collection/collection-state.vue')['default']
     CollectionStatePaginator: typeof import('./src/vue/base/presentational/state/collection/components/paging/collection-state-paginator.vue')['default']
     Column: typeof import('primevue/column')['default']

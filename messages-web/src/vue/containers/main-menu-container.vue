@@ -8,10 +8,10 @@
         <div class="w-full">
           <app-container>
             <div class="flex flex-row justify-content-between align-items-center gap-3">
-              <div class="flex gap-3 align-items-center">
+              <router-link to="/" class="flex gap-3 align-items-center not-link">
                 <img src="@/assets/images/logo.svg" alt="" width="30" height="24" />
                 <div class="text-sm lg:text-lg">Маркетплейс продукции гражданского назначения</div>
-              </div>
+              </router-link>
               <div class="flex flex-row align-items-center flex-shrink-0">
                 <theme-switch-container></theme-switch-container>
                 <user-avatar-container />
@@ -43,9 +43,11 @@ export default defineComponent({
     width: 100%;
   }
 }
+
 .no-padding {
   :deep(.grid) {
     padding: 0;
+
     :deep(div) {
       padding: 0;
     }
@@ -54,5 +56,10 @@ export default defineComponent({
 
 .backdrop {
   backdrop-filter: blur(1rem);
+}
+
+.not-link {
+  text-decoration: none;
+  color: black;
 }
 </style>

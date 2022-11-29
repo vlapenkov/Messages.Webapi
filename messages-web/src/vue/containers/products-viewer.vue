@@ -12,7 +12,12 @@
                 </template>
                 <template #content>
                   <div class="p-2 flex flex-column justify-content-between gap-1">
-                    <div class="text-sm font-bold">{{ item.name }}</div>
+                    <prime-button
+                      class="p-button-text text-sm font-bold custom-button-text"
+                      @click="viewProduct(item)"
+                    >
+                      {{ item.name }}</prime-button
+                    >
                     <div class="text-sm text-primary">{{ item.organization.name }}</div>
                     <div class="text-sm">{{ item.organization.region }}</div>
                     <div
@@ -22,7 +27,7 @@
                         <prime-button
                           @click="addToCart(item)"
                           class="p-button-sm h-full py-1"
-                          label="заказать"
+                          label="Заказать"
                         >
                         </prime-button>
                       </span>
@@ -112,6 +117,7 @@ import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http
 import { computed, defineComponent, ref, watch } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
+import { useRouter } from 'vue-router';
 import Toast from 'primevue/toast';
 import { viewModeProvider } from '../views/providers/view-mode.provider';
 
@@ -125,6 +131,7 @@ export default defineComponent({
   setup(props) {
     const viewMode = viewModeProvider.inject();
     const toast = useToast();
+    const router = useRouter();
     watch(
       () => props.categoryId,
       (id) => {
@@ -157,6 +164,10 @@ export default defineComponent({
         productFullStore.itemSelected.value = new NotValidData(clone, modeFull.value);
         showFullProductDialog.value = true;
       }
+    };
+
+    const viewProduct = (item: ProductShortModel) => {
+      router.push({ name: 'product', params: { id: item.id } });
     };
 
     const saveChanges = async () => {
@@ -214,6 +225,7 @@ export default defineComponent({
       productTitle,
       showFullProductDialog,
       saveChanges,
+      viewProduct,
       selectProduct,
       pageNumber,
       pageSize,
@@ -287,5 +299,9 @@ export default defineComponent({
   :deep(.p-card-footer) {
     padding: 0.5rem 0;
   }
+}
+
+.custom-button-text {
+  padding: 0;
 }
 </style>

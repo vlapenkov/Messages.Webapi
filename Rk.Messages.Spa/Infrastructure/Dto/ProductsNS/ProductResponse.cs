@@ -5,7 +5,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
     /// <summary>
     /// Информация о товаре
     /// </summary>
-    public record ProductResponse
+    public record ProductResponse :AuditableEntityDto
     {
         public long Id { get; set; }
 
@@ -30,11 +30,13 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string StatusText { get; set; }
 
+        public OrganizationShortDto Organization { get; set; }
+
         /// <summary>атрибуты</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
 
         /// <summary>документы</summary>
-        public IReadOnlyCollection<FileDataDto> Documents { get; set; }
+        public FileDataDto[] Documents { get; set; }
 
        
     }

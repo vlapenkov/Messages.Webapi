@@ -143,14 +143,17 @@ namespace Rk.Messages.Spa
         /// <param name="config"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, IConfiguration config, string title)
+        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, WebApplicationBuilder builder, string title)
         {
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
                 {
-                    var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["Host"]}{config["SUBDIR"]}";
-                    swaggerDoc.Servers = new List<OpenApiServer> { new() { Url = serverUrl } };
+                    var schema = httpRequest.Scheme;
+                    var host = httpRequest.Headers["Host"];
+                    var subDir = builder.Configuration["SUBDIR"] ?? "";
+                    var serverUrl = $"{schema}://{host}{subDir}";
+                    swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
                 });
             });
 

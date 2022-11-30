@@ -28,5 +28,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>Получить инфо о продукции</summary>  
         [Delete("/api/v1/Products/{id}")]
         Task DeleteProductById(long id);
+
+        /// <summary>Апдейт значений атрибутов</summary>  
+        [Put("/api/v1/Products/{id}/attributes")]
+        Task UpdateAttributes(long id, [Body]IReadOnlyCollection<AttributeValueDto> attributeValues);
     }
 }

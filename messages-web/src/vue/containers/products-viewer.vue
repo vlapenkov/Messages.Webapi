@@ -73,6 +73,7 @@ import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http
 import { computed, defineComponent, ref, watch } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
+import { useRouter } from 'vue-router';
 import Toast from 'primevue/toast';
 import { viewModeProvider } from '../views/providers/view-mode.provider';
 
@@ -86,6 +87,7 @@ export default defineComponent({
   setup(props) {
     const viewMode = viewModeProvider.inject();
     const toast = useToast();
+    const router = useRouter();
     watch(
       () => props.categoryId,
       (id) => {
@@ -118,6 +120,10 @@ export default defineComponent({
         productFullStore.itemSelected.value = new NotValidData(clone, modeFull.value);
         showFullProductDialog.value = true;
       }
+    };
+
+    const viewProduct = (item: ProductShortModel) => {
+      router.push({ name: 'product', params: { id: item.id } });
     };
 
     const saveChanges = async () => {
@@ -175,6 +181,7 @@ export default defineComponent({
       productTitle,
       showFullProductDialog,
       saveChanges,
+      viewProduct,
       selectProduct,
       pageNumber,
       pageSize,
@@ -248,5 +255,9 @@ export default defineComponent({
   :deep(.p-card-footer) {
     padding: 0.5rem 0;
   }
+}
+
+.custom-button-text {
+  padding: 0;
 }
 </style>

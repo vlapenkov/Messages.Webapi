@@ -23,4 +23,12 @@ export interface IProductFullModel extends IModel {
     data: string;
     fileId: string;
   }[];
+
+  lastModified: string;
+  lastModifiedBy: string;
+  organization: {
+    id: number;
+    name: string;
+    region: string;
+  };
 }

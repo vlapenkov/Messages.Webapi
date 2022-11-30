@@ -1,72 +1,24 @@
-<!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <app-page title="Корзина">
     <div class="flex flex-column">
-      <div v-for="item in items" :key="item.productId" class="grid">
-        <div class="col-2">
-          <product-image fit-width :id="item.documentId"></product-image>
-        </div>
-        <div class="col-4 flex flex-column gap-3">
-          <div class="p-component text-md">{{ item.productName }}</div>
-          <div class="p-component text-md text-primary">{{ item.organization.name }}</div>
-          <div class="flex flex-row gap-2">
-            <prime-button
-              class="text-sm font-normal p-bbutton-sm p-1 p-button-text"
-              icon="pi pi-heart"
-              label="Добавить в избранное"
-              disabled
-            ></prime-button>
-            <prime-button
-              class="text-sm font-normal tex p-bbutton-sm p-1 p-button-text p-button-danger"
-              icon="pi pi-trash"
-              label="Удалить"
-              disabled
-            ></prime-button>
+      <card class="shopping-cart-inner-card">
+        <template #content>
+          <shopping-cart-item-view v-for="item in items" :key="item.productId" :item="item" />
+          <div class="flex flex-row justify-content-between align-items-center mt-1">
+            <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
+            <prime-button @click="createNewOrder" label="Перейти к оформлению"></prime-button>
           </div>
-        </div>
-        <div class="col-4 flex flex-column gap-3">
-          <div class="p-component text-md">Цена: {{ item.price }}</div>
-        </div>
-        <div class="col-2">
-          <input-number
-            inputId="horizontal"
-            :modelValue="item.quantity"
-            @update:modelValue="($event:number) => updateItemQuantity(item, $event)"
-            class="re-scale"
-            :disabled="isQuantityUpdating(item.productId)"
-            showButtons
-            buttonLayout="horizontal"
-            decrementButtonClass="p-button-secondary"
-            incrementButtonClass="p-button-secondary"
-            incrementButtonIcon="pi pi-plus"
-            decrementButtonIcon="pi pi-minus"
-          />
-        </div>
-        <div class="col-12">
-          <prime-divider class="mb-2 mt-0"></prime-divider>
-        </div>
-      </div>
-      <div class="flex flex-row justify-content-between align-items-end">
-        <div class="p-component text-lg">Общая стоимость: {{ sum }}</div>
-        <prime-button
-          @click="createNewOrder"
-          icon="pi pi-shopping-cart"
-          label="Оформить заказ"
-        ></prime-button>
-      </div>
+        </template>
+      </card>
     </div>
   </app-page>
 </template>
 
 <script lang="ts">
-import {
-  addToCart,
-  createOrder,
-} from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { computed, defineComponent, ref, WritableComputedRef } from 'vue';
+import { createOrder } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import { ShoppingCartModel } from '@/app/shopping-cart/models/shopping-cart.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { computed, defineComponent, ref, WritableComputedRef } from 'vue';
-import { useRouter } from 'vue-router';
 import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
 import { createItemProvider } from '../base/presentational/state/collection/providers/create-item.provider';
 import { deleteItemProvider } from '../base/presentational/state/collection/providers/delete-item.provider';
@@ -96,64 +48,26 @@ export default defineComponent({
       throw new Error('Что-то пошло не так');
     }
     const items = state.items({ force: true }) as WritableComputedRef<ShoppingCartModel[]>;
-    const router = useRouter();
-    const create = async () => {
-      await createOrder();
-      router.push({ name: 'orders' });
-    };
-
-    const disabledProducts = ref<number[]>([]);
-
-    const updateItemQuantity = async (
-      { productId, quantity: quantityOld }: ShoppingCartModel,
-      quantity: number,
-    ) => {
-      disabledProducts.value.push(productId);
-      await addToCart({
-        productId,
-        quantity: quantity - quantityOld,
-      });
-      if (state.getDataAsync) {
-        state.getDataAsync({ force: true });
-      }
-      disabledProducts.value = disabledProducts.value.filter((el) => el !== productId);
-    };
-    const isQuantityUpdating = (id: number) =>
-      disabledProducts.value.find((el) => el === id) != null;
     const createNewOrder = async () => {
       await createOrder();
     };
-
     const sum = computed(() =>
       (items.value ?? []).map((i) => i.price * i.quantity).reduce((acc, curr) => acc + curr, 0),
     );
     return {
-      shoppingCartStore,
-      create,
-      items,
-      updateItemQuantity,
-      isQuantityUpdating,
-      createNewOrder,
       sum,
+      items,
+      createNewOrder,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.re-scale {
-  :deep(.p-inputnumber-input) {
-    width: 47px;
-    background-color: var(--surface-200);
+.shopping-cart-inner-card {
+  :deep(.p-card-content) {
+    padding-top: 0;
+    padding-bottom: 0;
   }
-  :deep(.p-button) {
-    background-color: var(--surface-200);
-    color: var(--text-color);
-  }
-  :deep(input) {
-    font-size: 22px;
-    padding-left: 1rem;
-  }
-  transform: scale(0.5) translate(-50%, -50%);
 }
 </style>

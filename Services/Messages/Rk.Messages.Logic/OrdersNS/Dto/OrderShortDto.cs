@@ -24,5 +24,7 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
         public long Quantity { get; set; }
 
         public decimal Sum { get; set; }
+
+        public string StatusText { get; set; }
     }
 }

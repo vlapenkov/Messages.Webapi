@@ -7,11 +7,11 @@ namespace Rk.Messages.Domain.Entities
     /// Значение атрибута товара
     /// </summary>
     public class AttributeValue: BaseEntity
-    {
-        public AttributeValue(long baseProductId, long attributeId,  string value)
-        {
-            BaseProductId = baseProductId;           
-            AttributeId = attributeId;           
+    {       
+
+        public AttributeValue( long attributeId, string value)
+        {            
+            AttributeId = attributeId;
             Value = value;
         }
 

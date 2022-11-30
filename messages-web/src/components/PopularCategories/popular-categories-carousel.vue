@@ -15,8 +15,8 @@
       >
         <product-image
           :id="slotProps.data.documentId"
-          :max-height="300"
-          :min-width="100"
+          :max-height="162"
+          :min-width="160"
           :fit-width="true"
           :header-text="slotProps.data.name"
         />

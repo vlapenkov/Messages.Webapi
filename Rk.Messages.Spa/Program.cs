@@ -44,7 +44,7 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 });
 
 app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
-app.UseSwaggerUI(builder.Configuration, "Api gateway");
+app.UseSwaggerUI(builder, "Api gateway");
 
 app.UseEndpoints(endpoints =>
 {

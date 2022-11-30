@@ -99,5 +99,9 @@ export default defineComponent({
     padding-bottom: 0 !important;
     padding-top: 0 !important;
   }
+
+  .custom-button-text {
+    padding: 0;
+  }
 }
 </style>

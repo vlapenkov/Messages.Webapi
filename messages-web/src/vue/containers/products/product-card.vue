@@ -1,7 +1,7 @@
 <template>
   <card class="h-full re-padding-card">
     <template #header>
-      <product-image :max-height="140" :id="product.documentId"></product-image>
+      <product-image :min-height="140" object-fit="cover" :id="product.documentId"></product-image>
     </template>
     <template #content>
       <div class="p-2 flex flex-column justify-content-between gap-1">

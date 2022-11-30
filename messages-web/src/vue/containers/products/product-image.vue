@@ -6,7 +6,8 @@
         class="border-round"
         :style="{
           minWidth: minWidth != null ? minWidth + 'px' : undefined,
-          opacity: headerText != null ? '100%' : undefined,
+          minHeight: minHeight != null ? minHeight + 'px' : undefined,
+          objectFit: objectFit != null ? objectFit : undefined,
         }"
         :class="{ 'max-w-full': fitWidth }"
         :src="imageData"
@@ -38,6 +39,14 @@ export default defineComponent({
     maxHeight: {
       type: Number,
       default: 100,
+    },
+    minHeight: {
+      type: Number,
+      default: null,
+    },
+    objectFit: {
+      type: String,
+      default: null,
     },
     id: {
       type: String,

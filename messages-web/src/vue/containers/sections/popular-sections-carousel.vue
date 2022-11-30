@@ -1,31 +1,30 @@
 <template>
-  <div class="popular-sections">
-    <carousel
-      :value="itemsWithDocumentId"
-      :numVisible="4"
-      :numScroll="1"
-      :showIndicators="false"
-      :showNavigators="true"
-      :responsiveOptions="responsiveOptions"
-    >
-      <template #item="slotProps">
-        <div
-          class="flex flex-column"
-          :style="{
-            marginLeft: slotProps.index > 0 ? '0.5rem' : undefined,
-          }"
-        >
-          <product-image
-            :id="slotProps.data.documentId"
-            :max-height="162"
-            :min-width="160"
-            :fit-width="true"
-            :header-text="slotProps.data.name"
-          />
-        </div>
-      </template>
-    </carousel>
-  </div>
+  <carousel
+    :value="itemsWithDocumentId"
+    :numVisible="4"
+    :numScroll="1"
+    :showIndicators="false"
+    :showNavigators="true"
+    :responsiveOptions="responsiveOptions"
+    class="popular-sections-carousel"
+  >
+    <template #item="slotProps">
+      <div
+        class="flex flex-column"
+        :style="{
+          marginLeft: slotProps.index > 0 ? '0.5rem' : undefined,
+        }"
+      >
+        <product-image
+          :id="slotProps.data.documentId"
+          :max-height="162"
+          :min-width="160"
+          :fit-width="true"
+          :header-text="slotProps.data.name"
+        />
+      </div>
+    </template>
+  </carousel>
 </template>
 
 <script lang="ts">
@@ -67,7 +66,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-// .popular-sections {
+// .popular-sections-carousel {
 //   :deep(.p-disabled) {
 //     display: none;
 //   }

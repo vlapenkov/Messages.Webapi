@@ -103,32 +103,29 @@
     <div class="grid">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные категории</h1>
       <prime-divider class="mt-0"></prime-divider>
-      <popular-categories-carousel></popular-categories-carousel>
+      <popular-sections-carousel></popular-sections-carousel>
     </div>
     <div class="grid">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные товары</h1>
       <prime-divider class="mt-0"></prime-divider>
-      <popular-goods-list></popular-goods-list>
+      <popular-products-list></popular-products-list>
     </div>
     <div class="grid">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Производители</h1>
       <prime-divider class="mt-0"></prime-divider>
-      <manufacturers-list></manufacturers-list>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import PopularCategoriesCarousel from '@/components/PopularCategories/popular-categories-carousel.vue';
-import PopularGoodsList from '@/components/PopularGoods/popular-goods-list.vue';
-import ManufacturersList from '@/components/Manufacturers/manufacturers-list.vue';
+import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
+import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 
 export default defineComponent({
   components: {
-    PopularCategoriesCarousel,
-    PopularGoodsList,
-    ManufacturersList,
+    PopularSectionsCarousel,
+    PopularProductsList,
   },
   setup() {
     const hasPhoto = ref(false);

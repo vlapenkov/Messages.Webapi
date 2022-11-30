@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import HomeView from '../vue/views/home-view.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,7 +8,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: () => import(/* webpackChunkName: "home" */ '../vue/views/home-view.vue'),
   },
   {
     path: '/labs',

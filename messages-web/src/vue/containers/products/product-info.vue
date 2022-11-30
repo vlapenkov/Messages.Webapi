@@ -8,9 +8,7 @@
     <span class="text-color-secondary">Цена:</span>&nbsp;<span>{{ product.price }} ₽</span>
   </div>
   <div class="text-base text-info mt-1">
-    <span class="text-color-secondary">Дата актуализации:</span>&nbsp;<span>{{
-      product.lastModified
-    }}</span>
+    <span class="text-color-secondary">Дата актуализации:</span>&nbsp;<span>{{ dateStr }}</span>
   </div>
 </template>
 
@@ -25,8 +23,16 @@ export default defineComponent({
       default: () => null,
     },
   },
-  setup() {
-    return {};
+  setup(props) {
+    let dateStr = '';
+    if (props?.product?.lastModified != null) {
+      const datePart = props.product.lastModified?.split('T')[0];
+      const timePart = props.product.lastModified?.split('T')[1]?.split('.')[0];
+      const datePartSplited = datePart.split('-');
+      const timePartSplited = timePart.split(':');
+      dateStr = `${datePartSplited[2]}.${datePartSplited[1]}.${datePartSplited[0]} ${timePartSplited[0]}:${timePartSplited[1]}:${timePartSplited[2]}`;
+    }
+    return { dateStr };
   },
 });
 </script>

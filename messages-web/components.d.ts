@@ -48,6 +48,7 @@ declare module '@vue/runtime-core' {
     ModelProvider: typeof import('./src/vue/base/presentational/state/collection/components/model-provider.vue')['default']
     OrdersView: typeof import('./src/vue/views/orders-view.vue')['default']
     ParentSectionSelector: typeof import('./src/vue/containers/parent-section-selector.vue')['default']
+    PopularOrganizationsList: typeof import('./src/vue/containers/organizations/popular-organizations-list.vue')['default']
     PopularProductsList: typeof import('./src/vue/containers/products/popular-products-list.vue')['default']
     PopularSectionsCarousel: typeof import('./src/vue/containers/sections/popular-sections-carousel.vue')['default']
     PrimeButton: typeof import('./src/vue/base/presentational/prime/buttons/base/prime-button.vue')['default']

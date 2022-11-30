@@ -113,6 +113,21 @@
     <div class="grid">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Производители</h1>
       <prime-divider class="mt-0"></prime-divider>
+      <popular-organizations-list></popular-organizations-list>
+    </div>
+    <div class="grid">
+      <h1 class="p-component text-xl sm:text-2xl mb-1">Дайджесты</h1>
+      <prime-divider class="mt-0"></prime-divider>
+      <div class="grid w-full">
+        <div v-for="i in 4" :key="i" class="col-3">
+          <card class="news-card p-3">
+            <template #title>
+              <span class="font-semibold">Дайджест</span>
+            </template>
+            <template #content> Краткое описание </template>
+          </card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -121,11 +136,13 @@
 import { defineComponent, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
+import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 
 export default defineComponent({
   components: {
     PopularSectionsCarousel,
     PopularProductsList,
+    PopularOrganizationsList,
   },
   setup() {
     const hasPhoto = ref(false);
@@ -136,4 +153,38 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.news-card {
+  :deep(.p-card-header) {
+    line-height: 0;
+    text-align: center;
+  }
+
+  .p-card-header {
+    line-height: 0 !important;
+    text-align: center !important;
+  }
+
+  :deep(.p-card-body) {
+    padding: 0;
+  }
+
+  .p-card-body {
+    padding: 0 !important;
+  }
+
+  :deep(.p-card-content) {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  .p-card-content {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .custom-button-text {
+    padding: 0;
+  }
+}
+</style>

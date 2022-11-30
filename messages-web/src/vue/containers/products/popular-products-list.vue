@@ -12,28 +12,17 @@
 </template>
 
 <script lang="ts">
-import { IproductsPageRequest } from '@/app/product-shorts/@types/IproductsPageRequest';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
-import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: { Toast },
   setup() {
-    onMounted(() => {
-      const request: IproductsPageRequest = {
-        name: null,
-        catalogSectionId: undefined,
-        pageNumber: 1,
-        pageSize: 8,
-      };
-      productShortsService.loadPage(request);
-    });
     const toast = useToast();
     const router = useRouter();
     const productShortsItems = computed(() => productShortsStore.currentPageItems.value);

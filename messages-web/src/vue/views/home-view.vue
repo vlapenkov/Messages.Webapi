@@ -133,10 +133,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
+import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
+import { organizationsService } from '@/app/organizations/services/organization.service';
 
 export default defineComponent({
   components: {
@@ -145,6 +147,18 @@ export default defineComponent({
     PopularOrganizationsList,
   },
   setup() {
+    onMounted(async () => {
+      await productShortsService.loadPage({
+        name: null,
+        catalogSectionId: undefined,
+        pageNumber: 1,
+        pageSize: 8,
+      });
+      await organizationsService.loadPage({
+        pageNumber: 1,
+        pageSize: 8,
+      });
+    });
     const hasPhoto = ref(false);
     return {
       hasPhoto,

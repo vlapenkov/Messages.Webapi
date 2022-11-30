@@ -31,18 +31,11 @@
 </template>
 
 <script lang="ts">
-import { organizationsService } from '@/app/organizations/services/organization.service';
 import { organizationsStore } from '@/app/organizations/state/organizations.store';
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    onMounted(async () => {
-      organizationsService.loadPage({
-        pageNumber: 1,
-        pageSize: 8,
-      });
-    });
     const items = computed(() => organizationsStore.currentPageItems.value);
     return {
       items,

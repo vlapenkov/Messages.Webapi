@@ -7,6 +7,9 @@ import { IOrganizationModel } from '../model/IOrganizationModel';
 import { OrganizationModel } from '../model/organization.model';
 import { organizationsStore } from '../state/organizations.store';
 
+/**
+ * В контроллере отсутствуют аргументы для пэйджинга
+ */
 async function loadPage(request: IPagedRequest) {
   organizationsStore.status.value = new DataStatus('loading');
   const response = await organizationsHttpService.getPage(request);

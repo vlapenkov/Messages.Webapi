@@ -7,7 +7,9 @@
             <div class="flex flex-row justify-space-between align-items-center">
               <div class="grid">
                 <div class="col-3">
-                  <div class="flex flex-row align-items-center">
+                  <div
+                    class="h-full w-full flex flex-row justify-content-center align-items-center"
+                  >
                     <avatar :label="o.name[0]" shape="circle"></avatar>
                   </div>
                 </div>
@@ -29,24 +31,19 @@
 </template>
 
 <script lang="ts">
-import { organizationsHttpService } from '@/app/organizations/infrastructure/organization.http-service';
-import { IOrganizationModel } from '@/app/organizations/model/IOrganizationModel';
-import { defineComponent, onMounted, ref } from 'vue';
+import { organizationsService } from '@/app/organizations/services/organization.service';
+import { organizationsStore } from '@/app/organizations/state/organizations.store';
+import { computed, defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
   setup() {
-    const items = ref<IOrganizationModel[]>();
     onMounted(async () => {
-      /**
-       * Этот костыль получился из-за того, что формат возвращаемых данных
-       * контоллера предполагает пэйджинг, однако, аргументы для пэйджинга
-       * этот контроллер не ест
-       */
-      const resp = await organizationsHttpService.get();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = ((resp.data as any).rows as IOrganizationModel[] | undefined) ?? [];
-      items.value = data.sort((a, b) => a.name.localeCompare(b.name));
+      organizationsService.loadPage({
+        pageNumber: 1,
+        pageSize: 8,
+      });
     });
+    const items = computed(() => organizationsStore.currentPageItems.value);
     return {
       items,
     };

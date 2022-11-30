@@ -1,9 +1,10 @@
-import { defineCollectionService } from '@/app/core/services/http/custom/collection.http-service';
+import { definePageableCollectionService } from '@/app/core/services/http/custom/pageable-collection.http-service';
 import { IOrganizationModel } from '../model/IOrganizationModel';
 
-const [organizationsHttpService, { defineGet }] = defineCollectionService<IOrganizationModel>({
-  url: 'api/Organizations',
-});
+const [organizationsHttpService, { defineGet }] =
+  definePageableCollectionService<IOrganizationModel>({
+    url: 'api/Organizations',
+  });
 
 export { organizationsHttpService };
 

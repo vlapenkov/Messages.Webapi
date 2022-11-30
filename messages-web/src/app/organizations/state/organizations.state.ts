@@ -1,22 +1,22 @@
 import { StateBase } from '@/app/core/services/harlem/state/base/state-base';
-import { collection } from '@/app/core/services/harlem/state/decorators/collection.decorator';
 import { dataStatus } from '@/app/core/services/harlem/state/decorators/data-status.decorator';
-import { selected } from '@/app/core/services/harlem/state/decorators/selected-item.decorator';
+import { pageNumber } from '@/app/core/services/harlem/state/decorators/page-number.decorator';
+import { pageSize } from '@/app/core/services/harlem/state/decorators/page-size-decorator';
+import { pages } from '@/app/core/services/harlem/state/decorators/pages.decorator';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
+import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { OrganizationModel } from '../model/organization.model';
 
 export class OrganizationsState extends StateBase {
-  @collection
-  collection: OrganizationModel[] | null = null;
+  @pages
+  pages: IPagedResponse<OrganizationModel>[] = [];
 
   @dataStatus
   status = new DataStatus();
 
-  @selected({
-    create: false,
-    delete: false,
-    update: false,
-  })
-  dontUse: NotValidData<OrganizationModel> | null = null;
+  @pageNumber
+  pageNumber = 1;
+
+  @pageSize
+  pageSize = 15;
 }

@@ -12,41 +12,19 @@
                 </template>
                 <template #content>
                   <div class="p-2 flex flex-column justify-content-between gap-1">
-                    <prime-button
-                      class="p-button-text text-sm font-bold custom-button-text"
-                      @click="viewProduct(item)"
-                    >
-                      {{ item.name }}</prime-button
-                    >
+                    <prime-button class="p-button-text text-sm font-bold custom-button-text" @click="viewProduct(item)">
+                      {{ item.name }}</prime-button>
                     <div class="text-sm text-primary">{{ item.organization.name }}</div>
                     <div class="text-sm">{{ item.organization.region }}</div>
-                    <div
-                      class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
-                    >
+                    <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
                       <span>
-                        <prime-button
-                          @click="addToCart(item)"
-                          class="p-button-sm h-full py-1"
-                          label="Заказать"
-                        >
+                        <prime-button @click="addToCart(item)" class="p-button-sm h-full py-1" label="Заказать">
                         </prime-button>
                       </span>
 
-                      <prime-button
-                        disabled
-                        icon="pi pi-heart"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-chart-bar"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-arrows-h"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
+                      <prime-button disabled icon="pi pi-heart" class="p-button-secondary py-1"></prime-button>
+                      <prime-button disabled icon="pi pi-chart-bar" class="p-button-secondary py-1"></prime-button>
+                      <prime-button disabled icon="pi pi-arrows-h" class="p-button-secondary py-1"></prime-button>
                     </div>
                   </div>
                 </template>
@@ -59,9 +37,9 @@
 
               <template #content>
                 <data-table :value="productShortsItems">
-                  <column field="price" header="Цена"> </column>
+                  <column field="id" header="ИД"> </column>
                   <column field="name" header="Название"> </column>
-                  <column field="description" header="Описание"> </column>
+                  <!-- <column field="description" header="Описание"> </column> -->
                   <column field="created" header="Создан">
                     <template #body="{ data }">
                       {{ (data.created as Date).toLocaleString() }}
@@ -72,16 +50,21 @@
                       {{ (data.lastModified as Date).toLocaleString() }}
                     </template>
                   </column>
+                  <column field="price" header="Цена"> </column>
+                  <column header="">
+                    <template #body>
+                      <prime-button icon="pi pi-pencil" class="p-button-sm p-button py-2 px-0 mr-1"></prime-button>
+                      <prime-button icon="pi pi-trash" class="p-button-sm p-button-danger py-2 px-0 mr-1">
+                      </prime-button>
+                    </template>
+                  </column>
                 </data-table>
               </template>
             </card>
           </template>
         </div>
-        <div
-          v-else
-          style="background-color: var(--surface-card)"
-          class="w-full h-full flex justify-content-center border-round align-items-center"
-        >
+        <div v-else style="background-color: var(--surface-card)"
+          class="w-full h-full flex justify-content-center border-round align-items-center">
           <div class="text-center">
             <i class="pi pi-inbox text-8xl opacity-50"></i>
             <div class="p-component text-lg mt-3">Товаров не найдено</div>
@@ -97,14 +80,9 @@
         </div>
       </template>
     </transition-fade>
-    <prime-paginator
-      class="mt-2 border-1 shadow-1"
-      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-      @page="changePage"
-      :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)"
-      :totalRecords="currentPage?.totalItemCount ?? 0"
-    ></prime-paginator>
+    <prime-paginator class="mt-2 border-1 shadow-1"
+      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0" @page="changePage" :rows="pageSize"
+      :first="pageSize * (pageNumber - 1)" :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
   </div>
 </template>
 

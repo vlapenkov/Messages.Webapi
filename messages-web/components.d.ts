@@ -54,6 +54,7 @@ declare module '@vue/runtime-core' {
     PrimeButtonEdit: typeof import('./src/vue/base/presentational/prime/buttons/prime-button-edit.vue')['default']
     PrimeButtonSave: typeof import('./src/vue/base/presentational/prime/buttons/prime-button-save.vue')['default']
     PrimeDivider: typeof import('./src/vue/base/presentational/prime/prime-divider.vue')['default']
+    ProductCard: typeof import('./src/vue/containers/products/product-card.vue')['default']
     ProductDocumentDisplay: typeof import('./src/vue/presentational/product-document-display.vue')['default']
     ProductEdit: typeof import('./src/vue/views/product-edit.vue')['default']
     ProductFileEditor: typeof import('./src/vue/containers/product-file-editor.vue')['default']

@@ -1,7 +1,7 @@
 <template>
   <div class="popular-organization-list">
     <div class="grid w-full">
-      <div v-for="o in items" :key="o.id" class="col-4">
+      <div v-for="o in items" :key="o.id" class="col-3">
         <card class="h-full p-2">
           <template #content>
             <div class="flex flex-row justify-space-between align-items-center">
@@ -31,12 +31,18 @@
 </template>
 
 <script lang="ts">
+import { OrganizationModel } from '@/app/organizations/model/organization.model';
 import { organizationsStore } from '@/app/organizations/state/organizations.store';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    const items = computed(() => organizationsStore.currentPageItems.value);
+    const items = computed(() => {
+      const data = [...(organizationsStore.currentPageItems.value ?? [])];
+      return data.sort((a: OrganizationModel, b: OrganizationModel) =>
+        a.name[0].localeCompare(b.name[0]),
+      );
+    });
     return {
       items,
     };

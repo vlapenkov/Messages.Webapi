@@ -36,7 +36,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
 
         /// <summary>документы</summary>
-        public IReadOnlyCollection<FileDataDto> Documents { get; set; }
+        public FileDataDto[] Documents { get; set; }
 
        
     }

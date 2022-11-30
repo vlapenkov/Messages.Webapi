@@ -55,8 +55,28 @@ namespace Rk.Messages.Spa.Controllers
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
-            return await _productsService.GetProduct(id);
+            byte[][] resultFiles = Array.Empty<byte[]>();
 
+            var product =  await _productsService.GetProduct(id);
+
+            if (product.Documents.Any())
+            {
+                var tasks = new Task<byte[]>[product.Documents.Count()];
+
+                for (int i = 0; i < product.Documents.Count(); i++)
+                {
+                    tasks[i] = _filesService.GetFileContent(product.Documents[i].FileId);
+                }
+
+                resultFiles = await Task.WhenAll(tasks);
+
+            }
+
+            for (int i = 0; i < resultFiles.Length; i++)           
+             
+                product.Documents[i].Data = resultFiles[i];            
+
+            return product;
         }
 
         /// <summary>Апдейт значений атрибутов товара</summary>

@@ -30,7 +30,6 @@ app.UseCors(policyBuilder =>
     policyBuilder.AllowAnyHeader();
 });
 
-app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -49,9 +48,7 @@ app.UseSwaggerUI(builder.Configuration, "Api gateway");
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllers();
 });
 
 app.Run();

@@ -38,5 +38,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
+  </ItemGroup>
 
 </Project>

@@ -31,6 +31,7 @@ app.UseCors(policyBuilder =>
 });
 
 app.UseRouting();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<LogUserNameMiddleware>();

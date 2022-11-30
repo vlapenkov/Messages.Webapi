@@ -1,4 +1,5 @@
 ﻿using Rk.Messages.Domain.Enums;
+using Rk.Messages.Logic.CommonNS.Dto;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,7 +8,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
     /// <summary>
     /// Информация о товаре
     /// </summary>
-    public record ProductResponse
+    public record ProductResponse:AuditableEntityDto
     {
         public long Id { get; set; }
 
@@ -33,6 +34,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         public ProductStatus Status { get; set; }
 
         public string StatusText { get; set; }
+
+        public OrganizationShortDto Organization { get; set; }
 
 
         /// <summary>значения атрибутов</summary>

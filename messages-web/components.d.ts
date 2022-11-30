@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     DoughnutChart2: typeof import('./src/vue/presentational/charts/doughnut-chart2.vue')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
     EditItemButton: typeof import('./src/vue/base/presentational/state/collection/components/buttons/edit-item-button.vue')['default']
+    FileUpload: typeof import('primevue/fileupload')['default']
     FunnelChart: typeof import('./src/vue/presentational/charts/funnel-chart.vue')['default']
     GridItem: typeof import('./src/vue/base/presentational/grid/grid-item.vue')['default']
     HelloWorld: typeof import('./src/vue/presentational/hello-world.vue')['default']

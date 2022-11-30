@@ -16,7 +16,7 @@
             width: '100%',
           }"
         >
-          <i class="pi pi-search" />
+          <i class="pi pi-search"></i>
           <input-text
             type="text"
             placeholder="Найти"

@@ -7,4 +7,5 @@ export interface ISectionModel extends IModelUnique<number> {
   lastModifiedBy: string | null;
   created: string;
   lastModified: string;
+  documentId: string | null;
 }

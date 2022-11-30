@@ -1,8 +1,10 @@
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Rk.FileStore.Infrastructure.EFCore;
 using Rk.FileStore.Interfaces.Interfaces;
 using Rk.FileStore.Webapi;
+using Rk.Messages.Common.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,9 +27,14 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
     .Enrich.FromLogContext()
     .Enrich.WithMachineName()
 );
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 app.UseProblemDetails();
+app.MapHealthChecks("/hc", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheckUiExtensions.WriteResponse
+});
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

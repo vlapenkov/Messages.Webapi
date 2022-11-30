@@ -32,17 +32,13 @@ app.UseCors(policyBuilder =>
 
 app.UseStaticFiles();
 app.UseRouting();
-
-app.UseReverseProxy(builder.Configuration);
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseProblemDetails();
-
+app.UseReverseProxy(builder.Configuration);
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
@@ -51,8 +47,11 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
 app.UseSwaggerUI(builder.Configuration, "Api gateway");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();

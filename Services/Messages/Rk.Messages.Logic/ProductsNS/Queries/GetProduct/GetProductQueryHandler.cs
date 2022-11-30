@@ -35,6 +35,8 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery
                 .Include(product=> product.AttributeValues)
                 .Include(product => product.ProductDocuments)
                     .ThenInclude(pd=>pd.Document)
+
+                .Include(product => product.Organization)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id) 
                 ?? 

@@ -28,14 +28,18 @@ namespace Rk.Messages.Logic.ProductsNS.Mappings
                 .ReverseMap();
 
              CreateMap<Product, ProductResponse>()
-               .ForMember(dest => dest.Documents, opt => opt.Ignore())
+              // .ForMember(dest => dest.Documents, opt => opt.Ignore())
                .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
+               .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.ProductDocuments.Select(pd=>pd.Document)))
               .ReverseMap();
 
             CreateMap<Organization, OrganizationShortDto>()                
                 .ReverseMap();
 
             CreateMap<ProductAttribute, AttributeDto>()
+              .ReverseMap();
+
+            CreateMap<Document, FileDataDto>()
               .ReverseMap();
 
         }

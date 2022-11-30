@@ -41,34 +41,9 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery
                 .FirstOrDefaultAsync(x => x.Id == request.Id) 
                 ?? 
                 throw new EntityNotFoundException($"Продукция с Id = {request.Id} не найдена");
-
-
-            if (productFound.ProductDocuments.Any())
-            {
-                var tasks = new Task<byte[]>[productFound.ProductDocuments.Count];
-
-
-                for (int i = 0; i < productFound.ProductDocuments.Count; i++)
-                {
-            
-                    tasks[i] = _fileService.GetFileContent(productFound.ProductDocuments[i].Document.FileId);
-                }
-
-                 resultFiles = await Task.WhenAll(tasks);
-                                
-            }
             
 
             var result = _mapper.Map<ProductResponse>(productFound);
-
-            for (int i = 0; i < resultFiles.Length; i++)
-            {
-                var document = productFound.ProductDocuments[i].Document;
-                var fileDataDto = new FileDataDto { FileName = document.FileName, Data = resultFiles[i], FileId = document.FileId };
-                result.Documents.Add(fileDataDto);
-                result.Documents[i].Data = resultFiles[i];
-            }            
-           
 
             return result;
         }

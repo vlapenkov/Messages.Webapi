@@ -5,7 +5,12 @@
     </template>
     <template #content>
       <div class="p-2 flex flex-column justify-content-between gap-1">
-        <div class="text-sm font-bold">{{ product.name }}</div>
+        <prime-button
+          class="p-button-text text-sm font-bold custom-button-text"
+          @click="viewProduct(product)"
+        >
+          {{ product.name }}</prime-button
+        >
         <div class="text-sm text-primary">{{ product.organization.name }}</div>
         <div class="text-sm">{{ product.organization.region }}</div>
         <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
@@ -13,7 +18,7 @@
             <prime-button
               @click="addToCart(product)"
               class="p-button-sm h-full py-1"
-              label="заказать"
+              label="Заказать"
             >
             </prime-button>
           </span>
@@ -48,13 +53,18 @@ export default defineComponent({
   },
   emits: {
     addToCart: (_: ProductShortModel) => true,
+    viewProduct: (_: ProductShortModel) => true,
   },
   setup(props, { emit }) {
     const addToCart = (p: ProductShortModel) => {
       emit('addToCart', p);
     };
+    const viewProduct = (p: ProductShortModel) => {
+      emit('viewProduct', p);
+    };
     return {
       addToCart,
+      viewProduct,
     };
   },
 });

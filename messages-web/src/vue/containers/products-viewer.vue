@@ -6,7 +6,7 @@
         <div v-if="productShortsItems.length > 0" class="grid">
           <template v-if="viewMode === 'user'">
             <div v-for="item in productShortsItems" :key="item.id" class="col-3">
-              <product-card :product="item" @addToCart="addToCart" />
+              <product-card :product="item" @addToCart="addToCart" @viewProduct="viewProduct" />
             </div>
           </template>
           <template v-else>

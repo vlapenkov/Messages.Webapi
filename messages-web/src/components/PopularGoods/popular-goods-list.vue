@@ -2,7 +2,11 @@
   <toast position="top-right" group="tr" />
   <div class="grid">
     <div v-for="item in productShortsItems" :key="item.id" class="col-2">
-      <product-card :product="item" @addToCart="addProductToShopingCart" />
+      <product-card
+        :product="item"
+        @addToCart="addProductToShopingCart"
+        @viewProduct="viewProduct"
+      />
     </div>
   </div>
 </template>
@@ -16,6 +20,7 @@ import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { computed, defineComponent, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: { Toast },
@@ -30,6 +35,7 @@ export default defineComponent({
       productShortsService.loadPage(request);
     });
     const toast = useToast();
+    const router = useRouter();
     const productShortsItems = computed(() => productShortsStore.currentPageItems.value);
     const addProductToShopingCart = async (model: ProductShortModel) => {
       await addToCart({
@@ -43,7 +49,10 @@ export default defineComponent({
         life: 3000,
       });
     };
-    return { productShortsItems, addProductToShopingCart };
+    const viewProduct = (item: ProductShortModel) => {
+      router.push({ name: 'product', params: { id: item.id } });
+    };
+    return { productShortsItems, addProductToShopingCart, viewProduct };
   },
 });
 </script>

@@ -1,6 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <app-page :title="pageTitle">
+    <toast position="top-right" group="tr" />
     <card class="" id="main-card">
       <template #content>
         <tab-view ref="tabview1">
@@ -116,8 +117,28 @@
           </tab-panel>
           <tab-panel header="Технические характеристики" v-if="!isNew">
             <ul>
-              <li v-for="attr in models.attributes.value" :key="attr.attributeId">
-                {{ attr.value }}
+              <li v-for="attr in attributesCollection" :key="attr.attributeId">
+                <div class="grid p-fluid mt-2">
+                  <!-- строка 1 -->
+                  <div class="field col-12 md:col-3">
+                    <span class="p-float-label">
+                      <dropdown
+                        id="attributeId"
+                        v-model="attr.attributeId"
+                        :options="attributeDefs"
+                        optionLabel="name"
+                        optionValue="id"
+                      />
+                      <label for="attributeId">Название характеристики</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-9">
+                    <span class="p-float-label">
+                      <input-text id="attr-value" type="text" v-model="attr.value" />
+                      <label for="attr-value">Значение характеристики</label>
+                    </span>
+                  </div>
+                </div>
               </li>
             </ul>
             <div class="flex card-container blue-container overflow-hidden">
@@ -126,8 +147,16 @@
               </div>
               <div class="flex-grow-1 flex"></div>
               <div class="flex-none flex">
-                <prime-button icon="pi pi-plus" class="p-button-sm py-1 px-1 ml-1"> </prime-button>
+                <prime-button
+                  icon="pi pi-plus"
+                  class="p-button-sm py-1 px-1 ml-1"
+                  @click="addAttribute()"
+                >
+                </prime-button>
               </div>
+            </div>
+            <div class="field col-12">
+              <prime-button label="Сохранить" @click="saveAttributes"></prime-button>
             </div>
           </tab-panel>
         </tab-view>
@@ -142,18 +171,22 @@ import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { PrimeTextarea } from '@/tools/prime-vue-components';
 import { useBase64 } from '@vueuse/core';
-import { defineComponent, computed, watch, ref, Ref, WritableComputedRef } from 'vue';
+import { defineComponent, computed, watch, ref, Ref, WritableComputedRef, onMounted } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { productFullService } from '@/app/product-full/infrastructure/product-full.http-service';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { attributeStore } from '@/app/attributes/state/attribute.store';
 import { AttributeModel } from '@/app/attributes/models/AttributeModel';
+import { http } from '@/app/core/services/http/axios/axios.service';
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
 import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
 import { loadingStatusProvider } from '../base/presentational/state/collection/providers/loading-status.provider';
 
 export default defineComponent({
-  components: { PrimeTextarea },
+  components: { PrimeTextarea, Toast },
   setup() {
+    const toast = useToast();
     if (productFullStore.itemSelected == null) {
       throw new Error('Что-то не так с состоянием редактируемого товара');
     }
@@ -183,6 +216,15 @@ export default defineComponent({
           mode: val,
         };
       },
+    });
+
+    const attributesCollection = ref<{ attributeId: number | undefined; value: string }[]>();
+    onMounted(() => {
+      attributesCollection.value =
+        productFullStore.itemSelected?.value?.data?.attributeValues.map((x) => ({
+          attributeId: x.attributeId,
+          value: x.value,
+        })) ?? [];
     });
 
     const selectedData = computed({
@@ -279,11 +321,68 @@ export default defineComponent({
       attributes: getModelFor('attributeValues', []),
     };
 
+    const addAttribute = () => {
+      if (attributesCollection.value == null) return;
+      attributesCollection.value.push({
+        attributeId: undefined,
+        value: '',
+      });
+    };
+
+    const saveAttributes = () => {
+      const valid = attributesCollection.value?.every(
+        (x) => x.attributeId != null && x.value != null && x.value.trim() !== '',
+      );
+      if (!valid) {
+        toast.add({
+          severity: 'error',
+          group: 'tr',
+          detail: `Заполнены не все данные`,
+          life: 3000,
+        });
+        return;
+      }
+      const productId = selectedData.value?.id;
+      if (productId == null && selectedData.value == null) return;
+      http
+        .put(
+          `api/products/${productId}/attributes`,
+          attributesCollection.value?.map((c) => ({
+            attributeId: c.attributeId,
+            value: c.value,
+          })),
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            toast.add({
+              severity: 'success',
+              group: 'tr',
+              detail: `Технические характеристики сохранены`,
+              life: 2000,
+            });
+            if (selectedData.value == null) return;
+            const cloned = selectedData.value.clone();
+            cloned?.setKey(
+              'attributeValues',
+              attributesCollection.value?.map((x) => ({
+                baseProductId: productId,
+                attributeId: x.attributeId,
+                value: x.value,
+              })),
+            );
+            selectedData.value = cloned;
+          }
+        });
+    };
+
     return {
       getModelFor,
       createProduct,
       onFileInput,
       saveChanges,
+      addAttribute,
+      saveAttributes,
+      attributesCollection,
       pageTitle,
       models,
       sectionsCollection,
@@ -307,5 +406,9 @@ export default defineComponent({
 
 #main-card :deep(.p-card-content) {
   padding-top: 0;
+}
+
+ul {
+  list-style-type: none;
 }
 </style>

@@ -60,10 +60,12 @@
                     <product-image fit-width :id="product.documentId"></product-image>
                   </div>
                   <div class="col-4 flex flex-column gap-3">
-                    <div class="p-component text-md">{{ product.productName }}</div>
-                    <div class="p-component text-md text-primary">
-                      {{ item.organisationName }}
-                    </div>
+                    <router-link
+                      :to="{ name: 'product', params: { id: product.productId } }"
+                      class="flex gap-3 align-items-center not-link text-primary"
+                    >
+                      {{ product.productName }}</router-link
+                    >
                   </div>
                   <div class="col-2 flex flex-row justify-content-end">
                     <div class="p-component text-md">Цена: {{ product.price }}</div>
@@ -190,4 +192,16 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.not-link {
+  text-decoration: none;
+  /* color: black; */
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+}
+</style>

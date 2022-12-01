@@ -18,7 +18,11 @@
                     >
                       {{ item.name }}</prime-button
                     >
-                    <div class="text-sm text-primary">{{ item.organization.name }}</div>
+                    <prime-button
+                      class="p-button-text text-sm custom-button-text"
+                      @click="viewOrganization(item)"
+                      >{{ item.organization.name }}</prime-button
+                    >
                     <div class="text-sm">{{ item.organization.region }}</div>
                     <div
                       class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
@@ -200,6 +204,10 @@ export default defineComponent({
       router.push({ name: 'product', params: { id: item.id } });
     };
 
+    const viewOrganization = (item: ProductShortModel) => {
+      router.push({ name: 'organization', params: { id: item.organization.id } });
+    };
+
     const saveChanges = async () => {
       if (productFullStore.saveChanges == null) {
         return;
@@ -256,6 +264,7 @@ export default defineComponent({
 
     return {
       addNewProduct,
+      viewOrganization,
       modeFull,
       productFullStore,
       productShortsItems,

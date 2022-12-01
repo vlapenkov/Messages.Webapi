@@ -1,6 +1,6 @@
 <template>
   <toast position="top-right" group="tr" />
-  <div class="grid">
+  <div class="h-full w-full grid">
     <div v-for="item in productShortsItems" :key="item.id" class="col-2">
       <product-card
         :product="item"

@@ -1,18 +1,25 @@
 <template>
-  <div :style="imageStyle" class="max-height border-round overflow-hidden">
-    <img
-      v-if="id != null && imageData != null"
-      class="border-round"
-      :style="{ minWidth: minWidth != null ? minWidth + 'px' : undefined }"
-      :class="{ 'max-w-full': fitWidth }"
-      :src="imageData"
-      alt="Изображение товара"
-    />
-    <skeleton
-      v-else
-      :width="minWidth ? '' + minWidth + 'px' : undefined"
-      :height="'' + maxHeight + 'px'"
-    ></skeleton>
+  <div class="product-image">
+    <div :style="imageStyle" class="max-height border-round overflow-hidden container">
+      <img
+        v-if="id != null && imageData != null"
+        class="border-round"
+        :style="{
+          minWidth: minWidth != null ? minWidth + 'px' : undefined,
+          minHeight: minHeight != null ? minHeight + 'px' : undefined,
+          objectFit: objectFit != null ? objectFit : undefined,
+        }"
+        :class="{ 'max-w-full': fitWidth }"
+        :src="imageData"
+        :alt="headerText ?? 'Изображение товара'"
+      />
+      <skeleton
+        v-else
+        :width="minWidth ? '' + minWidth + 'px' : undefined"
+        :height="'' + maxHeight + 'px'"
+      />
+      <span v-if="headerText != null" class="top-left text-xl text-left">{{ headerText }}</span>
+    </div>
   </div>
 </template>
 
@@ -33,8 +40,20 @@ export default defineComponent({
       type: Number,
       default: 100,
     },
+    minHeight: {
+      type: Number,
+      default: null,
+    },
+    objectFit: {
+      type: String,
+      default: null,
+    },
     id: {
       type: String,
+    },
+    headerText: {
+      type: String,
+      default: null,
     },
   },
   setup(props) {
@@ -65,8 +84,20 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.max-height {
-  max-height: var(--custom--image--max-height);
+.product-image {
+  .max-height {
+    max-height: var(--custom--image--max-height);
+  }
+  .container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
 }
 </style>
 

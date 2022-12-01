@@ -44,12 +44,13 @@ export default defineComponent({
   props: {
     selected: {
       type: Number,
+      default: undefined,
     },
   },
   emits: {
-    'update:selected': (_: number) => true,
+    'update:selected': (_: number | undefined) => true,
   },
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const state = sectionsStore as CollectionStoreMixed;
     const viewMode = viewModeProvider.inject();
     const isAdmin = computed(() => viewMode.value === 'admin');
@@ -71,18 +72,22 @@ export default defineComponent({
     }
 
     const tree = state.treeView();
+
+    const selectedKeys = ref<TreeSelectionKeys>();
     watch(
-      tree,
-      (is) => {
-        // eslint-disable-next-line
-        const sdasd = is;
-        // console.log({ is });
+      () => props.selected,
+      (value) => {
+        if (value == null) {
+          selectedKeys.value = undefined;
+          return;
+        }
+        const key: Record<string, boolean> = { [value as unknown as string]: true };
+        selectedKeys.value = key;
       },
       {
         immediate: true,
       },
     );
-    const selectedKeys = ref<TreeSelectionKeys>();
 
     const expandedKeys = computed<TreeSelectionKeys>(() => {
       const result: Record<string, boolean> = {};

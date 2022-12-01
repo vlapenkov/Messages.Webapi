@@ -1,15 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import HomeView from '../vue/views/home-view.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: () => ({ name: 'sections' }),
-  },
-  {
-    path: '/home',
     name: 'home',
-    component: HomeView,
+    component: () => import(/* webpackChunkName: "home" */ '../vue/views/home-view.vue'),
   },
   {
     path: '/labs',
@@ -17,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../vue/views/labs-view.vue'),
   },
   {
-    path: '/catalog',
+    path: '/catalog/:id?',
     name: 'sections',
     component: () => import(/* webpackChunkName: "sections" */ '../vue/views/catalog-view.vue'),
   },

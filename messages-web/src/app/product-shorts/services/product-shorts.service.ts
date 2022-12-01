@@ -20,7 +20,7 @@ async function loadPage(request: IproductsPageRequest) {
       throw new Error('Не удалось преобразовать данные');
     });
     const newItem: IPagedResponse<ProductShortModel> = { ...response.data, rows: model };
-    productShortsStore.insertPage(newItem);
+    productShortsStore.setPage(newItem);
     productShortsStore.status.value = new DataStatus('loaded');
   }
 }

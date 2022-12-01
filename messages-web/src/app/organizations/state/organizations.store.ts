@@ -1,10 +1,10 @@
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { computed } from 'vue';
-import { ProductShortModel } from '../models/product-short.model';
-import { ProductShortsState } from './product-shorts.state';
+import { OrganizationModel } from '../model/organization.model';
+import { OrganizationsState } from './organizations.state';
 
-const { getter, mutation, computeState } = defineStore('products', new ProductShortsState());
+const { getter, mutation, computeState } = defineStore('organizations', new OrganizationsState());
 
 const pageNumber = computeState((state) => state.pageNumber);
 const pageSize = computeState((state) => state.pageSize);
@@ -15,18 +15,18 @@ const currentPage = getter('get-current-page', (state) => {
   return foundedPage ?? null;
 });
 
-const currentPageItemsGet = getter<readonly ProductShortModel[] | null>(
+const currentPageItemsGet = getter<readonly OrganizationModel[] | null>(
   'current-page--items--get',
-  () => (currentPage.value?.rows as ProductShortModel[] | undefined) ?? null,
+  () => (currentPage.value?.rows as OrganizationModel[] | undefined) ?? null,
 );
-const currentPageItemsSet = mutation<readonly ProductShortModel[]>(
+const currentPageItemsSet = mutation<readonly OrganizationModel[]>(
   'current-page--items--set',
   (state, payload) => {
     const foundedPage = state.pages.find((s) => s.pageNumber === state.pageNumber);
     if (foundedPage == null) {
       return;
     }
-    foundedPage.rows = payload.map((i) => i.clone());
+    foundedPage.rows = payload.map((i) => i.clone() as OrganizationModel);
   },
 );
 
@@ -42,15 +42,7 @@ const currentPageItems = computed({
 
 const status = computeState((state) => state.status);
 
-const selectedItem = computeState((state) => state.selectedItem);
-
-const selectedItemMode = getter('selected-item--mode', (state) => state.selectedItem?.mode ?? null);
-
-const parentSectionId = computeState((state) => state.sectionId);
-
-const searchQuery = computeState((state) => state.searchQuery);
-
-const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (state, payload) => {
+const insertPage = mutation<IPagedResponse<OrganizationModel>>('insert-page', (state, payload) => {
   const pageIndex = state.pages.findIndex(
     (p) => p.pageNumber === payload.pageNumber && p.pageSize === payload.pageSize,
   );
@@ -61,21 +53,12 @@ const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (s
   }
 });
 
-const setPage = mutation<IPagedResponse<ProductShortModel>>('set-page', (state, payload) => {
-  state.pages = [payload];
-});
-
-export const productShortsStore = {
+export const organizationsStore = {
   currentPage,
   currentPageItems,
   status,
-  selectedItem,
-  selectedItemMode,
   pageNumber,
   pageSize,
   pages,
-  parentSectionId,
-  searchQuery,
   insertPage,
-  setPage,
 };

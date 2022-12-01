@@ -6,55 +6,12 @@
         <div v-if="productShortsItems.length > 0" class="grid">
           <template v-if="viewMode === 'user'">
             <div v-for="item in productShortsItems" :key="item.id" class="col-3">
-              <card class="h-full re-padding-card">
-                <template #header>
-                  <product-image :max-height="140" :id="item.documentId"></product-image>
-                </template>
-                <template #content>
-                  <div class="p-2 flex flex-column justify-content-between gap-1">
-                    <prime-button
-                      class="p-button-text text-sm font-bold custom-button-text"
-                      @click="viewProduct(item)"
-                    >
-                      {{ item.name }}</prime-button
-                    >
-                    <prime-button
-                      class="p-button-text text-sm custom-button-text"
-                      @click="viewOrganization(item)"
-                      >{{ item.organization.name }}</prime-button
-                    >
-                    <div class="text-sm">{{ item.organization.region }}</div>
-                    <div
-                      class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
-                    >
-                      <span>
-                        <prime-button
-                          @click="addToCart(item)"
-                          class="p-button-sm h-full py-1"
-                          label="Заказать"
-                        >
-                        </prime-button>
-                      </span>
-
-                      <prime-button
-                        disabled
-                        icon="pi pi-heart"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-chart-bar"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-arrows-h"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                    </div>
-                  </div>
-                </template>
-              </card>
+              <product-card
+                :product="item"
+                @addToCart="addToCart"
+                @viewProduct="viewProduct"
+                @viewOrganization="viewOrganization"
+              />
             </div>
           </template>
           <template v-else>
@@ -153,7 +110,7 @@ import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
-import { computed, defineComponent, watch } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
@@ -162,24 +119,10 @@ import { viewModeProvider } from '../views/providers/view-mode.provider';
 
 export default defineComponent({
   components: { PrimePaginator, Toast },
-  props: {
-    categoryId: {
-      type: Number,
-    },
-  },
-  setup(props) {
+  setup() {
     const viewMode = viewModeProvider.inject();
     const toast = useToast();
     const router = useRouter();
-    watch(
-      () => props.categoryId,
-      (id) => {
-        productShortsStore.parentSectionId.value = id;
-      },
-      {
-        immediate: true,
-      },
-    );
 
     const modeFull = computed(() => productFullStore.itemSelected?.value?.mode);
 

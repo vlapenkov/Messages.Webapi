@@ -26,7 +26,7 @@
         <sections-container v-model:selected="selectedKey"></sections-container>
       </div>
       <div ref="productsContainerRef" class="col-9">
-        <products-viewer :categoryId="selectedKey"></products-viewer>
+        <products-viewer />
       </div>
     </div>
   </app-page>
@@ -38,11 +38,34 @@ import { productShortsService } from '@/app/product-shorts/services/product-shor
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
-import { defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import {
+  onBeforeRouteUpdate,
+  RouteLocationNormalized,
+  RouteLocationNormalizedLoaded,
+  useRoute,
+  useRouter,
+} from 'vue-router';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
+    const route = useRoute();
+    const router = useRouter();
+
+    const paramsToSectionId = (
+      val: RouteLocationNormalized | RouteLocationNormalizedLoaded,
+    ): number | undefined => {
+      const id: number | undefined = parseInt(val.params.id as string, 10);
+      return id != null && !Number.isNaN(id) ? id : undefined;
+    };
+
+    onBeforeRouteUpdate((to) => {
+      productShortsStore.parentSectionId.value = paramsToSectionId(to);
+    });
+    onBeforeMount(() => {
+      productShortsStore.parentSectionId.value = paramsToSectionId(route);
+    });
     const viewMode = viewModeProvider.provide();
 
     const switchViewMode = () => {
@@ -71,7 +94,13 @@ export default defineComponent({
       },
     );
 
-    const selectedKey = ref<number>();
+    const selectedKey = computed({
+      get: () => productShortsStore.parentSectionId.value,
+      set: (val) => {
+        productShortsStore.parentSectionId.value = val;
+        router.push({ name: 'sections', params: { id: val } });
+      },
+    });
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 

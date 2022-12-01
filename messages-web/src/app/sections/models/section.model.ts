@@ -62,6 +62,12 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
   )
   lastModified: Date | null = null;
 
+  @hidden('view')
+  @description('Документ')
+  @mock(randomUniqueNumber(1, 1000))
+  @render((m: SectionModel) => m.documentId ?? 'документ отсутствует')
+  documentId: string | null = null;
+
   fromResponse(m: ISectionModel): boolean {
     try {
       const { id, name, parentSectionId } = m;
@@ -75,6 +81,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
       this.lastModified = new Date(m.lastModified);
       this.createdBy = m.createdBy;
       this.lastModifiedBy = m.lastModifiedBy;
+      this.documentId = m.documentId;
       return true;
     } catch (error) {
       return false;
@@ -90,6 +97,7 @@ export class SectionModel extends UniqueModel<number, ISectionModel> {
       lastModifiedBy: this.lastModifiedBy,
       name: this.name,
       parentSectionId: this.parentSectionId,
+      documentId: this.documentId,
       [modelMarker]: this[modelMarker],
     };
   }

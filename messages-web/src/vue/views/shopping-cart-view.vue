@@ -3,7 +3,7 @@
     <div class="flex flex-column">
       <card class="shopping-cart-inner-card">
         <template #content>
-          <shopping-cart-item-view v-for="item in items" :key="item.productId" :item="item" />
+          <shopping-cart-item v-for="item in items" :key="item.productId" :item="item" />
           <div class="flex flex-row justify-content-between align-items-center mt-1">
             <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
             <prime-button @click="createNewOrder" label="Перейти к оформлению"></prime-button>

@@ -39,46 +39,32 @@ import { productShortsStore } from '@/app/product-shorts/state/product-shorts.st
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
 import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import {
+  onBeforeRouteUpdate,
+  RouteLocationNormalized,
+  RouteLocationNormalizedLoaded,
+  useRoute,
+  useRouter,
+} from 'vue-router';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
-    onBeforeRouteUpdate((to) => {
-      console.log('onBeforeRouteUpdate');
-      const params = to.params.id;
-      const id: number | undefined = parseInt(params as string, 10);
-      const sectionId = id != null && !Number.isNaN(id) ? id : undefined;
-      productShortsStore.parentSectionId.value = sectionId;
 
-      if (sectionId == null) {
-        const { searchQuery, pageNumber, pageSize } = productShortsStore;
-        productShortsService.loadPage({
-          name: searchQuery.value,
-          catalogSectionId: sectionId,
-          pageNumber: pageNumber.value,
-          pageSize: pageSize.value,
-        });
-      }
+    const paramsToSectionId = (
+      val: RouteLocationNormalized | RouteLocationNormalizedLoaded,
+    ): number | undefined => {
+      const id: number | undefined = parseInt(val.params.id as string, 10);
+      return id != null && !Number.isNaN(id) ? id : undefined;
+    };
+
+    onBeforeRouteUpdate((to) => {
+      productShortsStore.parentSectionId.value = paramsToSectionId(to);
     });
     onBeforeMount(() => {
-      console.log('onBeforeMount');
-      const params = route.params.id;
-      const id: number | undefined = parseInt(params as string, 10);
-      const sectionId = id != null && !Number.isNaN(id) ? id : undefined;
-      productShortsStore.parentSectionId.value = sectionId;
-
-      if (sectionId == null) {
-        const { searchQuery, pageNumber, pageSize } = productShortsStore;
-        productShortsService.loadPage({
-          name: searchQuery.value,
-          catalogSectionId: sectionId,
-          pageNumber: pageNumber.value,
-          pageSize: pageSize.value,
-        });
-      }
+      productShortsStore.parentSectionId.value = paramsToSectionId(route);
     });
     const viewMode = viewModeProvider.provide();
 
@@ -102,6 +88,9 @@ export default defineComponent({
           pageSize,
         };
         productShortsService.loadPage(request);
+      },
+      {
+        immediate: true,
       },
     );
 

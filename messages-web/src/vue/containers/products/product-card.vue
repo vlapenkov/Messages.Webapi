@@ -11,7 +11,13 @@
         >
           {{ product.name }}</prime-button
         >
-        <div class="text-sm text-primary">{{ product.organization.name }}</div>
+        <div class="text-sm text-primary">
+          <prime-button
+            class="p-button-text text-sm custom-button-text"
+            @click="viewOrganization(product)"
+            >{{ product.organization.name }}</prime-button
+          >
+        </div>
         <div class="text-sm">{{ product.organization.region }}</div>
         <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
           <span>
@@ -54,10 +60,14 @@ export default defineComponent({
   emits: {
     addToCart: (_: ProductShortModel) => true,
     viewProduct: (_: ProductShortModel) => true,
+    viewOrganization: (_: ProductShortModel) => true,
   },
   setup(props, { emit }) {
     const addToCart = (p: ProductShortModel) => {
       emit('addToCart', p);
+    };
+    const viewOrganization = (p: ProductShortModel) => {
+      emit('viewOrganization', p);
     };
     const viewProduct = (p: ProductShortModel) => {
       emit('viewProduct', p);
@@ -65,6 +75,7 @@ export default defineComponent({
     return {
       addToCart,
       viewProduct,
+      viewOrganization,
     };
   },
 });

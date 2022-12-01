@@ -1,6 +1,13 @@
 <template>
   <div class="text-2xl font-medium mt-1">{{ product.name }}</div>
-  <div class="text-base text-primary mt-1">{{ product.organization.name }}</div>
+  <div class="text-base text-primary mt-1">
+    <router-link
+      :to="{ name: 'organization', params: { id: product.organization.id } }"
+      class="flex gap-3 align-items-center not-link"
+    >
+      {{ product.organization.name }}</router-link
+    >
+  </div>
   <div class="text-base mt-1">
     <span class="text-color-secondary">Статус:</span>&nbsp;<span>{{ product.statusText }}</span>
   </div>
@@ -26,15 +33,24 @@ export default defineComponent({
   setup(props) {
     let dateStr = '';
     if (props?.product?.lastModified != null) {
-      const datePart = props.product.lastModified?.split('T')[0];
-      const timePart = props.product.lastModified?.split('T')[1]?.split('.')[0];
-      const datePartSplited = datePart.split('-');
-      const timePartSplited = timePart.split(':');
-      dateStr = `${datePartSplited[2]}.${datePartSplited[1]}.${datePartSplited[0]} ${timePartSplited[0]}:${timePartSplited[1]}:${timePartSplited[2]}`;
+      const d = new Date(props?.product?.lastModified);
+      dateStr = d.toLocaleString();
     }
     return { dateStr };
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.not-link {
+  text-decoration: none;
+  /* color: black; */
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+}
+</style>

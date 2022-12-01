@@ -6,7 +6,12 @@
         <div v-if="productShortsItems.length > 0" class="grid">
           <template v-if="viewMode === 'user'">
             <div v-for="item in productShortsItems" :key="item.id" class="col-3">
-              <product-card :product="item" @addToCart="addToCart" @viewProduct="viewProduct" />
+              <product-card
+                :product="item"
+                @addToCart="addToCart"
+                @viewProduct="viewProduct"
+                @viewOrganization="viewOrganization"
+              />
             </div>
           </template>
           <template v-else>
@@ -156,6 +161,10 @@ export default defineComponent({
       router.push({ name: 'product', params: { id: item.id } });
     };
 
+    const viewOrganization = (item: ProductShortModel) => {
+      router.push({ name: 'organization', params: { id: item.organization.id } });
+    };
+
     const saveChanges = async () => {
       if (productFullStore.saveChanges == null) {
         return;
@@ -212,6 +221,7 @@ export default defineComponent({
 
     return {
       addNewProduct,
+      viewOrganization,
       modeFull,
       productFullStore,
       productShortsItems,

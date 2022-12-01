@@ -6,6 +6,7 @@
         :product="item"
         @addToCart="addProductToShopingCart"
         @viewProduct="viewProduct"
+        @viewOrganization="viewOrganization"
       />
     </div>
   </div>
@@ -41,7 +42,10 @@ export default defineComponent({
     const viewProduct = (item: ProductShortModel) => {
       router.push({ name: 'product', params: { id: item.id } });
     };
-    return { productShortsItems, addProductToShopingCart, viewProduct };
+    const viewOrganization = (item: ProductShortModel) => {
+      router.push({ name: 'organization', params: { id: item.organization.id } });
+    };
+    return { productShortsItems, addProductToShopingCart, viewProduct, viewOrganization };
   },
 });
 </script>

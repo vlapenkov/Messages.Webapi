@@ -83,6 +83,7 @@ declare module '@vue/runtime-core' {
     Skeleton: typeof import('primevue/skeleton')['default']
     TabPanel: typeof import('primevue/tabpanel')['default']
     TabView: typeof import('primevue/tabview')['default']
+    Tag: typeof import('primevue/tag')['default']
     ThemeSwitchContainer: typeof import('./src/vue/base/containers/theme-switch-container.vue')['default']
     Toolbar: typeof import('primevue/toolbar')['default']
     TopChart: typeof import('./src/vue/presentational/charts/top-chart.vue')['default']

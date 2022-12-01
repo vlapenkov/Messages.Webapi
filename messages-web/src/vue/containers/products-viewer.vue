@@ -11,13 +11,28 @@
           </template>
           <template v-else>
             <card class="mx-2 mt-2">
-              <template #title> <span class="text-xl"> Товары </span> </template>
+              <template #title>
+                <div class="flex card-container blue-container overflow-hidden">
+                  <div class="flex-none flex">
+                    <span class="text-xl">Товары</span>
+                  </div>
+                  <div class="flex-grow-1 flex"></div>
+                  <div class="flex-none flex">
+                    <prime-button
+                      icon="pi pi-plus"
+                      class="p-button-sm py-1 px-1 ml-1"
+                      @click="addNewProduct"
+                    >
+                    </prime-button>
+                  </div>
+                </div>
+              </template>
 
               <template #content>
                 <data-table :value="productShortsItems">
-                  <column field="price" header="Цена"> </column>
+                  <column field="id" header="ИД"> </column>
                   <column field="name" header="Название"> </column>
-                  <column field="description" header="Описание"> </column>
+                  <!-- <column field="description" header="Описание"> </column> -->
                   <column field="created" header="Создан">
                     <template #body="{ data }">
                       {{ (data.created as Date).toLocaleString() }}
@@ -26,6 +41,21 @@
                   <column field="lastModified" header="Изменён">
                     <template #body="{ data }">
                       {{ (data.lastModified as Date).toLocaleString() }}
+                    </template>
+                  </column>
+                  <column field="price" header="Цена"> </column>
+                  <column header="">
+                    <template #body="{ data }">
+                      <prime-button
+                        icon="pi pi-pencil"
+                        class="p-button-sm p-button py-2 px-0 mr-1"
+                        @click="editProduct(data)"
+                      ></prime-button>
+                      <prime-button
+                        icon="pi pi-trash"
+                        class="p-button-sm p-button-danger py-2 px-0 mr-1"
+                      >
+                      </prime-button>
                     </template>
                   </column>
                 </data-table>
@@ -41,7 +71,12 @@
           <div class="text-center">
             <i class="pi pi-inbox text-8xl opacity-50"></i>
             <div class="p-component text-lg mt-3">Товаров не найдено</div>
-            <prime-button-add class="mt-2" v-if="viewMode === 'admin'" label="Добавить товар" />
+            <prime-button-add
+              class="mt-2"
+              v-if="viewMode === 'admin'"
+              label="Добавить товар"
+              @click="addNewProduct"
+            />
           </div>
         </div>
       </template>
@@ -70,7 +105,7 @@ import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
@@ -98,8 +133,8 @@ export default defineComponent({
       },
     );
 
-    const showFullProductDialog = ref(false);
     const modeFull = computed(() => productFullStore.itemSelected?.value?.mode);
+
     const addNewProduct = () => {
       if (productFullStore.createItem == null) {
         return;
@@ -110,18 +145,13 @@ export default defineComponent({
       if (selectedItem == null) {
         return;
       }
-      if (
-        productFullStore.itemSelected?.value != null &&
-        productShortsStore.parentSectionId.value != null &&
-        modeFull.value != null
-      ) {
+      if (productFullStore.itemSelected?.value != null && modeFull.value != null) {
         const clone = selectedItem.clone();
-        clone.catalogSectionId = productShortsStore.parentSectionId.value;
+        clone.catalogSectionId = -1;
         productFullStore.itemSelected.value = new NotValidData(clone, modeFull.value);
-        showFullProductDialog.value = true;
+        router.push('/edit-product');
       }
     };
-
     const viewProduct = (item: ProductShortModel) => {
       router.push({ name: 'product', params: { id: item.id } });
     };
@@ -131,17 +161,25 @@ export default defineComponent({
         return;
       }
       await productFullStore.saveChanges();
-      showFullProductDialog.value = false;
     };
-    const selectProduct = (item: ProductShortModel) => {
+
+    const editProduct = (item: ProductShortModel) => {
       productFullStore
         .getDataAsync({
           force: true,
-          arguments: item.id,
+          arguments: {
+            id: item.id,
+          },
         })
         .then(() => {
-          if (productFullStore.selectItem != null) {
-            showFullProductDialog.value = true;
+          if (productFullStore.selectItem != null) productFullStore.selectItem();
+          if (productFullStore.itemSelected?.value != null) {
+            const clone = productFullStore.itemSelected.value.data.clone();
+            productFullStore.itemSelected.value = new NotValidData(
+              clone,
+              productFullStore.itemSelected?.value.mode,
+            );
+            router.push('/edit-product');
           }
         });
     };
@@ -179,10 +217,9 @@ export default defineComponent({
       productShortsItems,
       productShortsStatus,
       productTitle,
-      showFullProductDialog,
       saveChanges,
       viewProduct,
-      selectProduct,
+      editProduct,
       pageNumber,
       pageSize,
       viewMode,

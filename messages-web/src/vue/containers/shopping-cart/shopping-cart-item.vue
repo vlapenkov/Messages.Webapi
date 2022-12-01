@@ -16,6 +16,7 @@
           class="text-sm font-normal p-bbutton-sm p-1 p-button-text p-button-danger rk-button"
           icon="pi pi-trash"
           label="Удалить"
+          @click="deleteItem"
         ></prime-button>
       </div>
     </div>
@@ -46,11 +47,15 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
-import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import {
+  addToCart,
+  shoppingCartService,
+} from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import { ShoppingCartModel } from '@/app/shopping-cart/models/shopping-cart.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
-import { refreshProvider } from '../base/presentational/state/collection/providers/refresh.provider';
+import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
+import { CollectionStoreMixed } from '../../base/presentational/state/collection/collection-state.vue';
+import { refreshProvider } from '../../base/presentational/state/collection/providers/refresh.provider';
 
 export default defineComponent({
   props: {
@@ -81,11 +86,20 @@ export default defineComponent({
     const updateItemQuantity = (q: number) => {
       quantity.value = q;
     };
+    const deleteItem = async () => {
+      isQuantityUpdating.value = true;
+      const resp = await shoppingCartService.del(props.item);
+      if (resp.status === HttpStatus.Success && state.getDataAsync) {
+        state.getDataAsync({ force: true });
+        isQuantityUpdating.value = false;
+      }
+    };
     return {
       quantity,
       shoppingCartStore,
       isQuantityUpdating,
       updateItemQuantity,
+      deleteItem,
     };
   },
 });

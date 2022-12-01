@@ -93,7 +93,16 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   }
 
   toRequest(): IProductFullModel {
-    return this;
+    const request = this.clone();
+    request.documents = this.documents.map(
+      (x) =>
+        ({
+          fileId: x.fileId,
+          fileName: x.fileName,
+          data: x.data.replace(/(^data:image\/png;base64,)/gi, ''),
+        } as IProductDocument),
+    );
+    return request;
   }
 
   equals(mb: ProductFullModel): boolean {

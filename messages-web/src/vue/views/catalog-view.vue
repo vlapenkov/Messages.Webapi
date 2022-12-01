@@ -50,6 +50,14 @@ export default defineComponent({
       const params = route.params.id;
       const sectionId = params !== '' ? parseInt(params as string, 10) : undefined;
       productShortsStore.parentSectionId.value = sectionId;
+
+      const { searchQuery: name, pageNumber, pageSize } = productShortsStore;
+      productShortsService.loadPage({
+        name: name.value ?? '',
+        catalogSectionId: sectionId,
+        pageNumber: pageNumber.value,
+        pageSize: pageSize.value,
+      });
     });
     const viewMode = viewModeProvider.provide();
 

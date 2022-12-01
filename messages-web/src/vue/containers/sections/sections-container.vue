@@ -86,6 +86,7 @@ export default defineComponent({
     watch(
       () => props.selected,
       (value) => {
+        if (value == null) return;
         const key: Record<string, boolean> = { [value as unknown as string]: true };
         selectedKeys.value = key;
       },

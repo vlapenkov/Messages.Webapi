@@ -48,16 +48,19 @@ export default defineComponent({
     const router = useRouter();
     onBeforeMount(() => {
       const params = route.params.id;
-      const sectionId = params !== '' ? parseInt(params as string, 10) : undefined;
+      const id: number | undefined = parseInt(params as string, 10);
+      const sectionId = id != null && !Number.isNaN(id) ? id : undefined;
       productShortsStore.parentSectionId.value = sectionId;
 
-      const { searchQuery: name, pageNumber, pageSize } = productShortsStore;
-      productShortsService.loadPage({
-        name: name.value ?? '',
-        catalogSectionId: sectionId,
-        pageNumber: pageNumber.value,
-        pageSize: pageSize.value,
-      });
+      if (sectionId == null) {
+        const { searchQuery, pageNumber, pageSize } = productShortsStore;
+        productShortsService.loadPage({
+          name: searchQuery.value,
+          catalogSectionId: sectionId,
+          pageNumber: pageNumber.value,
+          pageSize: pageSize.value,
+        });
+      }
     });
     const viewMode = viewModeProvider.provide();
 

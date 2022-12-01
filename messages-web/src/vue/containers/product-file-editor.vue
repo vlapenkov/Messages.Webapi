@@ -23,7 +23,6 @@ import { useSelectedData } from '../base/presentational/state/collection/composa
 export default defineComponent({
   setup() {
     const product = useSelectedData<ProductFullModel>();
-    console.log(product);
     const documents = computed({
       get: () => product.value?.documents ?? null,
       set: (docs) => {

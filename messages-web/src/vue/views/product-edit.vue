@@ -299,7 +299,6 @@ export default defineComponent({
       if (result.status === HttpStatus.Success) {
         mode.value = 'edit';
       }
-      console.log(result);
     };
 
     const saveChanges = async () => {

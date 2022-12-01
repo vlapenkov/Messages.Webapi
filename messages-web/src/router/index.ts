@@ -3,10 +3,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: () => ({ name: 'home' }),
-  },
-  {
-    path: '/',
     name: 'home',
     component: () => import(/* webpackChunkName: "home" */ '../vue/views/home-view.vue'),
   },

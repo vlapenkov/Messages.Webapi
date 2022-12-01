@@ -35,20 +35,26 @@
 
               <template #content>
                 <data-table :value="productShortsItems">
-                  <column field="id" header="ИД"> </column>
+                  <column field="id" header="Код"> </column>
                   <column field="name" header="Название"> </column>
                   <!-- <column field="description" header="Описание"> </column> -->
                   <column field="created" header="Создан">
                     <template #body="{ data }">
-                      {{ (data.created as Date).toLocaleString() }}
+                      {{ data.createdBy ?? '-' }} <br />{{
+                        (data.created as Date).toLocaleString()
+                      }}
                     </template>
                   </column>
                   <column field="lastModified" header="Изменён">
                     <template #body="{ data }">
-                      {{ (data.lastModified as Date).toLocaleString() }}
+                      {{ data.lastModifiedBy ?? '-' }} <br />{{
+                        (data.lastModified as Date).toLocaleString()
+                      }}
                     </template>
                   </column>
-                  <column field="price" header="Цена"> </column>
+                  <column field="price" header="Цена">
+                    <template #body="slotProps"> {{ slotProps.data.price }} ₽ </template>
+                  </column>
                   <column header="">
                     <template #body="{ data }">
                       <prime-button

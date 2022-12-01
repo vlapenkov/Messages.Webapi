@@ -10,7 +10,7 @@
     <div>
       {{ userShortName }}
     </div>
-    <avatar shape="circle" :image="gravatarUrl"></avatar>
+    <avatar shape="circle" icon="pi pi-user"></avatar>
   </div>
   <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />
 </template>
@@ -18,18 +18,21 @@
 <script lang="ts">
 import { isAuthenticated, userInfo } from '@/store/user.store';
 import { computed, defineComponent, ref } from 'vue';
-import { url } from 'gravatar';
+// import { url } from 'gravatar';
 import { screenMiddle } from '@/app/core/services/window/window.service';
 import { logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 
-const avatarSize = 100;
+// const avatarSize = 100;
 export default defineComponent({
   components: { PrimeMenu: Menu },
   setup() {
-    const gravatarUrl = computed(() =>
-      userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
-    );
+    const gravatarUrl = '@/assets/imagesg/avatar_placeholder.png';
+
+    // computed(() =>
+    //   userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
+    // );
+
     const userShortName = computed(() =>
       [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
         .map((part) => (!screenMiddle.value ? `${part[0]}.` : part))

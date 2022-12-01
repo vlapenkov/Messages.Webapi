@@ -12,45 +12,21 @@
                 </template>
                 <template #content>
                   <div class="p-2 flex flex-column justify-content-between gap-1">
-                    <prime-button
-                      class="p-button-text text-sm font-bold custom-button-text"
-                      @click="viewProduct(item)"
-                    >
-                      {{ item.name }}</prime-button
-                    >
-                    <prime-button
-                      class="p-button-text text-sm custom-button-text"
-                      @click="viewOrganization(item)"
-                      >{{ item.organization.name }}</prime-button
-                    >
+                    <prime-button class="p-button-text text-sm font-bold custom-button-text" @click="viewProduct(item)">
+                      {{ item.name }}</prime-button>
+                    <prime-button class="p-button-text text-sm custom-button-text" @click="viewOrganization(item)">{{
+                        item.organization.name
+                    }}</prime-button>
                     <div class="text-sm">{{ item.organization.region }}</div>
-                    <div
-                      class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
-                    >
+                    <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
                       <span>
-                        <prime-button
-                          @click="addToCart(item)"
-                          class="p-button-sm h-full py-1"
-                          label="Заказать"
-                        >
+                        <prime-button @click="addToCart(item)" class="p-button-sm h-full py-1" label="Заказать">
                         </prime-button>
                       </span>
 
-                      <prime-button
-                        disabled
-                        icon="pi pi-heart"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-chart-bar"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
-                      <prime-button
-                        disabled
-                        icon="pi pi-arrows-h"
-                        class="p-button-secondary py-1"
-                      ></prime-button>
+                      <prime-button disabled icon="pi pi-heart" class="p-button-secondary py-1"></prime-button>
+                      <prime-button disabled icon="pi pi-chart-bar" class="p-button-secondary py-1"></prime-button>
+                      <prime-button disabled icon="pi pi-arrows-h" class="p-button-secondary py-1"></prime-button>
                     </div>
                   </div>
                 </template>
@@ -66,11 +42,7 @@
                   </div>
                   <div class="flex-grow-1 flex"></div>
                   <div class="flex-none flex">
-                    <prime-button
-                      icon="pi pi-plus"
-                      class="p-button-sm py-1 px-1 ml-1"
-                      @click="addNewProduct"
-                    >
+                    <prime-button icon="pi pi-plus" class="p-button-sm py-1 px-1 ml-1" @click="addNewProduct">
                     </prime-button>
                   </div>
                 </div>
@@ -78,31 +50,29 @@
 
               <template #content>
                 <data-table :value="productShortsItems">
-                  <column field="id" header="ИД"> </column>
+                  <column field="id" header="Код"> </column>
                   <column field="name" header="Название"> </column>
-                  <!-- <column field="description" header="Описание"> </column> -->
-                  <column field="created" header="Создан">
+                  <column field="description" header="Описание"> </column>
+                  <!-- <column field="created" header="Создан">
                     <template #body="{ data }">
-                      {{ (data.created as Date).toLocaleString() }}
+                      {{ data.createdBy }} <br />{{ (data.created as Date).toLocaleString() }}
                     </template>
-                  </column>
+                  </column> -->
                   <column field="lastModified" header="Изменён">
                     <template #body="{ data }">
-                      {{ (data.lastModified as Date).toLocaleString() }}
+                      {{ data.lastModifiedBy ?? '-' }} <br />{{ (data.lastModified as Date).toLocaleString() }}
                     </template>
                   </column>
-                  <column field="price" header="Цена"> </column>
+                  <column field="price" header="Цена">
+                    <template #body="slotProps">
+                      {{ slotProps.data.price }} ₽
+                    </template>
+                  </column>
                   <column header="">
                     <template #body="{ data }">
-                      <prime-button
-                        icon="pi pi-pencil"
-                        class="p-button-sm p-button py-2 px-0 mr-1"
-                        @click="editProduct(data)"
-                      ></prime-button>
-                      <prime-button
-                        icon="pi pi-trash"
-                        class="p-button-sm p-button-danger py-2 px-0 mr-1"
-                      >
+                      <prime-button icon="pi pi-pencil" class="p-button-sm p-button py-2 px-0 mr-1"
+                        @click="editProduct(data)"></prime-button>
+                      <prime-button icon="pi pi-trash" class="p-button-sm p-button-danger py-2 px-0 mr-1">
                       </prime-button>
                     </template>
                   </column>
@@ -111,20 +81,12 @@
             </card>
           </template>
         </div>
-        <div
-          v-else
-          style="background-color: var(--surface-card)"
-          class="w-full h-full flex justify-content-center border-round align-items-center"
-        >
+        <div v-else style="background-color: var(--surface-card)"
+          class="w-full h-full flex justify-content-center border-round align-items-center">
           <div class="text-center">
             <i class="pi pi-inbox text-8xl opacity-50"></i>
             <div class="p-component text-lg mt-3">Товаров не найдено</div>
-            <prime-button-add
-              class="mt-2"
-              v-if="viewMode === 'admin'"
-              label="Добавить товар"
-              @click="addNewProduct"
-            />
+            <prime-button-add class="mt-2" v-if="viewMode === 'admin'" label="Добавить товар" @click="addNewProduct" />
           </div>
         </div>
       </template>
@@ -136,14 +98,9 @@
         </div>
       </template>
     </transition-fade>
-    <prime-paginator
-      class="mt-2 border-1 shadow-1"
-      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-      @page="changePage"
-      :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)"
-      :totalRecords="currentPage?.totalItemCount ?? 0"
-    ></prime-paginator>
+    <prime-paginator class="mt-2 border-1 shadow-1"
+      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0" @page="changePage" :rows="pageSize"
+      :first="pageSize * (pageNumber - 1)" :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
   </div>
 </template>
 

@@ -10,7 +10,7 @@
                   <div
                     class="flex-grow-1 flex align-items-center justify-content-center border-round"
                   >
-                    <div class="text-3xl font-semibold">756 млрд. руб</div>
+                    <div class="text-3xl font-semibold">3,2 млн. руб</div>
                   </div>
                 </div>
                 <div class="flex">

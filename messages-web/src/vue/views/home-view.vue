@@ -152,7 +152,7 @@ export default defineComponent({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,
-        pageSize: 8,
+        pageSize: 12,
       });
       await organizationsService.loadPage({
         pageNumber: 1,

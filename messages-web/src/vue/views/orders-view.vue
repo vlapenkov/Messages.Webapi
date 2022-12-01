@@ -4,7 +4,15 @@
       <card v-for="item in pageItems" :key="item.id">
         <template #title>
           <div class="flex flex-row justify-content-between">
-            <span class="p-component text-lg font-bold">Заказ № {{ item.id }}</span>
+            <div class="flex flex-row" style="align-items: baseline">
+              <span class="p-component text-lg font-bold">Заказ № {{ item.id }}</span>
+              <tag class="ml-2" value="Primary" rounded style="height: 24px">завершен</tag>
+              <prime-button
+                style="transform: scale(0.7)"
+                class="p-button-raised p-button-secondary p-button-text"
+                label="Связаться с заказчиком"
+              ></prime-button>
+            </div>
             <prime-button
               style="transform: scale(0.7)"
               class="p-button-rounded p-button-text p-button-secondary"
@@ -36,7 +44,7 @@
                 <div class="p-component text-md">Количество: {{ item.quantity }}</div>
               </div>
               <div class="col-3">
-                <div class="p-component text-md">Сумма заказа: {{ item.sum }} руб</div>
+                <div class="p-component text-md">Сумма заказа: {{ item.sum }} ₽</div>
               </div>
             </template>
             <template v-else>
@@ -68,14 +76,14 @@
                     >
                   </div>
                   <div class="col-2 flex flex-row justify-content-end">
-                    <div class="p-component text-md">Цена: {{ product.price }}</div>
+                    <div class="p-component text-md">Цена: {{ product.price }} ₽</div>
                   </div>
                   <div class="col-4 flex flex-row justify-content-end">
                     <div class="p-component text-md">Количество: {{ product.quantity }}</div>
                   </div>
                 </div>
                 <div class="flex mt-3 mx-1 flex-row justify-content-end">
-                  <div class="p-component text-lg font-bold">Итого: {{ item.sum }}</div>
+                  <div class="p-component text-lg font-bold">Итого: {{ item.sum }} ₽</div>
                 </div>
               </template>
             </div>

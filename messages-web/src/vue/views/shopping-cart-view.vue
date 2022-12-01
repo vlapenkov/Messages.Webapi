@@ -6,7 +6,11 @@
           <shopping-cart-item v-for="item in items" :key="item.productId" :item="item" />
           <div class="flex flex-row justify-content-between align-items-center mt-1">
             <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
-            <prime-button @click="createNewOrder" label="Перейти к оформлению"></prime-button>
+            <prime-button
+              @click="createNewOrder"
+              label="Перейти к оформлению"
+              :disabled="createNewOrderDisabled"
+            ></prime-button>
           </div>
         </template>
       </card>
@@ -51,12 +55,14 @@ export default defineComponent({
     const createNewOrder = async () => {
       await createOrder();
     };
+    const createNewOrderDisabled = computed(() => (items.value ?? []).length === 0);
     const sum = computed(() =>
       (items.value ?? []).map((i) => i.price * i.quantity).reduce((acc, curr) => acc + curr, 0),
     );
     return {
       sum,
       items,
+      createNewOrderDisabled,
       createNewOrder,
     };
   },

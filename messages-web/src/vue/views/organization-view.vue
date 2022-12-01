@@ -103,7 +103,6 @@ export default defineComponent({
     );
 
     const getDateStr = (date: string | undefined) => {
-      console.log(date);
       let dateStr = '';
       if (date != null) {
         const d = new Date(date);

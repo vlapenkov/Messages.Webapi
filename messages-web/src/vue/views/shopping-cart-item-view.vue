@@ -5,7 +5,14 @@
     </div>
     <div class="col-4 flex flex-column gap-3">
       <div class="p-component text-md">{{ item.productName }}</div>
-      <div class="p-component text-md text-primary">{{ item.organization.name }}</div>
+      <div class="p-component text-md text-primary">
+        <router-link
+          :to="{ name: 'organization', params: { id: item.organization.id } }"
+          class="flex gap-3 align-items-center not-link"
+        >
+          {{ item.organization.name }}</router-link
+        >
+      </div>
       <div class="flex flex-row gap-2">
         <prime-button
           class="text-sm font-normal p-bbutton-sm p-1 p-button-text rk-button"
@@ -97,6 +104,7 @@ export default defineComponent({
     font-weight: 500;
   }
 }
+
 .re-scale {
   :deep(.p-inputnumber-input) {
     min-width: 50px;
@@ -109,16 +117,31 @@ export default defineComponent({
       box-shadow: none;
     }
   }
+
   :deep(.p-button) {
     border: 0;
     background-color: var(--surface-200);
     color: var(--text-color);
   }
+
   :deep(input) {
     border: 0;
     font-size: 28px;
     padding-left: 1rem;
   }
+
   transform: scale(0.5) translate(-50%, -50%);
+}
+
+.not-link {
+  text-decoration: none;
+  /* color: black; */
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
 }
 </style>

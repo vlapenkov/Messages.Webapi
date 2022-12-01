@@ -110,7 +110,7 @@ import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
-import { computed, defineComponent, watch } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
@@ -119,24 +119,10 @@ import { viewModeProvider } from '../views/providers/view-mode.provider';
 
 export default defineComponent({
   components: { PrimePaginator, Toast },
-  props: {
-    categoryId: {
-      type: Number,
-    },
-  },
-  setup(props) {
+  setup() {
     const viewMode = viewModeProvider.inject();
     const toast = useToast();
     const router = useRouter();
-    watch(
-      () => props.categoryId,
-      (id) => {
-        productShortsStore.parentSectionId.value = id;
-      },
-      {
-        immediate: true,
-      },
-    );
 
     const modeFull = computed(() => productFullStore.itemSelected?.value?.mode);
 

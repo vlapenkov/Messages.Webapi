@@ -44,10 +44,11 @@ export default defineComponent({
   props: {
     selected: {
       type: Number,
+      default: undefined,
     },
   },
   emits: {
-    'update:selected': (_: number) => true,
+    'update:selected': (_: number | undefined) => true,
   },
   setup(props, { emit }) {
     const state = sectionsStore as CollectionStoreMixed;
@@ -71,17 +72,7 @@ export default defineComponent({
     }
 
     const tree = state.treeView();
-    watch(
-      tree,
-      (is) => {
-        // eslint-disable-next-line
-        const sdasd = is;
-        // console.log({ is });
-      },
-      {
-        immediate: true,
-      },
-    );
+
     const selectedKeys = ref<TreeSelectionKeys>();
     watch(
       () => props.selected,

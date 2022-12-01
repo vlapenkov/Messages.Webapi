@@ -4,8 +4,8 @@
       <div v-for="o in items" :key="o.id" class="col-3">
         <card class="h-full p-2">
           <template #content>
-            <div class="flex flex-row justify-space-between align-items-center">
-              <div class="grid">
+            <div class="h-full w-full flex flex-row justify-space-between align-items-center">
+              <div class="h-full w-full grid">
                 <div class="col-3">
                   <div
                     class="h-full w-full flex flex-row justify-content-center align-items-center"
@@ -68,6 +68,8 @@ export default defineComponent({
 
   .p-card-body {
     padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   :deep(.p-card-content) {
@@ -78,6 +80,8 @@ export default defineComponent({
   .p-card-content {
     padding-bottom: 0 !important;
     padding-top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .custom-button-text {

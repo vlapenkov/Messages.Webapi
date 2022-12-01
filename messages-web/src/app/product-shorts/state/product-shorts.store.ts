@@ -61,6 +61,10 @@ const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (s
   }
 });
 
+const setPage = mutation<IPagedResponse<ProductShortModel>>('set-page', (state, payload) => {
+  state.pages = [payload];
+});
+
 export const productShortsStore = {
   currentPage,
   currentPageItems,
@@ -73,4 +77,5 @@ export const productShortsStore = {
   parentSectionId,
   searchQuery,
   insertPage,
+  setPage,
 };

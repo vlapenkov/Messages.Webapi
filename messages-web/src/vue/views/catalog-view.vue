@@ -38,11 +38,19 @@ import { productShortsService } from '@/app/product-shorts/services/product-shor
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
-import { defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
+    const route = useRoute();
+    const router = useRouter();
+    onBeforeMount(() => {
+      const params = route.params.id;
+      const sectionId = params !== '' ? parseInt(params as string, 10) : undefined;
+      productShortsStore.parentSectionId.value = sectionId;
+    });
     const viewMode = viewModeProvider.provide();
 
     const switchViewMode = () => {
@@ -66,12 +74,15 @@ export default defineComponent({
         };
         productShortsService.loadPage(request);
       },
-      {
-        immediate: true,
-      },
     );
 
-    const selectedKey = ref<number>();
+    const selectedKey = computed({
+      get: () => productShortsStore.parentSectionId.value,
+      set: (val) => {
+        productShortsStore.parentSectionId.value = val;
+        router.push({ name: 'sections', params: { id: val } });
+      },
+    });
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 

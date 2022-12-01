@@ -49,7 +49,7 @@ export default defineComponent({
   emits: {
     'update:selected': (_: number) => true,
   },
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const state = sectionsStore as CollectionStoreMixed;
     const viewMode = viewModeProvider.inject();
     const isAdmin = computed(() => viewMode.value === 'admin');
@@ -83,6 +83,16 @@ export default defineComponent({
       },
     );
     const selectedKeys = ref<TreeSelectionKeys>();
+    watch(
+      () => props.selected,
+      (value) => {
+        const key: Record<string, boolean> = { [value as unknown as string]: true };
+        selectedKeys.value = key;
+      },
+      {
+        immediate: true,
+      },
+    );
 
     const expandedKeys = computed<TreeSelectionKeys>(() => {
       const result: Record<string, boolean> = {};

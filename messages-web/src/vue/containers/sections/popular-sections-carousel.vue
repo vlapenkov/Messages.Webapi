@@ -13,6 +13,7 @@
         class="flex flex-column"
         :style="{
           marginLeft: slotProps.index > 0 ? '0.5rem' : undefined,
+          cursor: 'pointer',
         }"
       >
         <product-image
@@ -21,6 +22,7 @@
           :min-width="160"
           :fit-width="true"
           :header-text="slotProps.data.name"
+          @click="viewSection(slotProps.data)"
         />
       </div>
     </template>
@@ -32,6 +34,7 @@ import { SectionModel } from '@/app/sections/models/section.model';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { CollectionStoreMixed } from '@/vue/base/presentational/state/collection/collection-state.vue';
 import { computed, defineComponent, WritableComputedRef } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
@@ -60,7 +63,11 @@ export default defineComponent({
         numScroll: 1,
       },
     ];
-    return { state, items, itemsWithDocumentId, responsiveOptions };
+    const router = useRouter();
+    const viewSection = (item: SectionModel) => {
+      router.push({ name: 'sections', params: { id: item.id } });
+    };
+    return { state, items, itemsWithDocumentId, responsiveOptions, viewSection };
   },
 });
 </script>

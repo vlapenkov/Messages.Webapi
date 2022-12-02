@@ -100,7 +100,7 @@
       </template>
     </transition-fade>
     <prime-paginator
-      class="mt-2 border-1 shadow-1"
+      class="mt-2 border-1 shadow-1 products-paginator"
       v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
       @page="changePage"
       :rows="pageSize"
@@ -298,5 +298,15 @@ export default defineComponent({
 
 .custom-button-text {
   padding: 0;
+}
+
+/**
+TODO
+Разобраться, почему на dev зоне цвет рамки - инверсия выбранной темы
+*/
+.products-paginator {
+  border: solid #e9ecef !important;
+  border-width: 0 !important;
+  border-radius: 6px !important;
 }
 </style>

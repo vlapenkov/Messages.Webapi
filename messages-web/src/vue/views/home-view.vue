@@ -3,11 +3,13 @@
   <div>
     <div class="flex flex-row justify-space-between align-items-center mt-2">
       <div class="col-1 pl-0">
-        <prime-button
-          class="text-sm font-normal p-bbutton-sm p-2"
-          icon="pi pi-bars"
-          label="Каталог"
-        />
+        <router-link to="catalog" :style="{ textDecoration: 'none' }">
+          <prime-button
+            class="text-sm font-normal p-bbutton-sm p-2"
+            icon="pi pi-bars"
+            label="Каталог"
+          />
+        </router-link>
       </div>
       <div class="col-7">
         <span
@@ -57,23 +59,42 @@
         </prime-button>
       </div>
       <div class="col-1">
-        <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
-          <div class="flex flex-column">
-            <i class="pi pi-shopping-cart"></i>
-            <span>Корзина</span>
-          </div>
-        </prime-button>
+        <router-link to="shopping-cart" :style="{ textDecoration: 'none' }">
+          <prime-button
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+          >
+            <div class="flex flex-column">
+              <i class="pi pi-shopping-cart"></i>
+              <span>Корзина</span>
+            </div>
+          </prime-button>
+        </router-link>
       </div>
     </div>
     <div class="flex flex-row justify-space-between align-items-center">
       <div class="col-4 pl-0">
-        <dropdown placeholder="Область применения" :style="{ width: '100%' }" />
+        <dropdown
+          v-model="sectionModel"
+          :options="sectionOptions"
+          placeholder="Область применения"
+          :style="{ width: '100%' }"
+        />
       </div>
       <div class="col-4">
-        <dropdown placeholder="Регион" :style="{ width: '100%' }" />
+        <dropdown
+          v-model="regionModel"
+          :options="regionOptions"
+          placeholder="Регион"
+          :style="{ width: '100%' }"
+        />
       </div>
       <div class="col-4">
-        <dropdown placeholder="Производитель" :style="{ width: '100%' }" />
+        <dropdown
+          v-model="organizationModel"
+          :options="organizationOptions"
+          placeholder="Производитель"
+          :style="{ width: '100%' }"
+        />
       </div>
     </div>
     <div class="flex flex-row justify-space-between align-items-center">
@@ -180,12 +201,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref, WritableComputedRef } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
 import { organizationsService } from '@/app/organizations/services/organization.service';
+import { sectionsStore } from '@/app/sections/state/sections.store';
+import { SectionModel } from '@/app/sections/models/section.model';
+import { organizationsStore } from '@/app/organizations/state/organizations.store';
+import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
 
 export default defineComponent({
   components: {
@@ -194,21 +219,42 @@ export default defineComponent({
     PopularOrganizationsList,
   },
   setup() {
-    onMounted(async () => {
-      await productShortsService.loadPage({
+    onMounted(() => {
+      productShortsService.loadPage({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,
         pageSize: 12,
       });
-      await organizationsService.loadPage({
+      organizationsService.loadPage({
         pageNumber: 1,
         pageSize: 8,
       });
     });
     const hasPhoto = ref(false);
+    const sectionModel = ref();
+    const regionModel = ref();
+    const organizationModel = ref();
+    const sectionState = sectionsStore as CollectionStoreMixed;
+    if (sectionState.items == null) {
+      throw new Error('Что-то пошло не так');
+    }
+    const sections = sectionState.items({ force: false }) as WritableComputedRef<SectionModel[]>;
+    const sectionOptions = computed(() => (sections.value ?? []).map((x) => x.name));
+    const regionOptions = computed(() => [
+      ...(organizationsStore.currentPageItems.value ?? []).map((x) => x.region),
+    ]);
+    const organizationOptions = computed(() => [
+      ...(organizationsStore.currentPageItems.value ?? []).map((x) => x.name),
+    ]);
     return {
+      sectionModel,
+      regionModel,
+      organizationModel,
       hasPhoto,
+      sectionOptions,
+      regionOptions,
+      organizationOptions,
     };
   },
 });

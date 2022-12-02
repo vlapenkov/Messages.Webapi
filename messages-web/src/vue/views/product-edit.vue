@@ -219,6 +219,7 @@ export default defineComponent({
     });
 
     const attributesCollection = ref<{ attributeId: number | undefined; value: string }[]>();
+
     onMounted(() => {
       attributesCollection.value =
         productFullStore.itemSelected?.value?.data?.attributeValues.map((x) => ({
@@ -293,11 +294,19 @@ export default defineComponent({
     };
 
     const createProduct = async () => {
-      if (productFullStore.itemSelected?.value == null) return;
+      if (productFullStore.itemSelected?.value == null) return; // || productFullStore.saveChanges == null
+      // await productFullStore.saveChanges();
+      // mode.value = 'edit';
       const request = productFullStore.itemSelected?.value.data.toRequest();
       const result = await productFullService.post(request);
       if (result.status === HttpStatus.Success) {
         mode.value = 'edit';
+        if (selectedData.value == null) {
+          return;
+        }
+        const cloned = selectedData.value.clone();
+        cloned.setKey('id', result.data);
+        selectedData.value = cloned;
       }
     };
 

@@ -143,53 +143,85 @@
           <prime-divider class="mt-0"></prime-divider>
           <div class="grid w-full h-full">
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold"
-                    >Высокоскоростные гибридные шаговые электродвигатели</span
-                  >
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в ракетно-космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Высокоскоростные гибридные шаговые электродвигатели
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
 
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold">Миниатюрные электромеханические устройства</span>
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в ракетно-космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Миниатюрные электромеханические устройства
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
 
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold"
-                    >Системы и средства запуска космических аппаратов</span
-                  >
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Системы и средства запуска космических аппаратов
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
 
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold">Системы квантовой связи космических аппаратов</span>
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в ракетно-космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Системы квантовой связи для космических аппаратов
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>

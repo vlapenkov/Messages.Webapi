@@ -100,31 +100,70 @@
         </div>
       </div>
     </div>
-    <div class="grid">
+    <div class="grid mt-2">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные категории</h1>
       <prime-divider class="mt-0"></prime-divider>
       <popular-sections-carousel></popular-sections-carousel>
     </div>
-    <div class="grid">
+    <div class="grid mt-5">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные товары</h1>
       <prime-divider class="mt-0"></prime-divider>
       <popular-products-list></popular-products-list>
     </div>
-    <div class="grid">
+    <div class="grid mt-5">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Производители</h1>
       <prime-divider class="mt-0"></prime-divider>
       <popular-organizations-list></popular-organizations-list>
     </div>
-    <div class="grid">
+    <div class="grid mt-5">
       <h1 class="p-component text-xl sm:text-2xl mb-1">Дайджесты</h1>
       <prime-divider class="mt-0"></prime-divider>
       <div class="grid w-full">
-        <div v-for="i in 4" :key="i" class="col-3">
+        <div class="col-3">
           <card class="news-card p-3">
             <template #title>
-              <span class="font-semibold">Дайджест</span>
+              <span class="font-semibold">Высокоскоростные гибридные шаговые электродвигатели</span>
             </template>
-            <template #content> Краткое описание </template>
+            <template #content>
+              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
+              в ракетно-космической отрасли на основе патентной информации.
+            </template>
+          </card>
+        </div>
+
+        <div class="col-3">
+          <card class="news-card p-3">
+            <template #title>
+              <span class="font-semibold">Миниатюрные электромеханические устройства</span>
+            </template>
+            <template #content>
+              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
+              в ракетно-космической отрасли на основе патентной информации.
+            </template>
+          </card>
+        </div>
+
+        <div class="col-3">
+          <card class="news-card p-3">
+            <template #title>
+              <span class="font-semibold">Системы и средства запуска космических аппаратов</span>
+            </template>
+            <template #content>
+              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
+              в космической отрасли на основе патентной информации.
+            </template>
+          </card>
+        </div>
+
+        <div class="col-3">
+          <card class="news-card p-3">
+            <template #title>
+              <span class="font-semibold">Системы квантовой связи для космических аппаратов</span>
+            </template>
+            <template #content>
+              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
+              в ракетно-космической отрасли на основе патентной информации.
+            </template>
           </card>
         </div>
       </div>

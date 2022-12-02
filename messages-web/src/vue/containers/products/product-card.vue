@@ -29,16 +29,20 @@
             </prime-button>
           </span>
 
-          <prime-button disabled icon="pi pi-heart" class="p-button-secondary py-1"></prime-button>
+          <prime-button
+            disabled
+            icon="pi pi-heart"
+            class="p-button-secondary p-button-text py-1"
+          ></prime-button>
           <prime-button
             disabled
             icon="pi pi-chart-bar"
-            class="p-button-secondary py-1"
+            class="p-button-secondary p-button-text py-1"
           ></prime-button>
           <prime-button
             disabled
             icon="pi pi-arrows-h"
-            class="p-button-secondary py-1"
+            class="p-button-secondary p-button-text py-1"
           ></prime-button>
         </div>
       </div>

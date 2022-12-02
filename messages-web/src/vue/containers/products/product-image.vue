@@ -18,7 +18,11 @@
         :width="minWidth ? '' + minWidth + 'px' : undefined"
         :height="'' + maxHeight + 'px'"
       />
-      <span v-if="headerText != null" class="top-left text-xl text-left">{{ headerText }}</span>
+      <span
+        v-if="headerText != null && id != null && imageData != null"
+        class="top-left text-xl text-left"
+        >{{ headerText }}</span
+      >
     </div>
   </div>
 </template>

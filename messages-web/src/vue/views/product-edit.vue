@@ -58,7 +58,7 @@
                 <div class="field col-12 md:col-4">
                   <span class="p-float-label">
                     <input-text id="measuring" type="text" v-model="models.measuringUnit.value" />
-                    <label for="measuring">Еденицы измерения</label>
+                    <label for="measuring">Единицы измерения</label>
                   </span>
                 </div>
                 <div class="field col-12 md:col-4">

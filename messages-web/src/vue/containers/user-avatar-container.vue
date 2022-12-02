@@ -7,7 +7,7 @@
     class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
     v-if="isAuthenticated"
   >
-    <div>{{ userShortName }}, Прогресс</div>
+    <div>{{ userShortName }}</div>
     <avatar shape="circle" icon="pi pi-user"></avatar>
   </div>
   <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />
@@ -31,11 +31,27 @@ export default defineComponent({
     //   userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
     // );
 
-    const userShortName = computed(() =>
-      [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
+    const orgs: { [key: string]: string } = {
+      '5907001774': 'НПО «ИСКРА»',
+      '6312139922': 'Прогресс',
+      '7404052938': 'Златоустовский машиностроительный завод',
+      '5047008220': 'НПО Энергомаш',
+      '7804588900': 'АО «КБ «Арсенал»',
+      '7743254939': 'АО НТЦ «Охрана»',
+      '5042006211': 'ФКП «НИЦ РКП»',
+      '9710021379': 'ООО «СБ «РК-Страхование»',
+    };
+
+    const userShortName = computed(() => {
+      let user = [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
         .map((part) => (!screenMiddle.value ? `${part[0]}.` : part))
-        .join(' '),
-    );
+        .join(' ');
+      console.log(userInfo.value, orgs);
+      if (userInfo.value?.inn != null && orgs[userInfo.value.inn] != null) {
+        user = `${user}, ${orgs[userInfo.value.inn]}`;
+      }
+      return user;
+    });
 
     const menuItems = [
       {

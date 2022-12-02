@@ -23,6 +23,7 @@ export const userInfo = getter('get-user-info', (state) =>
         familyName: state.token.family_name,
         email: state.token.email,
         accountName: state.token.preferred_username,
+        inn: state.token.inn,
       },
 );
 

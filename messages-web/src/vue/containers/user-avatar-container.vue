@@ -7,9 +7,7 @@
     class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
     v-if="isAuthenticated"
   >
-    <div>
-      {{ userShortName }}
-    </div>
+    <div>{{ userShortName }}, Прогресс</div>
     <avatar shape="circle" icon="pi pi-user"></avatar>
   </div>
   <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />

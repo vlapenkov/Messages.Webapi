@@ -1,5 +1,5 @@
 <template>
-  <app-page :title="'Карточка оргаизации'">
+  <app-page :title="'Карточка организации'">
     <card>
       <template #content>
         <div class="grid">

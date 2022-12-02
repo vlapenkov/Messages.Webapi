@@ -8,7 +8,7 @@
             <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
             <prime-button
               @click="createNewOrder"
-              label="Перейти к оформлению"
+              label="Оформить заказ"
               :disabled="createNewOrderDisabled"
             ></prime-button>
           </div>
@@ -20,9 +20,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, WritableComputedRef } from 'vue';
-import { createOrder } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { postOrder } from '@/app/orders/infrastructure/order.http-service';
 import { ShoppingCartModel } from '@/app/shopping-cart/models/shopping-cart.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { useRouter } from 'vue-router';
 import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
 import { createItemProvider } from '../base/presentational/state/collection/providers/create-item.provider';
 import { deleteItemProvider } from '../base/presentational/state/collection/providers/delete-item.provider';
@@ -37,6 +38,7 @@ import { showDialogProvider } from '../base/presentational/state/collection/prov
 
 export default defineComponent({
   setup() {
+    const router = useRouter();
     const state = shoppingCartStore as CollectionStoreMixed;
     refreshProvider.provideFrom(() => state.getDataAsync);
     showDialogProvider.provide();
@@ -52,9 +54,12 @@ export default defineComponent({
       throw new Error('Что-то пошло не так');
     }
     const items = state.items({ force: true }) as WritableComputedRef<ShoppingCartModel[]>;
+
     const createNewOrder = async () => {
-      await createOrder();
+      const response = await postOrder(undefined);
+      router.push({ name: 'order', params: { id: response.data } });
     };
+
     const createNewOrderDisabled = computed(() => (items.value ?? []).length === 0);
     const sum = computed(() =>
       (items.value ?? []).map((i) => i.price * i.quantity).reduce((acc, curr) => acc + curr, 0),

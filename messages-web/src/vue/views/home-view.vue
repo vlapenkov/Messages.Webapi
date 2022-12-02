@@ -100,74 +100,82 @@
         </div>
       </div>
     </div>
-    <div class="grid mt-2">
-      <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные категории</h1>
-      <prime-divider class="mt-0"></prime-divider>
-      <popular-sections-carousel></popular-sections-carousel>
-    </div>
-    <div class="grid mt-5">
-      <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные товары</h1>
-      <prime-divider class="mt-0"></prime-divider>
-      <popular-products-list></popular-products-list>
-    </div>
-    <div class="grid mt-5">
-      <h1 class="p-component text-xl sm:text-2xl mb-1">Производители</h1>
-      <prime-divider class="mt-0"></prime-divider>
-      <popular-organizations-list></popular-organizations-list>
-    </div>
-    <div class="grid mt-5">
-      <h1 class="p-component text-xl sm:text-2xl mb-1">Дайджесты</h1>
-      <prime-divider class="mt-0"></prime-divider>
-      <div class="grid w-full">
-        <div class="col-3">
-          <card class="news-card p-3">
-            <template #title>
-              <span class="font-semibold">Высокоскоростные гибридные шаговые электродвигатели</span>
-            </template>
-            <template #content>
-              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
-              в ракетно-космической отрасли на основе патентной информации.
-            </template>
-          </card>
+    <card class="home-content-card mt-2">
+      <template #content>
+        <div class="grid">
+          <h1 class="p-component text-xl sm:text-2xl mb-1 mt-0">Популярные категории</h1>
+          <prime-divider class="mt-0"></prime-divider>
+          <popular-sections-carousel class="w-full"></popular-sections-carousel>
         </div>
+        <div class="grid mt-5">
+          <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные товары</h1>
+          <prime-divider class="mt-0"></prime-divider>
+          <popular-products-list></popular-products-list>
+        </div>
+        <div class="grid mt-5">
+          <h1 class="p-component text-xl sm:text-2xl mb-1">Производители</h1>
+          <prime-divider class="mt-0"></prime-divider>
+          <popular-organizations-list></popular-organizations-list>
+        </div>
+        <div class="grid mt-5">
+          <h1 class="p-component text-xl sm:text-2xl mb-1">Дайджесты</h1>
+          <prime-divider class="mt-0"></prime-divider>
+          <div class="grid w-full h-full">
+            <div class="col-3">
+              <card class="news-card p-3">
+                <template #title>
+                  <span class="font-semibold"
+                    >Высокоскоростные гибридные шаговые электродвигатели</span
+                  >
+                </template>
+                <template #content>
+                  В дайджесте представлена информация о наиболее актуальных и перспективных
+                  разработках в ракетно-космической отрасли на основе патентной информации.
+                </template>
+              </card>
+            </div>
 
-        <div class="col-3">
-          <card class="news-card p-3">
-            <template #title>
-              <span class="font-semibold">Миниатюрные электромеханические устройства</span>
-            </template>
-            <template #content>
-              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
-              в ракетно-космической отрасли на основе патентной информации.
-            </template>
-          </card>
-        </div>
+            <div class="col-3">
+              <card class="news-card p-3">
+                <template #title>
+                  <span class="font-semibold">Миниатюрные электромеханические устройства</span>
+                </template>
+                <template #content>
+                  В дайджесте представлена информация о наиболее актуальных и перспективных
+                  разработках в ракетно-космической отрасли на основе патентной информации.
+                </template>
+              </card>
+            </div>
 
-        <div class="col-3">
-          <card class="news-card p-3">
-            <template #title>
-              <span class="font-semibold">Системы и средства запуска космических аппаратов</span>
-            </template>
-            <template #content>
-              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
-              в космической отрасли на основе патентной информации.
-            </template>
-          </card>
-        </div>
+            <div class="col-3">
+              <card class="news-card p-3">
+                <template #title>
+                  <span class="font-semibold"
+                    >Системы и средства запуска космических аппаратов</span
+                  >
+                </template>
+                <template #content>
+                  В дайджесте представлена информация о наиболее актуальных и перспективных
+                  разработках в космической отрасли на основе патентной информации.
+                </template>
+              </card>
+            </div>
 
-        <div class="col-3">
-          <card class="news-card p-3">
-            <template #title>
-              <span class="font-semibold">Системы квантовой связи для космических аппаратов</span>
-            </template>
-            <template #content>
-              В дайджесте представлена информация о наиболее актуальных и перспективных разработках
-              в ракетно-космической отрасли на основе патентной информации.
-            </template>
-          </card>
+            <div class="col-3">
+              <card class="news-card p-3">
+                <template #title>
+                  <span class="font-semibold">Системы квантовой связи космических аппаратов</span>
+                </template>
+                <template #content>
+                  В дайджесте представлена информация о наиболее актуальных и перспективных
+                  разработках в ракетно-космической отрасли на основе патентной информации.
+                </template>
+              </card>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </card>
   </div>
 </template>
 
@@ -207,37 +215,43 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.news-card {
-  :deep(.p-card-header) {
-    line-height: 0;
-    text-align: center;
-  }
-
-  .p-card-header {
-    line-height: 0 !important;
-    text-align: center !important;
-  }
-
-  :deep(.p-card-body) {
-    padding: 0;
-  }
-
-  .p-card-body {
-    padding: 0 !important;
-  }
-
-  :deep(.p-card-content) {
-    padding-bottom: 0;
+.home-content-card {
+  .p-card-content {
     padding-top: 0;
   }
 
-  .p-card-content {
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-  }
+  .news-card {
+    :deep(.p-card-header) {
+      line-height: 0;
+      text-align: center;
+    }
 
-  .custom-button-text {
-    padding: 0;
+    .p-card-header {
+      line-height: 0 !important;
+      text-align: center !important;
+    }
+
+    :deep(.p-card-body) {
+      padding: 0;
+    }
+
+    .p-card-body {
+      padding: 0 !important;
+    }
+
+    :deep(.p-card-content) {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    .p-card-content {
+      padding-bottom: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    .custom-button-text {
+      padding: 0;
+    }
   }
 }
 </style>

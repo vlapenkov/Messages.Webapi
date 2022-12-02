@@ -5,13 +5,12 @@
         <template #title>
           <div class="flex flex-row justify-content-between">
             <div class="flex flex-row" style="align-items: baseline">
-              <span class="p-component text-lg font-bold">Заказ № {{ item.id }}</span>
+              <router-link
+                :to="{ name: 'order', params: { id: item.id } }"
+                class="p-component text-primary text-lg font-bold not-link"
+                >Заказ № {{ item.id }}</router-link
+              >
               <tag class="ml-2" value="Primary" rounded style="height: 24px">завершен</tag>
-              <prime-button
-                style="transform: scale(0.7)"
-                class="p-button-raised p-button-secondary p-button-text"
-                label="Связаться с заказчиком"
-              ></prime-button>
             </div>
             <prime-button
               style="transform: scale(0.7)"
@@ -201,6 +200,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+:deep(.p-card-title) {
+  height: 28px;
+}
+
 .not-link {
   text-decoration: none;
   /* color: black; */

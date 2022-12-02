@@ -219,14 +219,14 @@ export default defineComponent({
     PopularOrganizationsList,
   },
   setup() {
-    onMounted(() => {
-      productShortsService.loadPage({
+    onMounted(async () => {
+      await productShortsService.loadPage({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,
         pageSize: 12,
       });
-      organizationsService.loadPage({
+      await organizationsService.loadPage({
         pageNumber: 1,
         pageSize: 8,
       });

@@ -28,6 +28,8 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
 
         DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
+        DbSet<News> News { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

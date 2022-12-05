@@ -1,7 +1,12 @@
 <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
-  <div aria-controls="overlay_menu" aria-haspopup="true" @click="toggleMenu"
-    class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl" v-if="isAuthenticated">
+  <div
+    aria-controls="overlay_menu"
+    aria-haspopup="true"
+    @click="toggleMenu"
+    class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
+    v-if="isAuthenticated"
+  >
     <div>{{ userShortName }}</div>
     <avatar shape="circle" icon="pi pi-user"></avatar>
   </div>

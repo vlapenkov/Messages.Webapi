@@ -6,6 +6,7 @@ using Rk.Messages.Spa.Infrastructure.Services;
 
 namespace Rk.Messages.Spa.Controllers
 {
+    /// <summary>Управление новостями</summary>
     [Route("api/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
@@ -47,6 +48,7 @@ namespace Rk.Messages.Spa.Controllers
             return await _newsService.GetNews(id);
         }
 
+        /// <summary>Получить список новостей</summary>
         [HttpGet]
         public async Task<PagedResponse<NewsResponse>> GetNews()
         {

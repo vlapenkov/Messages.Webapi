@@ -1,5 +1,5 @@
-﻿namespace Rk.FileStore.Webapi.Models
-{
+﻿namespace Rk.FileStore.Interfaces
+{ 
     /// <summary>
     /// Запрос на создание файла
     /// </summary>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Asn1.Ocsp;
+using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.NewsNS;
 using Rk.Messages.Spa.Infrastructure.Services;
@@ -46,6 +47,12 @@ namespace Rk.Messages.Spa.Controllers
         public async Task<NewsResponse> GetNews(long id)
         {
             return await _newsService.GetNews(id);
+        }
+
+        [HttpGet]
+        public async Task<PagedResponse<NewsResponse>> GetNews()
+        {
+            return await _newsService.GetNews();
         }
     }
 }

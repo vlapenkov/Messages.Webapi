@@ -43,6 +43,8 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
+        public DbSet<News> News { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
                       

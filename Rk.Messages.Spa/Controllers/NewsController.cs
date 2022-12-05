@@ -54,5 +54,12 @@ namespace Rk.Messages.Spa.Controllers
         {
             return await _newsService.GetNews();
         }
+
+        /// <summary>Удалить новость</summary>
+        [HttpDelete("{id:long}")]
+        public async Task DeleteNewsById(long id)
+        {
+            await _newsService.DeleteById(id);
+        }
     }
 }

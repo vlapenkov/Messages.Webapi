@@ -23,5 +23,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         [Get("/api/v1/News")]
         Task<PagedResponse<NewsResponse>> GetNews();
 
+        /// <summary>Удалить новость</summary>  
+        [Delete("/api/v1/News/{id}")]
+        Task DeleteById(long id);
+
     }
 }

@@ -9,14 +9,21 @@ namespace Rk.Messages.Domain.Entities.Products
     /// </summary>
     public abstract class BaseProduct : AuditableEntity
     {
+        const short _maxDescriptionLength = 1024;
         protected BaseProduct() { }
         public BaseProduct(long organizationId, long catalogSectionId,  string name, string description, IReadOnlyCollection<AttributeValue> attributeValues)
         {
             CatalogSectionId = catalogSectionId;          
             Name = name;
-            Description = description;
+            
             OrganizationId = organizationId;
 
+            if (description != null)
+            {
+                int maxLength = description.Length > _maxDescriptionLength ? _maxDescriptionLength : description.Length;
+
+                Description = description.Substring(0, maxLength);
+            }
             _attributeValues = attributeValues.ToList();
             
         }        

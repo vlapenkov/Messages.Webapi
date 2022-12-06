@@ -16,7 +16,7 @@ namespace Rk.Messages.Logic.SectionsNS.Validations
                 .NotEmpty()
                 .WithMessage("Наименование продукта не должно быть пустым")
                 .MinimumLength(5)
-                .WithMessage("Минимальная длина продукта не менее 5 символов");
+                .WithMessage("Минимальная длина наименования продукта не менее 5 символов");
 
             // Атрибуты продукции НЕ обязательно должны быть указаны
             //RuleFor(x => x.Request).Custom((request, context) =>

@@ -1,9 +1,11 @@
-﻿namespace Rk.FileStore.Webapi.Models
-{
+﻿using Rk.FileStore.Interfaces.Dto;
+
+namespace Rk.FileStore.Interfaces
+{ 
     /// <summary>
     /// Запрос на создание файла
     /// </summary>
-    public record CreateFileRequest
+    public record CreateProductsFromFileRequest : IFileData
     {
         public string FileName { get; set; }
 

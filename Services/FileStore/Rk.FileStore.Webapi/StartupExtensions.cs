@@ -24,6 +24,10 @@ namespace Rk.FileStore.Webapi
             services.AddScoped<IHashProvider, Sha256HashProvider>();
 
             services.AddTransient<IFilesService, FilesService>();
+
+            services.AddTransient<IProductService, ProductService>();
+
+            services.AddTransient<IRemoteImageService, RemoteImageService>();
         }
         public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env)
         {

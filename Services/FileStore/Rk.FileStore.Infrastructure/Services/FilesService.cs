@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rk.FileStore.Domain;
 using Rk.FileStore.Interfaces;
+using Rk.FileStore.Interfaces.Dto;
 using Rk.FileStore.Interfaces.Interfaces;
 using Rk.FileStore.Interfaces.Services;
 
@@ -22,7 +23,7 @@ namespace Rk.FileStore.Infrastructure.Services
             _hashProvider = hashProvider;
         }
 
-        public async Task<Guid> CreateFile(CreateFileRequest request)
+        public async Task<Guid> CreateFile(IFileData request)
         {
 
             Guid result;
@@ -54,7 +55,7 @@ namespace Rk.FileStore.Infrastructure.Services
             return result;
         }
 
-        public async Task<IReadOnlyCollection<Guid>> CreateFiles(IReadOnlyCollection<CreateFileRequest> requests)
+        public async Task<IReadOnlyCollection<Guid>> CreateFiles(IReadOnlyCollection<IFileData> requests)
         {
             List<Guid> results = new();
 

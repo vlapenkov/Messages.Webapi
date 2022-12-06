@@ -7,11 +7,11 @@ using Rk.Messages.Spa.Infrastructure.Services;
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Работа с продукцией
+    /// Управление продукцией, услугами, технологиями
     /// </summary>
     
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     
     public class ProductsController : ControllerBase
     {
@@ -19,12 +19,17 @@ namespace Rk.Messages.Spa.Controllers
 
         private readonly IFileStoreService _filesService;
 
+        private readonly IProductsPrepareService _productsPrepareService;
 
-        public ProductsController(IProductsService productsService, IFileStoreService fileService)
+        private readonly ILogger _logger;
+
+
+        public ProductsController(IProductsService productsService, IFileStoreService filesService, IProductsPrepareService productsPrepareService, ILogger<ProductsController> logger)
         {
             _productsService = productsService;
-
-            _filesService = fileService;
+            _filesService = filesService;
+            _productsPrepareService = productsPrepareService;
+            _logger = logger;   
         }
 
         /// <summary>Создать продукт </summary>
@@ -41,6 +46,23 @@ namespace Rk.Messages.Spa.Controllers
             request.Documents.ForEach(doc => doc.FileId = fileGlobalIdsArray[counter++]);
 
             return await _productsService.CreateProduct(request);
+
+        }
+
+        /// <summary>Создать продукты из excel </summary>
+        [HttpPost("fromexcel")]
+        public async Task<IReadOnlyCollection<CreateProductRequest>> CreateProducts([FromBody] CreateProductsFromFileRequest request)
+        {
+            IReadOnlyCollection<CreateProductRequest> productsPrepared = await _productsPrepareService.PrepareProductsFromExcel(request);
+
+            foreach (var productRequest in productsPrepared)
+            {
+                var productId = await _productsService.CreateProduct(productRequest);
+
+                _logger.LogInformation($"Создана продукция id={productId}");
+            }
+
+            return productsPrepared;
 
         }
 

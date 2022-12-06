@@ -5,7 +5,7 @@ namespace Rk.FileStore.Interfaces
     /// <summary>
     /// Запрос на создание файла
     /// </summary>
-    public record CreateFileRequest : IFileData
+    public record CreateProductsFromFileRequest : IFileData
     {
         public string FileName { get; set; }
 

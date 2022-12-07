@@ -25,12 +25,16 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         [Get("/api/v1/Products/attributes")]
         Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes();
 
-        /// <summary>Получить инфо о продукции</summary>  
+        /// <summary>Физически удалить продукцию</summary>  
         [Delete("/api/v1/Products/{id}")]
         Task DeleteProductById(long id);
 
         /// <summary>Апдейт значений атрибутов</summary>  
         [Put("/api/v1/Products/{id}/attributes")]
         Task UpdateAttributes(long id, [Body]IReadOnlyCollection<AttributeValueDto> attributeValues);
+
+        /// <summary>Установить статус продукции</summary>  
+        [Patch("/api/v1/Products/{id}/status")]
+        Task SetStatus(long id, [Body] long status);
     }
 }

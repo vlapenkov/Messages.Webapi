@@ -1,4 +1,5 @@
-﻿using Rk.Messages.Logic.CommonNS.Dto;
+﻿using Rk.Messages.Domain.Enums;
+using Rk.Messages.Logic.CommonNS.Dto;
 
 namespace Rk.Messages.Logic.ProductsNS.Dto
 {
@@ -18,6 +19,12 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         /// <summary>по производителю</summary>
         public string ProducerName { get; set; }
+
+        /// <summary>по статусу</summary>
+        public ProductStatus? Status { get; set; }
+
+        /// <summary>по доступности</summary>
+        public AvailableStatus? AvailableStatus { get; set; }
 
     }
 }

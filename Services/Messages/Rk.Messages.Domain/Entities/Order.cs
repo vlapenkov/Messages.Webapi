@@ -19,7 +19,7 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>Id организация покупателя</summary>
         public long OrganizationId { get; private set; }
 
-        /// <summary>Организация покупателя</summary>
+        /// <summary>Покупатель</summary>
         public virtual Organization Organization { get; }
 
         /// <summary>Имя пользователя</summary>        

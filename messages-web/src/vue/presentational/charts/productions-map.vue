@@ -1,5 +1,5 @@
 <template>
-  <v-chart class="chart-map" :option="option" />
+  <v-chart class="chart-map" :option="option" :loading="loading" />
 </template>
 
 <script lang="ts">
@@ -30,8 +30,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const loading = ref();
     const option = ref();
     onBeforeMount(async () => {
+      loading.value = true;
       await axios
         .get('/map/russia.json')
         .then((resp) => resp.data)
@@ -116,10 +118,12 @@ export default defineComponent({
               },
             },
           };
+          loading.value = false;
         });
     });
     return {
       option,
+      loading,
     };
   },
 });

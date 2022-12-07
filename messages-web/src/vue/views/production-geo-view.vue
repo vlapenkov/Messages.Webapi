@@ -1,9 +1,9 @@
 <template>
   <h1 class="p-component text-xl sm:text-2xl mb-1">География производства</h1>
-  <prime-divider class="mt-0"></prime-divider>
-  <div class="flex flex-row justify-content-end">
+  <prime-divider class="mt-0 mb-0"></prime-divider>
+  <div class="flex flex-row justify-content-end mt-2 mb-2">
     <prime-button
-      class="text-sm font-normal p-bbutton-sm p-button-secondary p-1"
+      class="text-sm font-normal p-bbutton-sm p-button-secondary p-1 mr-3"
       :class="selected !== Modes.LIST ? 'p-button-text' : undefined"
       icon="pi pi-list"
       @click="selected = Modes.LIST"

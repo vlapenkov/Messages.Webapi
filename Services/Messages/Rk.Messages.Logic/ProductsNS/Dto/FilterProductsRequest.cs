@@ -17,8 +17,11 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>по региону</summary>
         public string Region { get; set; }
 
-        /// <summary>по производителю</summary>
+        /// <summary>по наименованию производителя</summary>
         public string ProducerName { get; set; }
+
+        /// <summary>по производителю</summary>
+        public long? ProducerId { get; set; }
 
         /// <summary>по статусу</summary>
         public ProductStatus? Status { get; set; }

@@ -10,7 +10,7 @@ namespace Rk.Messages.Domain.Enums
         [Description("Черновик")]
         Draft,
 
-        [Description("Активный")]
+        [Description("Опубликован")]
         Active,
 
         [Description("Архивный")]

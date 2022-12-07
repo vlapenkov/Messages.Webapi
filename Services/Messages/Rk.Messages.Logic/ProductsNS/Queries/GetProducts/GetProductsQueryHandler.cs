@@ -87,6 +87,9 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
             if (request.Region != null)
                 productsQuery = productsQuery.Where(product => product.Organization.Region != null && product.Organization.Region.ToLower() == request.Region.ToLower());
 
+            if (request.ProducerId != null)
+                productsQuery = productsQuery.Where(product => product.OrganizationId == request.ProducerId);
+
             if (request.ProducerName != null)
                 productsQuery = productsQuery.Where(product => product.Organization.Name != null && product.Organization.Name.ToLower() == request.ProducerName.ToLower());
 

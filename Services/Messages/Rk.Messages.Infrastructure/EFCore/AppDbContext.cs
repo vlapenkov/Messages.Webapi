@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -73,8 +74,10 @@ namespace Rk.Messages.Infrastructure.EFCore
                   .WithMany()
                   .HasForeignKey(self => self.OrganizationId);
 
-
+                
             });
+
+           // builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
 
             builder.Entity<CatalogSection>(entity =>
             {

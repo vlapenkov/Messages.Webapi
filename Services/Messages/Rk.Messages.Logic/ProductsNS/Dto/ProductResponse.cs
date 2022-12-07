@@ -8,7 +8,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
     /// <summary>
     /// Информация о товаре
     /// </summary>
-    public record ProductResponse:AuditableEntityDto
+    public record ProductResponse: AuditableEntityDto
     {
         public long Id { get; set; }
 
@@ -31,9 +31,11 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string Currency { get; set; }
 
-        public ProductStatus Status { get; set; }
+        //public ProductStatus Status { get; set; }
 
         public string StatusText { get; set; }
+
+        public string AvailableStatusText { get; set; }
 
         public OrganizationShortDto Organization { get; set; }
 

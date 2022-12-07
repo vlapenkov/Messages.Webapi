@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Rk.Messages.Infrastructure.EFCore;
@@ -11,9 +12,11 @@ using Rk.Messages.Infrastructure.EFCore;
 namespace Rk.Messages.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207071852_ProductStatusDropped")]
+    partial class ProductStatusDropped
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -516,8 +519,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("createdby");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(4096)
-                        .HasColumnType("character varying(4096)")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
                         .HasColumnName("description");
 
                     b.Property<int>("ItemType")
@@ -533,7 +536,6 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("lastmodifiedby");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("name");
@@ -541,10 +543,6 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Property<long>("OrganizationId")
                         .HasColumnType("bigint")
                         .HasColumnName("organizationid");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
 
                     b.HasKey("Id")
                         .HasName("pk_baseproduct");
@@ -645,10 +643,6 @@ namespace Rk.Messages.Infrastructure.Migrations
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.Product", b =>
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
-
-                    b.Property<int>("AvailableStatus")
-                        .HasColumnType("integer")
-                        .HasColumnName("availablestatus");
 
                     b.Property<string>("CodeTnVed")
                         .HasMaxLength(256)

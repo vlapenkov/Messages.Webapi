@@ -62,19 +62,6 @@ import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
-    // const paramsToSectionId = (
-    //   val: RouteLocationNormalized | RouteLocationNormalizedLoaded,
-    // ): number | undefined => {
-    //   const id: number | undefined = parseInt(val.params.id as string, 10);
-    //   return id != null && !Number.isNaN(id) ? id : undefined;
-    // };
-
-    // onBeforeRouteUpdate((to) => {
-    //   productShortsStore.parentSectionId.value = paramsToSectionId(to);
-    // });
-    // onBeforeMount(() => {
-    //   productShortsStore.parentSectionId.value = paramsToSectionId(route);
-    // });
     const viewMode = viewModeProvider.provide();
 
     const switchViewMode = () => {

@@ -65,7 +65,7 @@ export default defineComponent({
     ];
     const router = useRouter();
     const viewSection = (item: SectionModel) => {
-      router.push({ name: 'sections', params: { id: item.id } });
+      router.push({ name: 'catalog', params: { id: item.id } });
     };
     return { state, items, itemsWithDocumentId, responsiveOptions, viewSection };
   },

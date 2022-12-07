@@ -12,13 +12,12 @@
         </router-link>
       </div>
       <div class="col-7">
-        <span
-          class="p-input-icon-right"
+        <div
+          class="p-inputgroup"
           :style="{
             width: '100%',
           }"
         >
-          <i class="pi pi-search"></i>
           <input-text
             type="text"
             placeholder="Найти"
@@ -26,8 +25,10 @@
             :style="{
               width: '100%',
             }"
+            v-model="searchQuery"
           />
-        </span>
+          <prime-button @click="searchMe" icon="pi pi-search"></prime-button>
+        </div>
       </div>
       <div class="col-1">
         <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
@@ -76,7 +77,9 @@
         <dropdown
           v-model="sectionModel"
           :options="sectionOptions"
+          optionLabel="label"
           placeholder="Область применения"
+          show-clear
           :style="{ width: '100%' }"
         />
       </div>
@@ -85,6 +88,7 @@
           v-model="regionModel"
           :options="regionOptions"
           placeholder="Регион"
+          show-clear
           :style="{ width: '100%' }"
         />
       </div>
@@ -93,6 +97,7 @@
           v-model="organizationModel"
           :options="organizationOptions"
           placeholder="Производитель"
+          show-clear
           :style="{ width: '100%' }"
         />
       </div>
@@ -233,16 +238,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, WritableComputedRef } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
-import { organizationsService } from '@/app/organizations/services/organization.service';
-import { sectionsStore } from '@/app/sections/state/sections.store';
-import { SectionModel } from '@/app/sections/models/section.model';
-import { organizationsStore } from '@/app/organizations/state/organizations.store';
-import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
+import { useRouter } from 'vue-router';
+import { useOrganizations } from './composables/organizations.composable';
+import { useSections } from './composables/sections.composable';
 
 export default defineComponent({
   components: {
@@ -251,34 +254,48 @@ export default defineComponent({
     PopularOrganizationsList,
   },
   setup() {
+    const router = useRouter();
     onMounted(async () => {
       await productShortsService.loadPage({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,
         pageSize: 12,
-      });
-      await organizationsService.loadPage({
-        pageNumber: 1,
-        pageSize: 8,
+        producerName: null,
+        region: null,
       });
     });
     const hasPhoto = ref(false);
     const sectionModel = ref();
     const regionModel = ref();
     const organizationModel = ref();
-    const sectionState = sectionsStore as CollectionStoreMixed;
-    if (sectionState.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const sections = sectionState.items({ force: false }) as WritableComputedRef<SectionModel[]>;
-    const sectionOptions = computed(() => (sections.value ?? []).map((x) => x.name));
-    const regionOptions = computed(() => [
-      ...(organizationsStore.currentPageItems.value ?? []).map((x) => x.region),
-    ]);
-    const organizationOptions = computed(() => [
-      ...(organizationsStore.currentPageItems.value ?? []).map((x) => x.name),
-    ]);
+    const searchQuery = ref<string>();
+
+    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+    const sections = useSections();
+    const sectionOptions = computed(() =>
+      (sections.value ?? []).map((s) => ({ label: s.name, value: s.id })),
+    );
+
+    const searchMe = () => {
+      console.log({
+        sectionId: sectionModel.value,
+        region: regionModel.value,
+        organization: organizationModel.value,
+        searchQuery: searchQuery.value,
+      });
+
+      router.push({
+        name: 'catalog',
+        query: {
+          sectionId: sectionModel.value?.value,
+          region: regionModel.value,
+          organization: organizationModel.value,
+          searchQuery: searchQuery.value,
+        },
+      });
+    };
+
     return {
       sectionModel,
       regionModel,
@@ -287,6 +304,8 @@ export default defineComponent({
       sectionOptions,
       regionOptions,
       organizationOptions,
+      searchMe,
+      searchQuery,
     };
   },
 });

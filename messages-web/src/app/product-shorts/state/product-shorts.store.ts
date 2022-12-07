@@ -48,6 +48,10 @@ const selectedItemMode = getter('selected-item--mode', (state) => state.selected
 
 const parentSectionId = computeState((state) => state.sectionId);
 
+const region = computeState((state) => state.region);
+
+const organization = computeState((state) => state.organization);
+
 const searchQuery = computeState((state) => state.searchQuery);
 
 const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (state, payload) => {
@@ -76,6 +80,8 @@ export const productShortsStore = {
   pages,
   parentSectionId,
   searchQuery,
+  region,
+  organization,
   insertPage,
   setPage,
 };

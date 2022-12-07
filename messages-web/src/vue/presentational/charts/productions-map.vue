@@ -58,7 +58,7 @@ export default defineComponent({
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter: (params: any) => {
                   if (params.componentType === 'series') {
-                    return `<span style="font-weight: 600">${params.data[2]}</span><br/><a href="/catalog"><span>Список производимой продукции</span></a>`;
+                    return `<span style="font-weight: 600">${params.data[2]}</span><br/><a href="/catalog" style="text-decoration: none"><span>Список производимой продукции</span></a>`;
                   }
                   return undefined;
                 },

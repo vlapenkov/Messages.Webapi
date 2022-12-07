@@ -26,12 +26,14 @@
         <dropdown
           v-model="regionModel"
           :options="regionOptions"
+          show-clear
           placeholder="Регион"
           :style="{ width: '100%' }"
         />
       </div>
       <div class="col-6">
         <dropdown
+          show-clear
           v-model="organizationModel"
           :options="organizationOptions"
           placeholder="Производитель"

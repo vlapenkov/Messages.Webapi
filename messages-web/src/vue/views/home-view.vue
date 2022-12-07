@@ -79,6 +79,7 @@
           :options="sectionOptions"
           optionLabel="label"
           placeholder="Область применения"
+          show-clear
           :style="{ width: '100%' }"
         />
       </div>
@@ -87,6 +88,7 @@
           v-model="regionModel"
           :options="regionOptions"
           placeholder="Регион"
+          show-clear
           :style="{ width: '100%' }"
         />
       </div>
@@ -95,6 +97,7 @@
           v-model="organizationModel"
           :options="organizationOptions"
           placeholder="Производитель"
+          show-clear
           :style="{ width: '100%' }"
         />
       </div>

@@ -82,6 +82,7 @@ export default defineComponent({
     };
 
     const sectionId = useRouteQuery<string | null>('sectionId');
+    const searchQuery = useRouteQuery<string | null>('searchQuery');
     const region = useRouteQuery<string | null>('region');
     const organization = useRouteQuery<string | null>('organization');
 
@@ -95,24 +96,80 @@ export default defineComponent({
       }
       productShortsStore.parentSectionId.value = id;
     });
-    watch(region, (val) => {
-      if (val == null) {
-        return;
-      }
-      if (productShortsStore.region.value === val) {
-        return;
-      }
-      productShortsStore.region.value = val;
-    });
-    watch(organization, (val) => {
-      if (val == null) {
-        return;
-      }
-      if (productShortsStore.organization.value === val) {
-        return;
-      }
-      productShortsStore.organization.value = val;
-    });
+    watch(
+      region,
+      (val) => {
+        if (val == null) {
+          return;
+        }
+        if (productShortsStore.region.value === val) {
+          return;
+        }
+        productShortsStore.region.value = val;
+      },
+      {
+        immediate: true,
+      },
+    );
+    watch(
+      productShortsStore.region,
+      (query) => {
+        region.value = query ?? null;
+      },
+      {
+        immediate: true,
+      },
+    );
+
+    watch(
+      organization,
+      (val) => {
+        if (val == null) {
+          return;
+        }
+        if (productShortsStore.organization.value === val) {
+          return;
+        }
+        productShortsStore.organization.value = val;
+      },
+      {
+        immediate: true,
+      },
+    );
+    watch(
+      productShortsStore.organization,
+      (query) => {
+        organization.value = query ?? null;
+      },
+      {
+        immediate: true,
+      },
+    );
+
+    watch(
+      searchQuery,
+      (val) => {
+        if (val == null) {
+          return;
+        }
+        if (productShortsStore.searchQuery.value === val) {
+          return;
+        }
+        productShortsStore.searchQuery.value = val;
+      },
+      {
+        immediate: true,
+      },
+    );
+    watch(
+      productShortsStore.searchQuery,
+      (query) => {
+        searchQuery.value = query;
+      },
+      {
+        immediate: true,
+      },
+    );
 
     watch(
       [
@@ -120,15 +177,21 @@ export default defineComponent({
         productShortsStore.pageSize,
         productShortsStore.searchQuery,
         productShortsStore.parentSectionId,
+        productShortsStore.region,
+        productShortsStore.organization,
       ],
-      ([pageNumber, pageSize, query, catalogSectionId]) => {
+      ([pageNumber, pageSize, query, catalogSectionId, reg, org]) => {
         // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
         const request: IproductsPageRequest = {
           name: query == null || query === '' || query.trim() === '' ? null : query,
           catalogSectionId,
           pageNumber,
           pageSize,
+          producerName: org ?? null,
+          region: reg ?? null,
         };
+        console.log({ request });
+
         productShortsService.loadPage(request);
       },
       {
@@ -145,8 +208,7 @@ export default defineComponent({
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
-    const regionModel = ref<string>();
-    const organizationModel = ref<string>();
+    const { region: regionModel, organization: organizationModel } = productShortsStore;
 
     const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
 

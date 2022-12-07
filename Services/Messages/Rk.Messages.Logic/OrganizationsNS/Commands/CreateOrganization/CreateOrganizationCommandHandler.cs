@@ -51,6 +51,8 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
                 request.Site,
                 request.Okved,
                 request.Okved2,
+                request.Phone,
+                request.Email,
                 OrganizationStatus.New
                 );
 

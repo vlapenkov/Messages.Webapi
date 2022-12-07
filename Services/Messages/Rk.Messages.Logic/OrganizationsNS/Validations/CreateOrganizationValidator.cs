@@ -54,6 +54,12 @@ namespace Rk.Messages.Logic.SectionsNS.Validations
                .NotEmpty()
                .WithMessage("Адрес организации не должно быть пустым");
 
+            RuleFor(x => x.Email)
+                .EmailAddress()
+                .WithMessage("Email организации должен быть корректным");
+                       
+
+
         }
     }
 }

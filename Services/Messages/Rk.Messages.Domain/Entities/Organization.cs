@@ -11,13 +11,57 @@ namespace Rk.Messages.Domain.Entities
         protected Organization() { }
         
 
-        public Organization(long id,  string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, string okved, string okved2, OrganizationStatus status) :
-            this( name,  fullName,  ogrn,  inn,  kpp,  region,  city,  address,  site, okved, okved2,  status)    
+        public Organization(
+            long id,  
+            string name, 
+            string fullName, 
+            string ogrn, 
+            string inn, 
+            string kpp, 
+            string region, 
+            string city, 
+            string address, 
+            string site, 
+            string okved, 
+            string okved2, 
+            string phone,
+            string email,
+            OrganizationStatus status
+            ) :
+            this( 
+                name,  
+                fullName,  
+                ogrn,  
+                inn,  
+                kpp,  
+                region,  
+                city,  
+                address,  
+                site, 
+                okved, 
+                okved2, 
+                phone,
+                email,
+                status)    
         {
             Id = id;           
         }
 
-        public Organization(string name, string fullName, string ogrn, string inn, string kpp, string region, string city, string address, string site, string okved, string okved2, OrganizationStatus status)
+        public Organization(
+            string name, 
+            string fullName, 
+            string ogrn, 
+            string inn, 
+            string kpp, 
+            string region, 
+            string city, 
+            string address, 
+            string site, 
+            string okved, 
+            string okved2,
+            string phone,
+            string email,
+            OrganizationStatus status)
         {
             
             Name = name;
@@ -32,6 +76,9 @@ namespace Rk.Messages.Domain.Entities
 
             Okved = okved;
             Okved2 = okved2;
+
+            Phone = phone;
+            Email = email;
 
             Status = status;            
         }
@@ -70,6 +117,12 @@ namespace Rk.Messages.Domain.Entities
 
         [StringLength(1024)]
         public string Okved2 { get; private set; }
+
+        [StringLength(512)]
+        public string Phone { get; private set; }
+
+        [StringLength(512)]
+        public string Email { get; private set; }
 
         public OrganizationStatus Status { get; private set; }
 

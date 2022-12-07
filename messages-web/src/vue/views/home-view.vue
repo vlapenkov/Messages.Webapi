@@ -233,16 +233,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, WritableComputedRef } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
-import { organizationsService } from '@/app/organizations/services/organization.service';
-import { sectionsStore } from '@/app/sections/state/sections.store';
-import { SectionModel } from '@/app/sections/models/section.model';
-import { organizationsStore } from '@/app/organizations/state/organizations.store';
-import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
+import { useOrganizations } from './composables/organizations.composable';
+import { useSections } from './composables/sections.composable';
 
 export default defineComponent({
   components: {
@@ -258,27 +255,15 @@ export default defineComponent({
         pageNumber: 1,
         pageSize: 12,
       });
-      await organizationsService.loadPage({
-        pageNumber: 1,
-        pageSize: 8,
-      });
     });
     const hasPhoto = ref(false);
     const sectionModel = ref();
     const regionModel = ref();
     const organizationModel = ref();
-    const sectionState = sectionsStore as CollectionStoreMixed;
-    if (sectionState.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const sections = sectionState.items({ force: false }) as WritableComputedRef<SectionModel[]>;
-    const sectionOptions = computed(() => (sections.value ?? []).map((x) => x.name));
-    const regionOptions = computed(() => [
-      ...(organizationsStore.currentPageItems.value ?? []).map((x) => x.region),
-    ]);
-    const organizationOptions = computed(() => [
-      ...(organizationsStore.currentPageItems.value ?? []).map((x) => x.name),
-    ]);
+
+    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+    const sectionOptions = useSections();
+
     return {
       sectionModel,
       regionModel,

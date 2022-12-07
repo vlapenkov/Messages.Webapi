@@ -25,11 +25,14 @@ namespace Rk.Messages.Logic.ProductsNS.Mappings
 
             CreateMap<Product, ProductShortDto>()
                 .ForMember(dest => dest.DocumentId, opt => opt.MapFrom(src => src.ProductDocuments.FirstOrDefault().Document.FileId))
+                 .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
+                 .ForMember(dest => dest.AvailableStatusText, opt => opt.MapFrom(src => src.AvailableStatus.GetDescription()))
                 .ReverseMap();
 
              CreateMap<Product, ProductResponse>()
-              // .ForMember(dest => dest.Documents, opt => opt.Ignore())
+
                .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
+               .ForMember(dest => dest.AvailableStatusText, opt => opt.MapFrom(src => src.AvailableStatus.GetDescription()))
                .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.ProductDocuments.Select(pd=>pd.Document)))
               .ReverseMap();
 

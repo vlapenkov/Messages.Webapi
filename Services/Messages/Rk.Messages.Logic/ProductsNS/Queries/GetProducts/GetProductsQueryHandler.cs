@@ -26,58 +26,17 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
         }
 
 
-      
-        /// <summary>
-        /// Получить все категории потомки текущей
-        /// </summary>
-        /// <param name="parentId">текущая категория</param>
-        /// <returns></returns>
-        private async Task<long[]> GetChildrenIds(long parentId)
-        {
-            List<long> childrenIds = new() { parentId};
-
-            var ids =await _dbContext.CatalogSections.Where(self => self.ParentCatalogSectionId == parentId).Select(p => p.Id).ToArrayAsync();
-
-            foreach (var id in ids) {
-                childrenIds.AddRange(await GetChildrenIds(id));
-            }
-
-            return childrenIds.Distinct().ToArray();
-        }
-
 
         public async Task<PagedResponse<ProductShortDto>> Handle(GetProductsQuery query, CancellationToken cancellationToken)
         {
 
             var request = query.Request;
 
-            IQueryable<Product> productsQuery = _dbContext.Products
-                .Include(product => product.Organization)
-                .Include(product=> product.ProductDocuments)
-                .ThenInclude(pd => pd.Document)
-                .AsNoTracking();
+            IQueryable<Product> productsQuery = GetProducts();
 
-            if (request.CatalogSectionId != null)
-            {
-               var childrenIds = await GetChildrenIds(request.CatalogSectionId.Value);
+            productsQuery = await FilterProducts(request, productsQuery);
 
-                productsQuery = productsQuery.Where(product => childrenIds.Contains( product.CatalogSectionId));
-
-            }
-
-            if (request.Region != null)
-                productsQuery = productsQuery.Where(product => product.Organization.Region!=null && product.Organization.Region.ToLower() == request.Region.ToLower());
-
-            if (request.ProducerName != null)
-                productsQuery = productsQuery.Where(product => product.Organization.Name != null && product.Organization.Name.ToLower() == request.ProducerName.ToLower());
-
-            if (request.Name != null)
-                productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
-
-               // productsQuery = productsQuery.Where(product => product.Name != null && product.Name == request.Name);
-
-
-            IPagedList<Product> queryResult = await productsQuery.OrderBy(product=>product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
+            IPagedList<Product> queryResult = await productsQuery.OrderBy(product => product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
 
 
             // преобразование из IPagedList<Product> -> PagedResponse<ProductShortDto>
@@ -91,6 +50,68 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
             return result;
 
 
+        }
+
+        /// <summary>Получить товары со связанными сущностями</summary>
+        
+        private IQueryable<Product> GetProducts()
+        {
+            return _dbContext.Products
+                .Include(product => product.Organization)
+                .Include(product => product.ProductDocuments)
+                .ThenInclude(pd => pd.Document)
+                .AsNoTracking();
+        }
+
+        /// <summary>Отобрать товары по фильтру</summary>
+        private async Task<IQueryable<Product>> FilterProducts(FilterProductsRequest request, IQueryable<Product> productsQuery)
+        {
+            if (request.CatalogSectionId != null)
+            {
+                var childrenIds = await GetChildrenIds(request.CatalogSectionId.Value);
+
+                productsQuery = productsQuery.Where(product => childrenIds.Contains(product.CatalogSectionId));
+
+            }
+
+            if (request.Status != null)
+            {
+                productsQuery = productsQuery.Where(product => product.Status == request.Status);
+            }
+
+            if (request.AvailableStatus != null)
+            {
+                productsQuery = productsQuery.Where(product => product.AvailableStatus == request.AvailableStatus);
+            }
+
+            if (request.Region != null)
+                productsQuery = productsQuery.Where(product => product.Organization.Region != null && product.Organization.Region.ToLower() == request.Region.ToLower());
+
+            if (request.ProducerName != null)
+                productsQuery = productsQuery.Where(product => product.Organization.Name != null && product.Organization.Name.ToLower() == request.ProducerName.ToLower());
+
+            if (request.Name != null)
+                productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
+            return productsQuery;
+        }
+
+        /// <summary>
+        /// Получить все категории потомки текущей
+        /// </summary>
+        /// <param name="parentId">текущая категория</param>
+        /// <returns></returns>
+        private async Task<long[]> GetChildrenIds(long parentId)
+        {
+            List<long> childrenIds = new() { parentId };
+
+            var ids = await _dbContext.CatalogSections.Where(self => self.ParentCatalogSectionId == parentId).Select(p => p.Id).ToArrayAsync();
+
+            foreach (var id in ids)
+            {
+                childrenIds.AddRange(await GetChildrenIds(id));
+            }
+
+            return childrenIds.Distinct().ToArray();
         }
     }
 }

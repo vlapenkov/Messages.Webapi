@@ -19,5 +19,11 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         /// <summary>по производителю</summary>
         public string? ProducerName { get; set; }
 
+        /// <summary>по статусу</summary>
+        public int? Status { get; set; }
+
+        /// <summary>по доступности</summary>
+        public int? AvailableStatus { get; set; }
+
     }
 }

@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
+using Rk.Messages.Logic.ProductsNS.Commands.SetStatus;
 using Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
@@ -72,11 +74,18 @@ namespace Rk.Messages.Webapi.Controllers
             return result;
         }
 
+        /// <summary>Физически удалить продукцию</summary>
         [HttpDelete("{id:long}")]
         public async Task DeleteProductById(long id)
         {
             await _mediator.Send(new DeleteProductCommand { ProductId= id });            
         }
 
+        /// <summary>Установить статус</summary>
+        [HttpPatch("{id:long}/status")]
+        public async Task SetStatus(long id, [FromBody] ProductStatus status)
+        {
+            await _mediator.Send(new SetStatusCommand { ProductId = id , Status = status});
+        }
     }
 }

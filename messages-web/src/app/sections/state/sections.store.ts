@@ -4,7 +4,7 @@ import { SectionModel } from '../models/section.model';
 import { SectionState } from './sections.state';
 
 const [sectionsStore] = defineCollectionStore(
-  'sections',
+  'catalog',
   SectionModel,
   SectionState,
   sectionsHttpService,

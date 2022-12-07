@@ -30,6 +30,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string StatusText { get; set; }
 
+        public string AvailableStatusText { get; set; }
+
         public OrganizationShortDto Organization { get; set; }
 
         /// <summary>атрибуты</summary>

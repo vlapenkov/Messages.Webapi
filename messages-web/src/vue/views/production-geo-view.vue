@@ -19,7 +19,7 @@
     <productions-map v-if="selected === Modes.MAP" :regions="regions" />
     <div v-if="selected === Modes.LIST">
       <div v-for="(r, i) in regions" :key="i" class="flex flex-row mb-3">
-        <a :href="'/catalog'">
+        <a :href="'/catalog'" :style="{ textDecoration: 'none', color: '#000' }">
           <span>{{ r[2] }}</span>
         </a>
       </div>

@@ -43,11 +43,6 @@ export default defineComponent({
               enterable: true,
               borderColor: '#fff',
               triggerOn: 'click',
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter: (params: any) => {
-                console.log(params);
-                return `<span style="font-weight: 600">${params.data[2]}</span><br/><a href="/catalog"><span>Список производимой продукции</span></a>`;
-              },
             },
             geo: {
               map: 'russia',
@@ -60,6 +55,13 @@ export default defineComponent({
               },
               tooltip: {
                 show: true,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                formatter: (params: any) => {
+                  if (params.componentType === 'series') {
+                    return `<span style="font-weight: 600">${params.data[2]}</span><br/><a href="/catalog"><span>Список производимой продукции</span></a>`;
+                  }
+                  return undefined;
+                },
               },
               projection: {
                 project: (point: [number, number]) => projection(point),

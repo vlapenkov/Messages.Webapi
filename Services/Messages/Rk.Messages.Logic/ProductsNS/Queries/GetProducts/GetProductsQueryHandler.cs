@@ -39,6 +39,12 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
             if (request.CatalogSectionId != null)
                 productsQuery = productsQuery.Where(product => product.CatalogSectionId == request.CatalogSectionId);
 
+            if (request.Region != null)
+                productsQuery = productsQuery.Where(product => product.Organization.Region!=null && product.Organization.Region.ToLower() == request.Region.ToLower());
+
+            if (request.ProducerName != null)
+                productsQuery = productsQuery.Where(product => product.Organization.Name != null && product.Organization.Name.ToLower() == request.ProducerName.ToLower());
+
             if (request.Name != null)
                 productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
 

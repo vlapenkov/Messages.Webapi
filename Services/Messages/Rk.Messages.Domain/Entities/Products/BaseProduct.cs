@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Rk.Messages.Domain.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace Rk.Messages.Domain.Entities.Products
     /// </summary>
     public abstract class BaseProduct : AuditableEntity
     {
-        const short _maxDescriptionLength = 1024;
+        const short _maxDescriptionLength = 4096;
         protected BaseProduct() { }
         public BaseProduct(long organizationId, long catalogSectionId,  string name, string description, IReadOnlyCollection<AttributeValue> attributeValues)
         {
@@ -39,12 +40,16 @@ namespace Rk.Messages.Domain.Entities.Products
 
         /// <summary>Наименование продукции</summary>
         [StringLength(512)]
+        [Required]
         public string Name { get; protected set; }
 
-        /// <summary>Описание продукции</summary>
-        [StringLength(1024)]
+        /// <summary>Описание продукции</summary>        
+        [StringLength(4096)]
         public string Description { get; protected set; }
-        
+
+        /// <summary>Статус продукции (по умолчанию черновик)</summary>
+        public ProductStatus Status { get; private set; } = ProductStatus.Draft;
+
 
         private readonly List<AttributeValue> _attributeValues = new List<AttributeValue>();
         public virtual IReadOnlyCollection<AttributeValue> AttributeValues => _attributeValues;
@@ -72,5 +77,10 @@ namespace Rk.Messages.Domain.Entities.Products
         }
 
         public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
+
+        public void SetStatus(ProductStatus newStatus) { 
+        
+            Status = newStatus;
+        }
     }
 }

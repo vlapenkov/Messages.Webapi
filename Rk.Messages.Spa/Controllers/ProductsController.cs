@@ -123,5 +123,12 @@ namespace Rk.Messages.Spa.Controllers
         {
             await _productsService.DeleteProductById(id);
         }
+
+        /// <summary>Установить статус</summary>
+        [HttpPatch("{id:long}/status")]
+        public async Task SetStatus(long id, [FromBody] long status)
+        {
+            await _productsService.SetStatus(id, status);
+        }
     }
 }

@@ -17,6 +17,12 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>описание продукции</summary>
         public string Description { get; set; }
 
+        /// <summary>статус</summary>
+        public string StatusText { get; set; }
+
+        /// <summary>статус доступности</summary>
+        public string AvailableStatusText { get; set; }
+
         /// <summary>цена</summary>
         public decimal Price { get; set; }
 

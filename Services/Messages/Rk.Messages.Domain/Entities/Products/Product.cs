@@ -47,8 +47,8 @@ namespace Rk.Messages.Domain.Entities.Products
         [StringLength(3)]
         public string Currency { get; private set; } = "RUB";
 
-        public ProductStatus Status { get; private set; } = ProductStatus.OnStock;
-
+        [Required]
+        public AvailableStatus AvailableStatus { get; private set; } = AvailableStatus.OnStock;
 
 
         private readonly List<string> _applicationAreas = new List<string>();
@@ -74,7 +74,13 @@ namespace Rk.Messages.Domain.Entities.Products
             this._applicationAreas.AddRange( applicationAreas);
         }
 
-
+        /// <summary>
+        /// Установить статус достпности
+        /// </summary>        
+        public void SetAvailableStatus(AvailableStatus availableStatus)
+        { 
+            AvailableStatus = availableStatus;
+        }
 
     }
 }

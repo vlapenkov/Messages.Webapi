@@ -25,6 +25,27 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
             _mapper = mapper;
         }
 
+
+      
+        /// <summary>
+        /// Получить все категории потомки текущей
+        /// </summary>
+        /// <param name="parentId">текущая категория</param>
+        /// <returns></returns>
+        private async Task<long[]> GetChildrenIds(long parentId)
+        {
+            List<long> childrenIds = new() { parentId};
+
+            var ids =await _dbContext.CatalogSections.Where(self => self.ParentCatalogSectionId == parentId).Select(p => p.Id).ToArrayAsync();
+
+            foreach (var id in ids) {
+                childrenIds.AddRange(await GetChildrenIds(id));
+            }
+
+            return childrenIds.Distinct().ToArray();
+        }
+
+
         public async Task<PagedResponse<ProductShortDto>> Handle(GetProductsQuery query, CancellationToken cancellationToken)
         {
 
@@ -37,7 +58,12 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
                 .AsNoTracking();
 
             if (request.CatalogSectionId != null)
-                productsQuery = productsQuery.Where(product => product.CatalogSectionId == request.CatalogSectionId);
+            {
+               var childrenIds = await GetChildrenIds(request.CatalogSectionId.Value);
+
+                productsQuery = productsQuery.Where(product => childrenIds.Contains( product.CatalogSectionId));
+
+            }
 
             if (request.Region != null)
                 productsQuery = productsQuery.Where(product => product.Organization.Region!=null && product.Organization.Region.ToLower() == request.Region.ToLower());

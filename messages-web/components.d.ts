@@ -70,6 +70,7 @@ declare module '@vue/runtime-core' {
     ProductImage: typeof import('./src/vue/containers/products/product-image.vue')['default']
     ProductInfo: typeof import('./src/vue/containers/products/product-info.vue')['default']
     ProductionGeoView: typeof import('./src/vue/views/production-geo-view.vue')['default']
+    ProductionsMap: typeof import('./src/vue/presentational/charts/productions-map.vue')['default']
     ProductsViewer: typeof import('./src/vue/containers/products-viewer.vue')['default']
     ProductView: typeof import('./src/vue/views/product-view.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']

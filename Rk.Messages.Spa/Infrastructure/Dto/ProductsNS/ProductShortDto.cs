@@ -19,6 +19,12 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         /// <summary>описание продукции</summary>
         public string Description { get; set; }
 
+        /// <summary>статус</summary>
+        public string StatusText { get; set; }
+
+        /// <summary>статус доступности</summary>
+        public string AvailableStatusText { get; set; }
+
         /// <summary>цена</summary>
         public decimal Price { get; set; }
 

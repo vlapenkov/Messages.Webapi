@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Rk.Messages.Domain.Enums
 {
+    /// <summary>
+    /// Статус товара
+    /// </summary>
     public enum ProductStatus
     {
-        [Description("В наличии")]
-        OnStock,
+        [Description("Черновик")]
+        Draft,
 
-        [Description("Под заказ")]
-        OnDemand
+        [Description("Активный")]
+        Active,
+
+        [Description("Архивный")]
+        Archive
     }
 }

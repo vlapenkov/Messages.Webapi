@@ -5,7 +5,7 @@
 <script lang="ts">
 import { CanvasRenderer } from 'echarts/renderers';
 import { registerMap, use } from 'echarts/core';
-import { defineComponent, onBeforeMount, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
 import { geoTransverseMercator } from 'd3';
 import VChart from 'vue-echarts';
 import {
@@ -23,7 +23,13 @@ export default defineComponent({
   components: {
     VChart,
   },
-  setup() {
+  props: {
+    regions: {
+      type: Object as PropType<(string | number)[][]>,
+      default: null,
+    },
+  },
+  setup(props) {
     const option = ref();
     onBeforeMount(async () => {
       await axios
@@ -34,13 +40,13 @@ export default defineComponent({
           const projection = geoTransverseMercator().rotate([-90, -90]);
           option.value = {
             tooltip: {
+              enterable: true,
               borderColor: '#fff',
-              // textStyle: {
-              //   fontWeight: 600,
-              // },
+              triggerOn: 'click',
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               formatter: (params: any) => {
                 console.log(params);
-                return `<span style="font-weight: 600">${params.data[2]}</span><br/><span>Список производимой продукции</span>`;
+                return `<span style="font-weight: 600">${params.data[2]}</span><br/><a href="/catalog"><span>Список производимой продукции</span></a>`;
               },
             },
             geo: {
@@ -51,6 +57,9 @@ export default defineComponent({
               },
               emphasis: {
                 disabled: true,
+              },
+              tooltip: {
+                show: true,
               },
               projection: {
                 project: (point: [number, number]) => projection(point),
@@ -65,13 +74,7 @@ export default defineComponent({
               coordinateSystem: 'geo',
               geoIndex: 0,
               zlevel: 1,
-              data: [
-                [37.905868, 55.268184, 'Москва'],
-                [86.250023, 59.390129, 'Новосибирск'],
-                [61.908876, 61.311001, 'Екатеринбург'],
-                [110.889468, 69.217334, 'Норильск'],
-                [110.160774, 60.076527, 'Якутск'],
-              ],
+              data: props.regions,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               renderItem(params: any, api: any) {
                 const coord = api.coord([
@@ -114,6 +117,6 @@ export default defineComponent({
 <style lang="scss">
 .chart-map {
   width: 100%;
-  height: 500px;
+  height: 650px;
 }
 </style>

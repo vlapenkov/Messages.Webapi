@@ -18,9 +18,12 @@
   <transition-fade>
     <productions-map v-if="selected === Modes.MAP" :regions="regions" />
     <div v-if="selected === Modes.LIST">
-      <div v-for="(r, i) in regions" :key="i" class="flex flex-row mb-3">
-        <a :href="'/catalog'" :style="{ textDecoration: 'none', color: '#000' }">
-          <span>{{ r[2] }}</span>
+      <div v-for="(region, i) in regions" :key="i" class="flex flex-row mb-3">
+        <a
+          :href="`/catalog?region=${region[2]}`"
+          :style="{ textDecoration: 'none', color: '#000' }"
+        >
+          <span>{{ region[2] }}</span>
         </a>
       </div>
     </div>

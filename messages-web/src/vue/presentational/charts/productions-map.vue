@@ -43,22 +43,32 @@ export default defineComponent({
               enterable: true,
               borderColor: '#fff',
               triggerOn: 'click',
+              padding: 15,
             },
             geo: {
               map: 'russia',
               roam: false,
               itemStyle: {
-                areaColor: '#e7e8ea',
+                areaColor: '#d2d2db',
+                borderColor: '#d2d2db',
               },
               emphasis: {
                 disabled: true,
               },
               tooltip: {
-                show: true,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter: (params: any) => {
                   if (params.componentType === 'series') {
-                    return `<span style="font-weight: 600">${params.data[2]}</span><br/><a href="/catalog" style="text-decoration: none"><span>Список производимой продукции</span></a>`;
+                    const name = params.data[2];
+                    return `
+                    <div>
+                      <div><span style="font-weight: 600">${name}</span></div>
+                      <div class="mt-3">
+                        <a href="/catalog?region=${name}" style="text-decoration: none">
+                          <span>Список производимой продукции</span>
+                        </a>
+                      </div>  
+                    </div>`;
                   }
                   return undefined;
                 },
@@ -98,7 +108,7 @@ export default defineComponent({
                         height: 40,
                       },
                       style: {
-                        fill: 'red',
+                        fill: '#ff6b5d',
                       },
                     },
                   ],
@@ -108,7 +118,6 @@ export default defineComponent({
           };
         });
     });
-
     return {
       option,
     };

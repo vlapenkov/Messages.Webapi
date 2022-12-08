@@ -42,7 +42,7 @@
       </div>
 
       <div class="col-3">
-        <sections-container v-model:selected="selectedKey"></sections-container>
+        <sections-container v-model:selected="parentSectionId"></sections-container>
       </div>
       <div ref="productsContainerRef" class="col-9">
         <products-viewer />
@@ -57,9 +57,9 @@ import { productShortsService } from '@/app/product-shorts/services/product-shor
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
-import { computed, defineComponent, ref, watch } from 'vue';
-import { useRouteQuery } from '@vueuse/router';
-import { useOrganizations } from './composables/organizations.composable';
+import { defineComponent, ref, watch } from 'vue';
+import { useOrganizations } from '@/composables/organizations.composable';
+import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
@@ -70,95 +70,25 @@ export default defineComponent({
       viewMode.value = viewMode.value === 'user' ? 'admin' : 'user';
     };
 
-    const sectionId = useRouteQuery<string | null>('sectionId');
-    const searchQuery = useRouteQuery<string | null>('searchQuery');
-    const region = useRouteQuery<string | null>('region');
-    const organization = useRouteQuery<string | null>('organization');
-
-    watch(sectionId, (val) => {
-      if (val == null) {
-        return;
-      }
-      const id = parseInt(val as string, 10);
-      if (productShortsStore.parentSectionId.value === id) {
-        return;
-      }
-      productShortsStore.parentSectionId.value = id;
+    useRouteQueryBinded('sectionId', {
+      type: 'number',
+      ref: productShortsStore.parentSectionId,
     });
-    watch(
-      region,
-      (val) => {
-        if (val == null) {
-          return;
-        }
-        if (productShortsStore.region.value === val) {
-          return;
-        }
-        productShortsStore.region.value = val;
-      },
-      {
-        immediate: true,
-      },
-    );
-    watch(
-      productShortsStore.region,
-      (query) => {
-        region.value = query ?? null;
-      },
-      {
-        immediate: true,
-      },
-    );
 
-    watch(
-      organization,
-      (val) => {
-        if (val == null) {
-          return;
-        }
-        if (productShortsStore.organization.value === val) {
-          return;
-        }
-        productShortsStore.organization.value = val;
-      },
-      {
-        immediate: true,
-      },
-    );
-    watch(
-      productShortsStore.organization,
-      (query) => {
-        organization.value = query ?? null;
-      },
-      {
-        immediate: true,
-      },
-    );
+    useRouteQueryBinded('region', {
+      type: 'string',
+      ref: productShortsStore.region,
+    });
 
-    watch(
-      searchQuery,
-      (val) => {
-        if (val == null) {
-          return;
-        }
-        if (productShortsStore.searchQuery.value === val) {
-          return;
-        }
-        productShortsStore.searchQuery.value = val;
-      },
-      {
-        immediate: true,
-      },
-    );
-    watch(
-      productShortsStore.searchQuery,
-      (query) => {
-        searchQuery.value = query;
-      },
-      {
-        immediate: true,
-      },
-    );
+    useRouteQueryBinded('organization', {
+      type: 'string',
+      ref: productShortsStore.organization,
+    });
+
+    useRouteQueryBinded('searchQuery', {
+      type: 'string',
+      ref: productShortsStore.searchQuery,
+    });
 
     watch(
       [
@@ -179,7 +109,6 @@ export default defineComponent({
           producerName: org ?? null,
           region: reg ?? null,
         };
-        console.log({ request });
 
         productShortsService.loadPage(request);
       },
@@ -188,12 +117,7 @@ export default defineComponent({
       },
     );
 
-    const selectedKey = computed({
-      get: () => productShortsStore.parentSectionId.value,
-      set: (val) => {
-        sectionId.value = val == null ? '' : `${val}`;
-      },
-    });
+    const { parentSectionId } = productShortsStore;
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
@@ -203,7 +127,7 @@ export default defineComponent({
 
     return {
       sectionsStore,
-      selectedKey,
+      parentSectionId,
       search: productShortsStore.searchQuery,
       productsContainerRef,
       productsContainerSize,

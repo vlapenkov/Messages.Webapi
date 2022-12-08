@@ -26,7 +26,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         public string CodeTnVed { get; set; }
 
         /// <summary>Цена</summary>
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         public List<FileDataDto> Documents { get; set; }
     }

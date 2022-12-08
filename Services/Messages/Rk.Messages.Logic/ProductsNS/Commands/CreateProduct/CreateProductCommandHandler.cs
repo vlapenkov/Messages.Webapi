@@ -46,6 +46,7 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
                 attributeValues
                 );
 
+            product.SetCodeTnVed(request.CodeTnVed);
 
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 

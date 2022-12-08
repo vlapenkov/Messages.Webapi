@@ -23,7 +23,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string CodeTnVed { get; set; }
 
-        public decimal Price { get; set; }        
+        public decimal? Price { get; set; }        
 
         public string MeasuringUnit { get; set; }
 

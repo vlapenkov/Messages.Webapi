@@ -6,7 +6,7 @@ using System.Linq;
 namespace Rk.Messages.Domain.Entities.Products
 {
     /// <summary>
-    /// Базовый класс для всех продуктов/услуг/технологий
+    /// Базовый класс для всех товров/услуг/работ
     /// </summary>
     public abstract class BaseProduct : AuditableEntity
     {
@@ -82,5 +82,7 @@ namespace Rk.Messages.Domain.Entities.Products
         
             Status = newStatus;
         }
+
+        public abstract string GetProductionType();
     }
 }

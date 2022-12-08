@@ -55,7 +55,9 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
             }
             else
             {
-                var cartItem = new ShoppingCartItem(_userService.UserName, product.Id, product.Price, request.Quantity);
+                if (!product.Price.HasValue) throw new RkErrorException($"У данного продукта {product.Name} не задана цена.");
+
+                var cartItem = new ShoppingCartItem(_userService.UserName, product.Id, product.Price.Value, request.Quantity);
 
                 _appDbContext.ShoppingCartItems.Add(cartItem);
             }

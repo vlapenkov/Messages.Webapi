@@ -17,5 +17,10 @@ namespace Rk.Messages.Domain.Entities.Products
             base(organizationId,catalogSectionId, name, description, attributeValues)
         {
         }
+
+        public override string GetProductionType()
+        {
+            return nameof(ServiceProduct);
+        }
     }
 }

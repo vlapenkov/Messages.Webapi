@@ -29,9 +29,10 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         public DbSet<CatalogSection> CatalogSections { get; set; }
 
+        public DbSet<BaseProduct> BaseProduct { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ServiceProduct> ServiceProducts { get; set; }
-        public DbSet<Technology> TechnologyProducts { get; set; }
+        public DbSet<WorkProduct> WorkProducts { get; set; }
 
         public DbSet<SectionDocument> SectionDocuments { get; set; }
         public DbSet<ProductDocument> ProductDocuments { get; set; }
@@ -55,7 +56,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasDiscriminator<int>("ItemType")
                   .HasValue<Product>(1)
                   .HasValue<ServiceProduct>(2)
-                  .HasValue<Technology>(3);
+                  .HasValue<WorkProduct>(3);
 
               //  entity.HasIndex(self => self.Name);//.IsUnique();
 

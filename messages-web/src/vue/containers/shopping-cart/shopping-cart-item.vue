@@ -61,8 +61,6 @@ import {
 import { ShoppingCartModel } from '@/app/shopping-cart/models/shopping-cart.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
-import { CollectionStoreMixed } from '../../base/presentational/state/collection/collection-state.vue';
-import { refreshProvider } from '../../base/presentational/state/collection/providers/refresh.provider';
 
 export default defineComponent({
   props: {
@@ -72,8 +70,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const state = shoppingCartStore as CollectionStoreMixed;
-    refreshProvider.provideFrom(() => state.getDataAsync);
+    const state = shoppingCartStore;
 
     const isQuantityUpdating = ref(false);
 
@@ -103,7 +100,6 @@ export default defineComponent({
     };
     return {
       quantity,
-      shoppingCartStore,
       isQuantityUpdating,
       updateItemQuantity,
       deleteItem,

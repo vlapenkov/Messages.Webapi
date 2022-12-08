@@ -6,9 +6,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
     /// Информация о товаре
     /// </summary>
     public record ProductResponse :AuditableEntityDto
-    {
-        public long Id { get; set; }
-
+    {      
         /// <summary>наименование</summary>
         public string Name { get; set; }
 

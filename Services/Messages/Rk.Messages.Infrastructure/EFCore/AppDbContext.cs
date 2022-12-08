@@ -29,9 +29,10 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         public DbSet<CatalogSection> CatalogSections { get; set; }
 
+        public DbSet<BaseProduct> BaseProduct { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ServiceProduct> ServiceProducts { get; set; }
-        public DbSet<Technology> TechnologyProducts { get; set; }
+        public DbSet<WorkProduct> WorkProducts { get; set; }
 
         public DbSet<SectionDocument> SectionDocuments { get; set; }
         public DbSet<ProductDocument> ProductDocuments { get; set; }
@@ -55,7 +56,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasDiscriminator<int>("ItemType")
                   .HasValue<Product>(1)
                   .HasValue<ServiceProduct>(2)
-                  .HasValue<Technology>(3);
+                  .HasValue<WorkProduct>(3);
 
               //  entity.HasIndex(self => self.Name);//.IsUnique();
 
@@ -77,7 +78,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                 
             });
 
-           // builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
+            builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
 
             builder.Entity<CatalogSection>(entity =>
             {
@@ -165,8 +166,8 @@ namespace Rk.Messages.Infrastructure.EFCore
         protected virtual void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Organization>().HasData(
-          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null,null,null, OrganizationStatus.Working),
-          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/", null, null, OrganizationStatus.Working)
+          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null,null,null,null, null,OrganizationStatus.Working),
+          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/", null, null, null, null,OrganizationStatus.Working)
           );
 
             modelBuilder.Entity<ProductAttribute>().HasData(

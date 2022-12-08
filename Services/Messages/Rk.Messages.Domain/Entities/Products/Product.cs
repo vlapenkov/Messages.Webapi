@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Rk.Messages.Domain.Enums;
 
 namespace Rk.Messages.Domain.Entities.Products
 {
     /// <summary>
-    /// Продукция
+    /// Товар
     /// </summary>
     public class Product : BaseProduct
     {
@@ -16,28 +18,20 @@ namespace Rk.Messages.Domain.Entities.Products
             string name,
             string fullname,
             string description, 
-            decimal price, 
+            decimal? price, 
             IReadOnlyCollection<AttributeValue> attributeValues
        
             ) 
-            : base(organizationId, catalogSectionId, name, description, attributeValues)
-        {
-            FullName = fullname;
-            Price = price;
-            
+            : base(organizationId, catalogSectionId, name, fullname, description, price, attributeValues)
+        { 
+           
         }
 
         #region Private Members
 
         [StringLength(256)]
         public string CodeTnVed { get; private set; }
-
-        public decimal Price { get; private set; }
-
-        [StringLength(1024)]
-        public string FullName { get; private set; }
-
-
+      
         [StringLength(128)]
         public string MeasuringUnit { get; private set; } = "шт.";
 
@@ -55,7 +49,11 @@ namespace Rk.Messages.Domain.Entities.Products
         public virtual IReadOnlyCollection<string> ApplicationAreas => _applicationAreas;
 
 
+
         #endregion
+
+        #region Methods
+       
 
         /// <summary>
         /// Установить цену продукции
@@ -82,5 +80,16 @@ namespace Rk.Messages.Domain.Entities.Products
             AvailableStatus = availableStatus;
         }
 
+        public override string GetProductionType()
+        {
+            return nameof(Product);
+        }
+
+        public void SetCodeTnVed(string codeTnVed)
+        {
+           CodeTnVed = codeTnVed;
+        }
+
+        #endregion
     }
 }

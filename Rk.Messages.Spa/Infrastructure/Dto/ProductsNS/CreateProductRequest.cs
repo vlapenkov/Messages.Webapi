@@ -21,7 +21,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string CodeTnVed { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         /// <summary>Информация о файлах для продукции</summary>
         public List<FileDataDto> Documents { get; set; } = new List<FileDataDto>();

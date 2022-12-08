@@ -11,6 +11,9 @@ using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using MediatR;
 using System.Reflection;
+using Rk.Messages.Logic.ProductsNS.Validations;
+using Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct;
+using Rk.Messages.Logic.WorkProductsNS.Validations;
 
 namespace Rk.Messages.Webapi.Extensions
 {
@@ -28,11 +31,13 @@ namespace Rk.Messages.Webapi.Extensions
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
-            services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
+            services.AddTransient<IValidator<CreateSectionCommand>, CreateSectionValidator>();
 
-            services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
+            services.AddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
 
-            services.AddScoped<IValidator<CreateOrganizationRequest>, CreateOrganizationValidator>();
+            services.AddTransient<IValidator<CreateWorkProductCommand>, CreateWorkProductValidator>();
+
+            services.AddTransient<IValidator<CreateOrganizationRequest>, CreateOrganizationValidator>();
 
             services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
 

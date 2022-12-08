@@ -2,7 +2,7 @@
 using FluentValidation;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 
-namespace Rk.Messages.Logic.SectionsNS.Validations
+namespace Rk.Messages.Logic.ProductsNS.Validations
 {
     public class CreateProductValidator : AbstractValidator<CreateProductCommand>
     {
@@ -14,9 +14,9 @@ namespace Rk.Messages.Logic.SectionsNS.Validations
 
             RuleFor(x => x.Request.Name)
                 .NotEmpty()
-                .WithMessage("Наименование продукта не должно быть пустым")
+                .WithMessage("Наименование товара не должно быть пустым")
                 .MinimumLength(5)
-                .WithMessage("Минимальная длина наименования продукта не менее 5 символов");
+                .WithMessage("Минимальная длина наименования товара не менее 5 символов");
 
             // Атрибуты продукции НЕ обязательно должны быть указаны
             //RuleFor(x => x.Request).Custom((request, context) =>

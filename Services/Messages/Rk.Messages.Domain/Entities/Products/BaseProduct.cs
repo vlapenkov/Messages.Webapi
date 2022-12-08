@@ -24,9 +24,9 @@ namespace Rk.Messages.Domain.Entities.Products
 
             OrganizationId = organizationId;
            
-            Price = price;            
+            Price = price;
 
-            _attributeValues = attributeValues.ToList();
+            _attributeValues =  attributeValues?.ToList() ?? new List<AttributeValue>();
 
         }        
 

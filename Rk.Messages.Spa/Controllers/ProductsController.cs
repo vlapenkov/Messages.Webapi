@@ -32,7 +32,7 @@ namespace Rk.Messages.Spa.Controllers
             _logger = logger;   
         }
 
-        /// <summary>Создать продукт </summary>
+        /// <summary>Создать товар</summary>
         [HttpPost]        
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
@@ -49,7 +49,7 @@ namespace Rk.Messages.Spa.Controllers
 
         }
 
-        /// <summary>Создать продукты из excel </summary>
+        /// <summary>Создать товары из excel </summary>
         [HttpPost("fromexcel")]
         public async Task<IReadOnlyCollection<CreateProductRequest>> CreateProducts([FromBody] CreateProductsFromFileRequest request)
         {
@@ -64,16 +64,9 @@ namespace Rk.Messages.Spa.Controllers
 
             return productsPrepared;
 
-        }
+        }        
 
-        /// <summary>Получить список товаров с отбором и пагинацией </summary>
-        [HttpGet]
-        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
-        {
-            return await _productsService.GetProducts(request);
-        }
-
-        /// <summary>Получить информацию о продукции</summary>
+        /// <summary>Получить информацию о товаре</summary>
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
@@ -102,33 +95,13 @@ namespace Rk.Messages.Spa.Controllers
         }
 
         /// <summary>Апдейт значений атрибутов товара</summary>
-        [HttpPut("{id:long}/attributes")]
-        public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
-        {
-            await _productsService.UpdateAttributes(id, attributeValues);
-        }
+        //[HttpPut("{id:long}/attributes")]
+        //public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
+        //{
+        //    await _productsService.UpdateAttributes(id, attributeValues);
+        //}
+               
 
-        /// <summary>Получить информацию об атрибутах всей продукции</summary>
-        [HttpGet("attributes")]
-        public async Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes()
-        {
-            var result = await _productsService.GetProductAttributes();
-
-            return result;
-        }
-
-        /// <summary>Удалить продукцию</summary>
-        [HttpDelete("{id:long}")]
-        public async Task DeleteProductById(long id)
-        {
-            await _productsService.DeleteProductById(id);
-        }
-
-        /// <summary>Установить статус</summary>
-        [HttpPatch("{id:long}/status")]
-        public async Task SetStatus(long id, [FromBody] long status)
-        {
-            await _productsService.SetStatus(id, status);
-        }
+       
     }
 }

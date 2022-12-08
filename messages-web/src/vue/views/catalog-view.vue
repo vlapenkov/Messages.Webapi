@@ -59,7 +59,7 @@ import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
-import { useOrganizations } from './composables/organizations.composable';
+import { useOrganizations } from '@/composables/organizations.composable';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({

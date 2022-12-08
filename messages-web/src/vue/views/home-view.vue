@@ -244,8 +244,8 @@ import PopularProductsList from '@/vue/containers/products/popular-products-list
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
 import { useRouter } from 'vue-router';
-import { useOrganizations } from './composables/organizations.composable';
-import { useSections } from './composables/sections.composable';
+import { useSections } from '@/composables/sections.composable';
+import { useOrganizations } from '../../composables/organizations.composable';
 
 export default defineComponent({
   components: {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,14 +13,16 @@ using X.PagedList;
 
 namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 {
-    [Obsolete("В новой концепции использовать GetProductionsQueryHandler")]
-    public class GetProductsQueryHandler 
+    /// <summary>
+    /// Обработчик возвращающий всю продукцию по критериям поиска
+    /// </summary>
+    public class GetProductionsQueryHandler : IRequestHandler<GetProductsQuery, PagedResponse<ProductShortDto>>
     {
         private readonly IAppDbContext _dbContext;
         private readonly IMapper _mapper;
 
 
-        public GetProductsQueryHandler(IAppDbContext dbContext, IMapper mapper)
+        public GetProductionsQueryHandler(IAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -34,11 +35,11 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
             var request = query.Request;
 
-            IQueryable<Product> productsQuery = GetProducts();
+            IQueryable<BaseProduct> productsQuery = GetProducts();
 
             productsQuery = await FilterProducts(request, productsQuery);
 
-            IPagedList<Product> queryResult = await productsQuery.OrderBy(product => product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
+            IPagedList<BaseProduct> queryResult = await productsQuery.OrderBy(product => product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
 
 
             // преобразование из IPagedList<Product> -> PagedResponse<ProductShortDto>
@@ -56,9 +57,9 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
         /// <summary>Получить товары со связанными сущностями</summary>
         
-        private IQueryable<Product> GetProducts()
+        private IQueryable<BaseProduct> GetProducts()
         {
-            return _dbContext.Products
+            return _dbContext.BaseProduct
                 .Include(product => product.Organization)
                 .Include(product => product.ProductDocuments)
                 .ThenInclude(pd => pd.Document)
@@ -66,7 +67,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
         }
 
         /// <summary>Отобрать товары по фильтру</summary>
-        private async Task<IQueryable<Product>> FilterProducts(FilterProductsRequest request, IQueryable<Product> productsQuery)
+        private async Task<IQueryable<BaseProduct>> FilterProducts(FilterProductsRequest request, IQueryable<BaseProduct> productsQuery)
         {
             if (request.CatalogSectionId != null)
             {
@@ -81,10 +82,10 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
                 productsQuery = productsQuery.Where(product => product.Status == request.Status);
             }
 
-            if (request.AvailableStatus != null)
-            {
-                productsQuery = productsQuery.Where(product => product.AvailableStatus == request.AvailableStatus);
-            }
+            //if (request.AvailableStatus != null)
+            //{
+            //    productsQuery = productsQuery.Where(product => product.AvailableStatus == request.AvailableStatus);
+            //}
 
             if (request.Region != null)
                 productsQuery = productsQuery.Where(product => product.Organization.Region != null && product.Organization.Region.ToLower() == request.Region.ToLower());

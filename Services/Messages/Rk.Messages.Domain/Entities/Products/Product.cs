@@ -5,7 +5,7 @@ using Rk.Messages.Domain.Enums;
 namespace Rk.Messages.Domain.Entities.Products
 {
     /// <summary>
-    /// Продукция
+    /// Товар
     /// </summary>
     public class Product : BaseProduct
     {
@@ -82,5 +82,9 @@ namespace Rk.Messages.Domain.Entities.Products
             AvailableStatus = availableStatus;
         }
 
+        public override string GetProductionType()
+        {
+            return nameof(Product);
+        }
     }
 }

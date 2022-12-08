@@ -28,6 +28,10 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         /// <summary>цена</summary>
         public decimal Price { get; set; }
 
+
+        /// <summary>Тип продукции</summary>
+        public string ProductionType { get; set; }
+
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 

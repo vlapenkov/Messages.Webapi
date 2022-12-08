@@ -16,7 +16,7 @@
             {{ product.name }}
           </prime-button>
         </div>
-        <div class="h-full flex flex-shrink-1 flex-column flex-auto justify-content-end">
+        <div class="h-full flex flex-column flex-auto justify-content-end">
           <div class="text-sm text-primary">
             <prime-button class="p-button-text text-sm p-0" @click="viewOrganization(product)">
               {{ product.organization.name }}

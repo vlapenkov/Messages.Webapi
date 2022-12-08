@@ -10,11 +10,14 @@ namespace Rk.Messages.Domain.Entities.Products
         private WorkProduct() { }
         public WorkProduct(
             long organizationId,
-            long catalogSectionId, 
-            string name, 
-            string description, 
-            IReadOnlyCollection<AttributeValue> attributeValues) : 
-            base(organizationId, catalogSectionId, name, description, attributeValues)
+            long catalogSectionId,
+            string name,
+            string fullname,
+            string description,
+            decimal? price,
+            IReadOnlyCollection<AttributeValue> attributeValues
+            ) : 
+            base(organizationId, catalogSectionId, name, fullname, description, price, attributeValues)
         {
         }
 

@@ -78,7 +78,7 @@ namespace Rk.Messages.Infrastructure.EFCore
                 
             });
 
-           // builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
+            builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
 
             builder.Entity<CatalogSection>(entity =>
             {

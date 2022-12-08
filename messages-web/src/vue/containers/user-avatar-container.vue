@@ -74,6 +74,11 @@ export default defineComponent({
         icon: 'pi pi-th-large',
       },
       {
+        label: 'География производства',
+        to: { name: 'production-geo' },
+        icon: 'pi pi-map',
+      },
+      {
         label: 'Выход',
         icon: 'pi pi-sign-out',
         command: () => {

@@ -12,8 +12,10 @@ using Rk.Messages.Logic.OrganizationsNS.Dto;
 using MediatR;
 using System.Reflection;
 using Rk.Messages.Logic.ProductsNS.Validations;
+using Rk.Messages.Logic.ServiceProductsNS.Commands.CreateServiceProduct;
 using Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct;
 using Rk.Messages.Logic.WorkProductsNS.Validations;
+using Rk.Messages.Logic.ServiceProductsNS.Validations;
 
 namespace Rk.Messages.Webapi.Extensions
 {
@@ -36,6 +38,8 @@ namespace Rk.Messages.Webapi.Extensions
             services.AddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
 
             services.AddTransient<IValidator<CreateWorkProductCommand>, CreateWorkProductValidator>();
+
+            services.AddTransient<IValidator<CreateServiceProductCommand>, CreateServiceProductValidator>();
 
             services.AddTransient<IValidator<CreateOrganizationRequest>, CreateOrganizationValidator>();
 

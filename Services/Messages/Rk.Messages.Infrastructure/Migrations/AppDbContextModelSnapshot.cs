@@ -530,6 +530,11 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(4096)")
                         .HasColumnName("description");
 
+                    b.Property<string>("FullName")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("fullname");
+
                     b.Property<int>("ItemType")
                         .HasColumnType("integer")
                         .HasColumnName("itemtype");
@@ -551,6 +556,10 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Property<long>("OrganizationId")
                         .HasColumnType("bigint")
                         .HasColumnName("organizationid");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
@@ -656,9 +665,19 @@ namespace Rk.Messages.Infrastructure.Migrations
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("address");
+
                     b.Property<int>("AvailableStatus")
                         .HasColumnType("integer")
                         .HasColumnName("availablestatus");
+
+                    b.Property<string>("CodeOkpd2")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("codeokpd2");
 
                     b.Property<string>("CodeTnVed")
                         .HasMaxLength(256)
@@ -675,19 +694,10 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(3)")
                         .HasColumnName("currency");
 
-                    b.Property<string>("FullName")
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)")
-                        .HasColumnName("fullname");
-
                     b.Property<string>("MeasuringUnit")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("measuringunit");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
-                        .HasColumnName("price");
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -699,7 +709,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(2);
                 });
 
-            modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.Technology", b =>
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.WorkProduct", b =>
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
 

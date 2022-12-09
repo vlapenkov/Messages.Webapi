@@ -7,8 +7,6 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrdersNS
     /// </summary>
     public record OrderShortDto : AuditableEntityDto
     {
-        public long Id { get; set; }
-
         public string OrganisationName { get; set; }
 
         public string UserName { get; set; }

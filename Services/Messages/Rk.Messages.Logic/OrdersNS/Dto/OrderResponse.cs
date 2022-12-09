@@ -12,8 +12,7 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
     /// Информация о заказе
     /// </summary>
     public record OrderResponse :AuditableEntityDto
-    {
-        public long Id { get; set; }
+    {        
 
         /// <summary>Название организации</summary>
         public string OrganisationName  { get; set; }

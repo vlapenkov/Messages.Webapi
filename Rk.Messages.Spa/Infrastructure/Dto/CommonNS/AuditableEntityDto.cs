@@ -2,6 +2,8 @@
 {
     public record AuditableEntityDto
     {
+        public long Id { get; set; }
+
         public string CreatedBy { get;  set; }
 
         public string LastModifiedBy { get; set; }

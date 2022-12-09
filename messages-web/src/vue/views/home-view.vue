@@ -281,13 +281,6 @@ export default defineComponent({
     );
 
     const searchMe = () => {
-      console.log({
-        sectionId: sectionModel.value,
-        region: regionModel.value,
-        organization: organizationModel.value,
-        searchQuery: searchQuery.value,
-      });
-
       router.push({
         name: 'catalog',
         query: {

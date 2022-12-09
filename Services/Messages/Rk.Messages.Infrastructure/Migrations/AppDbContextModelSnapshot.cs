@@ -17,7 +17,10 @@ namespace Rk.Messages.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -122,6 +125,51 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasName("pk_documents");
 
                     b.ToTable("documents", (string)null);
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.News", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("documentid");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_news");
+
+                    b.ToTable("news", (string)null);
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Order", b =>
@@ -240,6 +288,11 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("email");
+
                     b.Property<string>("FullName")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
@@ -283,6 +336,11 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("okved2");
 
+                    b.Property<string>("Phone")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("phone");
+
                     b.Property<string>("Region")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
@@ -300,9 +358,9 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_organizations");
 
-                    // b.HasIndex("Ogrn")
-                    //     .IsUnique()
-                    //     .HasDatabaseName("ix_organizations_ogrn");
+                    b.HasIndex("Ogrn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_organizations_ogrn");
 
                     b.ToTable("organizations", (string)null);
 
@@ -468,9 +526,14 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("createdby");
 
                     b.Property<string>("Description")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("FullName")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
-                        .HasColumnName("description");
+                        .HasColumnName("fullname");
 
                     b.Property<int>("ItemType")
                         .HasColumnType("integer")
@@ -485,6 +548,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("lastmodifiedby");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("name");
@@ -492,6 +556,14 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Property<long>("OrganizationId")
                         .HasColumnType("bigint")
                         .HasColumnName("organizationid");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
                     b.HasKey("Id")
                         .HasName("pk_baseproduct");
@@ -505,6 +577,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.ToTable("baseproduct", (string)null);
 
                     b.HasDiscriminator<int>("ItemType");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
@@ -591,6 +665,20 @@ namespace Rk.Messages.Infrastructure.Migrations
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("address");
+
+                    b.Property<int>("AvailableStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("availablestatus");
+
+                    b.Property<string>("CodeOkpd2")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("codeokpd2");
+
                     b.Property<string>("CodeTnVed")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)")
@@ -606,23 +694,10 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(3)")
                         .HasColumnName("currency");
 
-                    b.Property<string>("FullName")
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)")
-                        .HasColumnName("fullname");
-
                     b.Property<string>("MeasuringUnit")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("measuringunit");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
-                        .HasColumnName("price");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -634,7 +709,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(2);
                 });
 
-            modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.Technology", b =>
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.WorkProduct", b =>
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
 

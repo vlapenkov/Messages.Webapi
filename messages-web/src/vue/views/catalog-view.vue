@@ -22,8 +22,27 @@
       </div>
     </template>
     <div class="grid mt-1">
+      <div class="col-6">
+        <dropdown
+          v-model="regionModel"
+          :options="regionOptions"
+          show-clear
+          placeholder="Регион"
+          :style="{ width: '100%' }"
+        />
+      </div>
+      <div class="col-6">
+        <dropdown
+          show-clear
+          v-model="organizationModel"
+          :options="organizationOptions"
+          placeholder="Производитель"
+          :style="{ width: '100%' }"
+        />
+      </div>
+
       <div class="col-3">
-        <sections-container v-model:selected="selectedKey"></sections-container>
+        <sections-container v-model:selected="parentSectionId"></sections-container>
       </div>
       <div ref="productsContainerRef" class="col-9">
         <products-viewer />
@@ -38,39 +57,38 @@ import { productShortsService } from '@/app/product-shorts/services/product-shor
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import {
-  onBeforeRouteUpdate,
-  RouteLocationNormalized,
-  RouteLocationNormalizedLoaded,
-  useRoute,
-  useRouter,
-} from 'vue-router';
+import { defineComponent, ref, watch } from 'vue';
+import { useOrganizations } from '@/composables/organizations.composable';
+import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
-    const route = useRoute();
-    const router = useRouter();
-
-    const paramsToSectionId = (
-      val: RouteLocationNormalized | RouteLocationNormalizedLoaded,
-    ): number | undefined => {
-      const id: number | undefined = parseInt(val.params.id as string, 10);
-      return id != null && !Number.isNaN(id) ? id : undefined;
-    };
-
-    onBeforeRouteUpdate((to) => {
-      productShortsStore.parentSectionId.value = paramsToSectionId(to);
-    });
-    onBeforeMount(() => {
-      productShortsStore.parentSectionId.value = paramsToSectionId(route);
-    });
     const viewMode = viewModeProvider.provide();
 
     const switchViewMode = () => {
       viewMode.value = viewMode.value === 'user' ? 'admin' : 'user';
     };
+
+    useRouteQueryBinded('sectionId', {
+      type: 'number',
+      ref: productShortsStore.parentSectionId,
+    });
+
+    useRouteQueryBinded('region', {
+      type: 'string',
+      ref: productShortsStore.region,
+    });
+
+    useRouteQueryBinded('organization', {
+      type: 'string',
+      ref: productShortsStore.organization,
+    });
+
+    useRouteQueryBinded('searchQuery', {
+      type: 'string',
+      ref: productShortsStore.searchQuery,
+    });
 
     watch(
       [
@@ -78,15 +96,20 @@ export default defineComponent({
         productShortsStore.pageSize,
         productShortsStore.searchQuery,
         productShortsStore.parentSectionId,
+        productShortsStore.region,
+        productShortsStore.organization,
       ],
-      ([pageNumber, pageSize, query, catalogSectionId]) => {
+      ([pageNumber, pageSize, query, catalogSectionId, reg, org]) => {
         // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
         const request: IproductsPageRequest = {
           name: query == null || query === '' || query.trim() === '' ? null : query,
           catalogSectionId,
           pageNumber,
           pageSize,
+          producerName: org ?? null,
+          region: reg ?? null,
         };
+
         productShortsService.loadPage(request);
       },
       {
@@ -94,24 +117,26 @@ export default defineComponent({
       },
     );
 
-    const selectedKey = computed({
-      get: () => productShortsStore.parentSectionId.value,
-      set: (val) => {
-        productShortsStore.parentSectionId.value = val;
-        router.push({ name: 'sections', params: { id: val } });
-      },
-    });
+    const { parentSectionId } = productShortsStore;
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
+    const { region: regionModel, organization: organizationModel } = productShortsStore;
+
+    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+
     return {
       sectionsStore,
-      selectedKey,
+      parentSectionId,
       search: productShortsStore.searchQuery,
       productsContainerRef,
       productsContainerSize,
       viewMode,
       switchViewMode,
+      regionModel,
+      organizationModel,
+      regionOptions,
+      organizationOptions,
     };
   },
 });

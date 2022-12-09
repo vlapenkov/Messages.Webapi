@@ -2,6 +2,7 @@
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Rk.FileStore.Infrastructure.EFCore;
+using Rk.FileStore.Infrastructure.Services;
 using Rk.FileStore.Interfaces.Interfaces;
 using Rk.FileStore.Interfaces.Services;
 using Rk.FileStore.Logic.Services;
@@ -21,6 +22,12 @@ namespace Rk.FileStore.Webapi
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<IHashProvider, Sha256HashProvider>();
+
+            services.AddTransient<IFilesService, FilesService>();
+
+            services.AddTransient<IProductService, ProductService>();
+
+            services.AddTransient<IRemoteImageService, RemoteImageService>();
         }
         public static void AddErrorHandling(this IServiceCollection services, IHostEnvironment env)
         {

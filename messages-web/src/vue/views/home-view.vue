@@ -3,20 +3,21 @@
   <div>
     <div class="flex flex-row justify-space-between align-items-center mt-2">
       <div class="col-1 pl-0">
-        <prime-button
-          class="text-sm font-normal p-bbutton-sm p-2"
-          icon="pi pi-bars"
-          label="Каталог"
-        />
+        <router-link to="catalog" :style="{ textDecoration: 'none' }">
+          <prime-button
+            class="text-sm font-normal p-bbutton-sm p-2"
+            icon="pi pi-bars"
+            label="Каталог"
+          />
+        </router-link>
       </div>
       <div class="col-7">
-        <span
-          class="p-input-icon-right"
+        <div
+          class="p-inputgroup"
           :style="{
             width: '100%',
           }"
         >
-          <i class="pi pi-search"></i>
           <input-text
             type="text"
             placeholder="Найти"
@@ -24,8 +25,10 @@
             :style="{
               width: '100%',
             }"
+            v-model="searchQuery"
           />
-        </span>
+          <prime-button @click="searchMe" icon="pi pi-search"></prime-button>
+        </div>
       </div>
       <div class="col-1">
         <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
@@ -57,23 +60,47 @@
         </prime-button>
       </div>
       <div class="col-1">
-        <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
-          <div class="flex flex-column">
-            <i class="pi pi-shopping-cart"></i>
-            <span>Корзина</span>
-          </div>
-        </prime-button>
+        <router-link to="shopping-cart" :style="{ textDecoration: 'none' }">
+          <prime-button
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+          >
+            <div class="flex flex-column">
+              <i class="pi pi-shopping-cart" v-if="cartCapacity > 0" v-badge="cartCapacity"></i>
+              <i class="pi pi-shopping-cart" v-else></i>
+              <span>Корзина</span>
+            </div>
+          </prime-button>
+        </router-link>
       </div>
     </div>
     <div class="flex flex-row justify-space-between align-items-center">
       <div class="col-4 pl-0">
-        <dropdown placeholder="Область применения" :style="{ width: '100%' }" />
+        <dropdown
+          v-model="sectionModel"
+          :options="sectionOptions"
+          optionLabel="label"
+          placeholder="Область применения"
+          show-clear
+          :style="{ width: '100%' }"
+        />
       </div>
       <div class="col-4">
-        <dropdown placeholder="Регион" :style="{ width: '100%' }" />
+        <dropdown
+          v-model="regionModel"
+          :options="regionOptions"
+          placeholder="Регион"
+          show-clear
+          :style="{ width: '100%' }"
+        />
       </div>
       <div class="col-4">
-        <dropdown placeholder="Производитель" :style="{ width: '100%' }" />
+        <dropdown
+          v-model="organizationModel"
+          :options="organizationOptions"
+          placeholder="Производитель"
+          show-clear
+          :style="{ width: '100%' }"
+        />
       </div>
     </div>
     <div class="flex flex-row justify-space-between align-items-center">
@@ -122,53 +149,85 @@
           <prime-divider class="mt-0"></prime-divider>
           <div class="grid w-full h-full">
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold"
-                    >Высокоскоростные гибридные шаговые электродвигатели</span
-                  >
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в ракетно-космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Высокоскоростные гибридные шаговые электродвигатели
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
 
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold">Миниатюрные электромеханические устройства</span>
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в ракетно-космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Миниатюрные электромеханические устройства
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
 
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold"
-                    >Системы и средства запуска космических аппаратов</span
-                  >
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Системы и средства запуска космических аппаратов
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
 
             <div class="col-3">
-              <card class="news-card p-3">
-                <template #title>
-                  <span class="font-semibold">Системы квантовой связи космических аппаратов</span>
-                </template>
+              <card class="h-full news-card p-3">
                 <template #content>
-                  В дайджесте представлена информация о наиболее актуальных и перспективных
-                  разработках в ракетно-космической отрасли на основе патентной информации.
+                  <div class="w-full flex flex-row">
+                    <span
+                      class="w-full font-semibold text-xl"
+                      :style="{ overflowWrap: 'break-word' }"
+                    >
+                      Системы квантовой связи для космических аппаратов
+                    </span>
+                  </div>
+                  <div class="flex flex-row mt-2">
+                    <span>
+                      В дайджесте представлена информация о наиболее актуальных и перспективных
+                      разработках в ракетно-космической отрасли на основе патентной информации.
+                    </span>
+                  </div>
                 </template>
               </card>
             </div>
@@ -180,12 +239,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
-import { organizationsService } from '@/app/organizations/services/organization.service';
+import { useRouter } from 'vue-router';
+import { useSections } from '@/composables/sections.composable';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { useOrganizations } from '../../composables/organizations.composable';
 
 export default defineComponent({
   components: {
@@ -194,21 +256,62 @@ export default defineComponent({
     PopularOrganizationsList,
   },
   setup() {
-    onMounted(async () => {
-      await productShortsService.loadPage({
+    const router = useRouter();
+    onMounted(() => {
+      productShortsService.loadPage({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,
         pageSize: 12,
+        producerName: null,
+        region: null,
       });
-      await organizationsService.loadPage({
-        pageNumber: 1,
-        pageSize: 8,
-      });
+      shoppingCartStore.getDataAsync();
     });
     const hasPhoto = ref(false);
+    const sectionModel = ref();
+    const regionModel = ref();
+    const organizationModel = ref();
+    const searchQuery = ref<string>();
+
+    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+    const sections = useSections();
+    const sectionOptions = computed(() =>
+      (sections.value ?? []).map((s) => ({ label: s.name, value: s.id })),
+    );
+
+    const searchMe = () => {
+      console.log({
+        sectionId: sectionModel.value,
+        region: regionModel.value,
+        organization: organizationModel.value,
+        searchQuery: searchQuery.value,
+      });
+
+      router.push({
+        name: 'catalog',
+        query: {
+          sectionId: sectionModel.value?.value,
+          region: regionModel.value,
+          organization: organizationModel.value,
+          searchQuery: searchQuery.value,
+        },
+      });
+    };
+
+    const cartCapacity = shoppingCartStore.totalQuantity;
+
     return {
+      sectionModel,
+      regionModel,
+      organizationModel,
       hasPhoto,
+      sectionOptions,
+      regionOptions,
+      organizationOptions,
+      searchMe,
+      searchQuery,
+      cartCapacity,
     };
   },
 });

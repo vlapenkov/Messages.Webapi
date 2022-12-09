@@ -1,31 +1,26 @@
 ﻿using Rk.Messages.Domain.Enums;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Rk.Messages.Domain.Entities
 {
     /// <summary>
     /// Строка - информация о товаре в заказе
     /// </summary>
-    public class Order :AuditableEntity
+    public class Order : AuditableEntity
     {
-        public Order(long organizationId,  string userName)
+        public Order(long organizationId, string userName)
         {
-         
-            OrganizationId = organizationId;            
+
+            OrganizationId = organizationId;
             UserName = userName;
         }
 
         /// <summary>Id организация покупателя</summary>
         public long OrganizationId { get; private set; }
 
-        /// <summary>Организация покупателя</summary>
-        public virtual Organization Organization { get;}
+        /// <summary>Покупатель</summary>
+        public virtual Organization Organization { get; }
 
         /// <summary>Имя пользователя</summary>        
         [StringLength(255)]
@@ -42,10 +37,21 @@ namespace Rk.Messages.Domain.Entities
         private readonly List<OrderItem> _orderItems = new List<OrderItem>();
         public virtual IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
+        /// <summary>
+        /// Добавить продукцию в заказ
+        /// </summary> 
         public void AddOrderItems(IReadOnlyCollection<OrderItem> orderItems)
         {
 
             _orderItems.AddRange(orderItems);
+        }
+
+        /// <summary>
+        /// Установить статус заказа
+        /// </summary>        
+        public void SetStatus(OrderStatus status)
+        {
+            Status = status;
         }
 
     }

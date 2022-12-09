@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 namespace Rk.Messages.Logic.OrganizationsNS.Dto
 {
     public record OrganizationDto : AuditableEntityDto
-    {
-        public long Id { get; set; }
-
+    {        
         public string Name { get; set; }
                 
         public string FullName { get; set; }
@@ -34,7 +32,11 @@ namespace Rk.Messages.Logic.OrganizationsNS.Dto
         public string Okved { get; set; }
 
         public string Okved2 { get; set; }
-       
+
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
         public string StatusText { get; set; }
     }
 }

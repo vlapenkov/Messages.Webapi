@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.OrdersNS.Commands.CreateOrder;
+using Rk.Messages.Logic.OrdersNS.Commands.SetStatus;
 using Rk.Messages.Logic.OrdersNS.Dto;
 using Rk.Messages.Logic.OrdersNS.Queries.GetOrder;
 using Rk.Messages.Logic.OrdersNS.Queries.GetOrders;
-using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 using System.Threading.Tasks;
 
 namespace Rk.Messages.Webapi.Controllers
@@ -43,6 +44,13 @@ namespace Rk.Messages.Webapi.Controllers
             var result = await _mediator.Send(new GetOrdersQuery {Request = request});
 
             return result;
+        }
+
+        /// <summary>Установить статус</summary>
+        [HttpPatch("{id:long}/status")]
+        public async Task SetStatus(long id, [FromBody] OrderStatus status)
+        {
+            await _mediator.Send(new SetStatusCommand { OrderId = id, Status = status });
         }
 
     }

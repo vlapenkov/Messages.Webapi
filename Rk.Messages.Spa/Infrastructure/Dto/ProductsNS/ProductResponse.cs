@@ -6,9 +6,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
     /// Информация о товаре
     /// </summary>
     public record ProductResponse :AuditableEntityDto
-    {
-        public long Id { get; set; }
-
+    {      
         /// <summary>наименование</summary>
         public string Name { get; set; }
 
@@ -20,7 +18,11 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string CodeTnVed { get; set; }
 
-        public decimal Price { get; set; }     
+        public string CodeOkpd2 { get; set; }
+
+        public string Address { get; set; }
+
+        public decimal? Price { get; set; }     
 
         public string MeasuringUnit { get; set; }
 
@@ -29,6 +31,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         public string Currency { get; set; }
 
         public string StatusText { get; set; }
+
+        public string AvailableStatusText { get; set; }
 
         public OrganizationShortDto Organization { get; set; }
 

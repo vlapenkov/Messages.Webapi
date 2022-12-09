@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-cd messages-web
-npm run prettier
-npm run lint -- --max-warnings 0

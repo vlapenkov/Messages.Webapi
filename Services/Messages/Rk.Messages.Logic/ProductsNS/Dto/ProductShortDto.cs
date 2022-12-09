@@ -7,9 +7,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
     /// Информация о товаре для списка
     /// </summary>
     public record ProductShortDto :AuditableEntityDto
-    {
-        /// <summary>идентификатор продукта</summary>
-        public long Id { get; set; }
+    {       
 
         /// <summary>наименование продукции</summary>
         public string Name { get; set; }
@@ -17,8 +15,17 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>описание продукции</summary>
         public string Description { get; set; }
 
+        /// <summary>статус</summary>
+        public string StatusText { get; set; }
+
+        /// <summary>статус доступности</summary>
+        public string AvailableStatusText { get; set; }
+
         /// <summary>цена</summary>
         public decimal Price { get; set; }
+
+        /// <summary>Тип продукции</summary>
+        public string ProductionType { get; set; }
 
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }

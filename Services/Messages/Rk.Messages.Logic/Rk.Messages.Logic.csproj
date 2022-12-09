@@ -22,5 +22,10 @@
 		  <ProjectReference Include="..\..\..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
 		  <ProjectReference Include="..\Rk.Messages.Infrastructure\Rk.Messages.Infrastructure.csproj" />
 		</ItemGroup>
+	
+	
+		<ItemGroup>
+		  <Folder Include="RegionsNS\Commands\" />
+		</ItemGroup>
 		
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
@@ -7,11 +8,10 @@ using Rk.Messages.Spa.Infrastructure.Services;
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Работа с продукцией
-    /// </summary>
-    
+    /// Управление товарами
+    /// </summary>    
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     
     public class ProductsController : ControllerBase
     {
@@ -19,15 +19,20 @@ namespace Rk.Messages.Spa.Controllers
 
         private readonly IFileStoreService _filesService;
 
+        private readonly IProductsPrepareService _productsPrepareService;
 
-        public ProductsController(IProductsService productsService, IFileStoreService fileService)
+        private readonly ILogger _logger;
+
+
+        public ProductsController(IProductsService productsService, IFileStoreService filesService, IProductsPrepareService productsPrepareService, ILogger<ProductsController> logger)
         {
             _productsService = productsService;
-
-            _filesService = fileService;
+            _filesService = filesService;
+            _productsPrepareService = productsPrepareService;
+            _logger = logger;   
         }
 
-        /// <summary>Создать продукт </summary>
+        /// <summary>Создать товар</summary>
         [HttpPost]        
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
@@ -44,14 +49,25 @@ namespace Rk.Messages.Spa.Controllers
 
         }
 
-        /// <summary>Получить список товаров с отбором и пагинацией </summary>
-        [HttpGet]
-        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
+        /// <summary>Создать товары из excel </summary>
+        [HttpPost("fromexcel")]
+        public async Task<IReadOnlyCollection<CreateProductRequest>> CreateProducts([FromBody] CreateProductsFromFileRequest request)
         {
-            return await _productsService.GetProducts(request);
+            IReadOnlyCollection<CreateProductRequest> productsPrepared = await _productsPrepareService.PrepareProductsFromExcel(request);
+
+            foreach (var productRequest in productsPrepared)
+            {
+                var productId = await _productsService.CreateProduct(productRequest);
+
+                _logger.LogInformation($"Создана продукция id={productId}");
+            }
+
+            return productsPrepared;
+
         }
 
-        /// <summary>Получить информацию о продукции</summary>
+        /// <summary>Получить информацию о товаре</summary>
+        [AllowAnonymous]
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
@@ -79,27 +95,12 @@ namespace Rk.Messages.Spa.Controllers
             return product;
         }
 
-        /// <summary>Апдейт значений атрибутов товара</summary>
-        [HttpPut("{id:long}/attributes")]
-        public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
+        /// <summary>Апдейт товара</summary>
+        [HttpPut("{id:long}")]
+        public async Task UpdateProduct(long id, [FromBody] UpdateProductRequest request)
         {
-            await _productsService.UpdateAttributes(id, attributeValues);
+            await _productsService.UpdateProduct(id, request);
         }
 
-        /// <summary>Получить информацию об атрибутах всей продукции</summary>
-        [HttpGet("attributes")]
-        public async Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes()
-        {
-            var result = await _productsService.GetProductAttributes();
-
-            return result;
-        }
-
-        /// <summary>Удалить продукцию</summary>
-        [HttpDelete("{id:long}")]
-        public async Task DeleteProductById(long id)
-        {
-            await _productsService.DeleteProductById(id);
-        }
     }
 }

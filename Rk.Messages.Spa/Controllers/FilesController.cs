@@ -51,6 +51,13 @@ namespace Rk.Messages.Spa.Controllers
 
         }
 
+        /// <summary>
+        /// Получить содержимое файла как картинку в определенном формете
+        /// </summary>
+        /// <param name="globalId">Идентификатор документа</param>
+        /// <param name="pictureType">тип картинки (пр-р jpeg)</param>
+        /// <returns>картинка</returns>
+
         [HttpGet("{globalId}/{pictureType}")]
         public async Task<IActionResult> Get(Guid globalId, string pictureType)
         {

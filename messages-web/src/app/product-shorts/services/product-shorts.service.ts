@@ -1,6 +1,8 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { computed } from 'vue';
 import { IproductsPageRequest } from '../@types/IproductsPageRequest';
 import { productShortsHttpService } from '../infrastructure/product-shorts.http-service';
 import { IProductShortModel, ProductShortModel } from '../models/product-short.model';
@@ -24,7 +26,12 @@ async function loadPage(request: IproductsPageRequest) {
     productShortsStore.status.value = new DataStatus('loaded');
   }
 }
+const isProductInShoppingCart = (product: ProductShortModel) =>
+  computed(
+    () => shoppingCartStore.items.value?.find((i) => i.productId === product.id) !== undefined,
+  );
 
 export const productShortsService = {
   loadPage,
+  isProductInShoppingCart,
 };

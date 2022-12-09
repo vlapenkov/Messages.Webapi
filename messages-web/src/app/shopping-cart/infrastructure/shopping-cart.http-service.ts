@@ -2,18 +2,17 @@ import { defineCollectionService } from '@/app/core/services/http/custom/collect
 import { IAddToShoppingCartRequest } from '../@types/IAddToShoppingCartRequest';
 import { IShoppingCartModel } from '../@types/IShoppingCartModel';
 
-const [shoppingCartService, { definePost, defineDelete }] =
-  defineCollectionService<IShoppingCartModel>({
-    url: 'api/ShoppingCart',
-  });
+const [service, { definePost, defineDelete }] = defineCollectionService<IShoppingCartModel>({
+  url: 'api/ShoppingCart',
+});
 
-export const addToCart = definePost<void, IAddToShoppingCartRequest>();
+const addToCart = definePost<void, IAddToShoppingCartRequest>();
 
-shoppingCartService.del = defineDelete((model) => ({
+service.del = defineDelete((model) => ({
   url: `/${model.productId}`,
   bodyOrParams: {},
 }));
 
-export const createOrder = definePost<void, void>();
+const createOrder = definePost<void, void>();
 
-export { shoppingCartService };
+export const shoppingCartHttpService = { ...service, addToCart, createOrder };

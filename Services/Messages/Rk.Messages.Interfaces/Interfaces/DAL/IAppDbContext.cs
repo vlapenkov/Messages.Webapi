@@ -13,9 +13,10 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
         DbSet<AttributeValue> AttributeValues { get; }
         DbSet<CatalogSection> CatalogSections { get; }
 
+        DbSet<BaseProduct> BaseProduct { get; }
         DbSet<Product> Products { get; }
         DbSet<ServiceProduct> ServiceProducts { get; }
-        DbSet<Technology> TechnologyProducts { get; }
+        DbSet<WorkProduct> WorkProducts { get; }
 
         DbSet<SectionDocument> SectionDocuments { get; }
         DbSet<ProductDocument> ProductDocuments { get; }
@@ -27,6 +28,8 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
         DbSet<OrderItem> OrderItems { get; set; }
 
         DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        DbSet<News> News { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

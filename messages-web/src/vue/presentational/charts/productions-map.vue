@@ -69,7 +69,7 @@ export default defineComponent({
                 // выбранная организация по клику на метку
                 const org: OrganizationModel = params.data[2];
                 // организации с тем же регионом
-                const orgs = organizations.filter((x) => x.region === org.region);
+                const orgs = organizations.filter((x) => x.city === org.city);
                 const rows = orgs.map(
                   (x, i, arr) =>
                     `<div class="flex flex-row ${

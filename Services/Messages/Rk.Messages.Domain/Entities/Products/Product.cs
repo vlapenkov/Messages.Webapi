@@ -31,7 +31,14 @@ namespace Rk.Messages.Domain.Entities.Products
 
         [StringLength(256)]
         public string CodeTnVed { get; private set; }
-      
+
+        [StringLength(256)]
+        public string CodeOkpd2 { get; private set; }
+
+        /// <summary>Адрес производства</summary>
+        [StringLength(4096)]
+        public string Address { get; private set; }
+
         [StringLength(128)]
         public string MeasuringUnit { get; private set; } = "шт.";
 
@@ -85,10 +92,25 @@ namespace Rk.Messages.Domain.Entities.Products
             return nameof(Product);
         }
 
-        public void SetCodeTnVed(string codeTnVed)
+        public Product SetCodeTnVed(string codeTnVed)
         {
            CodeTnVed = codeTnVed;
+            return this;
         }
+
+        public Product SetCodeOkpd2(string codeOkpd2)
+        {
+            CodeOkpd2 = codeOkpd2;
+            return this;
+        }
+
+        public Product SetAddress(string address)
+        {
+            Address = address;
+            return this;
+        }
+
+
 
         #endregion
     }

@@ -99,6 +99,15 @@ namespace Rk.Messages.Domain.Entities.Products
             Status = newStatus;
         }
 
+        public  virtual void Update(long catalogSectionId, string name, string fullName, string description, decimal? price) {
+            
+            CatalogSectionId = catalogSectionId;
+            Name = name;
+            FullName = fullName;
+            Description = description;
+            Price = price;
+        }
+
         public abstract string GetProductionType();
     }
 }

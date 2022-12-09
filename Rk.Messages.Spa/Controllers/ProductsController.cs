@@ -94,14 +94,14 @@ namespace Rk.Messages.Spa.Controllers
             return product;
         }
 
-        /// <summary>Апдейт значений атрибутов товара</summary>
-        //[HttpPut("{id:long}/attributes")]
-        //public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
-        //{
-        //    await _productsService.UpdateAttributes(id, attributeValues);
-        //}
-               
+        /// <summary>Апдейт товара</summary>
+        [HttpPut("{id:long}")]
+        public async Task UpdateProduct(long id, [FromBody] UpdateProductRequest request)
+        {
+            await _productsService.UpdateProduct(id, request);
+        }
 
-       
+
+
     }
 }

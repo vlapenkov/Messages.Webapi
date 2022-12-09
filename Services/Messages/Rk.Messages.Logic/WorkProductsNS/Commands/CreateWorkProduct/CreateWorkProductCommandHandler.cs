@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Rk.Messages.Common.Exceptions;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Interfaces.Interfaces.DAL;
+using Rk.Messages.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +18,21 @@ namespace Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct
     {
         private readonly IAppDbContext _dbContext;
 
+        private readonly IUserService _userService;
+
         private readonly IValidator<CreateWorkProductCommand> _validator;
 
-        public CreateWorkProductCommandHandler(IAppDbContext dbContext, IValidator<CreateWorkProductCommand> validator)
+        public CreateWorkProductCommandHandler(IAppDbContext dbContext, IUserService userService, IValidator<CreateWorkProductCommand> validator)
         {
             _dbContext = dbContext;
+            _userService = userService;
             _validator = validator;
         }
 
-        private static readonly long _defaultOrganizationId = 1L;
-
         public async Task<long> Handle(CreateWorkProductCommand command, CancellationToken cancellationToken)
         {
+            //1. валидация запроса
+
             var validationResult = await _validator.ValidateAsync(command);
 
             if (!validationResult.IsValid)
@@ -35,11 +40,22 @@ namespace Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct
                 throw new ValidationException(validationResult.Errors);
             }
 
+
+            //2. получение организации
+
+            string inn = _userService.GetClaimValue("inn");
+
+            if (inn == null) throw new RkUnauthorizedAccessException("У данного пользователя не задан ИНН");
+
+            var userOrganizationFound = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Inn == inn);
+
+            if (userOrganizationFound == null) throw new EntityNotFoundException($"Для ИНН пользователя {inn} нет организации");
+
             var request = command.Request;
                         
 
             WorkProduct product = new(
-                _defaultOrganizationId,
+                userOrganizationFound.Id,
                 request.CatalogSectionId,
                 request.Name,
                 request.FullName,

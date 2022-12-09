@@ -18,6 +18,10 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string CodeTnVed { get; set; }
 
+        public string CodeOkpd2 { get; set; }
+
+        public string Address { get; set; }
+
         public decimal? Price { get; set; }     
 
         public string MeasuringUnit { get; set; }

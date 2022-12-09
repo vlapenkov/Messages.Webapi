@@ -11,13 +11,13 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         public long? CatalogSectionId { get; set; }
 
         /// <summary>по наименованию</summary>
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>по региону</summary>
-        public string? Region { get; set; }
+        public string Region { get; set; }
 
         /// <summary>по наименованию производителя</summary>
-        public string? ProducerName { get; set; }
+        public string ProducerName { get; set; }
 
         /// <summary>по производителю</summary>
         public long? ProducerId { get; set; }

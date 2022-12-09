@@ -29,5 +29,9 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
 
         public string Okved2 { get; set; }
 
+        public double? Latitude { get; set; }
+
+        public double? Longitude { get; set; }
+
     }
 }

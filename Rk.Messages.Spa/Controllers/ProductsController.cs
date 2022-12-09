@@ -8,9 +8,8 @@ using Rk.Messages.Spa.Infrastructure.Services;
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Управление продукцией, услугами, технологиями
-    /// </summary>
-    
+    /// Управление товарами
+    /// </summary>    
     [Route("api/[controller]")]
     [ApiController]    
     

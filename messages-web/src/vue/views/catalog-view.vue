@@ -199,7 +199,7 @@ export default defineComponent({
 
     const { region: regionModel, organization: organizationModel } = productShortsStore;
 
-    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+    const { organizationOptions, regionOptions } = useOrganizations();
 
     return {
       sectionsStore,

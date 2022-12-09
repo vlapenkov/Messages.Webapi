@@ -31,7 +31,7 @@ const isProductInShoppingCart = (product: ProductionModel) =>
     () => shoppingCartStore.items.value?.find((i) => i.productId === product.id) !== undefined,
   );
 
-export const productShortsService = {
+export const productionsService = {
   loadPage,
   isProductInShoppingCart,
 };

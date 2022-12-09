@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
-import { productShortsService } from '@/app/productions/services/productions.service';
+import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
@@ -111,7 +111,7 @@ export default defineComponent({
           region: reg ?? null,
         };
 
-        productShortsService.loadPage(request);
+        productionsService.loadPage(request);
       },
       {
         immediate: true,

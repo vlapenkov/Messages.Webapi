@@ -69,7 +69,7 @@ const setPage = mutation<IPagedResponse<ProductionModel>>('set-page', (state, pa
   state.pages = [payload];
 });
 
-export const productShortsStore = {
+export const productionsStore = {
   currentPage,
   currentPageItems,
   status,

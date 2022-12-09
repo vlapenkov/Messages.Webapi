@@ -6,11 +6,11 @@ import { computed } from 'vue';
 import { IproductionsPageRequest } from '../@types/IproductionsPageRequest';
 import { productShortsHttpService } from '../infrastructure/productions.http-service';
 import { IProductionModel, ProductionModel } from '../models/production.model';
-import { productShortsStore } from '../state/productions.store';
+import { productionsStore } from '../state/productions.store';
 
 async function loadPage(request: IproductionsPageRequest) {
   const response = await productShortsHttpService.getPage(request);
-  productShortsStore.status.value = new DataStatus('loading');
+  productionsStore.status.value = new DataStatus('loading');
   if (response.status === HttpStatus.Success && response.data != null) {
     const model = response.data.rows.map((i) => {
       const parsedData = new ProductionModel();
@@ -18,12 +18,12 @@ async function loadPage(request: IproductionsPageRequest) {
       if (parseSuccess) {
         return parsedData;
       }
-      productShortsStore.status.value = new DataStatus('error');
+      productionsStore.status.value = new DataStatus('error');
       throw new Error('Не удалось преобразовать данные');
     });
     const newItem: IPagedResponse<ProductionModel> = { ...response.data, rows: model };
-    productShortsStore.setPage(newItem);
-    productShortsStore.status.value = new DataStatus('loaded');
+    productionsStore.setPage(newItem);
+    productionsStore.status.value = new DataStatus('loaded');
   }
 }
 const isProductInShoppingCart = (product: ProductionModel) =>

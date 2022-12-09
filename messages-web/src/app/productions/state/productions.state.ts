@@ -2,10 +2,10 @@ import { StateBase } from '@/app/core/services/harlem/state/base/state-base';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
-import { ProductShortModel } from '../models/product-short.model';
+import { ProductionModel } from '../models/production.model';
 
 export class ProductShortsState extends StateBase {
-  pages: IPagedResponse<ProductShortModel>[] = [];
+  pages: IPagedResponse<ProductionModel>[] = [];
 
   status = new DataStatus();
 
@@ -21,5 +21,5 @@ export class ProductShortsState extends StateBase {
 
   pageSize = 15;
 
-  selectedItem: NotValidData<ProductShortModel> | null = null;
+  selectedItem: NotValidData<ProductionModel> | null = null;
 }

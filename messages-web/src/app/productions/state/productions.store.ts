@@ -1,8 +1,8 @@
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { computed } from 'vue';
-import { ProductShortModel } from '../models/product-short.model';
-import { ProductShortsState } from './product-shorts.state';
+import { ProductionModel } from '../models/production.model';
+import { ProductShortsState } from './productions.state';
 
 const { getter, mutation, computeState } = defineStore('products', new ProductShortsState());
 
@@ -15,11 +15,11 @@ const currentPage = getter('get-current-page', (state) => {
   return foundedPage ?? null;
 });
 
-const currentPageItemsGet = getter<readonly ProductShortModel[] | null>(
+const currentPageItemsGet = getter<readonly ProductionModel[] | null>(
   'current-page--items--get',
-  () => (currentPage.value?.rows as ProductShortModel[] | undefined) ?? null,
+  () => (currentPage.value?.rows as ProductionModel[] | undefined) ?? null,
 );
-const currentPageItemsSet = mutation<readonly ProductShortModel[]>(
+const currentPageItemsSet = mutation<readonly ProductionModel[]>(
   'current-page--items--set',
   (state, payload) => {
     const foundedPage = state.pages.find((s) => s.pageNumber === state.pageNumber);
@@ -54,7 +54,7 @@ const organization = computeState((state) => state.organization);
 
 const searchQuery = computeState((state) => state.searchQuery);
 
-const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (state, payload) => {
+const insertPage = mutation<IPagedResponse<ProductionModel>>('insert-page', (state, payload) => {
   const pageIndex = state.pages.findIndex(
     (p) => p.pageNumber === payload.pageNumber && p.pageSize === payload.pageSize,
   );
@@ -65,7 +65,7 @@ const insertPage = mutation<IPagedResponse<ProductShortModel>>('insert-page', (s
   }
 });
 
-const setPage = mutation<IPagedResponse<ProductShortModel>>('set-page', (state, payload) => {
+const setPage = mutation<IPagedResponse<ProductionModel>>('set-page', (state, payload) => {
   state.pages = [payload];
 });
 

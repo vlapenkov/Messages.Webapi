@@ -1,35 +1,34 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
-using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
+using Rk.Messages.Spa.Infrastructure.Dto.ServiceProductNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Управление работами
+    /// Управление услугами
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkProductsController
+    public class ServiceProductsController : ControllerBase
     {
-
-        private readonly IWorkProductsService _productsService;
+        private readonly IServiceProductsService _productsService;
 
         private readonly IFileStoreService _filesService;
+                
 
-
-        /// <inheritdoc cref="WorkProductsController" />
-        public WorkProductsController(IWorkProductsService productsService, IFileStoreService filesService)
+        /// <inheritdoc />
+        public ServiceProductsController(IServiceProductsService productsService, IFileStoreService filesService)
         {
             _productsService = productsService;
 
             _filesService = filesService;
         }
 
-        /// <summary>Создать работу</summary>
+        /// <summary>Создать услугу</summary>
         [HttpPost]
-        public async Task<long> CreateWorkProduct([FromBody] CreateWorkProductRequest request)
+        public async Task<long> CreateServiceProduct([FromBody] CreateServiceProductRequest request)
         {
 
             var fileGlobalIds = await _filesService.CreateFiles(request.Documents.Select(doc => new CreateFileRequest { FileName = doc.FileName, Data = doc.Data }).ToArray());
@@ -40,18 +39,18 @@ namespace Rk.Messages.Spa.Controllers
 
             request.Documents.ForEach(doc => doc.FileId = fileGlobalIdsArray[counter++]);
 
-            return await _productsService.CreateWorkProduct(request);
+            return await _productsService.CreateServiceProduct(request);
 
         }
 
-        /// <summary>Получить информацию о продукции</summary>
+        /// <summary>Получить информацию о услуге</summary>
         [AllowAnonymous]
         [HttpGet("{id:long}")]
-        public async Task<WorkProductResponse> GetProduct(long id)
+        public async Task<ServiceProductResponse> GetServiceProduct(long id)
         {
             byte[][] resultFiles = Array.Empty<byte[]>();
 
-            var product = await _productsService.GetWorkProduct(id);
+            var product = await _productsService.GetServiceProduct(id);
 
             if (product.Documents.Any())
             {
@@ -73,11 +72,11 @@ namespace Rk.Messages.Spa.Controllers
             return product;
         }
 
-        /// <summary>Апдейт работы</summary>
+        /// <summary>Апдейт услуги</summary>
         [HttpPut("{id:long}")]
-        public async Task UpdateWorkProduct(long id, [FromBody] UpdateWorkProductRequest request)
+        public async Task UpdateServiceProduct(long id, [FromBody] UpdateServiceProductRequest request)
         {
-            await _productsService.UpdateWorkProduct(id, request);
+            await _productsService.UpdateServiceProduct(id, request);
         }
     }
 }

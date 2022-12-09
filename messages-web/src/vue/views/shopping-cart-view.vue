@@ -19,41 +19,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, WritableComputedRef } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { postOrder } from '@/app/orders/infrastructure/order.http-service';
-import { ShoppingCartModel } from '@/app/shopping-cart/models/shopping-cart.model';
-import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useRouter } from 'vue-router';
-import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
-import { createItemProvider } from '../base/presentational/state/collection/providers/create-item.provider';
-import { deleteItemProvider } from '../base/presentational/state/collection/providers/delete-item.provider';
-import { editOrCreateModeProvider } from '../base/presentational/state/collection/providers/edit-or-create-mode.provider';
-import { itemSelectedProvider } from '../base/presentational/state/collection/providers/item-selected.provider';
-import { loadingStatusProvider } from '../base/presentational/state/collection/providers/loading-status.provider';
-import { refreshProvider } from '../base/presentational/state/collection/providers/refresh.provider';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { reloadOnSaveProvider } from '../base/presentational/state/collection/providers/reload-on-save.provider';
-import { saveChangesProvider } from '../base/presentational/state/collection/providers/save-changes.provider';
-import { selectItemProvider } from '../base/presentational/state/collection/providers/select-item.provider';
-import { showDialogProvider } from '../base/presentational/state/collection/providers/show-dialog.provider';
 
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const state = shoppingCartStore as CollectionStoreMixed;
-    refreshProvider.provideFrom(() => state.getDataAsync);
-    showDialogProvider.provide();
-    selectItemProvider.provideFrom(() => state.selectItem);
-    createItemProvider.provideFrom(() => state.createItem);
-    saveChangesProvider.provideFrom(() => state.saveChanges);
-    deleteItemProvider.provideFrom(() => state.deleteItem);
-    itemSelectedProvider.provideFrom(() => state.itemSelected);
-    editOrCreateModeProvider.provideFrom(() => state.itemSelected?.value?.mode);
-    loadingStatusProvider.provideFrom(() => state.status);
     reloadOnSaveProvider.provide(ref(true));
-    if (state.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const items = state.items({ force: true }) as WritableComputedRef<ShoppingCartModel[]>;
+    const { items, getDataAsync } = shoppingCartStore;
+    onMounted(() => {
+      getDataAsync();
+    });
 
     const createNewOrder = async () => {
       const response = await postOrder(undefined);

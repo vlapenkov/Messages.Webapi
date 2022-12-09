@@ -10,7 +10,8 @@
     <div>{{ userShortName }}</div>
     <avatar shape="circle" icon="pi pi-user"></avatar>
   </div>
-  <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true" />
+  <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
+  </prime-menu>
 </template>
 
 <script lang="ts">
@@ -20,6 +21,7 @@ import { computed, defineComponent, ref } from 'vue';
 import { screenMiddle } from '@/app/core/services/window/window.service';
 import { logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 
 // const avatarSize = 100;
 export default defineComponent({
@@ -52,16 +54,21 @@ export default defineComponent({
       return user;
     });
 
-    const menuItems = [
+    const menuItems = computed(() => [
       {
         label: 'Каталог товаров',
         to: { name: 'catalog' },
         icon: 'pi pi-th-large',
       },
       {
-        label: 'Корзина',
+        label: `Корзина${
+          shoppingCartStore.totalQuantity.value > 0
+            ? ` (${shoppingCartStore.totalQuantity.value})`
+            : ''
+        }`,
         to: { name: 'shopping-cart' },
         icon: 'pi pi-shopping-cart',
+        badge: 5,
       },
       {
         label: 'Заказы',
@@ -80,7 +87,7 @@ export default defineComponent({
           logout();
         },
       },
-    ];
+    ]);
 
     const menu = ref();
 
@@ -104,5 +111,9 @@ export default defineComponent({
     background-color: var(--surface-ground);
     cursor: pointer;
   }
+}
+
+.decoration-none {
+  text-decoration: none;
 }
 </style>

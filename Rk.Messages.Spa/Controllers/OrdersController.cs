@@ -20,12 +20,12 @@ namespace Rk.Messages.Spa.Controllers
         }
 
         /// <summary>
-        /// Создать заказ
+        /// Создать заказы
         /// </summary>        
         [HttpPost]
-        public async Task<long> CreateOrder()
+        public async Task<long[]> CreateOrder()
         {
-            return await _service.CreateOrder();
+            return await _service.CreateOrders();
         }
 
         /// <summary>

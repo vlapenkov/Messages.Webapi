@@ -13,13 +13,11 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Logic.OrdersNS.Commands.CreateOrder
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, long>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, long[]>
     {
         private readonly IAppDbContext _appDbContext;
         private readonly IUserService _userService;
-        private static readonly string _inn = "inn";
-
-     
+        private static readonly string _inn = "inn";     
 
         public CreateOrderCommandHandler(IAppDbContext appDbContext, IUserService userService)
         {
@@ -27,34 +25,48 @@ namespace Rk.Messages.Logic.OrdersNS.Commands.CreateOrder
             _userService = userService;
         }
 
-        public async Task<long> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+        public async Task<long[]> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
+            // список идентификаторов заказов
+            List<Order> orders = new();
 
             if (!_userService.IsAuthenticated) throw new RkUnauthorizedAccessException("Пользователь не авторизован");
 
+            Organization organisationFound = await GetOrganizationByUser();
 
-
-            var cartItemsFound = await _appDbContext.ShoppingCartItems.Where(self => self.UserName == _userService.UserName).ToListAsync();
+            var cartItemsFound = await _appDbContext.ShoppingCartItems
+                .Include(self=>self.Product)                
+                .Where(self => self.UserName == _userService.UserName)
+                .ToListAsync(cancellationToken);
 
             if (!cartItemsFound.Any()) throw new RkErrorException($"Не найдено ни одной позиции в корзине для пользователя {_userService.UserName}");
 
-            Organization organisationFound = await GetOrganizationByUser();
 
-            var order = new Order(organisationFound.Id, _userService.UserName);
+            // для каждого производителя создаем заказ
 
-            var orderItems = cartItemsFound.Select(cartItem => new OrderItem(cartItem.ProductId, cartItem.Price, cartItem.Quantity)).ToList();
+            var ordersDictionary = cartItemsFound.GroupBy(self => self.Product.OrganizationId).ToDictionary(group => group.Key, group => group.ToList());        
+          
 
-            order.AddOrderItems(orderItems);
+                foreach ( var orderRecord in ordersDictionary)
+                {
+                    var order = new Order(organisationFound.Id,producerId: orderRecord.Key, _userService.UserName);
 
-            // создаем заказ
-            _appDbContext.Orders.Add(order);
+                    var orderItems = orderRecord.Value.Select(cartItem => new OrderItem(cartItem.ProductId, cartItem.Price, cartItem.Quantity)).ToList();                    
+
+                    order.AddOrderItems(orderItems);
+
+                    // создаем заказ
+                    _appDbContext.Orders.Add(order);
+
+                    orders.Add(order);
+                }                        
 
             // удаляем позиции из корзины
             _appDbContext.ShoppingCartItems.RemoveRange(cartItemsFound);
 
             await _appDbContext.SaveChangesAsync(cancellationToken);
 
-            return order.Id;
+            return orders.Select(self=>self.Id).ToArray();
 
         }
 

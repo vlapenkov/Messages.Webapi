@@ -131,6 +131,10 @@ namespace Rk.Messages.Infrastructure.EFCore
                    .WithMany()
                    .HasForeignKey(self => self.OrganizationId);
 
+                entity.HasOne(self => self.Producer)
+                 .WithMany()
+                 .HasForeignKey(self => self.ProducerId);
+
             });
 
             builder.Entity<OrderItem>(entity =>

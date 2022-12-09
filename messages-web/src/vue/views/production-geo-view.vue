@@ -39,13 +39,24 @@
     <transition-fade>
       <productions-map v-if="selectedMode === Modes.MAP" :organizations="filteredOrgs" />
       <div v-if="selectedMode === Modes.LIST">
-        <div v-for="(region, i) in filteredOrgs" :key="i" class="flex flex-row mb-3">
-          <a
-            :href="`/catalog?region=${region.region}`"
-            :style="{ textDecoration: 'none', color: '#000' }"
-          >
-            <span>{{ region.region }}</span>
-          </a>
+        <div v-if="filteredOrgs.length > 0">
+          <card v-for="(org, i) in filteredOrgs" :key="i" class="w-full mb-2 production-geo-card">
+            <template #content>
+              <router-link :to="`/organization/${org.id}`" class="no-underline">
+                <div class="flex flex-column">
+                  <div class="flex flex-row">
+                    <span class="font-semibold text-900">{{ org.name }}</span>
+                  </div>
+                  <div class="flex flex-row mt-1">
+                    <span class="text-700">{{ org.region }}</span>
+                  </div>
+                </div>
+              </router-link>
+            </template>
+          </card>
+        </div>
+        <div v-else class="flex flex-row justify-content-center mt-5">
+          <span class="p-component">Организации не найдены</span>
         </div>
       </div>
     </transition-fade>
@@ -63,14 +74,11 @@ export default defineComponent({
       LIST,
     }
     const selectedMode = ref(Modes.MAP);
-
     const regionModel = ref();
     const organizationModel = ref();
-
     const { organizations, organizationOptions, regionOptions } = useOrganizations();
-
     const filteredOrgs = computed(() =>
-      organizations.value
+      (organizations.value ?? [])
         .filter((x) => (regionModel.value != null ? x.region === regionModel.value : true))
         .filter((x) =>
           organizationModel.value != null ? x.name === organizationModel.value : true,
@@ -89,4 +97,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.production-geo-card {
+  :deep(.p-card-content) {
+    padding: 0;
+  }
+}
+</style>

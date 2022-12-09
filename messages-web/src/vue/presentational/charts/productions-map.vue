@@ -33,6 +33,16 @@ export default defineComponent({
   setup(props) {
     const loading = ref();
     const option = ref();
+    const tooltipHtmlTemplate = (org: OrganizationModel) => `
+      <div class="w-full">
+        <div><span style="font-weight: 600">${org.name}</span></div>
+        <div class="mt-1"><span style="font-weight: 500">${org.region}</span></div>
+        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm">
+          <a href="/organization/${org.id}" class="text-white" style="text-decoration: none">
+            <span>Перейти к организации</span>
+          </a>
+        </div>
+      </div>`;
     const setOption = (organizations: OrganizationModel[]) => {
       const projection = geoTransverseMercator().rotate([-90, -90]);
       option.value = {
@@ -56,17 +66,17 @@ export default defineComponent({
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             formatter: (params: any) => {
               if (params.componentType === 'series') {
+                // выбранная организация по клику на метку
                 const org: OrganizationModel = params.data[2];
-                const name = org.region;
-                return `
-                    <div>
-                      <div><span style="font-weight: 600">${name}</span></div>
-                      <div class="mt-3">
-                        <a href="/catalog?region=${name}" style="text-decoration: none">
-                          <span>Список производимой продукции</span>
-                        </a>
-                      </div>
-                    </div>`;
+                // организации с тем же регионом
+                const orgs = organizations.filter((x) => x.region === org.region);
+                const rows = orgs.map(
+                  (x, i, arr) =>
+                    `<div class="flex flex-row ${
+                      i + 1 !== arr.length ? 'mb-4' : undefined
+                    }">${tooltipHtmlTemplate(x)}</div>`,
+                );
+                return rows.reduce((acc, val) => acc + val, '');
               }
               return undefined;
             },

@@ -56,6 +56,10 @@ export class OrganizationFullModel
 
   createdBy = '';
 
+  latitude: number | null = null;
+
+  longitude: number | null = null;
+
   fromResponse(model: IOrganizationFullMiodel): boolean {
     try {
       Object.assign(this, model);
@@ -82,7 +86,9 @@ export class OrganizationFullModel
       this.address === mb.address &&
       this.site === mb.site &&
       this.okved === mb.okved &&
-      this.okved2 === mb.okved2
+      this.okved2 === mb.okved2 &&
+      this.latitude === mb.latitude &&
+      this.longitude === mb.longitude
     );
   }
 

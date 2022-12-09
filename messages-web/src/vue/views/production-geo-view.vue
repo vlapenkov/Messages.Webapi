@@ -37,14 +37,14 @@
       />
     </div>
     <transition-fade>
-      <productions-map v-if="selectedMode === Modes.MAP" :regions="regions" />
+      <productions-map v-if="selectedMode === Modes.MAP" :organizations="filteredOrgs" />
       <div v-if="selectedMode === Modes.LIST">
-        <div v-for="(region, i) in regions" :key="i" class="flex flex-row mb-3">
+        <div v-for="(region, i) in filteredOrgs" :key="i" class="flex flex-row mb-3">
           <a
-            :href="`/catalog?region=${region[2]}`"
+            :href="`/catalog?region=${region.region}`"
             :style="{ textDecoration: 'none', color: '#000' }"
           >
-            <span>{{ region[2] }}</span>
+            <span>{{ region.region }}</span>
           </a>
         </div>
       </div>
@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { useOrganizations } from './composables/organizations.composable';
+import { useOrganizations } from '@/composables/organizations.composable';
 
 export default defineComponent({
   setup() {
@@ -67,31 +67,19 @@ export default defineComponent({
     const regionModel = ref();
     const organizationModel = ref();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { organizations, organizationOptions, regionOptions } = useOrganizations();
 
-    const r = [
-      [37.905868, 55.268184, 'Москва'],
-      [82.250023, 55.390129, 'Новосибирск'],
-      [60.908876, 56.311001, 'Екатеринбург'],
-      [88.210393, 69.217334, 'Норильск'],
-      [129.732178, 62.076527, 'Якутск'],
-      [50.100199, 55.159897, 'Челябинская область'],
-      [56.229441, 58.010454, 'Пермский край'],
-      [30.315644, 59.938955, 'Санкт-Петербург'],
-    ];
-    const regions = computed(() =>
-      r.filter((x) => {
-        if (regionModel.value != null) {
-          return x[2] === regionModel.value;
-        }
-        return true;
-      }),
+    const filteredOrgs = computed(() =>
+      organizations.value
+        .filter((x) => (regionModel.value != null ? x.region === regionModel.value : true))
+        .filter((x) =>
+          organizationModel.value != null ? x.name === organizationModel.value : true,
+        ),
     );
     return {
       Modes,
       selectedMode,
-      regions,
+      filteredOrgs,
       regionModel,
       organizationModel,
       organizationOptions,

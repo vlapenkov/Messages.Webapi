@@ -16,6 +16,7 @@ import {
 } from 'echarts/components';
 import { CustomChart } from 'echarts/charts';
 import axios from 'axios';
+import { OrganizationModel } from '@/app/organizations/model/organization.model';
 
 use([CanvasRenderer, GeoComponent, TitleComponent, TooltipComponent, LegendComponent, CustomChart]);
 
@@ -24,15 +25,15 @@ export default defineComponent({
     VChart,
   },
   props: {
-    regions: {
-      type: Object as PropType<(string | number)[][]>,
+    organizations: {
+      type: Object as PropType<OrganizationModel[]>,
       default: null,
     },
   },
   setup(props) {
     const loading = ref();
     const option = ref();
-    const setOption = (data: (string | number)[][]) => {
+    const setOption = (organizations: OrganizationModel[]) => {
       const projection = geoTransverseMercator().rotate([-90, -90]);
       option.value = {
         tooltip: {
@@ -55,7 +56,8 @@ export default defineComponent({
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             formatter: (params: any) => {
               if (params.componentType === 'series') {
-                const name = params.data[2];
+                const org: OrganizationModel = params.data[2];
+                const name = org.region;
                 return `
                     <div>
                       <div><span style="font-weight: 600">${name}</span></div>
@@ -63,7 +65,7 @@ export default defineComponent({
                         <a href="/catalog?region=${name}" style="text-decoration: none">
                           <span>Список производимой продукции</span>
                         </a>
-                      </div>  
+                      </div>
                     </div>`;
               }
               return undefined;
@@ -82,7 +84,7 @@ export default defineComponent({
           coordinateSystem: 'geo',
           geoIndex: 0,
           zlevel: 1,
-          data,
+          data: organizations.map((x) => [x.longitude, x.latitude, x]),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           renderItem(params: any, api: any) {
             const coord = api.coord([
@@ -113,20 +115,25 @@ export default defineComponent({
         },
       };
     };
-    onBeforeMount(async () => {
+    const updateMap = async (orgs: OrganizationModel[]) => {
       loading.value = true;
       await axios
         .get('/map/russia.json')
         .then((resp) => resp.data)
         .then((geoJson) => {
           registerMap('russia', geoJson);
-          setOption(props.regions);
+          setOption(orgs);
           loading.value = false;
         });
+    };
+    onBeforeMount(async () => {
+      await updateMap(props.organizations);
     });
     watch(
-      () => props.regions,
-      (r) => setOption(r),
+      () => props.organizations,
+      async (orgs) => {
+        await updateMap(orgs);
+      },
     );
     return {
       option,

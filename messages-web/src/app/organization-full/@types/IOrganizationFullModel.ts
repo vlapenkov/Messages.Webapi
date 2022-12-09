@@ -18,4 +18,6 @@ export interface IOrganizationFullMiodel extends IModel {
   lastModifiedBy: string;
   created: string;
   createdBy: string;
+  latitude: number | null;
+  longitude: number | null;
 }

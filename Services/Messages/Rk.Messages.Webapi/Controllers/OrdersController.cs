@@ -26,7 +26,7 @@ namespace Rk.Messages.Webapi.Controllers
         }
 
         [HttpPost]        
-        public async Task<long> CreateOrder()
+        public async Task<long[]> CreateOrders()
         {
             return await _mediator.Send(new CreateOrderCommand { });
         }

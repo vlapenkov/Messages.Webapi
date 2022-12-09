@@ -6,6 +6,9 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrdersNS
     {
         public string OrganisationName { get; set; }
 
+        /// <summary>Название производителя</summary>
+        public string ProducerName { get; set; }
+
         public string UserName { get; set; }
 
         public string Comments { get; set; }

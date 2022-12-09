@@ -33,9 +33,7 @@ namespace Rk.Messages.Webapi.Controllers
 
         /// <summary>
         /// Создать продукцию
-        /// </summary>
-        /// <param name="request">запрос создания</param>
-        /// <returns></returns>
+        /// </summary>       
         [HttpPost]
        // [Authorize(Roles = "manager,admin")]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
@@ -43,15 +41,8 @@ namespace Rk.Messages.Webapi.Controllers
             return await _mediator.Send(new CreateProductCommand { Request = request });
         }
 
-        /// <summary>Получить список продукции с отбором и пагинацией </summary>
-        [HttpGet]
-        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
-        {
-            var result = await _mediator.Send(new GetProductsQuery {Request = request });
-            return result;
-        }
-
         /// <summary>Получить информацию о продукции</summary>
+        [AllowAnonymous]
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
@@ -61,31 +52,10 @@ namespace Rk.Messages.Webapi.Controllers
 
         /// <summary>Апдейт значений атрибутов товара</summary>
         [HttpPut("{id:long}")]
-        public async Task UpdateAttributes(long id, [FromBody] UpdateProductRequest request)
+        public async Task UpdateProduct(long id, [FromBody] UpdateProductRequest request)
         {
             await _mediator.Send(new UpdateProductCommand { ProductId = id , Request = request });            
-        }
-
-        /// <summary>Получить информацию об атрибутах всей продукции</summary>
-        [HttpGet("attributes")]
-        public async Task<IReadOnlyCollection<AttributeDto>> GetProductAttributes()
-        {
-            var result = await _mediator.Send(new GetProductAttributesQuery {  });
-            return result;
-        }
-
-        /// <summary>Физически удалить продукцию</summary>
-        [HttpDelete("{id:long}")]
-        public async Task DeleteProductById(long id)
-        {
-            await _mediator.Send(new DeleteProductCommand { ProductId= id });            
-        }
-
-        /// <summary>Установить статус</summary>
-        [HttpPatch("{id:long}/status")]
-        public async Task SetStatus(long id, [FromBody] ProductStatus status)
-        {
-            await _mediator.Send(new SetStatusCommand { ProductId = id , Status = status});
-        }
+        }       
+        
     }
 }

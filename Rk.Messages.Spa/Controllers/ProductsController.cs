@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
@@ -7,9 +8,8 @@ using Rk.Messages.Spa.Infrastructure.Services;
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Управление продукцией, услугами, технологиями
-    /// </summary>
-    
+    /// Управление товарами
+    /// </summary>    
     [Route("api/[controller]")]
     [ApiController]    
     
@@ -64,9 +64,10 @@ namespace Rk.Messages.Spa.Controllers
 
             return productsPrepared;
 
-        }        
+        }
 
         /// <summary>Получить информацию о товаре</summary>
+        [AllowAnonymous]
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
@@ -100,8 +101,6 @@ namespace Rk.Messages.Spa.Controllers
         {
             await _productsService.UpdateProduct(id, request);
         }
-
-
 
     }
 }

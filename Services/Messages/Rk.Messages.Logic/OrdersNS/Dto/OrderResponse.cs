@@ -17,6 +17,9 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
         /// <summary>Название организации</summary>
         public string OrganisationName  { get; set; }
 
+        /// <summary>Название производителя</summary>
+        public string ProducerName { get; set; }
+
         /// <summary>Имя пользователя</summary>
         public string UserName { get; set; }
 

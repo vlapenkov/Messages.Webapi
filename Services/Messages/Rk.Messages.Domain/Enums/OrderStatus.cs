@@ -11,9 +11,12 @@ namespace Rk.Messages.Domain.Enums
         New = 0,
 
         [Description("В обработке")]
-        Processed = 1,
+        Processed = 1,        
 
         [Description("Завершен")]
-        Complete = 10
+        Complete = 10,
+
+        [Description("Отменен")]
+        Cancelled = 11,
     }
 }

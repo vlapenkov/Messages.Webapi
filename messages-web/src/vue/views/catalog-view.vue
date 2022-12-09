@@ -52,14 +52,15 @@
 </template>
 
 <script lang="ts">
-import { IproductsPageRequest } from '@/app/product-shorts/@types/IproductsPageRequest';
-import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
-import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
+import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
+import { productionsService } from '@/app/productions/services/productions.service';
+import { productionsStore } from '@/app/productions/state/productions.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
 import { defineComponent, ref, watch } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
+import { isNullOrEmpty } from '@/tools/string-tools';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
@@ -72,37 +73,37 @@ export default defineComponent({
 
     useRouteQueryBinded('sectionId', {
       type: 'number',
-      ref: productShortsStore.parentSectionId,
+      ref: productionsStore.parentSectionId,
     });
 
     useRouteQueryBinded('region', {
       type: 'string',
-      ref: productShortsStore.region,
+      ref: productionsStore.region,
     });
 
     useRouteQueryBinded('organization', {
       type: 'string',
-      ref: productShortsStore.organization,
+      ref: productionsStore.organization,
     });
 
     useRouteQueryBinded('searchQuery', {
       type: 'string',
-      ref: productShortsStore.searchQuery,
+      ref: productionsStore.searchQuery,
     });
 
     watch(
       [
-        productShortsStore.pageNumber,
-        productShortsStore.pageSize,
-        productShortsStore.searchQuery,
-        productShortsStore.parentSectionId,
-        productShortsStore.region,
-        productShortsStore.organization,
+        productionsStore.pageNumber,
+        productionsStore.pageSize,
+        productionsStore.searchQuery,
+        productionsStore.parentSectionId,
+        productionsStore.region,
+        productionsStore.organization,
       ],
       ([pageNumber, pageSize, query, catalogSectionId, reg, org]) => {
         // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
-        const request: IproductsPageRequest = {
-          name: query == null || query === '' || query.trim() === '' ? null : query,
+        const request: IproductionsPageRequest = {
+          name: isNullOrEmpty(query) ? null : query,
           catalogSectionId,
           pageNumber,
           pageSize,
@@ -110,25 +111,25 @@ export default defineComponent({
           region: reg ?? null,
         };
 
-        productShortsService.loadPage(request);
+        productionsService.loadPage(request);
       },
       {
         immediate: true,
       },
     );
 
-    const { parentSectionId } = productShortsStore;
+    const { parentSectionId } = productionsStore;
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
-    const { region: regionModel, organization: organizationModel } = productShortsStore;
+    const { region: regionModel, organization: organizationModel } = productionsStore;
 
     const { organizationOptions, regionOptions } = useOrganizations();
 
     return {
       sectionsStore,
       parentSectionId,
-      search: productShortsStore.searchQuery,
+      search: productionsStore.searchQuery,
       productsContainerRef,
       productsContainerSize,
       viewMode,

@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts">
-import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
-import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
+import { ProductionModel } from '@/app/productions/models/production.model';
+import { productionsStore } from '@/app/productions/state/productions.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -26,8 +26,8 @@ export default defineComponent({
   setup() {
     const toast = useToast();
     const router = useRouter();
-    const productShortsItems = computed(() => productShortsStore.currentPageItems.value);
-    const addProductToShopingCart = async (model: ProductShortModel) => {
+    const productShortsItems = computed(() => productionsStore.currentPageItems.value);
+    const addProductToShopingCart = async (model: ProductionModel) => {
       await shoppingCartStore.addToCart({
         productId: model.id,
         quantity: 1,
@@ -39,10 +39,10 @@ export default defineComponent({
         life: 3000,
       });
     };
-    const viewProduct = (item: ProductShortModel) => {
+    const viewProduct = (item: ProductionModel) => {
       router.push({ name: 'product', params: { id: item.id } });
     };
-    const viewOrganization = (item: ProductShortModel) => {
+    const viewOrganization = (item: ProductionModel) => {
       router.push({ name: 'organization', params: { id: item.organization.id } });
     };
     return { productShortsItems, addProductToShopingCart, viewProduct, viewOrganization };

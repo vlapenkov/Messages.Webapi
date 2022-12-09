@@ -60,6 +60,7 @@ import { useElementSize } from '@vueuse/core';
 import { defineComponent, ref, watch } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
+import { isNullOrEmpty } from '@/tools/string-tools';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
@@ -102,7 +103,7 @@ export default defineComponent({
       ([pageNumber, pageSize, query, catalogSectionId, reg, org]) => {
         // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
         const request: IproductionsPageRequest = {
-          name: query == null || query === '' || query.trim() === '' ? null : query,
+          name: isNullOrEmpty(query) ? null : query,
           catalogSectionId,
           pageNumber,
           pageSize,

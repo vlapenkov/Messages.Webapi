@@ -68,7 +68,7 @@
 <script lang="ts">
 import { IQueryOtions } from '@/app/core/services/harlem/custom-stores/composables/@types/IQueryOptions';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
-import { shoppingCartHttpService } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, watch } from 'vue';
@@ -99,7 +99,7 @@ export default defineComponent({
     );
 
     const addProductToShopingCart = async (id: number, name: string) => {
-      await shoppingCartHttpService.addToCart({
+      await shoppingCartStore.addToCart({
         productId: id,
         quantity: 1,
       });

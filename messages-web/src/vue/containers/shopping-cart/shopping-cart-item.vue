@@ -75,7 +75,7 @@ export default defineComponent({
     watch(quantity, async (newVal, prevVal) => {
       if (newVal === prevVal) return;
       isQuantityUpdating.value = true;
-      await shoppingCartHttpService.addToCart({
+      await shoppingCartStore.addToCart({
         productId: props.item.productId,
         quantity: newVal - prevVal,
       });

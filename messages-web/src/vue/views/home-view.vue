@@ -243,7 +243,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
-import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
+import { productionsService } from '@/app/productions/services/productions.service';
 import { useRouter } from 'vue-router';
 import { useSections } from '@/composables/sections.composable';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
@@ -258,7 +258,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     onMounted(() => {
-      productShortsService.loadPage({
+      productionsService.loadPage({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,

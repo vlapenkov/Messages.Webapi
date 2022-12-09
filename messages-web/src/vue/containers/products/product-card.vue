@@ -55,30 +55,30 @@
 </template>
 
 <script lang="ts">
-import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
+import { ProductionModel } from '@/app/productions/models/production.model';
 import { useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
   props: {
     product: {
-      type: Object as PropType<ProductShortModel>,
+      type: Object as PropType<ProductionModel>,
       default: null,
     },
   },
   emits: {
-    addToCart: (_: ProductShortModel) => true,
-    viewProduct: (_: ProductShortModel) => true,
-    viewOrganization: (_: ProductShortModel) => true,
+    addToCart: (_: ProductionModel) => true,
+    viewProduct: (_: ProductionModel) => true,
+    viewOrganization: (_: ProductionModel) => true,
   },
   setup(_, { emit }) {
-    const addToCart = (p: ProductShortModel) => {
+    const addToCart = (p: ProductionModel) => {
       emit('addToCart', p);
     };
-    const viewOrganization = (p: ProductShortModel) => {
+    const viewOrganization = (p: ProductionModel) => {
       emit('viewOrganization', p);
     };
-    const viewProduct = (p: ProductShortModel) => {
+    const viewProduct = (p: ProductionModel) => {
       emit('viewProduct', p);
     };
 

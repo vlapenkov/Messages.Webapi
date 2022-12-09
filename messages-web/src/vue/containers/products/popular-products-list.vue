@@ -15,7 +15,7 @@
 <script lang="ts">
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
-import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { shoppingCartHttpService } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { computed, defineComponent } from 'vue';
@@ -28,7 +28,7 @@ export default defineComponent({
     const router = useRouter();
     const productShortsItems = computed(() => productShortsStore.currentPageItems.value);
     const addProductToShopingCart = async (model: ProductShortModel) => {
-      await addToCart({
+      await shoppingCartHttpService.addToCart({
         productId: model.id,
         quantity: 1,
       });

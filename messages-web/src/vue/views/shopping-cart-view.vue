@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { postOrder } from '@/app/orders/infrastructure/order.http-service';
 import { useRouter } from 'vue-router';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
@@ -29,7 +29,10 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     reloadOnSaveProvider.provide(ref(true));
-    const { items } = shoppingCartStore;
+    const { items, getDataAsync } = shoppingCartStore;
+    onMounted(() => {
+      getDataAsync();
+    });
 
     const createNewOrder = async () => {
       const response = await postOrder(undefined);

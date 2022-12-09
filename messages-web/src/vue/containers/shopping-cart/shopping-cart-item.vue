@@ -10,8 +10,8 @@
           :to="{ name: 'organization', params: { id: item.organization.id } }"
           class="flex gap-3 align-items-center not-link"
         >
-          {{ item.organization.name }}</router-link
-        >
+          {{ item.organization.name }}
+        </router-link>
       </div>
       <div class="flex flex-row gap-2">
         <prime-button
@@ -54,10 +54,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
-import {
-  addToCart,
-  shoppingCartService,
-} from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { shoppingCartHttpService } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import { ShoppingCartModel } from '@/app/shopping-cart/models/shopping-cart.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
@@ -70,7 +67,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const state = shoppingCartStore;
+    const store = shoppingCartStore;
 
     const isQuantityUpdating = ref(false);
 
@@ -78,12 +75,12 @@ export default defineComponent({
     watch(quantity, async (newVal, prevVal) => {
       if (newVal === prevVal) return;
       isQuantityUpdating.value = true;
-      await addToCart({
+      await shoppingCartHttpService.addToCart({
         productId: props.item.productId,
         quantity: newVal - prevVal,
       });
-      if (state.getDataAsync) {
-        state.getDataAsync({ force: true });
+      if (store.getDataAsync) {
+        store.getDataAsync();
       }
       isQuantityUpdating.value = false;
     });
@@ -92,9 +89,9 @@ export default defineComponent({
     };
     const deleteItem = async () => {
       isQuantityUpdating.value = true;
-      const resp = await shoppingCartService.del(props.item);
-      if (resp.status === HttpStatus.Success && state.getDataAsync) {
-        state.getDataAsync({ force: true });
+      const resp = await shoppingCartHttpService.del(props.item);
+      if (resp.status === HttpStatus.Success && store.getDataAsync) {
+        store.getDataAsync();
         isQuantityUpdating.value = false;
       }
     };
@@ -145,7 +142,6 @@ export default defineComponent({
 
 .not-link {
   text-decoration: none;
-  /* color: black; */
 }
 
 a,

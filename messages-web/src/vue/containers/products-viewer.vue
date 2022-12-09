@@ -115,7 +115,7 @@ import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
 import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
-import { addToCart } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
+import { shoppingCartHttpService } from '@/app/shopping-cart/infrastructure/shopping-cart.http-service';
 import { computed, defineComponent } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
@@ -197,7 +197,7 @@ export default defineComponent({
     };
 
     const addProductToShopingCart = async (model: ProductShortModel) => {
-      await addToCart({
+      await shoppingCartHttpService.addToCart({
         productId: model.id,
         quantity: 1,
       });

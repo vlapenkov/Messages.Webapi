@@ -6,37 +6,40 @@ using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Interfaces.Services;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
+namespace Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, long>
+    public class CreateWorkProductCommandHandler : IRequestHandler<CreateWorkProductCommand, long>
     {
         private readonly IAppDbContext _dbContext;
 
         private readonly IUserService _userService;
 
-        private readonly IValidator<CreateProductCommand> _validator;        
+        private readonly IValidator<CreateWorkProductCommand> _validator;
 
-        
-        public CreateProductCommandHandler(IAppDbContext dbContext, IUserService userService, IValidator<CreateProductCommand> validator)
+        public CreateWorkProductCommandHandler(IAppDbContext dbContext, IUserService userService, IValidator<CreateWorkProductCommand> validator)
         {
             _dbContext = dbContext;
             _userService = userService;
             _validator = validator;
         }
 
-        public async Task<long> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<long> Handle(CreateWorkProductCommand command, CancellationToken cancellationToken)
         {
             //1. валидация запроса
+
             var validationResult = await _validator.ValidateAsync(command);
 
             if (!validationResult.IsValid)
             {
                 throw new ValidationException(validationResult.Errors);
             }
+
 
             //2. получение организации
 
@@ -46,40 +49,32 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
 
             var userOrganizationFound = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Inn == inn);
 
-            if (userOrganizationFound == null) throw new EntityNotFoundException($"Для ИНН пользователя {inn} нет организации") ;
-
-            // 3. Создание товара
+            if (userOrganizationFound == null) throw new EntityNotFoundException($"Для ИНН пользователя {inn} нет организации");
 
             var request = command.Request;
+                        
 
-            var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.AttributeId, av.Value)).ToArray();
-
-            Product product = new(
+            WorkProduct product = new(
                 userOrganizationFound.Id,
                 request.CatalogSectionId,
                 request.Name,
                 request.FullName,
                 request.Description,
                 request.Price,
-                attributeValues
+                new List<AttributeValue>()
                 );
-
-            product
-            .SetCodeTnVed(request.CodeTnVed)
-            .SetCodeOkpd2(request.CodeOkpd2)
-            .SetAddress(request.Address);
+                      
 
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 
             product.AddProductDocuments(productDocuments);
 
-            _dbContext.Products.Add(product);
+            _dbContext.WorkProducts.Add(product);
 
             await _dbContext.SaveChangesAsync();
 
             return product.Id;
 
         }
-
     }
 }

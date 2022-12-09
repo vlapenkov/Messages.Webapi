@@ -26,6 +26,7 @@
 	
 		<ItemGroup>
 		  <Folder Include="RegionsNS\Commands\" />
+		  <Folder Include="WorkProductsNS\Queries\" />
 		</ItemGroup>
 		
 </Project>

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 namespace Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes
 {
     /// <summary>
-    /// Апдейт атрибутов
+    /// Апдейт товара
     /// </summary>
-    public class UpdateProductAttributesCommand : IRequest
+    public class UpdateProductCommand : IRequest
     {
         public long ProductId { get; set; }
 
-        public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
+        public UpdateProductRequest Request { get; set; }
     }
 }

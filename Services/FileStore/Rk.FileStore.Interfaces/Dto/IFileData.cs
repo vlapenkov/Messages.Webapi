@@ -9,7 +9,7 @@ namespace Rk.FileStore.Interfaces.Dto
     public interface IFileData
     {
         /// <summary>Имя файла</summary>
-        public string? FileName { get; }
+        public string FileName { get; }
 
         /// <summary>Данные</summary>
         public byte[] Data { get; }

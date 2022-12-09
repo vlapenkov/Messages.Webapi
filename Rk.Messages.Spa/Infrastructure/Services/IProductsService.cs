@@ -30,8 +30,8 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         Task DeleteProductById(long id);
 
         /// <summary>Апдейт значений атрибутов</summary>  
-        [Put("/api/v1/Products/{id}/attributes")]
-        Task UpdateAttributes(long id, [Body]IReadOnlyCollection<AttributeValueDto> attributeValues);
+        [Put("/api/v1/Products/{id}")]
+        Task UpdateProduct(long id, [Body]UpdateProductRequest request);
 
         /// <summary>Установить статус продукции</summary>  
         [Patch("/api/v1/Products/{id}/status")]

@@ -60,10 +60,10 @@ namespace Rk.Messages.Webapi.Controllers
         }
 
         /// <summary>Апдейт значений атрибутов товара</summary>
-        [HttpPut("{id:long}/attributes")]
-        public async Task UpdateAttributes(long id, [FromBody] IReadOnlyCollection<AttributeValueDto> attributeValues)
+        [HttpPut("{id:long}")]
+        public async Task UpdateAttributes(long id, [FromBody] UpdateProductRequest request)
         {
-            await _mediator.Send(new UpdateProductAttributesCommand { ProductId = id , AttributeValues = attributeValues });            
+            await _mediator.Send(new UpdateProductCommand { ProductId = id , Request = request });            
         }
 
         /// <summary>Получить информацию об атрибутах всей продукции</summary>

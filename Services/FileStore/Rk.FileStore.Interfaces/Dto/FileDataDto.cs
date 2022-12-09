@@ -9,7 +9,7 @@ namespace Rk.FileStore.Interfaces.Dto
     public record FileDataDto :IFileData
     {
         /// <summary>Имя файла</summary>
-        public string? FileName { get; set; }
+        public string FileName { get; set; }
 
         /// <summary>Данные</summary>
         public byte[] Data { get; set; }

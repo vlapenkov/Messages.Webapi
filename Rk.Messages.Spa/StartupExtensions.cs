@@ -81,6 +81,8 @@ namespace Rk.Messages.Spa
 
                     .AddRefitClient<IRegionsService>(messagesUri)
 
+                    .AddRefitClient<IWorkProductsService>(messagesUri)
+
                     .AddRefitClient<IFileStoreService>(fileStoreUri)
 
                     .AddRefitClient<IProductsPrepareService>(fileStoreUri);

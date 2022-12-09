@@ -29,5 +29,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>по доступности</summary>
         public AvailableStatus? AvailableStatus { get; set; }
 
+        /// <summary>сортировка</summary>
+        public OrderByProduct OrderBy { get; set; }
+
     }
 }

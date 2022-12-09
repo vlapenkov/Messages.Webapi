@@ -28,5 +28,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         /// <summary>по доступности</summary>
         public int? AvailableStatus { get; set; }
 
+        /// <summary>сортировка</summary>
+        public OrderByProduct OrderBy { get; set; }
+
     }
 }

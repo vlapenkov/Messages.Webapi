@@ -6,6 +6,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Rk.Messages.Domain.Entities.Products;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Dto;
@@ -35,11 +36,11 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
             var request = query.Request;
 
-            IQueryable<BaseProduct> productsQuery = GetProducts();
+            IQueryable<BaseProduct> productsQuery = GetProductions();
 
             productsQuery = await FilterProducts(request, productsQuery);
 
-            IPagedList<BaseProduct> queryResult = await productsQuery.OrderBy(product => product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
+            IPagedList<BaseProduct> queryResult = await productsQuery.ToPagedListAsync(request.PageNumber, request.PageSize);
 
 
             // преобразование из IPagedList<Product> -> PagedResponse<ProductShortDto>
@@ -57,7 +58,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
         /// <summary>Получить товары со связанными сущностями</summary>
         
-        private IQueryable<BaseProduct> GetProducts()
+        private IQueryable<BaseProduct> GetProductions()
         {
             return _dbContext.BaseProduct
                 .Include(product => product.Organization)
@@ -98,6 +99,33 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
             if (request.Name != null)
                 productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
+
+            switch (request.OrderBy)
+            {
+                case OrderByProduct.NameByAsc:
+                    productsQuery = productsQuery.OrderBy(product => product.Name);
+                    break;
+                case OrderByProduct.NameByDesc:
+                    productsQuery = productsQuery.OrderByDescending(product => product.Name);
+                    break;
+                case OrderByProduct.RegionByAsc:
+                    productsQuery = productsQuery.OrderBy(product => product.Organization.Region);
+                    break;
+                case OrderByProduct.RegionByDesc:
+                    productsQuery = productsQuery.OrderByDescending(product => product.Organization.Region);
+                    break;
+                case OrderByProduct.ProducerByAsc:
+                    productsQuery = productsQuery.OrderBy(product => product.Organization.Name);
+                    break;
+                case OrderByProduct.ProducerByDesc:
+                    productsQuery = productsQuery.OrderByDescending(product => product.Organization.Name);
+                    break;
+
+                default:
+                    productsQuery = productsQuery.OrderBy(product => product.Name);
+                    break;
+            }
+
             return productsQuery;
         }
 

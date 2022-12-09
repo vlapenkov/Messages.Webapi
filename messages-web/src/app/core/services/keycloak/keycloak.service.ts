@@ -73,7 +73,6 @@ export async function initKeycloak() {
           refreshTokens();
         }
       } catch (error) {
-        console.error('Ошибка при обновлении токена', error);
         cleanTokens();
         setTimeout(() => {
           window.location.reload();

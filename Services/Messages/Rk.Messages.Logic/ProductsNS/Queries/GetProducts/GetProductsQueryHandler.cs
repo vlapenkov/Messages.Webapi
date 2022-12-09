@@ -7,6 +7,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Rk.Messages.Domain.Entities.Products;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Dto;
@@ -38,7 +39,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
             productsQuery = await FilterProducts(request, productsQuery);
 
-            IPagedList<Product> queryResult = await productsQuery.OrderBy(product => product.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
+            IPagedList<Product> queryResult = await productsQuery.OrderBy(p=>p.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
 
 
             // преобразование из IPagedList<Product> -> PagedResponse<ProductShortDto>
@@ -97,6 +98,8 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
             if (request.Name != null)
                 productsQuery = productsQuery.Where(product => product.Name != null && product.Name.ToLower().Contains(request.Name.ToLower()));
+
+           
             return productsQuery;
         }
 

@@ -24,9 +24,9 @@ namespace Rk.Messages.Domain.Entities.Products
 
             OrganizationId = organizationId;
            
-            Price = price;            
+            Price = price;
 
-            _attributeValues = attributeValues.ToList();
+            _attributeValues =  attributeValues?.ToList() ?? new List<AttributeValue>();
 
         }        
 
@@ -97,6 +97,15 @@ namespace Rk.Messages.Domain.Entities.Products
         public void SetStatus(ProductStatus newStatus) { 
         
             Status = newStatus;
+        }
+
+        public  virtual void Update(long catalogSectionId, string name, string fullName, string description, decimal? price) {
+            
+            CatalogSectionId = catalogSectionId;
+            Name = name;
+            FullName = fullName;
+            Description = description;
+            Price = price;
         }
 
         public abstract string GetProductionType();

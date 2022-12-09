@@ -23,11 +23,15 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
                 
         public string Address { get; set; }
                 
-        public string? Site { get; set; }
+        public string Site { get; set; }
 
-        public string? Okved { get; set; }
+        public string Okved { get; set; }
 
-        public string? Okved2 { get; set; }
+        public string Okved2 { get; set; }
+
+        public double? Latitude { get; set; }
+
+        public double? Longitude { get; set; }
 
     }
 }

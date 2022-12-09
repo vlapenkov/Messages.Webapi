@@ -7,7 +7,7 @@ namespace Rk.Messages.Domain.Entities.Products
     /// </summary>
     public class WorkProduct : BaseProduct
     {
-        private WorkProduct() { }
+        protected WorkProduct() { }
         public WorkProduct(
             long organizationId,
             long catalogSectionId,

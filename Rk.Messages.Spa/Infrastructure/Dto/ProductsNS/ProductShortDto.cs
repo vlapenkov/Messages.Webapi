@@ -9,9 +9,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
     /// Информация о товаре для списка
     /// </summary>
     public record ProductShortDto : AuditableEntityDto
-    {
-        /// <summary>идентификатор продукта</summary>
-        public long Id { get; set; }
+    {       
 
         /// <summary>наименование продукции</summary>
         public string Name { get; set; }

@@ -9,10 +9,13 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class Order : AuditableEntity
     {
-        public Order(long organizationId, string userName)
+        public Order(long organizationId, long producerId, string userName)
         {
 
             OrganizationId = organizationId;
+
+            ProducerId = producerId;
+
             UserName = userName;
         }
 
@@ -21,6 +24,13 @@ namespace Rk.Messages.Domain.Entities
 
         /// <summary>Покупатель</summary>
         public virtual Organization Organization { get; }
+
+
+        /// <summary>Id организация производителя</summary>
+        public long ProducerId { get; private set; }
+
+        /// <summary>Покупатель</summary>
+        public virtual Organization Producer { get; }
 
         /// <summary>Имя пользователя</summary>        
         [StringLength(255)]

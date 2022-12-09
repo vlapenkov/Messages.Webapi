@@ -14,6 +14,12 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
     {
         public string OrganisationName { get; set; }
 
+        public long? OrganisationId { get; set; }
+
+        public string ProducerName { get; set; }
+
+        public long? ProducerId { get; set; }
+
         public string UserName { get; set; }
 
         public string ProductName { get; set; }

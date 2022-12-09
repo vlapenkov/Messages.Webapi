@@ -6,7 +6,7 @@ import { shoppingCartHttpService } from '../infrastructure/shopping-cart.http-se
 import { ShoppingCartModel } from '../models/shopping-cart.model';
 import { ShoppingCartState } from './shopping-cart.state';
 
-const { computeState, action, onActionSuccess } = defineStore(
+const { computeState, action, getter, onActionSuccess } = defineStore(
   'shopping-cart',
   new ShoppingCartState(),
 );
@@ -36,6 +36,11 @@ const getDataAsync = action('get-data', async () => {
 
 const addToCartActionName = 'add-to-cart';
 
+const totalQuantity = getter(
+  'total-quantity',
+  (state) => state.cartItems?.map((i) => i.quantity).reduce((acc, curr) => acc + curr, 0) ?? 0,
+);
+
 const addToCart = action<IAddToShoppingCartRequest>(addToCartActionName, async (payload) => {
   const response = await shoppingCartHttpService.addToCart(payload);
   if (response.status !== HttpStatus.Success) {
@@ -47,4 +52,4 @@ onActionSuccess(addToCartActionName, () => {
   getDataAsync();
 });
 
-export const shoppingCartStore = { status, getDataAsync, items, addToCart };
+export const shoppingCartStore = { status, getDataAsync, items, addToCart, totalQuantity };

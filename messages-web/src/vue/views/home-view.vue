@@ -65,7 +65,8 @@
             class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
           >
             <div class="flex flex-column">
-              <i class="pi pi-shopping-cart"></i>
+              <i class="pi pi-shopping-cart" v-if="cartCapacity > 0" v-badge="cartCapacity"></i>
+              <i class="pi pi-shopping-cart" v-else></i>
               <span>Корзина</span>
             </div>
           </prime-button>
@@ -245,6 +246,7 @@ import PopularOrganizationsList from '@/vue/containers/organizations/popular-org
 import { productShortsService } from '@/app/product-shorts/services/product-shorts.service';
 import { useRouter } from 'vue-router';
 import { useSections } from '@/composables/sections.composable';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useOrganizations } from '../../composables/organizations.composable';
 
 export default defineComponent({
@@ -255,8 +257,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    onMounted(async () => {
-      await productShortsService.loadPage({
+    onMounted(() => {
+      productShortsService.loadPage({
         name: null,
         catalogSectionId: undefined,
         pageNumber: 1,
@@ -264,6 +266,7 @@ export default defineComponent({
         producerName: null,
         region: null,
       });
+      shoppingCartStore.getDataAsync();
     });
     const hasPhoto = ref(false);
     const sectionModel = ref();
@@ -296,6 +299,8 @@ export default defineComponent({
       });
     };
 
+    const cartCapacity = shoppingCartStore.totalQuantity;
+
     return {
       sectionModel,
       regionModel,
@@ -306,6 +311,7 @@ export default defineComponent({
       organizationOptions,
       searchMe,
       searchQuery,
+      cartCapacity,
     };
   },
 });

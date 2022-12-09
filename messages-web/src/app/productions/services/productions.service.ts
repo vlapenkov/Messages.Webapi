@@ -4,12 +4,12 @@ import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { computed } from 'vue';
 import { IproductionsPageRequest } from '../@types/IproductionsPageRequest';
-import { productShortsHttpService } from '../infrastructure/productions.http-service';
+import { productionsHttpService } from '../infrastructure/productions.http-service';
 import { IProductionModel, ProductionModel } from '../models/production.model';
 import { productionsStore } from '../state/productions.store';
 
 async function loadPage(request: IproductionsPageRequest) {
-  const response = await productShortsHttpService.getPage(request);
+  const response = await productionsHttpService.getPage(request);
   productionsStore.status.value = new DataStatus('loading');
   if (response.status === HttpStatus.Success && response.data != null) {
     const model = response.data.rows.map((i) => {

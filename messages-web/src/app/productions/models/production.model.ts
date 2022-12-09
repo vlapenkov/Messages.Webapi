@@ -54,11 +54,8 @@ export class ProductionModel extends ModelBase<IProductionModel> implements IPro
 
   documentId = '';
 
-  get key(): string {
-    return JSON.stringify({
-      price: this.price,
-      description: this.description,
-    });
+  get key(): number {
+    return this.id;
   }
 
   fromResponse(model: IProductionModel): boolean {

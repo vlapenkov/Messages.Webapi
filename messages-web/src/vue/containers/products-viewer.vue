@@ -113,14 +113,15 @@
 <script lang="ts">
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
-import { ProductShortModel } from '@/app/product-shorts/models/product-short.model';
-import { productShortsStore } from '@/app/product-shorts/state/product-shorts.store';
+
 import { computed, defineComponent } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 import Toast from 'primevue/toast';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { ProductionModel } from '@/app/productions/models/production.model';
+import { productionsStore } from '@/app/productions/state/productions.store';
 import { viewModeProvider } from '../views/providers/view-mode.provider';
 
 export default defineComponent({
@@ -149,11 +150,11 @@ export default defineComponent({
         router.push('/edit-product');
       }
     };
-    const viewProduct = (item: ProductShortModel) => {
+    const viewProduct = (item: ProductionModel) => {
       router.push({ name: 'product', params: { id: item.id } });
     };
 
-    const viewOrganization = (item: ProductShortModel) => {
+    const viewOrganization = (item: ProductionModel) => {
       router.push({ name: 'organization', params: { id: item.organization.id } });
     };
 
@@ -164,7 +165,7 @@ export default defineComponent({
       await productFullStore.saveChanges();
     };
 
-    const editProduct = (item: ProductShortModel) => {
+    const editProduct = (item: ProductionModel) => {
       productFullStore
         .getDataAsync({
           force: true,
@@ -189,14 +190,14 @@ export default defineComponent({
       () => (productFullStore.itemSmart().value.title.value as string) ?? '',
     );
 
-    const productShortsItems = computed(() => productShortsStore.currentPageItems.value);
-    const { status: productShortsStatus, pageNumber, pageSize, currentPage } = productShortsStore;
+    const productShortsItems = computed(() => productionsStore.currentPageItems.value);
+    const { status: productShortsStatus, pageNumber, pageSize, currentPage } = productionsStore;
 
     const changePage = ({ page }: { page: number }) => {
       pageNumber.value = page + 1;
     };
 
-    const addProductToShopingCart = async (model: ProductShortModel) => {
+    const addProductToShopingCart = async (model: ProductionModel) => {
       await shoppingCartStore.addToCart({
         productId: model.id,
         quantity: 1,

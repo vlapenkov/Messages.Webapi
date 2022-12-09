@@ -25,8 +25,10 @@ namespace Rk.Messages.Domain.Entities
             string okved, 
             string okved2, 
             string phone,
-            string email,
-            OrganizationStatus status
+            string email,            
+            OrganizationStatus status,
+            double? latitude=null,
+            double? longitude = null
             ) :
             this( 
                 name,  
@@ -41,8 +43,11 @@ namespace Rk.Messages.Domain.Entities
                 okved, 
                 okved2, 
                 phone,
-                email,
-                status)    
+                email,                
+                status,
+                latitude,
+                longitude
+                )    
         {
             Id = id;           
         }
@@ -61,7 +66,10 @@ namespace Rk.Messages.Domain.Entities
             string okved2,
             string phone,
             string email,
-            OrganizationStatus status)
+            OrganizationStatus status,
+            double? latitude = null,
+            double? longitude = null            
+            )
         {
             
             Name = name;
@@ -80,7 +88,10 @@ namespace Rk.Messages.Domain.Entities
             Phone = phone;
             Email = email;
 
-            Status = status;            
+            Status = status;
+
+            Latitude = latitude;
+            Longitude = longitude;
         }
 
         #region Private Members
@@ -125,6 +136,10 @@ namespace Rk.Messages.Domain.Entities
         public string Email { get; private set; }
 
         public OrganizationStatus Status { get; private set; }
+
+        public double? Latitude { get; private set; }
+
+        public double? Longitude { get; private set; }
 
         #endregion
     }

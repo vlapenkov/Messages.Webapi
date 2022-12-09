@@ -44,7 +44,7 @@ export default defineComponent({
         </div>
       </div>`;
     const setOption = (organizations: OrganizationModel[]) => {
-      const projection = geoTransverseMercator().rotate([-90, -90]);
+      const projection = geoTransverseMercator().rotate([-100, -90]);
       option.value = {
         tooltip: {
           enterable: true,

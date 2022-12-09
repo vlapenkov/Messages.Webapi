@@ -3,7 +3,7 @@
     <h1 class="p-component text-xl sm:text-2xl mb-1">География производства</h1>
     <prime-divider class="mt-0 mb-0"></prime-divider>
     <div class="flex flex-row justify-space-between align-items-center">
-      <div class="col-4 pl-0">
+      <div class="col-3 pl-0">
         <dropdown
           v-model="regionModel"
           :options="regionOptions"
@@ -12,30 +12,32 @@
           :style="{ width: '100%' }"
         />
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <dropdown
           v-model="organizationModel"
           :options="organizationOptions"
           placeholder="Производитель"
           show-clear
           :style="{ width: '100%' }"
+          class="si"
+        />
+      </div>
+      <div class="col-6 flex flex-row justify-content-end align-items-center">
+        <prime-button
+          class="text-sm font-normal p-bbutton-sm p-button-secondary p-1 mr-3"
+          :class="selectedMode !== Modes.LIST ? 'p-button-text' : undefined"
+          icon="pi pi-list"
+          @click="selectedMode = Modes.LIST"
+        />
+        <prime-button
+          class="text-sm font-normal p-bbutton-sm p-button-secondary p-1"
+          :class="selectedMode !== Modes.MAP ? 'p-button-text' : undefined"
+          icon="pi pi-map-marker"
+          @click="selectedMode = Modes.MAP"
         />
       </div>
     </div>
-    <div class="flex flex-row justify-content-end mb-2">
-      <prime-button
-        class="text-sm font-normal p-bbutton-sm p-button-secondary p-1 mr-3"
-        :class="selectedMode !== Modes.LIST ? 'p-button-text' : undefined"
-        icon="pi pi-list"
-        @click="selectedMode = Modes.LIST"
-      />
-      <prime-button
-        class="text-sm font-normal p-bbutton-sm p-button-secondary p-1"
-        :class="selectedMode !== Modes.MAP ? 'p-button-text' : undefined"
-        icon="pi pi-map-marker"
-        @click="selectedMode = Modes.MAP"
-      />
-    </div>
+
     <transition-fade>
       <productions-map v-if="selectedMode === Modes.MAP" :organizations="filteredOrgs" />
       <div v-if="selectedMode === Modes.LIST">

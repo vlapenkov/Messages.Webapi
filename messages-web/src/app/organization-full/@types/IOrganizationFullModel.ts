@@ -1,6 +1,6 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 
-export interface IOrganizationFullMiodel extends IModel {
+export interface IOrganizationFullModel extends IModel {
   id: number;
   name: string;
   fullName: string;
@@ -18,4 +18,6 @@ export interface IOrganizationFullMiodel extends IModel {
   lastModifiedBy: string;
   created: string;
   createdBy: string;
+  latitude: number;
+  longitude: number;
 }

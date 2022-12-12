@@ -3,11 +3,11 @@ import { ModelBase } from '@/app/core/models/base/model-base';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
-import { IOrganizationFullMiodel } from '../@types/IOrganizationFullModel';
+import { IOrganizationFullModel } from '../@types/IOrganizationFullModel';
 
 export class OrganizationFullModel
-  extends ModelBase<IOrganizationFullMiodel>
-  implements IOrganizationFullMiodel
+  extends ModelBase<IOrganizationFullModel>
+  implements IOrganizationFullModel
 {
   @hidden()
   id = 0;
@@ -56,7 +56,11 @@ export class OrganizationFullModel
 
   createdBy = '';
 
-  fromResponse(model: IOrganizationFullMiodel): boolean {
+  latitude = 0;
+
+  longitude = 0;
+
+  fromResponse(model: IOrganizationFullModel): boolean {
     try {
       Object.assign(this, model);
       return true;
@@ -65,7 +69,7 @@ export class OrganizationFullModel
     }
   }
 
-  toRequest(): IOrganizationFullMiodel {
+  toRequest(): IOrganizationFullModel {
     return this;
   }
 

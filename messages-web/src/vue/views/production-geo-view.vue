@@ -41,21 +41,30 @@
     <transition-fade>
       <productions-map v-if="selectedMode === Modes.MAP" :organizations="filteredOrgs" />
       <div v-if="selectedMode === Modes.LIST">
-        <div v-if="filteredOrgs.length > 0">
-          <card v-for="(org, i) in filteredOrgs" :key="i" class="w-full mb-2 production-geo-card">
-            <template #content>
-              <router-link :to="`/organization/${org.id}`" class="no-underline">
-                <div class="flex flex-column">
-                  <div class="flex flex-row">
-                    <span class="font-semibold text-900">{{ org.name }}</span>
+        <div v-if="filteredOrgs.length > 0" class="w-full h-full grid mt-1">
+          <div v-for="(org, i) in filteredOrgs" :key="i" class="col-4">
+            <card class="w-full h-full production-geo-card">
+              <template #content>
+                <router-link :to="`/organization/${org.id}`" class="no-underline">
+                  <div class="flex flex-column">
+                    <div class="flex flex-row">
+                      <span
+                        class="w-full font-semibold text-900"
+                        :style="{ overflowWrap: 'break-word' }"
+                      >
+                        {{ org.name }}
+                      </span>
+                    </div>
+                    <div class="flex flex-row mt-1">
+                      <span class="w-full text-700" :style="{ overflowWrap: 'break-word' }">
+                        {{ org.region }}
+                      </span>
+                    </div>
                   </div>
-                  <div class="flex flex-row mt-1">
-                    <span class="text-700">{{ org.region }}</span>
-                  </div>
-                </div>
-              </router-link>
-            </template>
-          </card>
+                </router-link>
+              </template>
+            </card>
+          </div>
         </div>
         <div v-else class="flex flex-row justify-content-center mt-5">
           <span class="p-component">Организации не найдены</span>

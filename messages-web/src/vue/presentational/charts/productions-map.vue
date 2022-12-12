@@ -31,20 +31,21 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const loading = ref();
-    const option = ref();
+    const loading = ref<boolean | undefined>();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const option = ref<any>(undefined);
     const tooltipHtmlTemplate = (org: OrganizationModel) => `
       <div class="w-full">
         <div><span style="font-weight: 600">${org.name}</span></div>
         <div class="mt-1"><span style="font-weight: 500">${org.region}</span></div>
-        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm">
+        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
           <a href="/organization/${org.id}" class="text-white" style="text-decoration: none">
             <span>Перейти к организации</span>
           </a>
         </div>
       </div>`;
     const setOption = (organizations: OrganizationModel[]) => {
-      const projection = geoTransverseMercator().rotate([-100, -90]);
+      const projection = geoTransverseMercator().rotate([-105, -90]);
       option.value = {
         tooltip: {
           enterable: true,
@@ -126,6 +127,9 @@ export default defineComponent({
       };
     };
     const updateMap = async (orgs: OrganizationModel[]) => {
+      if (option.value != null) {
+        setOption([]);
+      }
       loading.value = true;
       await axios
         .get('/map/russia.json')

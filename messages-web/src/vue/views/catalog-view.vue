@@ -42,7 +42,7 @@
       </div>
 
       <div class="col-3">
-        <sections-container v-model:selected="parentSectionId"></sections-container>
+        <sections-container v-model:selected="sectionId"></sections-container>
       </div>
       <div ref="productsContainerRef" class="col-9">
         <products-viewer />
@@ -126,7 +126,7 @@ export default defineComponent({
     const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
 
     return {
-      parentSectionId: sectionId,
+      sectionId,
       search: productionsStore.searchQuery,
       productsContainerRef,
       productsContainerSize,

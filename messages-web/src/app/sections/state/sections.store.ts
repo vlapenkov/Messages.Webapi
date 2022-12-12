@@ -95,4 +95,5 @@ export const sectionsStore = {
   loadSections,
   startCreation,
   saveChanges,
+  sectionSelected,
 };

@@ -168,7 +168,6 @@
 <script lang="ts">
 import { ProductFullModel } from '@/app/product-full/models/product-full.model';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
-import { sectionsStore } from '@/app/sections/state/sections.store';
 import { PrimeTextarea } from '@/tools/prime-vue-components';
 import { useBase64 } from '@vueuse/core';
 import { defineComponent, computed, watch, ref, Ref, WritableComputedRef, onMounted } from 'vue';
@@ -180,6 +179,7 @@ import { AttributeModel } from '@/app/attributes/models/AttributeModel';
 import { http } from '@/app/core/services/http/axios/axios.service';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+import { useSections } from '@/composables/sections.composable';
 import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
 import { loadingStatusProvider } from '../base/presentational/state/collection/providers/loading-status.provider';
 
@@ -190,10 +190,6 @@ export default defineComponent({
     if (productFullStore.itemSelected == null) {
       throw new Error('Что-то не так с состоянием редактируемого товара');
     }
-    const sections = sectionsStore as CollectionStoreMixed;
-    if (sections.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
 
     const attributes = attributeStore as CollectionStoreMixed;
     if (attributes.items == null) {
@@ -203,7 +199,7 @@ export default defineComponent({
       AttributeModel[]
     >;
     loadingStatusProvider.provideFrom(() => productFullStore.status);
-    const sectionsCollection = sections.items({ force: true });
+    const { list: sectionsCollection } = useSections();
 
     const mode = computed({
       get: () => productFullStore.itemSelected?.value?.mode,

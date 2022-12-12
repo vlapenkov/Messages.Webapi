@@ -32,9 +32,9 @@ namespace Rk.Messages.Webapi.Controllers
         /// <summary>Получить список продукции с отбором и пагинацией </summary>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
+        public async Task<PagedResponse<ProductShortDto>> GetProductions([FromQuery] FilterProductsRequest request)
         {
-            var result = await _mediator.Send(new GetProductsQuery { Request = request });
+            var result = await _mediator.Send(new GetProductionsQuery { Request = request });
             return result;
         }
 

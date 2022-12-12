@@ -59,6 +59,8 @@ namespace Rk.Messages.Domain.Entities.Products
         /// <summary>Статус продукции (по умолчанию черновик)</summary>
         public ProductStatus Status { get; protected set; } = ProductStatus.Draft;
 
+        /// <summary>Рейтинг</summary>
+        public float? Rating { get; protected set; } = 0f;
 
        
 

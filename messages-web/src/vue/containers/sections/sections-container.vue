@@ -14,12 +14,12 @@
       </template>
       <template #footer>
         <div v-if="isAdmin" class="flex flex-row justify-content-end">
-          <create-item-button :label="null"></create-item-button>
+          <prime-button-add @click="createCategory" :label="null"></prime-button-add>
         </div>
       </template>
     </card>
   </loading-status-handler>
-  <selected-item-dialog></selected-item-dialog>
+  <add-section-dialog :show="showDialog"></add-section-dialog>
 </template>
 
 <script lang="ts">
@@ -41,10 +41,10 @@ export default defineComponent({
     'update:selected': (_: number | undefined) => true,
   },
   setup(props, { emit }) {
-    const state = sectionsStore;
+    const { status, startCreation } = sectionsStore;
     const viewMode = viewModeProvider.inject();
     const isAdmin = computed(() => viewMode.value === 'admin');
-    loadingStatusProvider.provideFrom(() => state.status);
+    loadingStatusProvider.provideFrom(() => status);
 
     const { tree } = useSections();
 
@@ -90,7 +90,14 @@ export default defineComponent({
       }
     });
 
-    return { tree, selectedKey, selectedKeys, expandedKeys, isAdmin };
+    const showDialog = ref<boolean>(false);
+
+    const createCategory = () => {
+      startCreation();
+      showDialog.value = true;
+    };
+
+    return { tree, selectedKey, selectedKeys, expandedKeys, isAdmin, showDialog, createCategory };
   },
 });
 </script>

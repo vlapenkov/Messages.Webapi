@@ -67,7 +67,7 @@ const saveChanges = action('save-changes', async () => {
       status.value = new DataStatus('updating');
       try {
         await organizationHttpService.post(data.toRequest());
-
+        organization.value = data;
         status.value = new DataStatus('loaded');
       } catch (_) {
         status.value = new DataStatus('error', 'Что-то пошло не так при добавлении организации');

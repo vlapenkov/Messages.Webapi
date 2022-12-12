@@ -17,15 +17,7 @@ namespace Rk.Messages.Logic.ProductsNS.Validations
                 .WithMessage("Наименование товара не должно быть пустым")
                 .MinimumLength(5)
                 .WithMessage("Минимальная длина наименования товара не менее 5 символов");
-
-            // Атрибуты продукции НЕ обязательно должны быть указаны
-            //RuleFor(x => x.Request).Custom((request, context) =>
-            //{
-            //    if (request.AttributeValues == null || !request.AttributeValues.Any())
-            //    {
-            //        context.AddFailure("Атрибуты продукта должны быть указаны");
-            //    }
-            //});
+           
         }
     }
 }

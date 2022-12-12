@@ -18,7 +18,7 @@ service.get = defineGet(
   },
 );
 
-service.post = definePost(
+const post = definePost<number, { parentSectionId: number | null; name: string }>(
   ({ parentSectionId, name }) => ({
     bodyOrParams: { parentSectionId, name },
   }),
@@ -42,4 +42,4 @@ service.post = definePost(
   },
 );
 
-export const sectionsHttpService = service;
+export const sectionsHttpService = { ...service, post };

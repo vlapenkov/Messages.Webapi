@@ -8,7 +8,7 @@
           selection-mode="single"
           v-model:selectionKeys="selectedKeys"
           v-model:expandedKeys="expandedKeys"
-          :value="tree"
+          :value="tree || undefined"
         >
         </tree>
       </template>
@@ -24,18 +24,8 @@
 
 <script lang="ts">
 import { sectionsStore } from '@/app/sections/state/sections.store';
-import { CollectionStoreMixed } from '@/vue/base/presentational/state/collection/collection-state.vue';
-import { createItemProvider } from '@/vue/base/presentational/state/collection/providers/create-item.provider';
-import { deleteItemProvider } from '@/vue/base/presentational/state/collection/providers/delete-item.provider';
-import { editOrCreateModeProvider } from '@/vue/base/presentational/state/collection/providers/edit-or-create-mode.provider';
-import { itemSelectedProvider } from '@/vue/base/presentational/state/collection/providers/item-selected.provider';
-import { itemsCollectionProvider } from '@/vue/base/presentational/state/collection/providers/items-collection.provider';
+import { useSections } from '@/composables/sections.composable';
 import { loadingStatusProvider } from '@/vue/base/presentational/state/collection/providers/loading-status.provider';
-import { refreshProvider } from '@/vue/base/presentational/state/collection/providers/refresh.provider';
-import { reloadOnSaveProvider } from '@/vue/base/presentational/state/collection/providers/reload-on-save.provider';
-import { saveChangesProvider } from '@/vue/base/presentational/state/collection/providers/save-changes.provider';
-import { selectItemProvider } from '@/vue/base/presentational/state/collection/providers/select-item.provider';
-import { showDialogProvider } from '@/vue/base/presentational/state/collection/providers/show-dialog.provider';
 import { viewModeProvider } from '@/vue/views/providers/view-mode.provider';
 import { TreeSelectionKeys } from 'primevue/tree';
 import { computed, defineComponent, ref, watch } from 'vue';
@@ -51,27 +41,12 @@ export default defineComponent({
     'update:selected': (_: number | undefined) => true,
   },
   setup(props, { emit }) {
-    const state = sectionsStore as CollectionStoreMixed;
+    const state = sectionsStore;
     const viewMode = viewModeProvider.inject();
     const isAdmin = computed(() => viewMode.value === 'admin');
-    if (state.items != null) {
-      itemsCollectionProvider.provideFrom(() => state.items);
-    }
-    refreshProvider.provideFrom(() => state.getDataAsync);
-    showDialogProvider.provide();
-    selectItemProvider.provideFrom(() => state.selectItem);
-    createItemProvider.provideFrom(() => state.createItem);
-    saveChangesProvider.provideFrom(() => state.saveChanges);
-    deleteItemProvider.provideFrom(() => state.deleteItem);
-    itemSelectedProvider.provideFrom(() => state.itemSelected);
-    editOrCreateModeProvider.provideFrom(() => state.itemSelected?.value?.mode);
     loadingStatusProvider.provideFrom(() => state.status);
-    reloadOnSaveProvider.provide(ref(true));
-    if (state.treeView == null) {
-      throw new Error('Что-то пошло не так');
-    }
 
-    const tree = state.treeView();
+    const { tree } = useSections();
 
     const selectedKeys = ref<TreeSelectionKeys>();
     watch(
@@ -91,7 +66,7 @@ export default defineComponent({
 
     const expandedKeys = computed<TreeSelectionKeys>(() => {
       const result: Record<string, boolean> = {};
-      tree.value.forEach((node) => {
+      tree.value?.forEach((node) => {
         if (node.key == null) {
           return;
         }

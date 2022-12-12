@@ -34,6 +34,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string Currency { get; set; }
 
+        public float? Rating { get; set; }
+
         //public ProductStatus Status { get; set; }
 
         public string StatusText { get; set; }

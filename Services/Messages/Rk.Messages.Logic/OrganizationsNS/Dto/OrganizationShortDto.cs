@@ -12,5 +12,11 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         public double? Latitude { get; set; }
 
         public double? Longitude { get; set; }
+
+        /// <summary>Признак организации- производителя</summary>
+        public bool IsProducer { get; set; }
+
+        /// <summary>Признак организации- покупателя</summary>
+        public bool IsBuyer { get; set; }
     }
 }

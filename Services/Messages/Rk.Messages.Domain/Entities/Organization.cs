@@ -141,6 +141,21 @@ namespace Rk.Messages.Domain.Entities
 
         public double? Longitude { get; private set; }
 
+        /// <summary>Признак организации- производителя</summary>
+        public bool IsProducer { get; private set; }
+
+        /// <summary>Признак организации- покупателя</summary>
+        public bool IsBuyer { get; private set; }
+
         #endregion
+
+        public void SetProducer(bool isProducer) {
+            IsProducer = isProducer;
+        }
+
+        public void SetBuyer(bool isBuyer)
+        {
+            IsBuyer = isBuyer;
+        }
     }
 }

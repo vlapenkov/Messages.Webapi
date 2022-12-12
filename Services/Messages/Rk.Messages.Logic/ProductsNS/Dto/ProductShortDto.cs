@@ -27,6 +27,9 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>Тип продукции</summary>
         public string ProductionType { get; set; }
 
+        /// <summary>Рейтинг</summary>
+        public float? Rating { get; set; }
+
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 

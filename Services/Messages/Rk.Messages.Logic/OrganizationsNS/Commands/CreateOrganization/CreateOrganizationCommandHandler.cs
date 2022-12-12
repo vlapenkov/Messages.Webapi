@@ -1,17 +1,13 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Rk.Messages.Domain.Entities;
+using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Domain.Enums;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
-using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
 {
@@ -39,7 +35,8 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
                 throw new ValidationException(validationResult.Errors);
             }
 
-            Organization organization = new(               
+
+            Organization organization = new(
                 request.Name,
                 request.FullName,
                 request.Ogrn,
@@ -55,10 +52,15 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
                 request.Email,
                 OrganizationStatus.New
                 );
+                        
+
+            organization.SetProducer(request.IsProducer);
+
+            organization.SetBuyer(request.IsBuyer);
 
             _dbContext.Organizations.Add(organization);
 
-           await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return organization.Id;
         }

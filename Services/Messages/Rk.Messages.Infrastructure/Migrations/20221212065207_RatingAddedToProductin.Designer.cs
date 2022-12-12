@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Rk.Messages.Infrastructure.EFCore;
@@ -11,9 +12,11 @@ using Rk.Messages.Infrastructure.EFCore;
 namespace Rk.Messages.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221212065207_RatingAddedToProductin")]
+    partial class RatingAddedToProductin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,14 +313,6 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("character varying(12)")
                         .HasColumnName("inn");
 
-                    b.Property<bool>("IsBuyer")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isbuyer");
-
-                    b.Property<bool>("IsProducer")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isproducer");
-
                     b.Property<string>("Kpp")
                         .HasMaxLength(9)
                         .HasColumnType("character varying(9)")
@@ -396,8 +391,6 @@ namespace Rk.Messages.Infrastructure.Migrations
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FullName = "Ракетно-космический центр «Прогресс», Самара",
                             Inn = "6312139922",
-                            IsBuyer = false,
-                            IsProducer = false,
                             Kpp = "631201001",
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Прогресс",
@@ -413,8 +406,6 @@ namespace Rk.Messages.Infrastructure.Migrations
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FullName = "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"",
                             Inn = "7404052938",
-                            IsBuyer = false,
-                            IsProducer = false,
                             Kpp = "631201001",
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Златоустовский машиностроительный завод",

@@ -10,14 +10,23 @@ export interface IOrganizationFullModel extends IModel {
   region: string;
   city: string;
   address: string;
+  factAddress: string;
   site: string;
   okved: string;
   okved2: string;
-  statusText: string;
+  phone: string;
+  email: string;
+  latitude: number;
+  longitude: number;
+  isProducer: boolean;
+  isBuyer: boolean;
+  bankName: string;
+  account: string;
+  corrAccount: string;
+  bik: string;
+  statusText?: string;
   lastModified?: string;
   lastModifiedBy?: string;
   created?: string;
   createdBy?: string;
-  latitude: number;
-  longitude: number;
 }

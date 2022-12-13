@@ -12,7 +12,7 @@
                 <input-text
                   id="full-name"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.fullName"
                 />
               </div>
@@ -21,7 +21,7 @@
                 <input-text
                   id="ogrn"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.ogrn"
                 />
               </div>
@@ -31,7 +31,7 @@
                 <input-text
                   id="short-name"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.name"
                 />
               </div>
@@ -40,18 +40,20 @@
                 <input-text
                   id="kpp"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.kpp"
                 />
               </div>
               <div class="col-4"></div>
               <div class="col-4 field">
                 <label for="status" class="text-600">Статус</label>
-                <input-text
+                <dropdown
                   id="status"
-                  type="text"
-                  class="w-full p-inputtext-sm"
+                  :options="statusOptions"
+                  class="w-full p-component rk-dropdown"
+                  :style="{ height: '42px' }"
                   v-model="formState.statusText"
+                  :disabled="!isEditable"
                 />
               </div>
               <div class="col-4 field">
@@ -59,7 +61,7 @@
                 <input-text
                   id="inn"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.inn"
                 />
               </div>
@@ -72,7 +74,7 @@
                 <input-text
                   id="okved"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.okved"
                 />
               </div>
@@ -81,7 +83,7 @@
                 <input-text
                   id="okved2"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.okved2"
                 />
               </div>
@@ -91,14 +93,32 @@
           <div>
             <h2 class="mt-0">2. Адрес</h2>
             <div class="w-full h-full grid">
+              <div class="col-4 field">
+                <label for="region" class="text-600">Регион</label>
+                <input-text
+                  id="region"
+                  type="text"
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.region"
+                />
+              </div>
+              <div class="col-4 field">
+                <label for="city" class="text-600">Город</label>
+                <input-text
+                  id="city"
+                  type="text"
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.city"
+                />
+              </div>
+              <div class="col-4"></div>
               <div class="col-8 field">
                 <label for="legal-address" class="text-600">Юридический адрес</label>
                 <input-text
                   id="legal-address"
                   type="text"
-                  class="w-full p-inputtext-sm"
-                  v-model="formState.legalAddress"
-                  disabled
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.address"
                 />
               </div>
               <div class="col-3"></div>
@@ -107,23 +127,40 @@
                 <input-text
                   id="actual-address"
                   type="text"
-                  class="w-full p-inputtext-sm"
-                  v-model="formState.actualAddress"
-                  disabled
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.factAddress"
                 />
               </div>
               <div class="col-3"></div>
-              <div class="col-8 field">
-                <label for="postal-address" class="text-600">Почтовый адрес</label>
-                <input-text
-                  id="postal-address"
-                  type="text"
-                  class="w-full p-inputtext-sm"
-                  v-model="formState.postalAddress"
-                  disabled
+            </div>
+          </div>
+          <div>
+            <h3 class="mt-4">Географические координаты</h3>
+            <div class="w-full h-full grid">
+              <div class="col-3 field">
+                <label for="latitude" class="text-600">Широта</label>
+                <input-number
+                  id="latitude"
+                  mode="decimal"
+                  locale="ru-RU"
+                  class="w-full p-inputtext-sm rk-input"
+                  :minFractionDigits="1"
+                  :maxFractionDigits="12"
+                  v-model="formState.latitude"
                 />
               </div>
-              <div class="col-3"></div>
+              <div class="col-3 field">
+                <label for="longitude" class="text-600">Долгота</label>
+                <input-number
+                  id="longitude"
+                  mode="decimal"
+                  locale="ru-RU"
+                  class="w-full p-inputtext-sm rk-input"
+                  :minFractionDigits="1"
+                  :maxFractionDigits="12"
+                  v-model="formState.longitude"
+                />
+              </div>
             </div>
           </div>
           <prime-divider class="mt-5 mb-5"></prime-divider>
@@ -135,9 +172,8 @@
                 <input-text
                   id="bank"
                   type="text"
-                  class="w-full p-inputtext-sm"
-                  v-model="formState.bank"
-                  disabled
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.bankName"
                 />
               </div>
               <div class="col-4 field">
@@ -145,9 +181,8 @@
                 <input-text
                   id="cor-acc"
                   type="text"
-                  class="w-full p-inputtext-sm"
-                  v-model="formState.corAcc"
-                  disabled
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.corrAccount"
                 />
               </div>
               <div class="col-4"></div>
@@ -156,9 +191,8 @@
                 <input-text
                   id="acc-number"
                   type="text"
-                  class="w-full p-inputtext-sm"
-                  v-model="formState.accNumber"
-                  disabled
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.account"
                 />
               </div>
               <div class="col-4 field">
@@ -166,9 +200,8 @@
                 <input-text
                   id="bik"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.bik"
-                  disabled
                 />
               </div>
               <div class="col-4"></div>
@@ -183,9 +216,8 @@
                 <input-text
                   id="phone"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.phone"
-                  disabled
                 />
               </div>
               <div class="col-8"></div>
@@ -194,9 +226,8 @@
                 <input-text
                   id="email"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full p-inputtext-sm rk-input"
                   v-model="formState.email"
-                  disabled
                 />
               </div>
               <div class="col-8"></div>
@@ -205,7 +236,7 @@
                 <input-text
                   id="site"
                   type="text"
-                  class="w-full p-inputtext-sm"
+                  class="w-full rk-input p-inputtext-sm rk-input"
                   v-model="formState.site"
                 />
               </div>
@@ -226,27 +257,38 @@
 import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
 import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
 import { OrganizationFullModel } from '@/app/organization-full/models/organozation-full.model';
-import { defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
 
 export default defineComponent({
   setup() {
-    const { createItem, updateSelectedItem, saveChanges } = organizationFullStore;
-
+    const { createItem, updateSelectedItem, saveChanges, organizationSelected } =
+      organizationFullStore;
+    const isEditable = computed(() => organizationSelected.value?.mode === 'edit');
+    const statusOptions = ['Новая', 'Активна', 'Закрыта'];
     const formState = reactive<IOrganizationFullModel>({
       ogrn: '',
       inn: '',
       kpp: '',
       fullName: '',
       name: '',
-      statusText: '',
+      statusText: 'Новая',
       okved: '',
       okved2: '',
       region: '',
       city: '',
       address: '',
+      factAddress: '',
       site: '',
       latitude: 0,
       longitude: 0,
+      phone: '',
+      email: '',
+      isProducer: false,
+      isBuyer: false,
+      bankName: '',
+      account: '',
+      corrAccount: '',
+      bik: '',
     });
 
     const save = async () => {
@@ -258,6 +300,8 @@ export default defineComponent({
     };
 
     return {
+      statusOptions,
+      isEditable,
       formState,
       save,
     };
@@ -272,14 +316,21 @@ export default defineComponent({
     margin: 0;
   }
 
-  :deep(.p-inputtext) {
-    display: block;
-    margin-bottom: 0.5rem;
+  .rk-dropdown {
+    margin: 0 !important;
+  }
 
-    &:last-child {
-      margin-bottom: 0;
+  .rk-input {
+    &:deep(.p-inputtext) {
+      display: block;
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
+
   :deep(.p-card-content) {
     padding-top: 0;
     padding-bottom: 0;

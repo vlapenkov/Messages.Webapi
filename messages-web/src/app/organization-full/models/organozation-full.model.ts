@@ -37,6 +37,8 @@ export class OrganizationFullModel
   @description('Адрес')
   address = '';
 
+  factAddress = '';
+
   @description('ОКВЕД')
   okved = '';
 
@@ -45,6 +47,26 @@ export class OrganizationFullModel
 
   @description('Сайт')
   site = '';
+
+  phone = '';
+
+  email = '';
+
+  isProducer = false;
+
+  isBuyer = false;
+
+  bankName = '';
+
+  account = '';
+
+  corrAccount = '';
+
+  bik = '';
+
+  latitude = 0;
+
+  longitude = 0;
 
   statusText = '';
 
@@ -55,10 +77,6 @@ export class OrganizationFullModel
   created = '';
 
   createdBy = '';
-
-  latitude = 0;
-
-  longitude = 0;
 
   fromResponse(model: IOrganizationFullModel): boolean {
     try {

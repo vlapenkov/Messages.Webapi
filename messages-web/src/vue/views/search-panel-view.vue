@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <div class="flex flex-row justify-space-between align-items-center mt-2">
-      <div class="col-1 pl-0">
-        <router-link to="catalog" :style="{ textDecoration: 'none' }">
-          <prime-button
-            class="text-sm font-normal p-bbutton-sm p-2"
-            icon="pi pi-bars"
-            label="Каталог"
-          />
-        </router-link>
-      </div>
-      <div class="col-7">
+  <div class="pt-2">
+    <div class="flex flex-row justify-content-between gap-2">
+      <div class="flex flex-grow-1 flex-row justify-content-between align-items-center gap-2">
+        <div>
+          <router-link to="catalog" :style="{ textDecoration: 'none' }">
+            <prime-button icon="pi pi-bars " label="Каталог" />
+          </router-link>
+        </div>
         <div
           class="p-inputgroup"
           :style="{
@@ -28,48 +24,63 @@
           />
           <prime-button @click="searchMe" icon="pi pi-search"></prime-button>
         </div>
+        <div>
+          <prime-button
+            class="p-button-secondary p-button-sm"
+            icon="pi pi-sliders-h"
+            @click="showFilters = !showFilters"
+          ></prime-button>
+        </div>
       </div>
-      <div class="col-1">
-        <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
-          <div class="flex flex-column">
-            <i class="pi pi-heart"></i>
-            <span>Избранное</span>
-          </div>
-        </prime-button>
-      </div>
-      <div class="col-1">
-        <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
-          <div class="flex flex-column">
-            <i class="pi pi-chart-bar"></i>
-            <span>Сравнение</span>
-          </div>
-        </prime-button>
-      </div>
-      <div class="col-1">
-        <prime-button class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary">
-          <div class="flex flex-column">
-            <i
-              class="pi pi-sort-alt"
-              :style="{
-                transform: 'rotate(90deg)',
-              }"
-            ></i>
-            <span>Аналоги</span>
-          </div>
-        </prime-button>
-      </div>
-      <div class="col-1">
-        <router-link to="shopping-cart" :style="{ textDecoration: 'none' }">
+      <div class="flex flex-row justify-content-between align-items-center gap-2">
+        <div>
           <prime-button
             class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
           >
             <div class="flex flex-column">
-              <i class="pi pi-shopping-cart" v-if="cartCapacity > 0" v-badge="cartCapacity"></i>
-              <i class="pi pi-shopping-cart" v-else></i>
-              <span>Корзина</span>
+              <i class="pi pi-heart"></i>
+              <span>Избранное</span>
             </div>
           </prime-button>
-        </router-link>
+        </div>
+        <div>
+          <prime-button
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+          >
+            <div class="flex flex-column">
+              <i class="pi pi-chart-bar"></i>
+              <span>Сравнение</span>
+            </div>
+          </prime-button>
+        </div>
+        <div>
+          <prime-button
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+          >
+            <div class="flex flex-column">
+              <i
+                class="pi pi-sort-alt"
+                :style="{
+                  transform: 'rotate(90deg)',
+                }"
+              ></i>
+              <span>Аналоги</span>
+            </div>
+          </prime-button>
+        </div>
+        <div>
+          <router-link to="shopping-cart" :style="{ textDecoration: 'none' }">
+            <prime-button
+              class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+            >
+              <div class="flex flex-column">
+                <i class="pi pi-shopping-cart" v-if="cartCapacity > 0" v-badge="cartCapacity"></i>
+                <i class="pi pi-shopping-cart" v-else></i>
+                <span>Корзина</span>
+              </div>
+            </prime-button>
+          </router-link>
+        </div>
       </div>
     </div>
     <div>
@@ -92,7 +103,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
-    const { organization, region, sectionId, searchQuery } = catalogFiltersStore;
+    const { organization, region, sectionId, searchQuery, showFilters } = catalogFiltersStore;
 
     const searchMe = () => {
       router.push({
@@ -108,7 +119,7 @@ export default defineComponent({
 
     const { totalQuantity: cartCapacity } = shoppingCartStore;
 
-    return { searchMe, searchQuery, cartCapacity };
+    return { searchMe, searchQuery, cartCapacity, showFilters };
   },
 });
 </script>

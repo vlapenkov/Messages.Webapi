@@ -1,26 +1,6 @@
 <template>
   <app-page title="Каталог товаров">
-    <template #subheader>
-      <div
-        :style="{ maxWidth: productsContainerSize + 'px' }"
-        class="flex-grow-1 flex flex-row justify-content-between gap-2"
-      >
-        <span class="p-input-icon-left w-full">
-          <i class="pi pi-search" />
-          <input-text class="w-full" v-model="search" type="text" placeholder="Поиск" />
-        </span>
-        <prime-button
-          class="flex-shrink-0 p-button-secondary"
-          @click="switchViewMode"
-          v-tooltip.bottom="
-            viewMode === 'user'
-              ? 'Перейти в режим администрирования'
-              : 'Перейти в режим пользователя'
-          "
-          :icon="viewMode === 'user' ? 'pi pi-unlock' : 'pi pi-lock-open'"
-        ></prime-button>
-      </div>
-    </template>
+    <template #subheader> </template>
     <div class="grid mt-1">
       <div class="col-6">
         <dropdown

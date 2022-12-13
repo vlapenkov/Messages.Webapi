@@ -2,11 +2,7 @@
   <card class="h-full re-padding-card" :style="cardStyle">
     <template #header>
       <div class="w-full h-full" ref="headerRef">
-        <product-image
-          :min-height="140"
-          object-fit="cover"
-          :id="product.documentId"
-        ></product-image>
+        <product-image :min-height="206" :max-height="206" :id="product.documentId"></product-image>
       </div>
     </template>
     <template #content>
@@ -24,14 +20,12 @@
           </div>
           <div class="text-sm">{{ product.organization.region }}</div>
           <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
-            <span>
-              <prime-button
-                @click="addToCart(product)"
-                class="p-button-sm h-full py-1"
-                label="Заказать"
-              >
-              </prime-button>
-            </span>
+            <prime-button
+              @click="addToCart(product)"
+              class="p-button-sm h-full py-1 flex-grow-1"
+              label="В Корзину"
+            >
+            </prime-button>
             <prime-button
               disabled
               icon="pi pi-heart"

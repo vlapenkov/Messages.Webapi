@@ -9,27 +9,27 @@
     modal
     v-model:visible="showDialog"
   >
-    <div class="p-fluid grid">
+    <div class="p-fluid grid pt-4">
+      <div class="field col-12">
+        <span class="p-float-label">
+          <input-text id="section-name" v-model="selectedName"></input-text>
+          <label for="section-name">Название</label>
+        </span>
+      </div>
       <div class="field col-12">
         <span class="p-float-label">
           <parent-section-selector id="parent-section-id"></parent-section-selector>
-          <label for="parent-section-id"></label>
+          <label for="parent-section-id">Родительская категория</label>
         </span>
       </div>
-      <div class="field col-12">
-        <span class="p-float-label">
-          <input-text id="section-name"></input-text>
-          <label for="section-name"></label>
-        </span>
-      </div>
-      <prime-divider></prime-divider>
-      <div class="col-12">
-        <prime-button-add
-          @click="saveChanges"
-          v-if="mode === 'create'"
-          label="Добавить"
-        ></prime-button-add>
-      </div>
+    </div>
+    <prime-divider></prime-divider>
+    <div class="w-full flex flex-row justify-content-end">
+      <prime-button-add
+        @click="saveChanges"
+        v-if="mode === 'create'"
+        label="Создать категорию"
+      ></prime-button-add>
     </div>
   </prime-dialog>
 </template>
@@ -67,9 +67,25 @@ export default defineComponent({
       get: () => props.show,
       set: (val) => {
         emit('update:show', val);
+        setTimeout(() => {
+          sectionSelected.value = null;
+        }, 500);
       },
     });
-    return { mode, selectedData, saveChanges, showDialog };
+
+    const selectedName = computed({
+      get: () => selectedData.value?.name,
+      set: (val) => {
+        if (selectedData.value == null || val == null) {
+          return;
+        }
+        const sval = selectedData.value.clone();
+        sval.name = val;
+        selectedData.value = sval;
+      },
+    });
+
+    return { mode, saveChanges, showDialog, selectedName };
   },
   components: { PrimeDialog, ParentSectionSelector, PrimeDivider },
 });

@@ -19,7 +19,7 @@
       </template>
     </card>
   </loading-status-handler>
-  <add-section-dialog :show="showDialog"></add-section-dialog>
+  <add-section-dialog v-model:show="showDialog"></add-section-dialog>
 </template>
 
 <script lang="ts">

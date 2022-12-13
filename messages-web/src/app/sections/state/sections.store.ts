@@ -7,7 +7,7 @@ import { SectionState } from './sections.state';
 import { SectionModel } from '../models/section.model';
 import { sectionsHttpService } from '../infrastructure/sections.http-service';
 
-const { computeState, getter, mutation, action } = defineStore(
+const { computeState, getter, mutation, action, onActionSuccess } = defineStore(
   'product-sections',
   new SectionState(),
 );
@@ -24,7 +24,7 @@ const treeView = getter('get-sections-tree', () => {
     return null;
   }
   const modelToTree = (section: SectionModel): TreeNode => ({
-    label: section.title.value as string,
+    label: section.name as string,
     key: `${section.key}`,
     data: section,
     children: models.filter((m) => m.parentSectionId === section.id).map(modelToTree),
@@ -61,7 +61,9 @@ const startCreation = mutation('create-item', (state) => {
   state.selectedItem = new Creation(new SectionModel());
 });
 
-const saveChanges = action('save-changes', async () => {
+const saveChangesKey = 'save-changes';
+
+const saveChanges = action(saveChangesKey, async () => {
   if (sectionSelected.value == null) {
     return;
   }
@@ -86,6 +88,17 @@ const saveChanges = action('save-changes', async () => {
     default:
       throw new Error('Что-то пошло не так');
   }
+});
+
+onActionSuccess(saveChangesKey, () => {
+  if (sectionSelected.value == null) {
+    return;
+  }
+  const { mode } = sectionSelected.value;
+  if (mode === 'create') {
+    loadSections();
+  }
+  sectionSelected.value = null;
 });
 
 export const sectionsStore = {

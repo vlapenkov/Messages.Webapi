@@ -4,5 +4,9 @@ export const loadingStatuses = ['initial', 'loading', 'loaded', 'updating', 'err
 export type LoadingStatus = typeof loadingStatuses[number];
 
 export class DataStatus {
-  constructor(public status: LoadingStatus = 'initial', public message: string | null = null) {}
+  constructor(
+    public status: LoadingStatus = 'initial',
+    public message: string | null = null,
+    public payload: string[][] | null = null,
+  ) {}
 }

@@ -67,10 +67,14 @@ const saveChanges = action('save-changes', async () => {
         await organizationHttpService.post(data);
 
         status.value = new DataStatus('loaded');
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
+        const { errors } = e.response.data;
+        const errorList: string[][] = Object.values(errors);
         status.value = new DataStatus(
           'error',
-          `Что-то пошло не так при добавлении организации: ${e}`,
+          `Что-то пошло не так при добавлении организации`,
+          errorList,
         );
       }
       break;

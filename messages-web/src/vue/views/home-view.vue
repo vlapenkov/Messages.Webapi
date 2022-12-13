@@ -1,7 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <div>
-    <div class="flex flex-row justify-space-between align-items-center mt-2">
+    <!-- <div class="flex flex-row justify-space-between align-items-center mt-2">
       <div class="col-1 pl-0">
         <router-link to="catalog" :style="{ textDecoration: 'none' }">
           <prime-button
@@ -72,7 +72,7 @@
           </prime-button>
         </router-link>
       </div>
-    </div>
+    </div> -->
     <div class="flex flex-row justify-space-between align-items-center">
       <div class="col-4 pl-0">
         <dropdown

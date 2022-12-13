@@ -52,6 +52,7 @@ declare module '@vue/runtime-core' {
     OrdersView: typeof import('./src/vue/views/orders-view.vue')['default']
     OrderView: typeof import('./src/vue/views/order-view.vue')['default']
     OrganizationView: typeof import('./src/vue/views/organization-view.vue')['default']
+    OrgChart: typeof import('./src/vue/presentational/charts/org-chart.vue')['default']
     ParentSectionSelector: typeof import('./src/vue/containers/parent-section-selector.vue')['default']
     PopularOrganizationsList: typeof import('./src/vue/containers/organizations/popular-organizations-list.vue')['default']
     PopularProductsList: typeof import('./src/vue/containers/products/popular-products-list.vue')['default']

@@ -214,7 +214,7 @@
           </div>
           <prime-divider class="mt-5 mb-5"></prime-divider>
           <div class="flex flex-row justify-content-end align-items-center">
-            <prime-button label="Сохранить" />
+            <prime-button label="Сохранить" @click="save" />
           </div>
         </template>
       </card>
@@ -223,33 +223,16 @@
 </template>
 
 <script lang="ts">
+import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
+import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
+import { OrganizationFullModel } from '@/app/organization-full/models/organozation-full.model';
 import { defineComponent, reactive } from 'vue';
-
-interface IOrganizationFormModel {
-  name: string;
-  fullName: string;
-  ogrn: string;
-  inn: string;
-  kpp: string;
-  country?: string;
-  region: string;
-  city: string;
-  address: string;
-  site: string;
-  okved: string;
-  okved2: string;
-  statusText: string;
-  bik?: string;
-  rc?: string;
-  bank?: string;
-  corAcc?: string;
-  isBuyer?: boolean;
-  isSeller?: boolean;
-}
 
 export default defineComponent({
   setup() {
-    const formState = reactive<IOrganizationFormModel>({
+    const { createItem, updateSelectedItem, saveChanges } = organizationFullStore;
+
+    const formState = reactive<IOrganizationFullModel>({
       ogrn: '',
       inn: '',
       kpp: '',
@@ -258,21 +241,25 @@ export default defineComponent({
       statusText: '',
       okved: '',
       okved2: '',
-      country: '',
       region: '',
       city: '',
       address: '',
       site: '',
-      bik: '',
-      rc: '',
-      bank: '',
-      corAcc: '',
-      isBuyer: false,
-      isSeller: false,
+      latitude: 0,
+      longitude: 0,
     });
+
+    const save = async () => {
+      createItem();
+      const item = new OrganizationFullModel();
+      item.fromResponse(formState);
+      updateSelectedItem(item);
+      await saveChanges();
+    };
 
     return {
       formState,
+      save,
     };
   },
 });

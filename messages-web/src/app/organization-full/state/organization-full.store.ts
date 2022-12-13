@@ -1,7 +1,7 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { Creation, Edititng } from '@/app/core/services/harlem/tools/not-valid-data';
+import { Creation, Edititng, NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import { onMounted } from 'vue';
 import { organizationHttpService } from '../infrastructure/organozation-full.http-service';
 import { OrganizationFullModel } from '../models/organozation-full.model';
@@ -56,6 +56,14 @@ const selectItem = mutation('select-item', (state) => {
   state.itemSelected = new Edititng(new OrganizationFullModel());
 });
 
+const updateSelectedItem = mutation<OrganizationFullModel>(
+  'update-selected-item',
+  (state, data) => {
+    if (state.itemSelected == null) return;
+    state.itemSelected = new NotValidData(data, state.itemSelected.mode);
+  },
+);
+
 const saveChanges = action('save-changes', async () => {
   if (organizationSelected.value == null) {
     return;
@@ -66,11 +74,14 @@ const saveChanges = action('save-changes', async () => {
     case 'create':
       status.value = new DataStatus('updating');
       try {
-        await organizationHttpService.post(data.toRequest());
+        await organizationHttpService.post(data);
 
         status.value = new DataStatus('loaded');
-      } catch (_) {
-        status.value = new DataStatus('error', 'Что-то пошло не так при добавлении организации');
+      } catch (e) {
+        status.value = new DataStatus(
+          'error',
+          `Что-то пошло не так при добавлении организации: ${e}`,
+        );
       }
       break;
     default:
@@ -86,5 +97,6 @@ export const organizationFullStore = {
   getDataAsync,
   createItem,
   selectItem,
+  updateSelectedItem,
   saveChanges,
 };

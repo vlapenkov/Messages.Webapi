@@ -1,7 +1,7 @@
 import { IModel } from '@/app/core/models/@types/IModel';
 
 export interface IOrganizationFullModel extends IModel {
-  id: number;
+  id?: number;
   name: string;
   fullName: string;
   ogrn: string;
@@ -14,10 +14,10 @@ export interface IOrganizationFullModel extends IModel {
   okved: string;
   okved2: string;
   statusText: string;
-  lastModified: string;
-  lastModifiedBy: string;
-  created: string;
-  createdBy: string;
+  lastModified?: string;
+  lastModifiedBy?: string;
+  created?: string;
+  createdBy?: string;
   latitude: number;
   longitude: number;
 }

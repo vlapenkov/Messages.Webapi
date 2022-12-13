@@ -32,17 +32,15 @@
 <script lang="ts">
 import { SectionModel } from '@/app/sections/models/section.model';
 import { sectionsStore } from '@/app/sections/state/sections.store';
-import { CollectionStoreMixed } from '@/vue/base/presentational/state/collection/collection-state.vue';
-import { computed, defineComponent, WritableComputedRef } from 'vue';
+import { useSections } from '@/composables/sections.composable';
+import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    const state = sectionsStore as CollectionStoreMixed;
-    if (state.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const items = state.items({ force: true }) as WritableComputedRef<SectionModel[]>;
+    const state = sectionsStore;
+
+    const { list: items } = useSections();
     const itemsWithDocumentId = computed(() =>
       (items.value ?? []).filter((x) => x.documentId != null && x.documentId !== ''),
     );

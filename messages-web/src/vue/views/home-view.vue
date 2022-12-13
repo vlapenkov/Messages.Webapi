@@ -275,7 +275,7 @@ export default defineComponent({
     const searchQuery = ref<string>();
 
     const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
-    const sections = useSections();
+    const { list: sections } = useSections();
     const sectionOptions = computed(() =>
       (sections.value ?? []).map((s) => ({ label: s.name, value: s.id })),
     );

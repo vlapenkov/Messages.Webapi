@@ -93,7 +93,6 @@ declare module '@vue/runtime-core' {
     TopChart2: typeof import('./src/vue/presentational/charts/top-chart2.vue')['default']
     TopChart3: typeof import('./src/vue/presentational/charts/top-chart3.vue')['default']
     TransitionFade: typeof import('./src/vue/base/presentational/transitions/transition-fade.vue')['default']
-    Tree: typeof import('primevue/tree')['default']
     TreeViewCollection: typeof import('./src/vue/base/presentational/state/collection/components/data-views/tree-view-collection.vue')['default']
     Trend1Chart: typeof import('./src/vue/presentational/charts/trend1-chart.vue')['default']
     Trend2Chart: typeof import('./src/vue/presentational/charts/trend2-chart.vue')['default']

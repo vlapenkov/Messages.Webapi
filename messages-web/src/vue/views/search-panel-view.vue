@@ -95,31 +95,16 @@
 
 <script lang="ts">
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    const router = useRouter();
-
-    const { organization, region, sectionId, searchQuery, showFilters } = catalogFiltersStore;
-
-    const searchMe = () => {
-      router.push({
-        name: 'catalog',
-        query: {
-          sectionId: sectionId.value,
-          region: region.value,
-          organization: organization.value,
-          searchQuery: searchQuery.value,
-        },
-      });
-    };
+    const { searchForProducts, searchQuery, showFilters } = useCatalogFilters();
 
     const { totalQuantity: cartCapacity } = shoppingCartStore;
 
-    return { searchMe, searchQuery, cartCapacity, showFilters };
+    return { searchMe: searchForProducts, searchQuery, cartCapacity, showFilters };
   },
 });
 </script>

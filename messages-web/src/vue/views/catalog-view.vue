@@ -35,10 +35,10 @@ import { productionsService } from '@/app/productions/services/productions.servi
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useElementSize } from '@vueuse/core';
 import { defineComponent, ref, watch } from 'vue';
-import { useOrganizations } from '@/composables/organizations.composable';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
@@ -100,8 +100,7 @@ export default defineComponent({
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
-    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
-    const { showFilters } = catalogFiltersStore;
+    const { regionOptions, organizationOptions, showFilters } = useCatalogFilters();
 
     return {
       sectionId,

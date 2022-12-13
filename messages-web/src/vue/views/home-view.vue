@@ -58,7 +58,7 @@
           </template>
           <template #footer>
             <div class="flex flex-row justify-content-end">
-              <prime-button label="Применить"></prime-button>
+              <prime-button @click="searchForProducts" label="Применить"></prime-button>
             </div>
           </template>
         </card>
@@ -175,16 +175,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productionsService } from '@/app/productions/services/productions.service';
-import { useRouter } from 'vue-router';
-import { useSections } from '@/composables/sections.composable';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
-import { useOrganizations } from '../../composables/organizations.composable';
+import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 
 export default defineComponent({
   components: {
@@ -193,7 +191,6 @@ export default defineComponent({
     PopularOrganizationsList,
   },
   setup() {
-    const router = useRouter();
     const { showFilters } = catalogFiltersStore;
     onMounted(() => {
       productionsService.loadPage({
@@ -207,39 +204,19 @@ export default defineComponent({
       shoppingCartStore.getDataAsync();
     });
     const hasPhoto = ref(false);
-    const sectionModel = ref<{ label: string; value: number }>();
-    watch(
-      sectionModel,
-      (sm) => {
-        catalogFiltersStore.sectionId.value = sm?.value ?? null;
-      },
-      {
-        immediate: true,
-      },
-    );
-    const regionModel = ref();
-    const organizationModel = ref();
-    const searchQuery = ref<string>();
-
-    const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
-    const { list: sections } = useSections();
-    const sectionOptions = computed(() =>
-      (sections.value ?? []).map((s) => ({ label: s.name, value: s.id })),
-    );
-
-    const searchMe = () => {
-      router.push({
-        name: 'catalog',
-        query: {
-          sectionId: sectionModel.value?.value,
-          region: regionModel.value,
-          organization: organizationModel.value,
-          searchQuery: searchQuery.value,
-        },
-      });
-    };
 
     const cartCapacity = shoppingCartStore.totalQuantity;
+
+    const {
+      sectionModel,
+      regionModel,
+      organizationModel,
+      sectionOptions,
+      organizationOptions,
+      regionOptions,
+      searchQuery,
+      searchForProducts,
+    } = useCatalogFilters();
 
     return {
       sectionModel,
@@ -249,7 +226,7 @@ export default defineComponent({
       sectionOptions,
       regionOptions,
       organizationOptions,
-      searchMe,
+      searchForProducts,
       searchQuery,
       cartCapacity,
       showFilters,

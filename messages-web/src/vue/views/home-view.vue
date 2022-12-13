@@ -17,14 +17,12 @@
           <template #content>
             <div class="grid">
               <div class="col-4">
-                <dropdown
-                  v-model="sectionModel"
-                  :options="sectionOptions"
-                  optionLabel="label"
+                <tree-select
+                  class="w-full"
+                  :options="sectionsTree"
+                  v-model="sectionModelTree"
                   placeholder="Область применения"
-                  show-clear
-                  :style="{ width: '100%' }"
-                />
+                ></tree-select>
               </div>
               <div class="col-4">
                 <dropdown
@@ -208,10 +206,10 @@ export default defineComponent({
     const cartCapacity = shoppingCartStore.totalQuantity;
 
     const {
-      sectionModel,
+      sectionsTree,
+      sectionModelTree,
       regionModel,
       organizationModel,
-      sectionOptions,
       organizationOptions,
       regionOptions,
       searchQuery,
@@ -219,11 +217,11 @@ export default defineComponent({
     } = useCatalogFilters();
 
     return {
-      sectionModel,
+      sectionsTree,
+      sectionModelTree,
       regionModel,
       organizationModel,
       hasPhoto,
-      sectionOptions,
       regionOptions,
       organizationOptions,
       searchForProducts,

@@ -4,6 +4,14 @@
     <div class="grid mt-1">
       <div v-if="showFilters" class="col-3 gap-2 flex flex-column">
         <div>
+          <tree-select
+            class="w-full"
+            :options="sectionsTree"
+            v-model="sectionModelTree"
+            placeholder="Область применения"
+          ></tree-select>
+        </div>
+        <div>
           <dropdown
             v-model="regionModel"
             :options="regionOptions"
@@ -100,10 +108,13 @@ export default defineComponent({
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
-    const { regionOptions, organizationOptions, showFilters } = useCatalogFilters();
+    const { regionOptions, organizationOptions, showFilters, sectionsTree, sectionModelTree } =
+      useCatalogFilters();
 
     return {
       sectionId,
+      sectionsTree,
+      sectionModelTree,
       search: searchQuery,
       productsContainerRef,
       productsContainerSize,

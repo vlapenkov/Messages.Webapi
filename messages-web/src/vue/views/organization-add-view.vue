@@ -2,7 +2,6 @@
 <template>
   <app-page title="Профиль организации">
     <div>
-      <toast position="top-right" group="tr" />
       <prime-dialog
         header="Ошибка добавления организации"
         :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
@@ -22,6 +21,35 @@
       <div class="flex flex-column">
         <card class="add-organization-inner-card">
           <template #content>
+            <div>
+              <div class="w-full h-full grid">
+                <div class="col-4">
+                  <img
+                    v-if="file != null"
+                    :src="fileB64"
+                    alt="Изображение профиля"
+                    class="h-full w-full"
+                  />
+                </div>
+                <div class="col-4">
+                  <div class="w-full flex flex-column">
+                    <span class="mb-3 p-component text-xl text-900">{{ organizationName }}</span>
+                    <file-upload
+                      mode="basic"
+                      id="organization-img"
+                      accept="image/*"
+                      :maxFileSize="3000000"
+                      @input="onFileInput"
+                      :auto="true"
+                      :customUpload="true"
+                      chooseLabel="Изображение профиля"
+                      class="p-button-sm p-button-secondary file-upload"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <prime-divider class="mt-3 mb-5"></prime-divider>
             <div>
               <h2 class="mt-0">Тип профиля</h2>
               <div class="w-full h-full grid">
@@ -305,8 +333,10 @@
 import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
 import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
 import { OrganizationFullModel } from '@/app/organization-full/models/organozation-full.model';
-import { computed, defineComponent, reactive, ref } from 'vue';
+import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
 import { PrimeDialog } from '@/tools/prime-vue-components';
+import { useBase64 } from '@vueuse/core';
+import { v4 as uuidv4 } from 'uuid';
 
 export default defineComponent({
   components: { PrimeDialog },
@@ -343,6 +373,10 @@ export default defineComponent({
       bik: '',
     });
 
+    const organizationName = computed(() =>
+      formState.name != null && formState.name !== '' ? formState.name : 'Название',
+    );
+
     const save = async () => {
       createItem();
       const item = new OrganizationFullModel();
@@ -352,20 +386,49 @@ export default defineComponent({
       showDialog.value = status.value.status === 'error';
     };
 
+    const file = ref() as Ref<File>;
+    const { base64: fileB64 } = useBase64(file);
+    watch(fileB64, (b64) => {
+      if (file.value == null || b64 == null) {
+        return;
+      }
+      const doc = {
+        data: b64,
+        fileId: uuidv4(),
+        fileName: file.value.name,
+      };
+      formState.document = doc;
+    });
+    const onFileInput = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const { files } = target;
+      if (files == null) {
+        return;
+      }
+      [file.value] = files;
+    };
+
     return {
+      organizationName,
       statusOptions,
       titleDialog,
       showDialog,
       isEditable,
       formState,
+      fileB64,
       status,
+      file,
       save,
+      onFileInput,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.file-upload {
+  background-color: #f4f7fb;
+}
 .re-padding {
   .p-dialog-content {
     padding: 1rem;

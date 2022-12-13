@@ -60,12 +60,13 @@ import { defineComponent, ref, watch } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
+import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
     const viewMode = viewModeProvider.provide();
-    const { sectionId } = productionsStore;
+    const { sectionId, region, organization, searchQuery } = catalogFiltersStore;
 
     const switchViewMode = () => {
       viewMode.value = viewMode.value === 'user' ? 'admin' : 'user';
@@ -78,33 +79,33 @@ export default defineComponent({
 
     useRouteQueryBinded('region', {
       type: 'string',
-      ref: productionsStore.region,
+      ref: region,
     });
 
     useRouteQueryBinded('organization', {
       type: 'string',
-      ref: productionsStore.organization,
+      ref: organization,
     });
 
     useRouteQueryBinded('searchQuery', {
       type: 'string',
-      ref: productionsStore.searchQuery,
+      ref: searchQuery,
     });
 
     watch(
       [
         productionsStore.pageNumber,
         productionsStore.pageSize,
-        productionsStore.searchQuery,
+        searchQuery,
         sectionId,
-        productionsStore.region,
-        productionsStore.organization,
+        region,
+        organization,
       ],
       ([pageNumber, pageSize, query, catalogSectionId, reg, org]) => {
         // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
         const request: IproductionsPageRequest = {
           name: isNullOrEmpty(query) ? null : query,
-          catalogSectionId,
+          catalogSectionId: catalogSectionId ?? undefined,
           pageNumber,
           pageSize,
           producerName: org ?? null,
@@ -121,19 +122,17 @@ export default defineComponent({
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
-    const { region: regionModel, organization: organizationModel } = productionsStore;
-
     const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
 
     return {
       sectionId,
-      search: productionsStore.searchQuery,
+      search: searchQuery,
       productsContainerRef,
       productsContainerSize,
       viewMode,
       switchViewMode,
-      regionModel,
-      organizationModel,
+      regionModel: region,
+      organizationModel: organization,
       regionOptions,
       organizationOptions,
     };

@@ -2,29 +2,27 @@
   <app-page title="Каталог товаров">
     <template #subheader> </template>
     <div class="grid mt-1">
-      <div class="col-6">
-        <dropdown
-          v-model="regionModel"
-          :options="regionOptions"
-          show-clear
-          placeholder="Регион"
-          :style="{ width: '100%' }"
-        />
+      <div v-if="showFilters" class="col-3 gap-2 flex flex-column">
+        <div>
+          <dropdown
+            v-model="regionModel"
+            :options="regionOptions"
+            show-clear
+            placeholder="Регион"
+            :style="{ width: '100%' }"
+          />
+        </div>
+        <div>
+          <dropdown
+            show-clear
+            v-model="organizationModel"
+            :options="organizationOptions"
+            placeholder="Производитель"
+            :style="{ width: '100%' }"
+          />
+        </div>
       </div>
-      <div class="col-6">
-        <dropdown
-          show-clear
-          v-model="organizationModel"
-          :options="organizationOptions"
-          placeholder="Производитель"
-          :style="{ width: '100%' }"
-        />
-      </div>
-
-      <div class="col-3">
-        <sections-container v-model:selected="sectionId"></sections-container>
-      </div>
-      <div ref="productsContainerRef" class="col-9">
+      <div ref="productsContainerRef" :class="{ 'col-9': showFilters, 'col-12': !showFilters }">
         <products-viewer />
       </div>
     </div>
@@ -103,6 +101,7 @@ export default defineComponent({
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
     const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+    const { showFilters } = catalogFiltersStore;
 
     return {
       sectionId,
@@ -115,6 +114,7 @@ export default defineComponent({
       organizationModel: organization,
       regionOptions,
       organizationOptions,
+      showFilters,
     };
   },
 });

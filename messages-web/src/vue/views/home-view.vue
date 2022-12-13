@@ -4,6 +4,16 @@
     <transition-fade>
       <div v-if="showFilters" class="absolute w-full z-1">
         <card class="shadow-7">
+          <template #title>
+            <div class="flex flex-row justify-content-end">
+              <prime-button
+                class="p-button-sm p-button-text text-color"
+                icon="pi pi-times"
+                label="Сбросить"
+                @click="showFilters = false"
+              ></prime-button>
+            </div>
+          </template>
           <template #content>
             <div class="grid">
               <div class="col-4">
@@ -165,7 +175,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
 import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
 import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
@@ -197,7 +207,16 @@ export default defineComponent({
       shoppingCartStore.getDataAsync();
     });
     const hasPhoto = ref(false);
-    const sectionModel = ref();
+    const sectionModel = ref<{ label: string; value: number }>();
+    watch(
+      sectionModel,
+      (sm) => {
+        catalogFiltersStore.sectionId.value = sm?.value ?? null;
+      },
+      {
+        immediate: true,
+      },
+    );
     const regionModel = ref();
     const organizationModel = ref();
     const searchQuery = ref<string>();

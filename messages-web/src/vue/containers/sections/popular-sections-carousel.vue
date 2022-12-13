@@ -22,6 +22,7 @@
             <product-image
               :id="slotProps.data.documentId"
               :max-height="162"
+              :min-height="162"
               :min-width="160"
               :fit-width="true"
               :header-text="slotProps.data.name"
@@ -68,7 +69,7 @@ export default defineComponent({
       },
     ];
     const router = useRouter();
-    const scaleKoef = ref(1.089);
+    const scaleKoef = ref(1.0835);
     const carouselStyle = computed<CSSProperties>(() => ({
       transform: screenLarge.value ? `scale(${scaleKoef.value},${scaleKoef.value})` : undefined,
     }));

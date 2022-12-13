@@ -46,7 +46,7 @@ const selectedItem = computeState((state) => state.selectedItem);
 
 const selectedItemMode = getter('selected-item--mode', (state) => state.selectedItem?.mode ?? null);
 
-const parentSectionId = computeState((state) => state.sectionId);
+const sectionId = computeState((state) => state.sectionId);
 
 const region = computeState((state) => state.region);
 
@@ -78,7 +78,7 @@ export const productionsStore = {
   pageNumber,
   pageSize,
   pages,
-  parentSectionId,
+  sectionId,
   searchQuery,
   region,
   organization,

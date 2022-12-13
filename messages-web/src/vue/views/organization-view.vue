@@ -70,7 +70,6 @@
 </template>
 
 <script lang="ts">
-import { IQueryOtions } from '@/app/core/services/harlem/custom-stores/composables/@types/IQueryOptions';
 import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
 import { defineComponent, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -83,19 +82,14 @@ interface IKeyValue {
 export default defineComponent({
   setup() {
     const route = useRoute();
-    const item = organizationFullStore.itemSmart();
+    const item = organizationFullStore.organization;
     watch(
       () => route.params.id as string | undefined,
       (id) => {
         if (id == null || id === '' || id.trim() === '') {
           return;
         }
-        organizationFullStore.getDataAsync({
-          force: true,
-          arguments: {
-            id,
-          },
-        } as IQueryOtions);
+        organizationFullStore.getDataAsync(+id);
       },
       {
         immediate: true,
@@ -113,23 +107,23 @@ export default defineComponent({
 
     const models = computed(() => ({
       mainInfo: {
-        name: item.value.name,
-        statusText: item.value.statusText,
-        region: item.value.region,
-        lastModified: getDateStr(item.value.lastModified),
+        name: item.value?.name,
+        statusText: item.value?.statusText,
+        region: item.value?.region,
+        lastModified: getDateStr(item.value?.lastModified),
       },
       regData: [
-        { key: 'Полное наименование', value: item.value.fullName },
-        { key: 'ОГРН', value: item.value.ogrn },
-        { key: 'ИНН', value: item.value.inn },
-        { key: 'КПП', value: item.value.kpp },
-        { key: 'ОКВЕД', value: item.value.okved },
-        { key: 'ОКВЕД 2', value: item.value.okved2 },
+        { key: 'Полное наименование', value: item.value?.fullName },
+        { key: 'ОГРН', value: item.value?.ogrn },
+        { key: 'ИНН', value: item.value?.inn },
+        { key: 'КПП', value: item.value?.kpp },
+        { key: 'ОКВЕД', value: item.value?.okved },
+        { key: 'ОКВЕД 2', value: item.value?.okved2 },
       ] as IKeyValue[],
       contacts: [
-        { key: 'Город', value: item.value.city },
-        { key: 'Адрес', value: item.value.address },
-        { key: 'Сайт', value: item.value.site },
+        { key: 'Город', value: item.value?.city },
+        { key: 'Адрес', value: item.value?.address },
+        { key: 'Сайт', value: item.value?.site },
       ] as IKeyValue[],
     }));
 

@@ -42,7 +42,7 @@
       </div>
 
       <div class="col-3">
-        <sections-container v-model:selected="parentSectionId"></sections-container>
+        <sections-container v-model:selected="sectionId"></sections-container>
       </div>
       <div ref="productsContainerRef" class="col-9">
         <products-viewer />
@@ -55,7 +55,6 @@
 import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
-import { sectionsStore } from '@/app/sections/state/sections.store';
 import { useElementSize } from '@vueuse/core';
 import { defineComponent, ref, watch } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
@@ -66,6 +65,7 @@ import { viewModeProvider } from './providers/view-mode.provider';
 export default defineComponent({
   setup() {
     const viewMode = viewModeProvider.provide();
+    const { sectionId } = productionsStore;
 
     const switchViewMode = () => {
       viewMode.value = viewMode.value === 'user' ? 'admin' : 'user';
@@ -73,7 +73,7 @@ export default defineComponent({
 
     useRouteQueryBinded('sectionId', {
       type: 'number',
-      ref: productionsStore.parentSectionId,
+      ref: sectionId,
     });
 
     useRouteQueryBinded('region', {
@@ -96,7 +96,7 @@ export default defineComponent({
         productionsStore.pageNumber,
         productionsStore.pageSize,
         productionsStore.searchQuery,
-        productionsStore.parentSectionId,
+        sectionId,
         productionsStore.region,
         productionsStore.organization,
       ],
@@ -118,7 +118,6 @@ export default defineComponent({
       },
     );
 
-    const { parentSectionId } = productionsStore;
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);
 
@@ -127,8 +126,7 @@ export default defineComponent({
     const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
 
     return {
-      sectionsStore,
-      parentSectionId,
+      sectionId,
       search: productionsStore.searchQuery,
       productsContainerRef,
       productsContainerSize,

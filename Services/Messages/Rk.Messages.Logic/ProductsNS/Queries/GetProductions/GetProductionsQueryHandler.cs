@@ -17,7 +17,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
     /// <summary>
     /// Обработчик возвращающий всю продукцию по критериям поиска
     /// </summary>
-    public class GetProductionsQueryHandler : IRequestHandler<GetProductsQuery, PagedResponse<ProductShortDto>>
+    public class GetProductionsQueryHandler : IRequestHandler<GetProductionsQuery, PagedResponse<ProductShortDto>>
     {
         private readonly IAppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
 
 
 
-        public async Task<PagedResponse<ProductShortDto>> Handle(GetProductsQuery query, CancellationToken cancellationToken)
+        public async Task<PagedResponse<ProductShortDto>> Handle(GetProductionsQuery query, CancellationToken cancellationToken)
         {
 
             var request = query.Request;
@@ -119,6 +119,14 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
                     break;
                 case OrderByProduct.ProducerByDesc:
                     productsQuery = productsQuery.OrderByDescending(product => product.Organization.Name);
+                    break;
+                case OrderByProduct.RatingByAsc:
+                    {                    
+                    productsQuery = productsQuery.OrderBy(product => product.Rating ?? -1);
+                    }
+                    break;
+                case OrderByProduct.RatingByDesc:
+                    productsQuery = productsQuery.OrderByDescending(product => product.Rating ?? -1);
                     break;
 
                 default:

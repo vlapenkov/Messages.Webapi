@@ -22,12 +22,20 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
         public string City { get; set; }
                 
         public string Address { get; set; }
-                
+
+        public string FactAddress { get; set; }
+
+        public string PostAddress { get; set; }
+
         public string Site { get; set; }
 
         public string Okved { get; set; }
 
         public string Okved2 { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
 
         public double? Latitude { get; set; }
 
@@ -38,6 +46,14 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
 
         /// <summary>Признак организации- покупателя</summary>
         public bool IsBuyer { get; set; }
+
+        public string BankName { get; set; }
+
+        public string Account { get; set; }
+
+        public string CorrAccount { get; set; }
+
+        public string Bik { get; set; }
 
     }
 }

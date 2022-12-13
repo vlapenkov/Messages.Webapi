@@ -5,17 +5,44 @@
       <card class="add-organization-inner-card">
         <template #content>
           <div>
+            <h2 class="mt-0">Тип профиля</h2>
+            <div class="w-full h-full grid">
+              <div class="col-4">
+                <div class="h-full w-full flex flex-row align-items-center">
+                  <div class="field">
+                    <checkbox inputId="isProducer" :binary="true" v-model="formState.isProducer" />
+                    <label for="isProducer" class="text-600 m-0 ml-2">Продавец</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="h-full w-full flex flex-row align-items-center">
+                  <div class="field">
+                    <checkbox inputId="isBuyer" :binary="true" v-model="formState.isBuyer" />
+                    <label for="isBuyer" class="text-600 m-0 ml-2">Покупатель</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="h-full w-full flex flex-row align-items-center">
+                  <div class="field">
+                    <label for="status" class="text-600">Статус</label>
+                    <dropdown
+                      id="status"
+                      :options="statusOptions"
+                      class="w-full p-component rk-dropdown"
+                      v-model="formState.statusText"
+                      :disabled="!isEditable"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <prime-divider class="mt-5 mb-5"></prime-divider>
+          <div>
             <h2 class="mt-0">1. Общие сведения об организации</h2>
             <div class="w-full h-full grid">
-              <div class="col-4 field">
-                <label for="full-name" class="text-600">Полное наименование</label>
-                <input-text
-                  id="full-name"
-                  type="text"
-                  class="w-full p-inputtext-sm rk-input"
-                  v-model="formState.fullName"
-                />
-              </div>
               <div class="col-4 field">
                 <label for="ogrn" class="text-600">ОГРН</label>
                 <input-text
@@ -25,16 +52,16 @@
                   v-model="formState.ogrn"
                 />
               </div>
-              <div class="col-4"></div>
               <div class="col-4 field">
-                <label for="short-name" class="text-600">Сокращенное наименование</label>
+                <label for="full-name" class="text-600">Полное наименование</label>
                 <input-text
-                  id="short-name"
+                  id="full-name"
                   type="text"
                   class="w-full p-inputtext-sm rk-input"
-                  v-model="formState.name"
+                  v-model="formState.fullName"
                 />
               </div>
+              <div class="col-4"></div>
               <div class="col-4 field">
                 <label for="kpp" class="text-600">КПП</label>
                 <input-text
@@ -44,18 +71,16 @@
                   v-model="formState.kpp"
                 />
               </div>
-              <div class="col-4"></div>
               <div class="col-4 field">
-                <label for="status" class="text-600">Статус</label>
-                <dropdown
-                  id="status"
-                  :options="statusOptions"
-                  class="w-full p-component rk-dropdown"
-                  :style="{ height: '42px' }"
-                  v-model="formState.statusText"
-                  :disabled="!isEditable"
+                <label for="short-name" class="text-600">Сокращенное наименование</label>
+                <input-text
+                  id="short-name"
+                  type="text"
+                  class="w-full p-inputtext-sm rk-input"
+                  v-model="formState.name"
                 />
               </div>
+              <div class="col-4"></div>
               <div class="col-4 field">
                 <label for="inn" class="text-600">ИНН</label>
                 <input-text
@@ -65,7 +90,7 @@
                   v-model="formState.inn"
                 />
               </div>
-              <div class="col-4"></div>
+              <div class="col-8"></div>
             </div>
             <h3 class="mt-4">Отрасль</h3>
             <div class="w-full h-full grid">

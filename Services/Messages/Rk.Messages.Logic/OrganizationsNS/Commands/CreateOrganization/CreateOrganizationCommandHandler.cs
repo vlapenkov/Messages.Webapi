@@ -58,6 +58,13 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
 
             organization.SetBuyer(request.IsBuyer);
 
+            if (organization.BankName!=null)
+            organization.SetAccountParameters(request.BankName, request.Account, request.CorrAccount,request.Bik);
+
+            if (request.FactAddress != null) organization.SetFactAddress(request.FactAddress);
+            
+            if (request.Document!=null) organization.SetDocumentId(request.Document.FileId);
+
             _dbContext.Organizations.Add(organization);
 
             await _dbContext.SaveChangesAsync(cancellationToken);

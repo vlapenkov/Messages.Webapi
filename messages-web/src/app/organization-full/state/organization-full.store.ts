@@ -2,7 +2,6 @@ import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { Creation, Edititng, NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
-import { onMounted } from 'vue';
 import { organizationHttpService } from '../infrastructure/organozation-full.http-service';
 import { OrganizationFullModel } from '../models/organozation-full.model';
 import { OrganizationFullState } from './organization-full.state';
@@ -38,15 +37,6 @@ const getDataAsync = action<number>('get-data-async', async (id) => {
     status.value = new DataStatus('error', 'Что-то пошло не так при получении данных организации');
   }
 });
-
-const useOrganization = (id: number) => {
-  onMounted(() => {
-    if (organization.value?.id !== id) {
-      getDataAsync(id);
-    }
-  });
-  return organization;
-};
 
 const createItem = mutation('create-item', (state) => {
   state.itemSelected = new Creation(new OrganizationFullModel());
@@ -91,7 +81,6 @@ const saveChanges = action('save-changes', async () => {
 
 export const organizationFullStore = {
   status,
-  useOrganization,
   organization,
   organizationSelected,
   getDataAsync,

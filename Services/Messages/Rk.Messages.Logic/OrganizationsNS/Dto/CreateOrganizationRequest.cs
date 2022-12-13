@@ -22,9 +22,7 @@
 
         public string Address { get; set; }
 
-        public string FactAddress { get; set; }
-
-        public string PostAddress { get; set; }
+        public string FactAddress { get; set; }       
 
         public string Site { get; set; }
 

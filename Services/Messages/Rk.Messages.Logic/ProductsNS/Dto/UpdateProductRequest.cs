@@ -23,6 +23,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string Address { get; set; }
 
+        public string Article { get; set; }
+
         /// <summary>Значения атрибутов</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
 

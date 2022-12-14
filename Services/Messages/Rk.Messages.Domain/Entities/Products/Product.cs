@@ -35,6 +35,9 @@ namespace Rk.Messages.Domain.Entities.Products
         [StringLength(256)]
         public string CodeOkpd2 { get; private set; }
 
+        [StringLength(1024)]
+        public string Article { get; private set; }
+
         /// <summary>Адрес производства</summary>
         [StringLength(4096)]
         public string Address { get; private set; }
@@ -107,6 +110,12 @@ namespace Rk.Messages.Domain.Entities.Products
         public Product SetAddress(string address)
         {
             Address = address;
+            return this;
+        }
+
+        public Product SetArticle(string article)
+        {
+            Article = article;
             return this;
         }
 

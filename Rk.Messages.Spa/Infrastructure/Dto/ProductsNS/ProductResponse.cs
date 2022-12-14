@@ -22,6 +22,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Address { get; set; }
 
+        public string Article { get; set; }
+
         public decimal? Price { get; set; }     
 
         public string MeasuringUnit { get; set; }

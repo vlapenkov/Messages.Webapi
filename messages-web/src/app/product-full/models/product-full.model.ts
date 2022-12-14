@@ -32,6 +32,10 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   @description('Код товара')
   codeTnVed = '';
 
+  codeOkpd2 = '';
+
+  address = '';
+
   @description('Цена')
   price = 0;
 
@@ -120,12 +124,8 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
       this.status === mb.status &&
       this.attributeValues.length === mb.attributeValues.length &&
       this.attributeValues.every((item, index) => {
-        const { attributeId, baseProductId, value } = mb.attributeValues[index];
-        return (
-          item.attributeId === attributeId &&
-          item.baseProductId === baseProductId &&
-          item.value === value
-        );
+        const { attributeId, value } = mb.attributeValues[index];
+        return item.attributeId === attributeId && item.value === value;
       }) &&
       this.documents.length === mb.documents.length &&
       this.documents.every((item, index) => {

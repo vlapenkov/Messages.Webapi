@@ -1,15 +1,15 @@
-import { defineSingleHttpService } from '@/app/core/services/http/custom/single.http-service';
+import { defineHttpService } from '@/app/core/services/http/define-http.service';
 import { IProductFullModel } from '../@types/IProductFullModel';
 
-const [productFullService, { defineGet, definePost }] = defineSingleHttpService<IProductFullModel>({
+const { defineGet, definePost, definePut } = defineHttpService<IProductFullModel>({
   url: 'api/Products',
 });
 
-productFullService.get = defineGet((arg: { id: number }) => ({
-  url: `/${arg.id}`,
+const get = defineGet<IProductFullModel, number>((id) => ({
+  url: `/${id}`,
 }));
 
-productFullService.post = definePost((md: IProductFullModel) => ({
+const post = definePost<number, IProductFullModel>((md) => ({
   bodyOrParams: {
     catalogSectionId: md.catalogSectionId,
     name: md.name,
@@ -22,4 +22,25 @@ productFullService.post = definePost((md: IProductFullModel) => ({
   },
 }));
 
-export { productFullService };
+export interface IProductPutModel {
+  id: number;
+  catalogSectionId: number;
+  name: string;
+  fullName: string;
+  description: string;
+  price: number;
+  codeTnVed: string;
+  codeOkpd2: string;
+  address: string;
+  attributeValues: {
+    attributeId: number;
+    value: string;
+  }[];
+}
+
+export const put = definePut<void, IProductPutModel>(({ id, ...rest }) => ({
+  bodyOrParams: { ...rest },
+  url: `/${id}`,
+}));
+
+export const productFullService = { get, post, put };

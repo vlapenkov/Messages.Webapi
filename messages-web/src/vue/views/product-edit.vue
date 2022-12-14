@@ -2,71 +2,92 @@
 <template>
   <app-page :title="pageTitle">
     <toast position="top-right" group="tr" />
-    <card class="" id="main-card">
+    <card class="shadow-none" id="main-card">
       <template #content>
         <tab-view ref="tabview1">
-          <tab-panel header="Продукт">
-            <loading-status-handler>
-              <div class="grid p-fluid mt-2">
-                <!-- строка 1 -->
-                <div class="field col-12 md:col-3">
-                  <span class="p-float-label">
-                    <input-text id="productName" type="text" v-model="models.name.value" />
-                    <label for="productName">Короткое наименование товара</label>
-                  </span>
+          <tab-panel header="Описание">
+            <div class="grid p-fluid mt-2">
+              <div class="col-12 md:col-4">
+                <div class="grid p-fluid">
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <input-text id="productName" type="text" v-model="models.name.value" />
+                      <label for="productName">Краткое наименование товара</label>
+                    </span>
+                  </div>
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <prime-textarea
+                        id="productDescr"
+                        auto-resize
+                        type="text"
+                        v-model="models.description.value"
+                      />
+                      <label for="productDescr">Описание товара</label>
+                    </span>
+                  </div>
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <dropdown
+                        id="categoryId"
+                        v-model="models.categoryId.value"
+                        :options="sectionsCollection"
+                        optionLabel="name"
+                        optionValue="id"
+                      />
+                      <label for="categoryId">Категория</label>
+                    </span>
+                  </div>
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <input-text id="codeTnVed" type="text" v-model="models.codeTnVed.value" />
+                      <label for="codeTnVed">Код товара</label>
+                    </span>
+                  </div>
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <input-text id="country" type="text" v-model="models.country.value" />
+                      <label for="country">Страна производства</label>
+                    </span>
+                  </div>
                 </div>
-                <div class="field col-12 md:col-9">
-                  <span class="p-float-label">
-                    <input-text id="fullName" type="text" v-model="models.fullName.value" />
-                    <label for="fullName">Полное наименование товара</label>
-                  </span>
+              </div>
+              <div class="col-12 md:col-4">
+                <div class="grid p-fluid">
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <prime-textarea
+                        auto-resize
+                        id="fullName"
+                        type="text"
+                        v-model="models.fullName.value"
+                      />
+                      <label for="fullName">Полное наименование товара</label>
+                    </span>
+                  </div>
+
+                  <div class="field col-12">
+                    <span class="p-float-label p-input-icon-right">
+                      <i class="pi pi-money-bill" />
+                      <input-number
+                        id="price"
+                        mode="decimal"
+                        :minFractionDigits="2"
+                        :maxFractionDigits="10"
+                        v-model="models.price.value"
+                      />
+                      <label for="price">Цена, руб</label>
+                    </span>
+                  </div>
+                  <div class="field col-12">
+                    <span class="p-float-label">
+                      <input-text id="measuring" type="text" v-model="models.measuringUnit.value" />
+                      <label for="measuring">Единицы измерения</label>
+                    </span>
+                  </div>
                 </div>
-                <!-- строка 2 -->
-                <!-- строка 3 -->
-                <div class="field col-12 md:col-4">
-                  <span class="p-float-label">
-                    <dropdown
-                      id="categoryId"
-                      v-model="models.categoryId.value"
-                      :options="sectionsCollection"
-                      optionLabel="name"
-                      optionValue="id"
-                    />
-                    <label for="categoryId">Категория</label>
-                  </span>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <span class="p-float-label">
-                    <input-text id="codeTnVed" type="text" v-model="models.codeTnVed.value" />
-                    <label for="codeTnVed">Код товара</label>
-                  </span>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <span class="p-float-label p-input-icon-right">
-                    <i class="pi pi-money-bill" />
-                    <input-number
-                      id="price"
-                      mode="decimal"
-                      :minFractionDigits="2"
-                      :maxFractionDigits="10"
-                      v-model="models.price.value"
-                    />
-                    <label for="price">Цена, руб</label>
-                  </span>
-                </div>
-                <!-- строка 4 -->
-                <div class="field col-12 md:col-4">
-                  <span class="p-float-label">
-                    <input-text id="measuring" type="text" v-model="models.measuringUnit.value" />
-                    <label for="measuring">Единицы измерения</label>
-                  </span>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <span class="p-float-label">
-                    <input-text id="country" type="text" v-model="models.country.value" />
-                    <label for="country">Страна производства</label>
-                  </span>
-                </div>
+              </div>
+              <div class="col-12 md:col-4">
                 <div class="field col-12 md:col-4">
                   <label class="font mb-1">Изображение продукта</label>
                   <div>
@@ -91,31 +112,10 @@
                     </div>
                   </div>
                 </div>
-                <!-- строка 5 -->
-                <div class="field col-12">
-                  <span class="p-float-label">
-                    <prime-textarea
-                      id="productDescr"
-                      auto-resize
-                      type="text"
-                      v-model="models.description.value"
-                    />
-                    <label for="productDescr">Описание товара</label>
-                  </span>
-                </div>
-                <!-- строка 5 -->
-                <div class="field col-12">
-                  <prime-button
-                    label="Сохранить"
-                    @click="createProduct"
-                    v-if="isNew"
-                  ></prime-button>
-                  <!-- <prime-button label="Сохранить" @click="saveChanges" v-if="!isNew"></prime-button> -->
-                </div>
               </div>
-            </loading-status-handler>
+            </div>
           </tab-panel>
-          <tab-panel header="Технические характеристики" v-if="!isNew">
+          <tab-panel header="Технические характеристики">
             <ul>
               <li v-for="attr in attributesCollection" :key="attr.attributeId">
                 <div class="grid p-fluid mt-2">
@@ -161,6 +161,15 @@
           </tab-panel>
         </tab-view>
       </template>
+      <template #footer>
+        <div class="flex flex-row justify-content-end">
+          <prime-button
+            :label="mode === 'create' ? 'Создать товар' : 'Сохранить изменения'"
+            @click="createProduct"
+            v-if="isNew"
+          ></prime-button>
+        </div>
+      </template>
     </card>
   </app-page>
 </template>
@@ -170,45 +179,70 @@ import { ProductFullModel } from '@/app/product-full/models/product-full.model';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { PrimeTextarea } from '@/tools/prime-vue-components';
 import { useBase64 } from '@vueuse/core';
-import { defineComponent, computed, watch, ref, Ref, WritableComputedRef, onMounted } from 'vue';
+import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { productFullService } from '@/app/product-full/infrastructure/product-full.http-service';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { attributeStore } from '@/app/attributes/state/attribute.store';
-import { AttributeModel } from '@/app/attributes/models/AttributeModel';
 import { http } from '@/app/core/services/http/axios/axios.service';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 import { useSections } from '@/composables/sections.composable';
-import { CollectionStoreMixed } from '../base/presentational/state/collection/collection-state.vue';
+import { useRoute } from 'vue-router';
+import { DataMode } from '@/app/core/services/harlem/tools/not-valid-data';
+import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { loadingStatusProvider } from '../base/presentational/state/collection/providers/loading-status.provider';
 
 export default defineComponent({
   components: { PrimeTextarea, Toast },
   setup() {
     const toast = useToast();
-    if (productFullStore.itemSelected == null) {
-      throw new Error('Что-то не так с состоянием редактируемого товара');
-    }
+    const route = useRoute();
 
-    const attributes = attributeStore as CollectionStoreMixed;
-    if (attributes.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const attributeDefs = attributes.items({ force: true }) as WritableComputedRef<
-      AttributeModel[]
-    >;
+    const metaStatus = computed(() => route.meta.mode as DataMode | undefined);
+
+    watch(
+      () => route.params.id as string | undefined,
+      (id) => {
+        if (metaStatus.value !== 'edit' || id == null) {
+          return;
+        }
+        productFullStore.getAsync(+id).then(() => {
+          productFullStore.startEditing();
+        });
+      },
+      {
+        immediate: true,
+      },
+    );
+
+    watch(
+      metaStatus,
+      (mst) => {
+        if (mst === 'create') {
+          productFullStore.startCreation();
+          productFullStore.status.value = new DataStatus('loaded');
+        }
+      },
+      {
+        immediate: true,
+      },
+    );
+
+    const attributes = attributeStore;
+
+    const attributeDefs = attributes.items;
     loadingStatusProvider.provideFrom(() => productFullStore.status);
     const { list: sectionsCollection } = useSections();
 
     const mode = computed({
-      get: () => productFullStore.itemSelected?.value?.mode,
+      get: () => productFullStore.selected?.value?.mode,
       set: (val) => {
-        if (productFullStore.itemSelected?.value == null || val == null) {
+        if (productFullStore.selected?.value == null || val == null) {
           return;
         }
-        productFullStore.itemSelected.value = {
-          data: productFullStore.itemSelected.value.data,
+        productFullStore.selected.value = {
+          data: productFullStore.selected.value.data,
           mode: val,
         };
       },
@@ -218,21 +252,21 @@ export default defineComponent({
 
     onMounted(() => {
       attributesCollection.value =
-        productFullStore.itemSelected?.value?.data?.attributeValues.map((x) => ({
+        productFullStore.selected?.value?.data?.attributeValues.map((x) => ({
           attributeId: x.attributeId,
           value: x.value,
         })) ?? [];
     });
 
     const selectedData = computed({
-      get: () => productFullStore.itemSelected?.value?.data ?? null,
+      get: () => productFullStore.selected?.value?.data ?? null,
       set: (val) => {
-        if (val == null || productFullStore.itemSelected?.value == null) {
+        if (val == null || productFullStore.selected?.value == null) {
           return;
         }
-        productFullStore.itemSelected.value = {
+        productFullStore.selected.value = {
           data: val,
-          mode: productFullStore.itemSelected.value.mode,
+          mode: productFullStore.selected.value.mode,
         };
       },
     });
@@ -290,10 +324,8 @@ export default defineComponent({
     };
 
     const createProduct = async () => {
-      if (productFullStore.itemSelected?.value == null) return; // || productFullStore.saveChanges == null
-      // await productFullStore.saveChanges();
-      // mode.value = 'edit';
-      const request = productFullStore.itemSelected?.value.data.toRequest();
+      if (productFullStore.selected?.value == null) return;
+      const request = productFullStore.selected?.value.data.toRequest();
       const result = await productFullService.post(request);
       if (result.status === HttpStatus.Success) {
         mode.value = 'edit';
@@ -307,8 +339,8 @@ export default defineComponent({
     };
 
     const saveChanges = async () => {
-      if (productFullStore.itemSelected?.value == null) return;
-      const request = productFullStore.itemSelected?.value.data.toRequest();
+      if (productFullStore.selected?.value == null) return;
+      const request = productFullStore.selected?.value.data.toRequest();
       await productFullService.put(request);
     };
 
@@ -380,6 +412,8 @@ export default defineComponent({
     };
 
     return {
+      status: productFullStore.status,
+      mode,
       getModelFor,
       createProduct,
       onFileInput,

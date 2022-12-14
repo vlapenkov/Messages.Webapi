@@ -7,6 +7,8 @@ export interface IProductFullModel extends IModel {
   catalogSectionId: number;
   description: string;
   codeTnVed: string;
+  codeOkpd2: string;
+  address: string;
   price: number;
   measuringUnit: string;
   country: string;
@@ -14,7 +16,6 @@ export interface IProductFullModel extends IModel {
   status: number;
   statusText: string;
   attributeValues: {
-    baseProductId: number;
     attributeId: number;
     value: string;
   }[];

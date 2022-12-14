@@ -33,7 +33,7 @@ export default defineComponent({
     //   userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
     // );
 
-    const orgs: { [key: string]: string } = {
+    const orgs: Record<string, string> = {
       '5907001774': 'НПО «ИСКРА»',
       '6312139922': 'Прогресс',
       '7404052938': 'Златоустовский машиностроительный завод',
@@ -61,6 +61,16 @@ export default defineComponent({
         icon: 'pi pi-th-large',
       },
       {
+        label: 'Мои товары',
+        to: { name: 'products' },
+        icon: 'pi pi-bars',
+      },
+      {
+        label: 'Управление категориями',
+        to: { name: 'categories' },
+        icon: 'pi pi-book',
+      },
+      {
         label: `Корзина${
           shoppingCartStore.totalQuantity.value > 0
             ? ` (${shoppingCartStore.totalQuantity.value})`
@@ -78,7 +88,7 @@ export default defineComponent({
       {
         label: 'Отчеты',
         to: { name: 'reports' },
-        icon: 'pi pi-th-large',
+        icon: 'pi pi-chart-bar',
       },
       {
         label: 'Выход',

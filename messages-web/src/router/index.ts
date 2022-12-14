@@ -16,6 +16,12 @@ const routes: Array<RouteRecordRaw> = [
         name: 'catalog',
         component: () => import(/* webpackChunkName: "sections" */ '../vue/views/catalog-view.vue'),
       },
+      {
+        path: '/products',
+        name: 'products',
+        component: () =>
+          import(/* webpackChunkName: "sections" */ '../vue/views/products-view.vue'),
+      },
     ],
   },
   {
@@ -30,10 +36,24 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/*  webpackChunkName: "product" */ '../vue/views/product-view.vue'),
   },
   {
-    path: '/edit-product',
+    path: '/edit-product/:id?',
     name: 'edit-product',
     component: () =>
       import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: { mode: 'edit' },
+  },
+  {
+    path: '/create-product',
+    name: 'create-product',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: { mode: 'create' },
+  },
+  {
+    path: '/categories',
+    name: 'categories',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/categories-view.vue'),
   },
   {
     path: '/orders',

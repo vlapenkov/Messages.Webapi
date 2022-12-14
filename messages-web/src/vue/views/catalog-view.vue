@@ -47,16 +47,10 @@ import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
-import { viewModeProvider } from './providers/view-mode.provider';
 
 export default defineComponent({
   setup() {
-    const viewMode = viewModeProvider.provide();
     const { sectionId, region, organization, searchQuery } = catalogFiltersStore;
-
-    const switchViewMode = () => {
-      viewMode.value = viewMode.value === 'user' ? 'admin' : 'user';
-    };
 
     useRouteQueryBinded('sectionId', {
       type: 'number',
@@ -118,8 +112,6 @@ export default defineComponent({
       search: searchQuery,
       productsContainerRef,
       productsContainerSize,
-      viewMode,
-      switchViewMode,
       regionModel: region,
       organizationModel: organization,
       regionOptions,

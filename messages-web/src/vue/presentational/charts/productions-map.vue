@@ -35,7 +35,7 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const option = ref<any>(undefined);
     const tooltipHtmlTemplate = (org: OrganizationModel) => `
-      <div class="w-full">
+      <div class="w-full" style="max-height: 200px">
         <div><span style="font-weight: 600">${org.name}</span></div>
         <div class="mt-1"><span style="font-weight: 500">${org.region}</span></div>
         <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
@@ -52,6 +52,16 @@ export default defineComponent({
           borderColor: '#fff',
           triggerOn: 'click',
           padding: 15,
+          position: (
+            _point: unknown,
+            _params: unknown,
+            dom: HTMLElement,
+            _rect: unknown,
+            _size: unknown,
+          ) => {
+            dom.style.maxHeight = '250px';
+            dom.style.overflowY = 'auto';
+          },
         },
         geo: {
           map: 'russia',

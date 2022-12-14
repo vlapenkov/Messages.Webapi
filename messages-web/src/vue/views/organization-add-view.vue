@@ -11,7 +11,7 @@
                 <div class="col-3">
                   <div class="w-full flex flex-row justify-content-center align-items-center">
                     <img
-                      :src="organizationImage"
+                      :src="require('@/assets/images/upload_avatar.png')"
                       alt="Изображение профиля"
                       width="150"
                       height="150"
@@ -451,12 +451,8 @@ export default defineComponent({
     const organizationName = computed(() =>
       formState.name != null && formState.name !== '' ? formState.name : 'Название',
     );
-    const organizationImage = computed(() =>
-      file.value != null ? fileB64.value : '/images/upload_avatar.png',
-    );
 
     return {
-      organizationImage,
       organizationName,
       statusOptions,
       isModeration,

@@ -24,6 +24,7 @@ export interface IOrganizationFullModel extends IModel {
   account: string;
   corrAccount: string;
   bik: string;
+  documentId?: string;
   document?: {
     fileName: string;
     data: string;

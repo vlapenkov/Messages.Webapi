@@ -32,6 +32,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Currency { get; set; }
 
+        public float? Rating { get; set; }
+
         public string StatusText { get; set; }
 
         public string AvailableStatusText { get; set; }

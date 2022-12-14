@@ -63,13 +63,25 @@ namespace Rk.Messages.Domain.Entities.Products
         public float? Rating { get; protected set; } = 0f;
 
        
-
+        /// <summary>
+        /// Документы продукции
+        /// </summary>
         private readonly List<ProductDocument> _productDocuments = new List<ProductDocument>();
         public virtual IReadOnlyList<ProductDocument> ProductDocuments => _productDocuments;
 
 
+        /// <summary>
+        /// Значения атрибутов
+        /// </summary>
         private readonly List<AttributeValue> _attributeValues = new List<AttributeValue>();
         public virtual IReadOnlyCollection<AttributeValue> AttributeValues => _attributeValues;
+
+
+        /// <summary>
+        /// Отзывы
+        /// </summary>
+        private readonly List<Review> _reviews = new List<Review>();
+        public virtual IReadOnlyCollection<Review> Reviews => _reviews;
 
 
         /// <summary>
@@ -85,14 +97,24 @@ namespace Rk.Messages.Domain.Entities.Products
 
         /// <summary>
         /// Добавить информацию о файлах
-        /// </summary>
-        /// <param name="productFiles"></param>
+        /// </summary>        
         public void AddProductDocuments(IReadOnlyCollection<ProductDocument> productFiles) {
 
             _productDocuments.AddRange(productFiles);
         }
 
-       
+        /// <summary>
+        /// Добавить отзыв
+        /// </summary>        
+        public void AddReview(Review review)
+        {
+            _reviews.Add(review);
+            
+            Rating =  _reviews.Sum(x => x.Rating) / _reviews.Count;
+                        
+        }
+
+
 
         public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
 
@@ -101,7 +123,10 @@ namespace Rk.Messages.Domain.Entities.Products
             Status = newStatus;
         }
 
-        public  virtual void Update(long catalogSectionId, string name, string fullName, string description, decimal? price) {
+        /// <summary>
+        /// Обновить поля
+        /// </summary>
+        public virtual void Update(long catalogSectionId, string name, string fullName, string description, decimal? price) {
             
             CatalogSectionId = catalogSectionId;
             Name = name;

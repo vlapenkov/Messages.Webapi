@@ -9,22 +9,6 @@ const get = defineGet<IOrganizationFullModel, number>((id: number) => ({
   url: `/${id}`,
 }));
 
-// export interface IOrganizationFullPostModel {
-//   name: string;
-//   fullName: string;
-//   ogrn: string;
-//   inn: string;
-//   kpp: string;
-//   region: string;
-//   city: string;
-//   address: string;
-//   site: string;
-//   okved: string;
-//   okved2: string;
-//   latitude: number;
-//   longitude: number;
-// }
-
 const post = definePost<number, IOrganizationFullModel>();
 
 export const organizationHttpService = { get, post };

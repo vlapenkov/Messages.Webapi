@@ -23,17 +23,25 @@
           <template #content>
             <div>
               <div class="w-full h-full grid">
-                <div class="col-4">
-                  <img
-                    v-if="file != null"
-                    :src="fileB64"
-                    alt="Изображение профиля"
-                    class="h-full w-full"
-                  />
+                <div class="col-3">
+                  <div class="w-full flex flex-row justify-content-center align-items-center">
+                    <img
+                      :src="organizationImage"
+                      alt="Изображение профиля"
+                      width="150"
+                      height="150"
+                      :style="{
+                        objectFit: 'cover',
+                        borderRadius: '0.5rem',
+                      }"
+                    />
+                  </div>
                 </div>
-                <div class="col-4">
+                <div class="col-8 file-upload">
                   <div class="w-full flex flex-column">
-                    <span class="mb-3 p-component text-xl text-900">{{ organizationName }}</span>
+                    <span class="mb-3 p-component text-xl font-semibold text-900">{{
+                      organizationName
+                    }}</span>
                     <file-upload
                       mode="basic"
                       id="organization-img"
@@ -42,8 +50,8 @@
                       @input="onFileInput"
                       :auto="true"
                       :customUpload="true"
-                      chooseLabel="Изображение профиля"
-                      class="p-button-sm p-button-secondary file-upload"
+                      chooseLabel="Загрузить изображение"
+                      class="p-button-sm"
                     />
                   </div>
                 </div>
@@ -373,10 +381,6 @@ export default defineComponent({
       bik: '',
     });
 
-    const organizationName = computed(() =>
-      formState.name != null && formState.name !== '' ? formState.name : 'Название',
-    );
-
     const save = async () => {
       createItem();
       const item = new OrganizationFullModel();
@@ -393,7 +397,7 @@ export default defineComponent({
         return;
       }
       const doc = {
-        data: b64,
+        data: b64.replace(/(^data:image\/[a-z]+;base64,)/gi, ''),
         fileId: uuidv4(),
         fileName: file.value.name,
       };
@@ -408,7 +412,15 @@ export default defineComponent({
       [file.value] = files;
     };
 
+    const organizationName = computed(() =>
+      formState.name != null && formState.name !== '' ? formState.name : 'Название',
+    );
+    const organizationImage = computed(() =>
+      file.value != null ? fileB64.value : '/images/upload_avatar.png',
+    );
+
     return {
+      organizationImage,
       organizationName,
       statusOptions,
       titleDialog,
@@ -427,8 +439,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .file-upload {
-  background-color: #f4f7fb;
+  :deep(.p-fileupload-choose) {
+    background-color: #f4f7fb;
+    border-color: #f4f7fb;
+    color: var(--gray-600);
+
+    &:hover {
+      background-color: #f4f7fb;
+      border-color: #f4f7fb;
+      color: var(--gray-600);
+    }
+  }
 }
+
 .re-padding {
   .p-dialog-content {
     padding: 1rem;

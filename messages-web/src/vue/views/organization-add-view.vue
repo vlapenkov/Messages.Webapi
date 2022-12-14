@@ -2,22 +2,7 @@
 <template>
   <app-page title="Профиль организации">
     <div>
-      <prime-dialog
-        header="Ошибка добавления организации"
-        :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
-        :style="{ 'width': '50vw', 'max-width': '800px' }"
-        class="re-padding"
-        :draggable="false"
-        modal
-        v-model:visible="showDialog"
-      >
-        <div>
-          <div v-for="(e, i) in status.payload" :key="i" class="w-full flex flex-column mb-3">
-            <span class="w-full p-component text-lg">{{ e[0] }}</span>
-            <span class="w-full p-component text-base text-400">{{ e[1] }}</span>
-          </div>
-        </div>
-      </prime-dialog>
+      <toast position="top-right" group="tr" />
       <div class="flex flex-column">
         <card class="add-organization-inner-card">
           <template #content>
@@ -342,15 +327,15 @@ import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganiza
 import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
 import { OrganizationFullModel } from '@/app/organization-full/models/organozation-full.model';
 import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
-import { PrimeDialog } from '@/tools/prime-vue-components';
 import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
 
 export default defineComponent({
-  components: { PrimeDialog },
+  components: { Toast },
   setup() {
-    const showDialog = ref(false);
-    const titleDialog = ref('');
+    const toast = useToast();
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
     const isEditable = computed(() => organizationSelected.value?.mode === 'edit');
@@ -387,7 +372,21 @@ export default defineComponent({
       item.fromResponse(formState);
       updateSelectedItem(item);
       await saveChanges();
-      showDialog.value = status.value.status === 'error';
+
+      const errors = status.value.payload;
+      const firstErr = errors != null ? errors[0] : null;
+      const title = firstErr != null ? firstErr[0] : null;
+      const description = firstErr != null ? firstErr[1] : null;
+      const detail = `${title != null ? title : 'Что-то случилось при добавлении организации'}${
+        description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
+      }`;
+      toast.add({
+        severity: 'error',
+        group: 'tr',
+        summary: 'Ошибка',
+        detail,
+        life: 4000,
+      });
     };
 
     const file = ref() as Ref<File>;
@@ -423,8 +422,6 @@ export default defineComponent({
       organizationImage,
       organizationName,
       statusOptions,
-      titleDialog,
-      showDialog,
       isEditable,
       formState,
       fileB64,

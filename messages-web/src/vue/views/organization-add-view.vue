@@ -55,11 +55,17 @@
                           inputId="isProducer"
                           :binary="true"
                           v-model="formState.isProducer"
+                          :disabled="isModeration"
                         />
                         <label for="isProducer" class="text-800 m-0 ml-2">Продавец</label>
                       </div>
                       <div class="field">
-                        <checkbox inputId="isBuyer" :binary="true" v-model="formState.isBuyer" />
+                        <checkbox
+                          inputId="isBuyer"
+                          :binary="true"
+                          v-model="formState.isBuyer"
+                          :disabled="isModeration"
+                        />
                         <label for="isBuyer" class="text-800 m-0 ml-2">Покупатель</label>
                       </div>
                     </div>
@@ -74,7 +80,7 @@
                         :options="statusOptions"
                         class="w-full p-component rk-dropdown"
                         v-model="formState.statusText"
-                        :disabled="!isEditable"
+                        :disabled="!isModeration"
                       />
                     </div>
                   </div>
@@ -92,6 +98,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.ogrn"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4 field">
@@ -101,6 +108,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.fullName"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4"></div>
@@ -111,6 +119,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.kpp"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4 field">
@@ -120,6 +129,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.name"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4"></div>
@@ -130,6 +140,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.inn"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -143,6 +154,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.okved"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-3 field">
@@ -152,6 +164,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.okved2"
+                    :disabled="isModeration"
                   />
                 </div>
               </div>
@@ -167,6 +180,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.region"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4 field">
@@ -176,6 +190,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.city"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4"></div>
@@ -186,6 +201,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.address"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-3"></div>
@@ -196,6 +212,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.factAddress"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-3"></div>
@@ -214,6 +231,7 @@
                     :minFractionDigits="1"
                     :maxFractionDigits="12"
                     v-model="formState.latitude"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-3 field">
@@ -226,6 +244,7 @@
                     :minFractionDigits="1"
                     :maxFractionDigits="12"
                     v-model="formState.longitude"
+                    :disabled="isModeration"
                   />
                 </div>
               </div>
@@ -241,6 +260,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.bankName"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4 field">
@@ -250,6 +270,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.corrAccount"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4"></div>
@@ -260,6 +281,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.account"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4 field">
@@ -269,6 +291,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.bik"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-4"></div>
@@ -285,6 +308,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.phone"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -295,6 +319,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.email"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -305,6 +330,7 @@
                     type="text"
                     class="w-full rk-input p-inputtext-sm rk-input"
                     v-model="formState.site"
+                    :disabled="isModeration"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -337,7 +363,7 @@ export default defineComponent({
     const toast = useToast();
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
-    const isEditable = computed(() => organizationSelected.value?.mode === 'edit');
+    const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
     const statusOptions = ['Новая', 'Активна', 'Закрыта'];
     const formState = reactive<IOrganizationFullModel>({
       ogrn: '',
@@ -421,7 +447,7 @@ export default defineComponent({
       organizationImage,
       organizationName,
       statusOptions,
-      isEditable,
+      isModeration,
       formState,
       fileB64,
       status,
@@ -448,20 +474,6 @@ export default defineComponent({
   }
 }
 
-.re-padding {
-  .p-dialog-content {
-    padding: 1rem;
-    .p-card-body {
-      padding: 0;
-    }
-    .p-card-content {
-      padding-bottom: 0;
-    }
-  }
-  .p-dialog-header {
-    padding-bottom: 0;
-  }
-}
 .add-organization-inner-card {
   .field {
     display: block;

@@ -24,9 +24,9 @@
                 </div>
                 <div class="col-8 file-upload">
                   <div class="w-full flex flex-column">
-                    <span class="mb-3 p-component text-xl font-semibold text-900">{{
-                      organizationName
-                    }}</span>
+                    <span class="mb-3 p-component text-xl font-semibold text-900">
+                      {{ organizationName }}
+                    </span>
                     <file-upload
                       mode="basic"
                       id="organization-img"
@@ -44,29 +44,28 @@
             </div>
             <prime-divider class="mt-3 mb-5"></prime-divider>
             <div>
-              <h2 class="mt-0">Тип профиля</h2>
+              <h2 class="mt-0">1. Управление аккаунтом</h2>
               <div class="w-full h-full grid">
-                <div class="col-4">
-                  <div class="h-full w-full flex flex-row align-items-center">
-                    <div class="field">
-                      <checkbox
-                        inputId="isProducer"
-                        :binary="true"
-                        v-model="formState.isProducer"
-                      />
-                      <label for="isProducer" class="text-600 m-0 ml-2">Продавец</label>
+                <div class="col-6">
+                  <div class="h-full w-full flex flex-column">
+                    <span class="text-600">Тип профиля</span>
+                    <div class="h-full w-full flex flex-row align-items-center">
+                      <div class="field mr-5">
+                        <checkbox
+                          inputId="isProducer"
+                          :binary="true"
+                          v-model="formState.isProducer"
+                        />
+                        <label for="isProducer" class="text-800 m-0 ml-2">Продавец</label>
+                      </div>
+                      <div class="field">
+                        <checkbox inputId="isBuyer" :binary="true" v-model="formState.isBuyer" />
+                        <label for="isBuyer" class="text-800 m-0 ml-2">Покупатель</label>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
-                  <div class="h-full w-full flex flex-row align-items-center">
-                    <div class="field">
-                      <checkbox inputId="isBuyer" :binary="true" v-model="formState.isBuyer" />
-                      <label for="isBuyer" class="text-600 m-0 ml-2">Покупатель</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-4">
+                <div class="col-6">
                   <div class="h-full w-full flex flex-row align-items-center">
                     <div class="field">
                       <label for="status" class="text-600">Статус</label>
@@ -82,9 +81,9 @@
                 </div>
               </div>
             </div>
-            <prime-divider class="mt-5 mb-5"></prime-divider>
+            <prime-divider class="mt-3 mb-5"></prime-divider>
             <div>
-              <h2 class="mt-0">1. Общие сведения об организации</h2>
+              <h2 class="mt-0">2. Общие сведения об организации</h2>
               <div class="w-full h-full grid">
                 <div class="col-4 field">
                   <label for="ogrn" class="text-600">ОГРН</label>
@@ -159,7 +158,7 @@
             </div>
             <prime-divider class="mt-5 mb-5"></prime-divider>
             <div>
-              <h2 class="mt-0">2. Адрес</h2>
+              <h2 class="mt-0">3. Адрес</h2>
               <div class="w-full h-full grid">
                 <div class="col-4 field">
                   <label for="region" class="text-600">Регион</label>
@@ -233,7 +232,7 @@
             </div>
             <prime-divider class="mt-5 mb-5"></prime-divider>
             <div>
-              <h2 class="mt-0">3. Банковские реквизиты</h2>
+              <h2 class="mt-0">4. Банковские реквизиты</h2>
               <div class="w-full h-full grid">
                 <div class="col-4 field">
                   <label for="bank" class="text-600">Банк</label>
@@ -277,7 +276,7 @@
             </div>
             <prime-divider class="mt-5 mb-5"></prime-divider>
             <div>
-              <h2 class="mt-0">4. Контактные данные</h2>
+              <h2 class="mt-0">5. Контактные данные</h2>
               <div class="w-full h-full grid">
                 <div class="col-4 field">
                   <label for="phone" class="text-600">Контактный телефон</label>

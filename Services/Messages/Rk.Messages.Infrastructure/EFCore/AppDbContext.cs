@@ -44,6 +44,8 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         public DbSet<News> News { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
                       
@@ -66,6 +68,10 @@ namespace Rk.Messages.Infrastructure.EFCore
                 entity.HasMany(self => self.ProductDocuments)
                .WithOne(self => self.BaseProduct)
                .HasForeignKey(self => self.BaseProductId);
+
+                entity.HasMany(self => self.Reviews)
+              .WithOne(self => self.BaseProduct)
+              .HasForeignKey(self => self.BaseProductId);
 
 
                 entity.HasOne(self => self.Organization)

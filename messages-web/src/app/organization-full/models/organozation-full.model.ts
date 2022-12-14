@@ -106,7 +106,9 @@ export class OrganizationFullModel
       this.site === mb.site &&
       this.okved === mb.okved &&
       this.okved2 === mb.okved2 &&
-      this.documentId === mb.documentId
+      this.documentId === mb.documentId &&
+      this.latitude === mb.latitude &&
+      this.longitude === mb.longitude
     );
   }
 

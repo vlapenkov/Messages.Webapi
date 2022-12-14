@@ -35,7 +35,7 @@ function findInTree(
 export function useCatalogFilters() {
   const router = useRouter();
   const { list: sectionsList, tree: sectionsTree } = useSections();
-  const { organizations: organizationOptions, regions: regionOptions } = useOrganizations();
+  const { organizationOptions, regionOptions } = useOrganizations();
   const sectionOptions = computed(() =>
     (sectionsList.value ?? []).map((s) => ({ label: s.name, value: s.id })),
   );

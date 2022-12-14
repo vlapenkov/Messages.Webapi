@@ -68,6 +68,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'order',
     component: () => import(/* webpackChunkName: "order" */ '../vue/views/order-view.vue'),
   },
+  {
+    path: '/production-geo',
+    name: 'production-geo',
+    component: () =>
+      import(/* webpackChunkName: "production-geo" */ '../vue/views/production-geo-view.vue'),
+  },
 ];
 
 const router = createRouter({

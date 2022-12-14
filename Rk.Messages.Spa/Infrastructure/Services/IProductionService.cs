@@ -25,5 +25,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>Установить статус продукции</summary>  
         [Patch("/api/v1/Products/{id}/status")]
         Task SetStatus(long id, [Body] long status);
+
+        /// <summary>Добавить отзыв о продукции</summary>  
+        [Post("/api/v1/Productions/{id}/reviews")]
+        Task AddReview(long id, [Body] CreateReviewRequest request);
     }
 }

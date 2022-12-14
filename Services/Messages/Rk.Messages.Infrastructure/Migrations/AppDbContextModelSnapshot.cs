@@ -641,6 +641,53 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Review", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BaseProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("baseproductid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
+
+                    b.HasKey("Id")
+                        .HasName("pk_reviews");
+
+                    b.HasIndex("BaseProductId")
+                        .HasDatabaseName("ix_reviews_baseproductid");
+
+                    b.ToTable("reviews", (string)null);
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
                 {
                     b.Property<long>("Id")
@@ -729,6 +776,11 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasMaxLength(4096)
                         .HasColumnType("character varying(4096)")
                         .HasColumnName("address");
+
+                    b.Property<string>("Article")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("article");
 
                     b.Property<int>("AvailableStatus")
                         .HasColumnType("integer")
@@ -892,6 +944,18 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("Rk.Messages.Domain.Entities.Products.BaseProduct", "BaseProduct")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BaseProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_reviews_baseproduct_baseproductid");
+
+                    b.Navigation("BaseProduct");
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
                 {
                     b.HasOne("Rk.Messages.Domain.Entities.CatalogSection", "Section")
@@ -944,6 +1008,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("AttributeValues");
 
                     b.Navigation("ProductDocuments");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

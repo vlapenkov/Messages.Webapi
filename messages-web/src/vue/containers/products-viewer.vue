@@ -5,7 +5,11 @@
       <template v-if="productShortsItems != null">
         <div v-if="productShortsItems.length > 0" class="grid">
           <template v-if="viewMode === 'user'">
-            <div v-for="item in productShortsItems" :key="item.id" class="col-3">
+            <div
+              v-for="item in productShortsItems"
+              :key="item.id"
+              :class="{ 'col-3': !showFilters, 'col-4': showFilters }"
+            >
               <product-card
                 :product="item"
                 @addToCart="addToCart"
@@ -122,6 +126,7 @@ import Toast from 'primevue/toast';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { productionsStore } from '@/app/productions/state/productions.store';
+import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { viewModeProvider } from '../views/providers/view-mode.provider';
 
 export default defineComponent({
@@ -212,6 +217,8 @@ export default defineComponent({
       });
     };
 
+    const { showFilters } = catalogFiltersStore;
+
     return {
       addNewProduct,
       viewOrganization,
@@ -229,6 +236,7 @@ export default defineComponent({
       currentPage,
       changePage,
       addToCart: addProductToShopingCart,
+      showFilters,
     };
   },
 });

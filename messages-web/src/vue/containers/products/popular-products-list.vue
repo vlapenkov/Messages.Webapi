@@ -1,7 +1,7 @@
 <template>
   <toast position="top-right" group="tr" />
-  <div class="h-full w-full grid">
-    <div v-for="item in productShortsItems" :key="item.id" class="col-2">
+  <div class="w-full grid mr-0">
+    <div v-for="item in productShortsItems" :key="item.id" class="col-3">
       <product-card
         :product="item"
         @addToCart="addProductToShopingCart"

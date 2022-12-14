@@ -17,10 +17,9 @@
 import { defineComponent } from 'vue';
 import AppLayout from './presentational/app-layout.vue';
 import MainMenuContainer from './containers/main-menu-container.vue';
-import ThemeSwitchContainer from './base/containers/theme-switch-container.vue';
 
 export default defineComponent({
-  components: { AppLayout, MainMenuContainer, ThemeSwitchContainer },
+  components: { AppLayout, MainMenuContainer },
 });
 </script>
 

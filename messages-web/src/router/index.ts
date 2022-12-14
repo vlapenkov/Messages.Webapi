@@ -3,19 +3,27 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '../vue/views/home-view.vue'),
+    component: () =>
+      import(/* webpackChunkName: "searchPanel" */ '../vue/views/search-panel-view.vue'),
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../vue/views/home-view.vue'),
+      },
+      {
+        path: '/catalog',
+        name: 'catalog',
+        component: () => import(/* webpackChunkName: "sections" */ '../vue/views/catalog-view.vue'),
+      },
+    ],
   },
   {
     path: '/labs',
     name: 'labs',
     component: () => import(/* webpackChunkName: "about" */ '../vue/views/labs-view.vue'),
   },
-  {
-    path: '/catalog/',
-    name: 'catalog',
-    component: () => import(/* webpackChunkName: "sections" */ '../vue/views/catalog-view.vue'),
-  },
+
   {
     path: '/product/:id',
     name: 'product',

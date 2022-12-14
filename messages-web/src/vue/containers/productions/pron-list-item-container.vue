@@ -9,12 +9,13 @@
     @viewProduct="viewProduct"
     @viewOrganization="viewOrganization"
   />
-  <card v-else-if="production.productionType === 'ServiceProduct'">
-    <template #title> Я услуга </template>
-  </card>
-  <card v-else-if="production.productionType === 'WorkProduct'">
-    <template #title> Я работа </template>
-  </card>
+  <product-service-card
+    :product="production"
+    v-else-if="production.productionType === 'ServiceProduct'"
+  >
+  </product-service-card>
+  <product-work-card :product="production" v-else-if="production.productionType === 'WorkProduct'">
+  </product-work-card>
 </template>
 
 <script lang="ts">

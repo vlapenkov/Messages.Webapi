@@ -11,7 +11,7 @@ export class ProductShortsState extends StateBase {
 
   pageNumber = 1;
 
-  pageSize = 15;
+  pageSize = 16;
 
   selectedItem: NotValidData<ProductionModel> | null = null;
 }

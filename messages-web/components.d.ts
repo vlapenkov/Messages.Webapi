@@ -72,6 +72,8 @@ declare module '@vue/runtime-core' {
     ProductFileEditor: typeof import('./src/vue/containers/product-file-editor.vue')['default']
     ProductFileViewer: typeof import('./src/vue/containers/product-file-viewer.vue')['default']
     ProductInfo: typeof import('./src/vue/containers/productions/products/product-info.vue')['default']
+    ProductionGeoView: typeof import('./src/vue/views/production-geo-view.vue')['default']
+    ProductionsMap: typeof import('./src/vue/presentational/charts/productions-map.vue')['default']
     ProductServiceCard: typeof import('./src/vue/containers/productions/service/product-service-card.vue')['default']
     ProductsViewer: typeof import('./src/vue/containers/products-viewer.vue')['default']
     ProductView: typeof import('./src/vue/views/product-view.vue')['default']

@@ -103,7 +103,9 @@ export class OrganizationFullModel
       this.address === mb.address &&
       this.site === mb.site &&
       this.okved === mb.okved &&
-      this.okved2 === mb.okved2
+      this.okved2 === mb.okved2 &&
+      this.latitude === mb.latitude &&
+      this.longitude === mb.longitude
     );
   }
 

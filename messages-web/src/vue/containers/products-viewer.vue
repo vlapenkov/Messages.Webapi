@@ -10,7 +10,7 @@
               :key="item.id"
               :class="{ 'col-3': !showFilters, 'col-4': showFilters }"
             >
-              <pron-list-item-container :production="item" @notify="notifyHandler" />
+              <production-list-item :production="item" @notify="notifyHandler" />
             </div>
           </template>
           <template v-else>

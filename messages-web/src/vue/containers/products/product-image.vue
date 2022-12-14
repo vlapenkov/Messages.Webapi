@@ -11,14 +11,16 @@
       />
       <skeleton
         v-else
+        :animation="animationMode"
         :width="minWidth ? '' + minWidth + 'px' : undefined"
         :height="'' + maxHeight + 'px'"
       />
       <span
         v-if="headerText != null && id != null && imageData != null"
         class="top-left text-xl text-left"
-        >{{ headerText }}</span
       >
+        {{ headerText }}
+      </span>
     </div>
   </div>
 </template>
@@ -58,15 +60,21 @@ export default defineComponent({
   },
   setup(props) {
     const imageData = ref<string>();
+    const animationMode = ref<'wave' | 'none'>('wave');
     watch(
       () => props.id,
       (idVal) => {
         if (idVal != null && idVal !== '' && idVal.trim() !== '') {
+          animationMode.value = 'wave';
           http.get(`api/files/${idVal}`).then((response) => {
             if (response.status === 200) {
               imageData.value = `data:image/png;base64,${response.data}`;
+            } else {
+              animationMode.value = 'none';
             }
           });
+        } else {
+          animationMode.value = 'none';
         }
       },
       {
@@ -84,7 +92,7 @@ export default defineComponent({
       objectFit: props.objectFit != null ? props.objectFit : undefined,
     }));
 
-    return { imageData, imageContainerStyle, imageStyle };
+    return { imageData, imageContainerStyle, imageStyle, animationMode };
   },
 });
 </script>

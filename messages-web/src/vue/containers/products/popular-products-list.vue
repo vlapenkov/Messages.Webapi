@@ -1,51 +1,27 @@
 <template>
   <toast position="top-right" group="tr" />
   <div class="w-full grid mr-0">
-    <div v-for="item in productShortsItems" :key="item.id" class="col-3">
-      <product-card
-        :product="item"
-        @addToCart="addProductToShopingCart"
-        @viewProduct="viewProduct"
-        @viewOrganization="viewOrganization"
-      />
+    <div v-for="item in productions" :key="item.id" class="col-3">
+      <pron-list-item-container :production="item" @notify="notifyHandler" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ProductionModel } from '@/app/productions/models/production.model';
 import { productionsStore } from '@/app/productions/state/productions.store';
-import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { computed, defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: { Toast },
   setup() {
     const toast = useToast();
-    const router = useRouter();
-    const productShortsItems = computed(() => productionsStore.currentPageItems.value);
-    const addProductToShopingCart = async (model: ProductionModel) => {
-      await shoppingCartStore.addToCart({
-        productId: model.id,
-        quantity: 1,
-      });
-      toast.add({
-        severity: 'success',
-        group: 'tr',
-        detail: `${model.name} был успешно добавлен в корзину`,
-        life: 3000,
-      });
-    };
-    const viewProduct = (item: ProductionModel) => {
-      router.push({ name: 'product', params: { id: item.id } });
-    };
-    const viewOrganization = (item: ProductionModel) => {
-      router.push({ name: 'organization', params: { id: item.organization.id } });
-    };
-    return { productShortsItems, addProductToShopingCart, viewProduct, viewOrganization };
+
+    const notifyHandler = useToastNotificationHandler(toast);
+    const { currentPageItems: productions } = productionsStore;
+    return { productions, notifyHandler };
   },
 });
 </script>

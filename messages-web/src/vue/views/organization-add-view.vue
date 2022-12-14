@@ -98,6 +98,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.ogrn"
+                    :maxlength="13"
                     :disabled="isModeration"
                   />
                 </div>
@@ -119,6 +120,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.kpp"
+                    :maxlength="9"
                     :disabled="isModeration"
                   />
                 </div>
@@ -140,6 +142,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="formState.inn"
+                    :maxlength="10"
                     :disabled="isModeration"
                   />
                 </div>
@@ -356,11 +359,13 @@ import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: { Toast },
   setup() {
     const toast = useToast();
+    const router = useRouter();
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
     const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
@@ -398,20 +403,27 @@ export default defineComponent({
       updateSelectedItem(item);
       await saveChanges();
 
-      const errors = status.value.payload;
-      const firstErr = errors != null ? errors[0] : null;
-      const title = firstErr != null ? firstErr[0] : null;
-      const description = firstErr != null ? firstErr[1] : null;
-      const detail = `${title != null ? title : 'Что-то случилось при добавлении организации'}${
-        description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
-      }`;
-      toast.add({
-        severity: 'error',
-        group: 'tr',
-        summary: 'Ошибка',
-        detail,
-        life: 4000,
-      });
+      if (status.value.status === 'error') {
+        const errors = status.value.payload;
+        const firstErr = errors != null ? errors[0] : null;
+        const title = firstErr != null ? firstErr[0] : null;
+        const description = firstErr != null ? firstErr[1] : null;
+        const detail = `${title != null ? title : 'Что-то случилось при добавлении организации'}${
+          description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
+        }`;
+        toast.add({
+          severity: 'error',
+          group: 'tr',
+          summary: 'Ошибка',
+          detail,
+          life: 4000,
+        });
+      }
+
+      if (status.value.status === 'loaded') {
+        const id = organizationSelected.value?.data.id;
+        if (id !== 0) router.push({ name: 'organization', params: { id } });
+      }
     };
 
     const file = ref() as Ref<File>;

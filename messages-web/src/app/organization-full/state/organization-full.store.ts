@@ -64,8 +64,10 @@ const saveChanges = action('save-changes', async () => {
     case 'create':
       status.value = new DataStatus('updating');
       try {
-        await organizationHttpService.post(data);
-
+        const resp = await organizationHttpService.post(data);
+        const copy = data.clone();
+        copy.id = resp.data ?? 0;
+        updateSelectedItem(copy);
         status.value = new DataStatus('loaded');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {

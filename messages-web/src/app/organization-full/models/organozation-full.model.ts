@@ -1,4 +1,3 @@
-import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
@@ -112,7 +111,7 @@ export class OrganizationFullModel
     return this.id;
   }
 
-  clone(): ModelBase<IModel> {
+  clone(): OrganizationFullModel {
     const cloned = new OrganizationFullModel();
     Object.assign(cloned, this);
     return cloned;

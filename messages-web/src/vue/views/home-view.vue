@@ -174,20 +174,12 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import PopularSectionsCarousel from '@/vue/containers/sections/popular-sections-carousel.vue';
-import PopularProductsList from '@/vue/containers/products/popular-products-list.vue';
-import PopularOrganizationsList from '@/vue/containers/organizations/popular-organizations-list.vue';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 
 export default defineComponent({
-  components: {
-    PopularSectionsCarousel,
-    PopularProductsList,
-    PopularOrganizationsList,
-  },
   setup() {
     const { showFilters } = catalogFiltersStore;
     onMounted(() => {

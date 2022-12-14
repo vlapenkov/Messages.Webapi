@@ -30,3 +30,8 @@ body {
 .p-component-overlay {
   backdrop-filter: blur(1rem);
 }
+
+.trans-shadow {
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+}

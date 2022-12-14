@@ -35,10 +35,6 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/app/core/services/http/core/handlers/http/put.commandts",
-    "src/app/core/services/http/core/handlers/http/put.commandts",
-    "src/app/core/services/harlem/custom-stores/composables/tree-view.composable.ts",
-    "src/app/core/services/harlem/custom-stores/composables/tree-view.composable.ts"
   ],
   "exclude": [
     "node_modules"

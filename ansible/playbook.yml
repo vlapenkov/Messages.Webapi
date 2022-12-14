@@ -7,6 +7,18 @@
         project_src: /opt/marketplace
         state: absent
     
+    - name: Copy docker-compose file
+      ansible.builtin.copy:
+        src: deploy/docker-compose.yml
+        dest: /opt/marketplace
+        owner: devops
+    
+    - name: Copy env file
+      ansible.builtin.copy:
+        src: deploy/.env
+        dest: /opt/marketplace
+        owner: devops
+    
     - name: Pull new images from Nexus
       docker_compose:
         project_src: /opt/marketplace

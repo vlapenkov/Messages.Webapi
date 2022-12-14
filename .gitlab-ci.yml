@@ -89,3 +89,15 @@ messages_api_build_push_registry:
   tags:
     - artifactory_eip_rkp
 
+
+deploy_marketplace:
+  stage: deploy
+  script:
+    - ansible-playbook -i inventory.ini playbook.yml -e "ansible_password=$ANSIBLE_DEVOPS_PASSWORD ansible_sudo_pass=$ANSIBLE_DEVOPS_PASSWORD"
+  only:
+    - develop
+    - test
+    - master
+  tags:
+    - ansible
+

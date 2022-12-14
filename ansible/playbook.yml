@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Tear down existing services
+      docker_compose:
+        project_src: /opt/marketplace
+        state: absent
+    
+    - name: Pull new images from Nexus
+      docker_compose:
+        project_src: /opt/marketplace
+        pull: true
+    
+    - name: Start pulled services
+      docker_compose:
+        project_src: /opt/marketplace
+        state: present

@@ -277,15 +277,35 @@ namespace Rk.Messages.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Account")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("account");
+
                     b.Property<string>("Address")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("address");
 
+                    b.Property<string>("BankName")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("bankname");
+
+                    b.Property<string>("Bik")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("bik");
+
                     b.Property<string>("City")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("city");
+
+                    b.Property<string>("CorrAccount")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("corraccount");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone")
@@ -295,10 +315,19 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("documentid");
+
                     b.Property<string>("Email")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("email");
+
+                    b.Property<string>("FactAddress")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("factaddress");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(1024)
@@ -309,6 +338,14 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("character varying(12)")
                         .HasColumnName("inn");
+
+                    b.Property<bool>("IsBuyer")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isbuyer");
+
+                    b.Property<bool>("IsProducer")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isproducer");
 
                     b.Property<string>("Kpp")
                         .HasMaxLength(9)
@@ -388,6 +425,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FullName = "Ракетно-космический центр «Прогресс», Самара",
                             Inn = "6312139922",
+                            IsBuyer = false,
+                            IsProducer = false,
                             Kpp = "631201001",
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Прогресс",
@@ -403,6 +442,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FullName = "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"",
                             Inn = "7404052938",
+                            IsBuyer = false,
+                            IsProducer = false,
                             Kpp = "631201001",
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Златоустовский машиностроительный завод",
@@ -575,6 +616,10 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("numeric")
                         .HasColumnName("price");
+
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real")
+                        .HasColumnName("rating");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")

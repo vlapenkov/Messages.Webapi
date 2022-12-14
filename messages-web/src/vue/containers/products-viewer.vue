@@ -5,13 +5,12 @@
       <template v-if="productShortsItems != null">
         <div v-if="productShortsItems.length > 0" class="grid">
           <template v-if="viewMode === 'user'">
-            <div v-for="item in productShortsItems" :key="item.id" class="col-3">
-              <product-card
-                :product="item"
-                @addToCart="addToCart"
-                @viewProduct="viewProduct"
-                @viewOrganization="viewOrganization"
-              />
+            <div
+              v-for="item in productShortsItems"
+              :key="item.id"
+              :class="{ 'col-3': !showFilters, 'col-4': showFilters }"
+            >
+              <pron-list-item-container :production="item" @notify="notifyHandler" />
             </div>
           </template>
           <template v-else>
@@ -119,9 +118,10 @@ import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 import Toast from 'primevue/toast';
-import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { productionsStore } from '@/app/productions/state/productions.store';
+import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 import { viewModeProvider } from '../views/providers/view-mode.provider';
 
 export default defineComponent({
@@ -149,13 +149,6 @@ export default defineComponent({
         productFullStore.itemSelected.value = new NotValidData(clone, modeFull.value);
         router.push('/edit-product');
       }
-    };
-    const viewProduct = (item: ProductionModel) => {
-      router.push({ name: 'product', params: { id: item.id } });
-    };
-
-    const viewOrganization = (item: ProductionModel) => {
-      router.push({ name: 'organization', params: { id: item.organization.id } });
     };
 
     const saveChanges = async () => {
@@ -197,38 +190,24 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
 
-    const addProductToShopingCart = async (model: ProductionModel) => {
-      await shoppingCartStore.addToCart({
-        productId: model.id,
-        quantity: 1,
-      });
-      // console.log({ toast });
-
-      toast.add({
-        severity: 'success',
-        group: 'tr',
-        detail: `${model.name} был успешно добавлен в корзину`,
-        life: 3000,
-      });
-    };
-
+    const { showFilters } = catalogFiltersStore;
+    const notifyHandler = useToastNotificationHandler(toast);
     return {
+      notifyHandler,
       addNewProduct,
-      viewOrganization,
       modeFull,
       productFullStore,
       productShortsItems,
       productShortsStatus,
       productTitle,
       saveChanges,
-      viewProduct,
       editProduct,
       pageNumber,
       pageSize,
       viewMode,
       currentPage,
       changePage,
-      addToCart: addProductToShopingCart,
+      showFilters,
     };
   },
 });

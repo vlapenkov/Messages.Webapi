@@ -5,18 +5,14 @@
 <script lang="ts">
 import { NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
 import type { SectionModel } from '@/app/sections/models/section.model';
+import { sectionsStore } from '@/app/sections/state/sections.store';
+import { useSections } from '@/composables/sections.composable';
 import { computed, defineComponent } from 'vue';
-import { itemSelectedProvider } from '../base/presentational/state/collection/providers/item-selected.provider';
-import { itemsCollectionProvider } from '../base/presentational/state/collection/providers/items-collection.provider';
 
 export default defineComponent({
   setup() {
-    const itemsWrapped = itemsCollectionProvider.inject();
-    const itemSelected = itemSelectedProvider.inject();
-    if (itemsWrapped.value == null) {
-      throw new Error('Something went wrong');
-    }
-    const items = itemsWrapped.value();
+    const { sectionSelected } = sectionsStore;
+    const { list: items } = useSections();
     const itemsAsOptions = computed(() =>
       (items.value ?? []).map((i) => {
         const item = i as SectionModel;
@@ -27,15 +23,15 @@ export default defineComponent({
       }),
     );
     const selectedItem = computed({
-      get: () => itemSelected.value?.value?.data as SectionModel,
+      get: () => sectionSelected.value?.data as SectionModel,
       set: (val) => {
-        const mode = itemSelected.value?.value?.mode;
+        const mode = sectionSelected.value?.mode;
         // console.log({ val, mode });
 
-        if (mode == null || val == null || itemSelected.value == null) {
+        if (mode == null || val == null || sectionSelected.value == null) {
           return;
         }
-        itemSelected.value.value = new NotValidData(val, mode);
+        sectionSelected.value = new NotValidData(val, mode);
       },
     });
     const parentId = computed({

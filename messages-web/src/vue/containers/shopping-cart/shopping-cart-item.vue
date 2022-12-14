@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div class="col-2">
-      <product-image fit-width :id="item.documentId"></product-image>
+      <file-store-image fit-width :id="item.documentId"></file-store-image>
     </div>
     <div class="col-4 flex flex-column gap-3">
       <div class="p-component text-md">{{ item.productName }}</div>

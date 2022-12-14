@@ -16,6 +16,8 @@ namespace Rk.Messages.Domain.Enums
         RegionByAsc,
         RegionByDesc,
         ProducerByAsc,
-        ProducerByDesc
+        ProducerByDesc,
+        RatingByAsc,
+        RatingByDesc
     }
 }

@@ -46,14 +46,6 @@ const selectedItem = computeState((state) => state.selectedItem);
 
 const selectedItemMode = getter('selected-item--mode', (state) => state.selectedItem?.mode ?? null);
 
-const parentSectionId = computeState((state) => state.sectionId);
-
-const region = computeState((state) => state.region);
-
-const organization = computeState((state) => state.organization);
-
-const searchQuery = computeState((state) => state.searchQuery);
-
 const insertPage = mutation<IPagedResponse<ProductionModel>>('insert-page', (state, payload) => {
   const pageIndex = state.pages.findIndex(
     (p) => p.pageNumber === payload.pageNumber && p.pageSize === payload.pageSize,
@@ -78,10 +70,6 @@ export const productionsStore = {
   pageNumber,
   pageSize,
   pages,
-  parentSectionId,
-  searchQuery,
-  region,
-  organization,
   insertPage,
   setPage,
 };

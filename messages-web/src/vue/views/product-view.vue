@@ -5,11 +5,11 @@
       <template #content>
         <div class="grid">
           <div class="col-3">
-            <product-image
+            <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"
               :fitWidth="true"
-            ></product-image>
+            ></file-store-image>
           </div>
           <div class="col-7 flex flex-column">
             <product-info :product="item"></product-info>

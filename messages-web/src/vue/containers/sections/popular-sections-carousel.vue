@@ -1,48 +1,53 @@
 <template>
-  <carousel
-    :value="itemsWithDocumentId"
-    :numVisible="4"
-    :numScroll="1"
-    :showIndicators="false"
-    :showNavigators="true"
-    :responsiveOptions="responsiveOptions"
-    class="popular-sections-carousel"
-  >
-    <template #item="slotProps">
-      <div
-        class="flex flex-column"
-        :style="{
-          marginLeft: slotProps.index > 0 ? '0.5rem' : undefined,
-          cursor: 'pointer',
-        }"
+  <div class="grid">
+    <div class="col-12">
+      <carousel
+        :value="itemsWithDocumentId"
+        :numVisible="4"
+        :numScroll="1"
+        :showIndicators="false"
+        :showNavigators="true"
+        :responsiveOptions="responsiveOptions"
+        class="popular-sections-carousel"
+        :style="carouselStyle"
       >
-        <product-image
-          :id="slotProps.data.documentId"
-          :max-height="162"
-          :min-width="160"
-          :fit-width="true"
-          :header-text="slotProps.data.name"
-          @click="viewSection(slotProps.data)"
-        />
-      </div>
-    </template>
-  </carousel>
+        <template #item="slotProps">
+          <div
+            class="flex flex-column"
+            :style="{
+              marginLeft: slotProps.index > 0 ? '0.5rem' : undefined,
+              cursor: 'pointer',
+            }"
+          >
+            <file-store-image
+              :id="slotProps.data.documentId"
+              :max-height="162"
+              :min-height="162"
+              :min-width="160"
+              :fit-width="true"
+              :header-text="slotProps.data.name"
+              @click="viewSection(slotProps.data)"
+            />
+          </div>
+        </template>
+      </carousel>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
+import { screenLarge } from '@/app/core/services/window/window.service';
 import { SectionModel } from '@/app/sections/models/section.model';
 import { sectionsStore } from '@/app/sections/state/sections.store';
-import { CollectionStoreMixed } from '@/vue/base/presentational/state/collection/collection-state.vue';
-import { computed, defineComponent, WritableComputedRef } from 'vue';
+import { useSections } from '@/composables/sections.composable';
+import { computed, CSSProperties, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    const state = sectionsStore as CollectionStoreMixed;
-    if (state.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const items = state.items({ force: true }) as WritableComputedRef<SectionModel[]>;
+    const state = sectionsStore;
+
+    const { list: items } = useSections();
     const itemsWithDocumentId = computed(() =>
       (items.value ?? []).filter((x) => x.documentId != null && x.documentId !== ''),
     );
@@ -64,10 +69,14 @@ export default defineComponent({
       },
     ];
     const router = useRouter();
+    const scaleKoef = ref(1.0835);
+    const carouselStyle = computed<CSSProperties>(() => ({
+      transform: screenLarge.value ? `scale(${scaleKoef.value},${scaleKoef.value})` : undefined,
+    }));
     const viewSection = (item: SectionModel) => {
       router.push({ name: 'catalog', params: { id: item.id } });
     };
-    return { state, items, itemsWithDocumentId, responsiveOptions, viewSection };
+    return { state, items, itemsWithDocumentId, responsiveOptions, viewSection, carouselStyle };
   },
 });
 </script>

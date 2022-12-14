@@ -20,6 +20,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
 
         public string Address { get; set; }
 
+        public string FactAddress { get; set; }
+
         public string Site { get; set; }
 
         public string Okved { get; set; }
@@ -35,6 +37,27 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
         public double? Latitude { get; set; }
 
         public double? Longitude { get; set; }
+
+        /// <summary>Признак организации- производителя</summary>
+        public bool IsProducer { get; set; }
+
+        /// <summary>Признак организации- покупателя</summary>
+        public bool IsBuyer { get; set; }
+
+        /// <summary>банк</summary>
+        public string BankName { get; set; }
+
+        /// <summary>рс</summary>
+        public string Account { get; set; }
+
+        /// <summary>кс</summary>
+        public string CorrAccount { get; set; }
+
+        /// <summary>бик</summary>
+        public string Bik { get; set; }
+
+        /// <summary>документ для картинки</summary>
+        public Guid? DocumentId { get; set; }
 
     }
 }

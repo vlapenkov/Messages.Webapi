@@ -16,6 +16,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         RegionByAsc,
         RegionByDesc,
         ProducerByAsc,
-        ProducerByDesc
+        ProducerByDesc,
+        RatingByAsc,
+        RatingByDesc
     }
 }

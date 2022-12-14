@@ -1,13 +1,12 @@
-import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { title } from '@/app/core/models/decorators/tittle.decorator';
-import { IOrganizationFullMiodel } from '../@types/IOrganizationFullModel';
+import { IOrganizationFullModel } from '../@types/IOrganizationFullModel';
 
 export class OrganizationFullModel
-  extends ModelBase<IOrganizationFullMiodel>
-  implements IOrganizationFullMiodel
+  extends ModelBase<IOrganizationFullModel>
+  implements IOrganizationFullModel
 {
   @hidden()
   id = 0;
@@ -37,6 +36,8 @@ export class OrganizationFullModel
   @description('Адрес')
   address = '';
 
+  factAddress = '';
+
   @description('ОКВЕД')
   okved = '';
 
@@ -45,6 +46,26 @@ export class OrganizationFullModel
 
   @description('Сайт')
   site = '';
+
+  phone = '';
+
+  email = '';
+
+  isProducer = false;
+
+  isBuyer = false;
+
+  bankName = '';
+
+  account = '';
+
+  corrAccount = '';
+
+  bik = '';
+
+  latitude = 0;
+
+  longitude = 0;
 
   statusText = '';
 
@@ -56,11 +77,7 @@ export class OrganizationFullModel
 
   createdBy = '';
 
-  latitude: number | null = null;
-
-  longitude: number | null = null;
-
-  fromResponse(model: IOrganizationFullMiodel): boolean {
+  fromResponse(model: IOrganizationFullModel): boolean {
     try {
       Object.assign(this, model);
       return true;
@@ -69,7 +86,7 @@ export class OrganizationFullModel
     }
   }
 
-  toRequest(): IOrganizationFullMiodel {
+  toRequest(): IOrganizationFullModel {
     return this;
   }
 
@@ -96,7 +113,7 @@ export class OrganizationFullModel
     return this.id;
   }
 
-  clone(): ModelBase<IModel> {
+  clone(): OrganizationFullModel {
     const cloned = new OrganizationFullModel();
     Object.assign(cloned, this);
     return cloned;

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentValidation;
+using MediatR;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
 
@@ -57,9 +58,16 @@ namespace Rk.Messages.Logic.SectionsNS.Validations
             RuleFor(x => x.Email)
                 .EmailAddress()
                 .WithMessage("Email организации должен быть корректным");
-                       
 
 
+            // 'Покупатель' или 'Производитель' должны быть указаны
+            RuleFor(x => x).Custom((request, context) =>
+            {
+                if (!(request.IsBuyer | request.IsProducer))
+                {
+                    context.AddFailure("При создании организации обязательно указание хотя бы одного из признаков 'Покупатель' или 'Производитель'.");
+                }
+            });
         }
     }
 }

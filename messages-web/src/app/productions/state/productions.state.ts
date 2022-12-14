@@ -9,17 +9,9 @@ export class ProductShortsState extends StateBase {
 
   status = new DataStatus();
 
-  searchQuery: string | null = null;
-
-  sectionId: number | undefined;
-
-  region: string | undefined;
-
-  organization: string | undefined;
-
   pageNumber = 1;
 
-  pageSize = 15;
+  pageSize = 16;
 
   selectedItem: NotValidData<ProductionModel> | null = null;
 }

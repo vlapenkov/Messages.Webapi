@@ -1,12 +1,14 @@
-import { defineSingleHttpService } from '@/app/core/services/http/custom/single.http-service';
-import { IOrganizationFullMiodel } from '../@types/IOrganizationFullModel';
+import { defineHttpService } from '@/app/core/services/http/define-http.service';
+import { IOrganizationFullModel } from '../@types/IOrganizationFullModel';
 
-const [organizationFullService, { defineGet }] = defineSingleHttpService<IOrganizationFullMiodel>({
+const { defineGet, definePost } = defineHttpService<IOrganizationFullModel>({
   url: 'api/Organizations',
 });
 
-organizationFullService.get = defineGet((arg: { id: number }) => ({
-  url: `/${arg.id}`,
+const get = defineGet<IOrganizationFullModel, number>((id: number) => ({
+  url: `/${id}`,
 }));
 
-export { organizationFullService };
+const post = definePost<number, IOrganizationFullModel>();
+
+export const organizationHttpService = { get, post };

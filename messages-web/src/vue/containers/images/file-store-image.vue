@@ -1,5 +1,5 @@
 <template>
-  <div class="product-image">
+  <div class="file-store-image">
     <div :style="imageContainerStyle" class="max-height border-round overflow-hidden container">
       <img
         v-if="id != null && imageData != null"
@@ -98,7 +98,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.product-image {
+.file-store-image {
   .max-height {
     max-height: var(--custom--image--max-height);
   }

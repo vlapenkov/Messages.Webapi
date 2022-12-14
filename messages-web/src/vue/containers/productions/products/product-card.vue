@@ -8,7 +8,11 @@
   >
     <template #header>
       <div class="w-full h-full" ref="headerRef">
-        <product-image :min-height="206" :max-height="206" :id="product.documentId"></product-image>
+        <file-store-image
+          :min-height="206"
+          :max-height="206"
+          :id="product.documentId"
+        ></file-store-image>
       </div>
     </template>
     <template #content>

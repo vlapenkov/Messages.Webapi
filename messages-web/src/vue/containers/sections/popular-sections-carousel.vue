@@ -19,7 +19,7 @@
               cursor: 'pointer',
             }"
           >
-            <product-image
+            <file-store-image
               :id="slotProps.data.documentId"
               :max-height="162"
               :min-height="162"

@@ -21,6 +21,8 @@
 
         public string Address { get; set; }
 
+        public string Article { get; set; }
+
         /// <summary>Значения атрибутов</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; } = new List<AttributeValueDto>();
 

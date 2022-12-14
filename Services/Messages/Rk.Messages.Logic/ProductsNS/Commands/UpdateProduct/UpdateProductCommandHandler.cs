@@ -38,6 +38,7 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes
             productFound
             .SetCodeTnVed(request.CodeTnVed)                            
             .SetCodeOkpd2(request.CodeOkpd2)
+            .SetArticle(request.Article)
             .SetAddress(request.Address);
 
             await _appDbContext.SaveChangesAsync(cancellationToken);

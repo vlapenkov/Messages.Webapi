@@ -53,5 +53,12 @@ namespace Rk.Messages.Spa.Controllers
 
             return result;
         }
+
+        /// <summary>Добавить отзыв о продукции</summary>  
+        [HttpPost("{id:long}/reviews")]
+        public async Task AddReview(long id, [FromBody] CreateReviewRequest request)
+        {
+            await _service.AddReview(id, request);
+        }
     }
 }

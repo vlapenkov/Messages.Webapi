@@ -11,7 +11,7 @@
                 <div class="col-3">
                   <div class="w-full flex flex-row justify-content-center align-items-center">
                     <img
-                      :src="require('@/assets/images/profile.svg')"
+                      :src="file != null ? fileB64 : require('@/assets/images/profile.svg')"
                       alt="Изображение профиля"
                       width="150"
                       height="150"

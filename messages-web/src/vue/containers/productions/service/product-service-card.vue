@@ -1,30 +1,38 @@
 <template>
-  <card class="h-full re-padding-card" :style="cardStyle">
+  <card
+    @click="viewProduct(product)"
+    class="h-full re-padding-card trans-shadow"
+    :class="{ 'shadow-none': !isCardHovered, 'shadow-7': isCardHovered }"
+    ref="cardRef"
+    :style="cardStyle"
+  >
     <template #header>
       <div class="w-full h-full" ref="headerRef">
-        <product-image :min-height="206" :max-height="206" :id="product.documentId"></product-image>
+        <file-store-image
+          :min-height="206"
+          :max-height="206"
+          :id="product.documentId"
+        ></file-store-image>
       </div>
     </template>
     <template #content>
-      <div class="h-full flex flex-column justify-content-between p-2">
-        <div class="flex flex-grow-1">
-          <prime-button class="p-button-text text-sm font-bold p-0" @click="viewProduct(product)">
-            {{ product.name }}
-          </prime-button>
+      <div class="h-full flex flex-column justify-content-between gap-1 p-2">
+        <div class="text-lg font-bold">{{ product.price }} ₽</div>
+        <div class="flex flex-grow-1 text-left">
+          {{ product.name }}
         </div>
-        <div class="h-full flex flex-column flex-auto justify-content-end">
+        <div class="h-full flex gap-1 flex-column flex-auto justify-content-end">
           <div class="text-sm text-primary">
-            <prime-button class="p-button-text text-sm p-0" @click="viewOrganization(product)">
+            <prime-button
+              class="p-button-text text-sm p-0 text-left"
+              @click.stop="viewOrganization(product)"
+            >
               {{ product.organization.name }}
             </prime-button>
           </div>
           <div class="text-sm">{{ product.organization.region }}</div>
           <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
-            <prime-button
-              @click="addToCart(product)"
-              class="p-button-sm h-full py-1 flex-grow-1"
-              label="В Корзину"
-            >
+            <prime-button disabled class="p-button-sm h-full py-1 flex-grow-1" label="В Корзину">
             </prime-button>
             <prime-button
               disabled
@@ -50,7 +58,7 @@
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
-import { useElementSize } from '@vueuse/core';
+import { useElementHover, useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
@@ -76,6 +84,9 @@ export default defineComponent({
       emit('viewProduct', p);
     };
 
+    const cardRef = ref();
+    const isCardHovered = useElementHover(cardRef);
+
     const headerRef = ref<HTMLElement>();
     const { height: headerHeight } = useElementSize(headerRef);
     const cardStyle = computed<CSSProperties>(() => ({
@@ -84,10 +95,12 @@ export default defineComponent({
 
     return {
       headerRef,
+      cardRef,
       cardStyle,
       addToCart,
       viewProduct,
       viewOrganization,
+      isCardHovered,
     };
   },
 });

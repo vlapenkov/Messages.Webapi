@@ -64,7 +64,7 @@
                   class="grid px-1 mt-1 border-round surface-200"
                 >
                   <div class="col-2">
-                    <product-image fit-width :id="product.documentId"></product-image>
+                    <file-store-image fit-width :id="product.documentId"></file-store-image>
                   </div>
                   <div class="col-4 flex flex-column gap-3">
                     <router-link

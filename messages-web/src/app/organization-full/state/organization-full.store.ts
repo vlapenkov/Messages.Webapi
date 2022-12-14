@@ -2,6 +2,7 @@ import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { Creation, Edititng, NotValidData } from '@/app/core/services/harlem/tools/not-valid-data';
+import { AxiosError } from 'axios';
 import { organizationHttpService } from '../infrastructure/organozation-full.http-service';
 import { OrganizationFullModel } from '../models/organozation-full.model';
 import { OrganizationFullState } from './organization-full.state';
@@ -65,19 +66,24 @@ const saveChanges = action('save-changes', async () => {
       status.value = new DataStatus('updating');
       try {
         const resp = await organizationHttpService.post(data);
-        const copy = data.clone();
+        status.value = new DataStatus('loaded');
+
+        const copy = new OrganizationFullModel();
+        Object.assign(copy, data);
         copy.id = resp.data ?? 0;
         updateSelectedItem(copy);
-        status.value = new DataStatus('loaded');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
-        const { errors } = e.response.data;
-        const errorList: string[][] = Object.values(errors);
-        status.value = new DataStatus(
-          'error',
-          `Что-то пошло не так при добавлении организации`,
-          errorList,
-        );
+        if (e instanceof AxiosError) {
+          if (e.response == null) return;
+          const { errors } = e.response.data;
+          const errorList: string[][] = Object.values(errors);
+          status.value = new DataStatus(
+            'error',
+            `Что-то пошло не так при добавлении организации`,
+            errorList,
+          );
+        }
       }
       break;
     default:

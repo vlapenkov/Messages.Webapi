@@ -9,13 +9,13 @@
     
     - name: Copy docker-compose file
       ansible.builtin.copy:
-        src: deploy/docker-compose.yml
+        src: ../deploy/docker-compose.yml
         dest: /opt/marketplace
         owner: devops
     
     - name: Copy env file
       ansible.builtin.copy:
-        src: deploy/.env
+        src: ../deploy/.env
         dest: /opt/marketplace
         owner: devops
     

@@ -414,6 +414,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 import { useStatuses } from '@/composables/statuses.composable';
+import { login } from '@/app/core/services/keycloak/keycloak.service';
 
 export default defineComponent({
   components: { Toast },
@@ -425,6 +426,7 @@ export default defineComponent({
       password: '',
     });
     const toast = useToast();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const router = useRouter();
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
@@ -484,8 +486,9 @@ export default defineComponent({
       }
 
       if (status.value.status === 'loaded') {
-        const id = organizationSelected.value?.data.id;
-        if (id !== 0) router.push({ name: 'organization', params: { id } });
+        // const id = organizationSelected.value?.data.id;
+        // if (id !== 0) router.push({ name: 'organization', params: { id } });
+        login();
       }
     };
 

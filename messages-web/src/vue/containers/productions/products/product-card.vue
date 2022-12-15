@@ -67,8 +67,10 @@
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
+import { isAuthenticated } from '@/store/user.store';
 import { useElementHover, useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   props: {
@@ -83,7 +85,13 @@ export default defineComponent({
     viewOrganization: (_: ProductionModel) => true,
   },
   setup(props, { emit }) {
+    const router = useRouter();
     const addToCart = (p: ProductionModel) => {
+      if (!isAuthenticated.value) {
+        router.push({
+          name: 'register',
+        });
+      }
       emit('addToCart', p);
     };
     const viewOrganization = (p: ProductionModel) => {

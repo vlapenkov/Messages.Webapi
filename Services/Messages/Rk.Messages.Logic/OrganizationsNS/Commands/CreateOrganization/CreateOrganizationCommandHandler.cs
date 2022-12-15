@@ -57,8 +57,7 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
             organization.SetProducer(request.IsProducer);
 
             organization.SetBuyer(request.IsBuyer);
-
-            if (organization.BankName!=null)
+            
             organization.SetAccountParameters(request.BankName, request.Account, request.CorrAccount,request.Bik);
 
             if (request.FactAddress != null) organization.SetFactAddress(request.FactAddress);

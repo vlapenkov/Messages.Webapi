@@ -77,6 +77,8 @@ export class OrganizationFullModel
 
   createdBy = '';
 
+  documentId = '';
+
   fromResponse(model: IOrganizationFullModel): boolean {
     try {
       Object.assign(this, model);
@@ -104,6 +106,7 @@ export class OrganizationFullModel
       this.site === mb.site &&
       this.okved === mb.okved &&
       this.okved2 === mb.okved2 &&
+      this.documentId === mb.documentId &&
       this.latitude === mb.latitude &&
       this.longitude === mb.longitude
     );

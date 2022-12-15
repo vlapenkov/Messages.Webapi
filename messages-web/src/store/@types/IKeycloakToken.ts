@@ -10,4 +10,5 @@ export interface IKeycloakToken extends KeycloakTokenParsed {
   given_name: string /* 'Данила' */;
   family_name: string /* 'Михайлов' */;
   email: string /* 'mikhaylov.ds@roscosmos.digital' */;
+  role: string[];
 }

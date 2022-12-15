@@ -51,6 +51,13 @@ namespace Rk.Messages.Spa.Controllers
 
             return await _service.CreateOrganization(request);
         }
-        
+
+
+        /// <summary>Установить статус</summary>
+        [HttpPatch("{id:long}/status")]
+        public async Task SetStatus(long id, [FromBody] long status)
+        {
+            await _service.SetStatus(id, status);
+        }
     }
 }

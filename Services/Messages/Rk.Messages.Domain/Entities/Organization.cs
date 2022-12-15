@@ -194,5 +194,10 @@ namespace Rk.Messages.Domain.Entities
         public void  SetDocumentId(Guid? documentId) { 
             DocumentId = documentId;
         }
+
+        public void SetStatus(OrganizationStatus status)
+        {
+            Status = status;
+        }
     }
 }

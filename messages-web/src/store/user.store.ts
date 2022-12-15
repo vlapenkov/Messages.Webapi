@@ -24,6 +24,7 @@ export const userInfo = getter('get-user-info', (state) =>
         email: state.token.email,
         accountName: state.token.preferred_username,
         inn: state.token.inn,
+        role: state.token.role,
       },
 );
 

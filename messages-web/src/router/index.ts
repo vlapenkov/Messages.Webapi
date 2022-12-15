@@ -115,6 +115,12 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "production-geo" */ '../vue/views/production-geo-view.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import(/* webpackChunkName: "register" */ '../vue/views/register-view.vue'),
+    meta: { requiresAuth: false },
+  },
 ];
 
 const router = createRouter({

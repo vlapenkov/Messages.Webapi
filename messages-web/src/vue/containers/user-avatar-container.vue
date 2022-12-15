@@ -1,20 +1,32 @@
 <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
-  <div
-    aria-controls="overlay_menu"
-    aria-haspopup="true"
-    @click="toggleMenu"
-    class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
-    v-if="isAuthenticated"
-  >
-    <div>{{ userShortName }}</div>
-    <avatar shape="circle" icon="pi pi-user"></avatar>
+  <div>
+    <div
+      aria-controls="overlay_menu"
+      aria-haspopup="true"
+      @click="toggleMenu"
+      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
+      v-if="isAuthenticated"
+    >
+      <div>{{ userShortName }}</div>
+      <avatar shape="circle" icon="pi pi-user"></avatar>
+    </div>
+    <div v-else>
+      <prime-button
+        label="Вход/Регистрация"
+        class="p-button-sm ml-3"
+        @click="vidibleLoginDialog = !vidibleLoginDialog"
+      />
+    </div>
+    <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
+    </prime-menu>
+    <teleport to="body">
+      <login-register-dialog
+        :visible="vidibleLoginDialog"
+        @update:visible="updatevidibleLoginDialog"
+      />
+    </teleport>
   </div>
-  <div v-else>
-    <prime-button label="Вход/Регистрация" class="p-button-sm ml-3" @click="login" />
-  </div>
-  <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
-  </prime-menu>
 </template>
 
 <script lang="ts">
@@ -30,12 +42,14 @@ import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store
 export default defineComponent({
   components: { PrimeMenu: Menu },
   setup() {
+    const vidibleLoginDialog = ref(false);
+    const updatevidibleLoginDialog = (v: boolean) => {
+      vidibleLoginDialog.value = v;
+    };
     const gravatarUrl = '@/assets/imagesg/avatar_placeholder.png';
-
     // computed(() =>
     //   userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
     // );
-
     const orgs: Record<string, string> = {
       '5907001774': 'НПО «ИСКРА»',
       '6312139922': 'Прогресс',
@@ -120,7 +134,17 @@ export default defineComponent({
       menu.value.toggle(event);
     };
 
-    return { isAuthenticated, gravatarUrl, userShortName, menu, menuItems, toggleMenu, login };
+    return {
+      vidibleLoginDialog,
+      isAuthenticated,
+      gravatarUrl,
+      userShortName,
+      menu,
+      menuItems,
+      updatevidibleLoginDialog,
+      toggleMenu,
+      login,
+    };
   },
 });
 </script>

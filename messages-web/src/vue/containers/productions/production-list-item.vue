@@ -3,18 +3,20 @@
     <template #title> I Am null (Work in progress) </template>
   </card>
   <product-card
-    v-else
+    v-else-if="viewMode === 'grid'"
     :product="production"
     @addToCart="addProductToShopingCart"
     @viewProduct="viewProduct"
     @viewOrganization="viewOrganization"
   />
+  <card v-else class="shadow-none"></card>
 </template>
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { viewModeProvider } from '@/vue/presentational/providers/view-mode.provider';
 import { ToastMessageOptions } from 'primevue/toast';
 import { computed, defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
@@ -57,7 +59,8 @@ export default defineComponent({
       }
       router.push({ name: 'organization', params: { id: props.production.organization.id } });
     };
-    return { productShortsItems, addProductToShopingCart, viewProduct, viewOrganization };
+    const viewMode = viewModeProvider.inject();
+    return { productShortsItems, addProductToShopingCart, viewProduct, viewOrganization, viewMode };
   },
 });
 </script>

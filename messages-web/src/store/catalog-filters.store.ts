@@ -16,7 +16,7 @@ const catalogFiltersDefault: ICatalogFilterState = {
   showFilters: false,
 };
 
-const { computeState } = defineStore('search-filters', catalogFiltersDefault);
+const { computeState, mutation } = defineStore('search-filters', catalogFiltersDefault);
 
 const searchQuery = computeState((state) => state.serachQuery);
 
@@ -28,10 +28,17 @@ const sectionId = computeState((state) => state.sectionId);
 
 const showFilters = computeState((state) => state.showFilters);
 
+const undoMainFilters = mutation('undo-main-filters', (state) => {
+  state.region = null;
+  state.sectionId = null;
+  state.organization = null;
+});
+
 export const catalogFiltersStore = {
   searchQuery,
   region,
   organization,
   sectionId,
   showFilters,
+  undoMainFilters,
 };

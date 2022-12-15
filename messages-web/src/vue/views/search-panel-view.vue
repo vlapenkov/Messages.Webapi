@@ -109,8 +109,10 @@ export default defineComponent({
     const { searchForProducts, searchQuery, showFilters } = useCatalogFilters();
 
     const router = useRouter();
-    router.beforeEach(() => {
-      showFilters.value = false;
+    router.beforeEach((to, from) => {
+      if (to.name !== from.name) {
+        showFilters.value = false;
+      }
     });
     const { totalQuantity: cartCapacity } = shoppingCartStore;
     const searchRef = ref();

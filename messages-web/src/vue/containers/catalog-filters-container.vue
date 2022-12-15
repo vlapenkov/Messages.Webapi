@@ -10,7 +10,7 @@
                 class="p-button-sm p-button-text text-color"
                 icon="pi pi-times"
                 label="Сбросить"
-                @click="showFilters = false"
+                @click="undo"
               ></prime-button>
             </div>
           </template>
@@ -67,6 +67,7 @@
 
 <script lang="ts">
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
+import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { computed, defineComponent, watchEffect } from 'vue';
 import { headerHeightProvider } from '../presentational/providers/headerHeightProvider';
 import { searchHeightProvider } from '../views/providers/search-height.provider';
@@ -79,7 +80,13 @@ export default defineComponent({
     watchEffect(() => {
       console.log('marginTop', marginTop.value);
     });
-    return { ...useCatalogFilters(), marginTop };
+    const { showFilters, ...rest } = useCatalogFilters();
+    const undo = () => {
+      showFilters.value = false;
+      catalogFiltersStore.undoMainFilters();
+    };
+
+    return { ...rest, showFilters, marginTop, undo };
   },
 });
 </script>

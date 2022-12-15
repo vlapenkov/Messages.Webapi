@@ -1,7 +1,12 @@
 <template>
   <toast position="top-right" group="tr" />
   <div class="w-full grid mr-0">
-    <div v-for="item in productions" :key="item.id" class="col-3">
+    <template v-if="productions == null">
+      <div v-for="i in 16" :key="i" class="col-3">
+        <skeleton height="250px" />
+      </div>
+    </template>
+    <div v-else v-for="item in productions" :key="item.id" class="col-3">
       <production-list-item :production="item" @notify="notifyHandler" />
     </div>
   </div>

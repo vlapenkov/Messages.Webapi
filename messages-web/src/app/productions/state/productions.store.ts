@@ -44,6 +44,8 @@ const status = computeState((state) => state.status);
 
 const selectedItem = computeState((state) => state.selectedItem);
 
+const showFilters = computeState((state) => state.showFilters);
+
 const selectedItemMode = getter('selected-item--mode', (state) => state.selectedItem?.mode ?? null);
 
 const insertPage = mutation<IPagedResponse<ProductionModel>>('insert-page', (state, payload) => {
@@ -67,6 +69,7 @@ export const productionsStore = {
   status,
   selectedItem,
   selectedItemMode,
+  showFilters,
   pageNumber,
   pageSize,
   pages,

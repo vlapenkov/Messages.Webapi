@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
-import { postOrder } from '@/app/orders/infrastructure/order.http-service';
+import { ordersHttpService } from '@/app/orders/infrastructure/order.http-service';
 import { useRouter } from 'vue-router';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { reloadOnSaveProvider } from '../base/presentational/state/collection/providers/reload-on-save.provider';
@@ -35,7 +35,7 @@ export default defineComponent({
     });
 
     const createNewOrder = async () => {
-      const response = await postOrder(undefined);
+      const response = await ordersHttpService.postOrder(undefined);
       router.push({ name: 'order', params: { id: response.data } });
     };
 

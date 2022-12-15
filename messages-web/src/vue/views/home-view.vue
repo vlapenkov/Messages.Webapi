@@ -1,68 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <div class="relative">
-    <transition-fade>
-      <div v-if="showFilters" class="absolute w-full z-1">
-        <card class="shadow-7">
-          <template #title>
-            <div class="flex flex-row justify-content-end">
-              <prime-button
-                class="p-button-sm p-button-text text-color"
-                icon="pi pi-times"
-                label="Сбросить"
-                @click="showFilters = false"
-              ></prime-button>
-            </div>
-          </template>
-          <template #content>
-            <div class="grid">
-              <div class="col-4">
-                <tree-select
-                  class="w-full"
-                  :options="sectionsTree"
-                  v-model="sectionModelTree"
-                  placeholder="Область применения"
-                ></tree-select>
-              </div>
-              <div class="col-4">
-                <dropdown
-                  v-model="regionModel"
-                  :options="regionOptions"
-                  placeholder="Регион"
-                  show-clear
-                  :style="{ width: '100%' }"
-                />
-              </div>
-              <div class="col-4">
-                <dropdown
-                  v-model="organizationModel"
-                  :options="organizationOptions"
-                  placeholder="Производитель"
-                  show-clear
-                  :style="{ width: '100%' }"
-                />
-              </div>
-              <div class="col-12 mt-1 flex flex-row gap-4">
-                <div class="field-radiobutton">
-                  <radio-button inputId="status-available" name="city" value="Chicago" />
-                  <label for="status-available">В наличии</label>
-                </div>
-                <div class="field-radiobutton">
-                  <radio-button inputId="status-orderable" name="city" value="Los Angeles" />
-                  <label for="status-orderable">Под заказ</label>
-                </div>
-              </div>
-            </div>
-          </template>
-          <template #footer>
-            <div class="flex flex-row justify-content-end">
-              <prime-button @click="searchForProducts" label="Применить"></prime-button>
-            </div>
-          </template>
-        </card>
-      </div>
-    </transition-fade>
-
+  <div>
     <div class="grid mt-4">
       <div class="col-12">
         <h1 class="p-component text-xl sm:text-2xl mb-1 mt-0">Популярные категории</h1>
@@ -177,7 +115,6 @@ import { defineComponent, onMounted, ref } from 'vue';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
-import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 
 export default defineComponent({
   setup() {
@@ -197,27 +134,8 @@ export default defineComponent({
 
     const cartCapacity = shoppingCartStore.totalQuantity;
 
-    const {
-      sectionsTree,
-      sectionModelTree,
-      regionModel,
-      organizationModel,
-      organizationOptions,
-      regionOptions,
-      searchQuery,
-      searchForProducts,
-    } = useCatalogFilters();
-
     return {
-      sectionsTree,
-      sectionModelTree,
-      regionModel,
-      organizationModel,
       hasPhoto,
-      regionOptions,
-      organizationOptions,
-      searchForProducts,
-      searchQuery,
       cartCapacity,
       showFilters,
     };

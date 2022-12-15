@@ -360,6 +360,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 import { useRouter } from 'vue-router';
+import { useStatuses } from '@/composables/statuses.composable';
 
 export default defineComponent({
   components: { Toast },
@@ -369,7 +370,8 @@ export default defineComponent({
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
     const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
-    const statusOptions = ['Новая', 'Активна', 'Закрыта'];
+    const { statuses } = useStatuses();
+    const statusOptions = computed(() => statuses.value.map((x) => x.name));
     const formState = reactive<IOrganizationFullModel>({
       ogrn: '',
       inn: '',

@@ -2,7 +2,7 @@
   <toast position="top-right" group="tr" />
   <div class="w-full grid mr-0">
     <div v-for="item in productions" :key="item.id" class="col-3">
-      <pron-list-item-container :production="item" @notify="notifyHandler" />
+      <production-list-item :production="item" @notify="notifyHandler" />
     </div>
   </div>
 </template>

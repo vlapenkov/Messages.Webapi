@@ -1,12 +1,10 @@
-import { defineCollectionService } from '@/app/core/services/http/custom/collection.http-service';
+import { defineHttpService } from '@/app/core/services/http/define-http.service';
 import { IAttribute } from '../@types/IAttribute';
 
-const [attributeHttpService, { defineGet }] = defineCollectionService<IAttribute>({
-  url: 'api/Products',
+const { defineGet } = defineHttpService<IAttribute>({
+  url: 'api/Productions/attributes',
 });
 
-attributeHttpService.get = defineGet(() => ({
-  url: `/attributes`,
-}));
+const get = defineGet();
 
-export { attributeHttpService };
+export const attributeHttpService = { get };

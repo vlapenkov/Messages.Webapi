@@ -3,19 +3,12 @@
     <template #title> I Am null (Work in progress) </template>
   </card>
   <product-card
-    v-else-if="production.productionType === 'Product'"
+    v-else
     :product="production"
     @addToCart="addProductToShopingCart"
     @viewProduct="viewProduct"
     @viewOrganization="viewOrganization"
   />
-  <product-service-card
-    :product="production"
-    v-else-if="production.productionType === 'ServiceProduct'"
-  >
-  </product-service-card>
-  <product-work-card :product="production" v-else-if="production.productionType === 'WorkProduct'">
-  </product-work-card>
 </template>
 
 <script lang="ts">

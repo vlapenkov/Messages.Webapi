@@ -16,12 +16,10 @@
 </template>
 
 <script lang="ts">
-import { AttributeModel } from '@/app/attributes/models/AttributeModel';
-import { attributeStore } from '@/app/attributes/state/attribute.store';
 import { IProductAttribute } from '@/app/product-full/@types/IProductAttribute';
 import { IProductFullModel } from '@/app/product-full/@types/IProductFullModel';
-import { CollectionStoreMixed } from '@/vue/base/presentational/state/collection/collection-state.vue';
-import { defineComponent, PropType, ref, watch, WritableComputedRef } from 'vue';
+import { useAttributes } from '@/composables/attributes.composable';
+import { defineComponent, PropType, ref, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -31,11 +29,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const state = attributeStore as CollectionStoreMixed;
-    if (state.items == null) {
-      throw new Error('Что-то пошло не так');
-    }
-    const attributeDefs = state.items({ force: true }) as WritableComputedRef<AttributeModel[]>;
+    const attributeDefs = useAttributes();
+
     const attributes = ref<IProductAttribute[]>();
     watch(
       () => props.product,
@@ -48,6 +43,9 @@ export default defineComponent({
           attributes.value = [] as IProductAttribute[];
         }
         attributes.value = propduct.attributeValues;
+      },
+      {
+        immediate: true,
       },
     );
 

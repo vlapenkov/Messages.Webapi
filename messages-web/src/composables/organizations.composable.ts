@@ -4,10 +4,12 @@ import { computed, onMounted } from 'vue';
 
 export function useOrganizations() {
   onMounted(() => {
-    organizationsService.loadPage({
-      pageNumber: 1,
-      pageSize: 8,
-    });
+    if (organizationsStore.status.value.status === 'initial') {
+      organizationsService.loadPage({
+        pageNumber: 1,
+        pageSize: 8,
+      });
+    }
   });
 
   const organizations = computed(() => organizationsStore.currentPageItems.value ?? []);

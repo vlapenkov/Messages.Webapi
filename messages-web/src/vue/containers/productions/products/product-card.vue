@@ -1,8 +1,11 @@
 <template>
   <card
     @click="viewProduct(product)"
-    class="h-full re-padding-card trans-shadow"
-    :class="{ 'shadow-none': !isCardHovered, 'shadow-7': isCardHovered }"
+    class="h-full re-padding-card trans-shadow relative"
+    :class="{
+      'shadow-none': !isCardHovered,
+      'shadow-7': isCardHovered,
+    }"
     ref="cardRef"
     :style="cardStyle"
   >
@@ -17,7 +20,7 @@
     </template>
     <template #content>
       <div class="h-full flex flex-column justify-content-between gap-1 p-2">
-        <div class="text-lg font-bold">{{ product.price }} ₽</div>
+        <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 text-left">
           {{ product.name }}
         </div>
@@ -31,25 +34,27 @@
             </prime-button>
           </div>
           <div class="text-sm">{{ product.organization.region }}</div>
-          <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
+          <div class="text-md">
+            <i class="pi pi-star star-yellow"></i> {{ product.rating ?? 0 }}
+          </div>
+          <div
+            :class="{ 'half-transparent': isNotProduct }"
+            class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
+          >
             <prime-button
+              :disabled="isNotProduct"
               @click.stop="addToCart(product)"
-              class="p-button-sm h-full py-1 flex-grow-1"
+              class="p-button-sm p-button-outlined h-full py-1 flex-grow-1"
               label="В Корзину"
             >
             </prime-button>
             <prime-button
-              disabled
-              icon="pi pi-heart"
-              class="p-button-secondary p-button-text py-1"
-            ></prime-button>
-            <prime-button
-              disabled
+              :disabled="isNotProduct"
               icon="pi pi-chart-bar"
               class="p-button-secondary p-button-text py-1"
             ></prime-button>
             <prime-button
-              disabled
+              :disabled="isNotProduct"
               icon="pi pi-arrows-h"
               class="p-button-secondary p-button-text py-1"
             ></prime-button>
@@ -77,7 +82,7 @@ export default defineComponent({
     viewProduct: (_: ProductionModel) => true,
     viewOrganization: (_: ProductionModel) => true,
   },
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const addToCart = (p: ProductionModel) => {
       emit('addToCart', p);
     };
@@ -97,6 +102,8 @@ export default defineComponent({
       '--p-card-body-height': `calc(100% - ${headerHeight.value}px)`,
     }));
 
+    const isNotProduct = computed(() => props.product.productionType !== 'Product');
+
     return {
       headerRef,
       cardRef,
@@ -105,12 +112,19 @@ export default defineComponent({
       viewProduct,
       viewOrganization,
       isCardHovered,
+      isNotProduct,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.star-yellow {
+  color: #ffb800;
+}
+.half-transparent {
+  opacity: 0.5;
+}
 .re-padding-card {
   :deep(.p-card-header) {
     line-height: 0;

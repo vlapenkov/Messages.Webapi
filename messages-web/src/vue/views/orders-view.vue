@@ -103,7 +103,7 @@
 
 <script lang="ts">
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
-import { getOrder } from '@/app/orders/infrastructure/order.http-service';
+import { ordersHttpService } from '@/app/orders/infrastructure/order.http-service';
 import { IOrderModelFull } from '@/app/orders/model/IOrderModel';
 import { ordersService } from '@/app/orders/services/orders.service';
 import { ordersStore } from '@/app/orders/state/orders.store';
@@ -170,7 +170,7 @@ export default defineComponent({
         values
           .filter((id) => expandedOrders.value[id] == null)
           .forEach((val) => {
-            getOrder(val).then((result) => {
+            ordersHttpService.getOrder(val).then((result) => {
               // console.log({ result });
 
               if (result.status === HttpStatus.Success && result.data != null) {

@@ -12,6 +12,7 @@ export interface IOrderModel extends IModel {
   quantity: number;
   id: number;
   statusText: string;
+  producerName: string;
 }
 
 export interface IOrderModelFull extends IModel {

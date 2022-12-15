@@ -7,7 +7,7 @@
             <div class="flex flex-row" style="align-items: baseline">
               <router-link :to="{ name: 'order', params: { id: item.id } }"
                 class="p-component text-primary text-lg font-bold not-link">Заказ № {{ item.id }}</router-link>
-              <tag class="ml-2" value="Primary" rounded style="height: 24px">завершен</tag>
+              <tag class="ml-2" value="Primary" rounded style="height: 24px">{{ item.statusText }}</tag>
             </div>
             <prime-button style="transform: scale(0.7)" class="p-button-rounded p-button-text p-button-secondary"
               @click="item.expanded.value = !item.expanded.value"
@@ -28,7 +28,7 @@
               <div class="p-component text-md">
                 Производитель:
                 <span class="text-primary">
-                  {{ item.organisationName || 'неизвестный пользователь' }}</span>
+                  {{ item.producerName || 'неизвестный пользователь' }}</span>
               </div>
             </div>
             <template v-if="!item.expanded.value">

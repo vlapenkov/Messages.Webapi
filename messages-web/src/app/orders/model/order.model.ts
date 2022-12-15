@@ -25,6 +25,8 @@ export class OrderModel extends ModelBase<IOrderModel> {
 
   statusText = '';
 
+  producerName = '';
+
   fromResponse(model: IOrderModel): boolean {
     try {
       this.id = model.id;
@@ -38,6 +40,7 @@ export class OrderModel extends ModelBase<IOrderModel> {
       this.sum = model.sum;
       this.quantity = model.quantity;
       this.statusText = model.statusText;
+      this.producerName = model.producerName;
       return true;
     } catch (error) {
       return false;
@@ -58,6 +61,7 @@ export class OrderModel extends ModelBase<IOrderModel> {
       quantity: this.quantity,
       [modelMarker]: this[modelMarker],
       statusText: this.statusText,
+      producerName: this.producerName,
     };
   }
 

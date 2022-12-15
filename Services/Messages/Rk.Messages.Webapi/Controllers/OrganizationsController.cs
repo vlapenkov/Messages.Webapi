@@ -9,6 +9,7 @@ using Rk.Messages.Logic.OrganizationsNS.Dto;
 using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganization;
 using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganizations;
 using System.Threading.Tasks;
+using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganizationByInn;
 
 namespace Rk.Messages.Webapi.Controllers
 {
@@ -28,6 +29,12 @@ namespace Rk.Messages.Webapi.Controllers
         public async Task<OrganizationDto> GetOrganization(long id)
         {
             return await _mediator.Send(new GetOrganizationQuery { Id = id });
+        }
+        
+        [HttpGet("inn/{inn}")]
+        public async Task<OrganizationDto> GetOrganization(string inn)
+        {
+            return await _mediator.Send(new GetOrganizationByInnQuery { Inn = inn });
         }
 
         [HttpGet()]

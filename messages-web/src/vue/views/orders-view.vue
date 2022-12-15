@@ -5,19 +5,13 @@
         <template #title>
           <div class="flex flex-row justify-content-between">
             <div class="flex flex-row" style="align-items: baseline">
-              <router-link
-                :to="{ name: 'order', params: { id: item.id } }"
-                class="p-component text-primary text-lg font-bold not-link"
-                >Заказ № {{ item.id }}</router-link
-              >
+              <router-link :to="{ name: 'order', params: { id: item.id } }"
+                class="p-component text-primary text-lg font-bold not-link">Заказ № {{ item.id }}</router-link>
               <tag class="ml-2" value="Primary" rounded style="height: 24px">завершен</tag>
             </div>
-            <prime-button
-              style="transform: scale(0.7)"
-              class="p-button-rounded p-button-text p-button-secondary"
+            <prime-button style="transform: scale(0.7)" class="p-button-rounded p-button-text p-button-secondary"
               @click="item.expanded.value = !item.expanded.value"
-              :icon="item.expanded.value ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
-            ></prime-button>
+              :icon="item.expanded.value ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"></prime-button>
           </div>
         </template>
         <template #content>
@@ -34,8 +28,7 @@
               <div class="p-component text-md">
                 Производитель:
                 <span class="text-primary">
-                  {{ item.organisationName || 'неизвестный пользователь' }}</span
-                >
+                  {{ item.organisationName || 'неизвестный пользователь' }}</span>
               </div>
             </div>
             <template v-if="!item.expanded.value">
@@ -58,21 +51,15 @@
                   </div>
                 </div>
                 <prime-divider class="mt-1 mb-2"></prime-divider>
-                <div
-                  v-for="product in item.fullOrder.value.orderItems"
-                  :key="product.productId"
-                  class="grid px-1 mt-1 border-round surface-200"
-                >
+                <div v-for="product in item.fullOrder.value.orderItems" :key="product.productId"
+                  class="grid px-1 mt-1 border-round surface-200">
                   <div class="col-2">
                     <file-store-image fit-width :id="product.documentId"></file-store-image>
                   </div>
                   <div class="col-4 flex flex-column gap-3">
-                    <router-link
-                      :to="{ name: 'product', params: { id: product.productId } }"
-                      class="flex gap-3 align-items-center not-link text-primary"
-                    >
-                      {{ product.productName }}</router-link
-                    >
+                    <router-link :to="{ name: 'product', params: { id: product.productId } }"
+                      class="flex gap-3 align-items-center not-link text-primary">
+                      {{ product.productName }}</router-link>
                   </div>
                   <div class="col-2 flex flex-row justify-content-end">
                     <div class="p-component text-md">Цена: {{ product.price }} ₽</div>
@@ -90,14 +77,9 @@
         </template>
       </card>
     </div>
-    <prime-paginator
-      class="mt-2 border-1 shadow-1"
-      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-      @page="changePage"
-      :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)"
-      :totalRecords="currentPage?.totalItemCount ?? 0"
-    ></prime-paginator>
+    <prime-paginator class="mt-2 border-1 shadow-1"
+      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0" @page="changePage" :rows="pageSize"
+      :first="pageSize * (pageNumber - 1)" :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
   </app-page>
 </template>
 
@@ -107,18 +89,22 @@ import { ordersHttpService } from '@/app/orders/infrastructure/order.http-servic
 import { IOrderModelFull } from '@/app/orders/model/IOrderModel';
 import { ordersService } from '@/app/orders/services/orders.service';
 import { ordersStore } from '@/app/orders/state/orders.store';
+import { userInfo } from '@/store/user.store';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { defineComponent, ref, watch, computed } from 'vue'; // , toRaw
 
 export default defineComponent({
   components: { PrimePaginator },
   setup() {
+    const userOrg = computed(() => userInfo.value?.org)
     watch(
       [ordersStore.pageNumber, ordersStore.pageSize],
       ([pageNumber, pageSize]) => {
         ordersService.loadPage({
           pageNumber,
           pageSize,
+          producerId: undefined,
+          organisationId: userOrg.value?.id
         });
       },
       {

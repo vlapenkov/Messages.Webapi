@@ -11,3 +11,4 @@ export { organizationsHttpService };
 export const getOrganization = defineGet<IOrganizationModel, number>((id) => ({
   url: `/${id}`,
 }));
+

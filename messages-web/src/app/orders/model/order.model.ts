@@ -1,36 +1,24 @@
 import { IModel, modelMarker } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { description } from '@/app/core/models/decorators/description.decorator';
-import { render } from '@/app/core/models/decorators/render.decorator';
 import { IOrderModel } from './IOrderModel';
 
 export class OrderModel extends ModelBase<IOrderModel> {
   id = -1;
 
-  @description('Создал')
   createdBy = '';
 
-  @description('Внёс последние изменения')
   lastModifiedBy = '';
 
-  @description('Дата создания')
-  @render((m: OrderModel) => (m.created ? m.created.toLocaleDateString() : 'неизвестна'))
   created: Date | null = null;
 
-  @description('Дата последних изменений')
-  @render((m: OrderModel) => (m.created ? m.created.toLocaleDateString() : 'неизвестна'))
   lastModified: Date | null = null;
 
-  @description('Организация')
   organisationName = '';
 
-  @description('Имя пользователя')
   userName = '';
 
-  @description('Комментарии')
   comments = '';
 
-  @description('Сумма')
   sum = -1;
 
   quantity = -1;

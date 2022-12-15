@@ -1,6 +1,6 @@
 <template>
   <div class="pt-2">
-    <div class="flex flex-row justify-content-between gap-2">
+    <div ref="searchRef" class="flex flex-row justify-content-between gap-2">
       <div class="flex flex-grow-1 flex-row justify-content-between align-items-center gap-2">
         <div>
           <router-link to="catalog" :style="{ textDecoration: 'none' }">
@@ -83,6 +83,9 @@
         </div>
       </div>
     </div>
+    <teleport to="body">
+      <catalog-filters-container></catalog-filters-container>
+    </teleport>
     <div>
       <router-view v-slot="{ Component }">
         <transition-fade>
@@ -96,15 +99,27 @@
 <script lang="ts">
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
-import { defineComponent } from 'vue';
+import { useElementSize } from '@vueuse/core';
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { searchHeightProvider } from './providers/search-height.provider';
 
 export default defineComponent({
   setup() {
     const { searchForProducts, searchQuery, showFilters } = useCatalogFilters();
 
+    const router = useRouter();
+    router.beforeEach(() => {
+      showFilters.value = false;
+    });
     const { totalQuantity: cartCapacity } = shoppingCartStore;
+    const searchRef = ref();
 
-    return { searchMe: searchForProducts, searchQuery, cartCapacity, showFilters };
+    const { height: searchHeight } = useElementSize(searchRef);
+
+    searchHeightProvider.provide(searchHeight);
+
+    return { searchMe: searchForProducts, searchQuery, cartCapacity, showFilters, searchRef };
   },
 });
 </script>

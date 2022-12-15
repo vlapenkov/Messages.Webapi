@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     Avatar: typeof import('primevue/avatar')['default']
     Card: typeof import('primevue/card')['default']
     Carousel: typeof import('primevue/carousel')['default']
+    CatalogFiltersContainer: typeof import('./src/vue/containers/catalog-filters-container.vue')['default']
     CatalogView: typeof import('./src/vue/views/catalog-view.vue')['default']
     CategoriesView: typeof import('./src/vue/views/categories-view.vue')['default']
     Checkbox: typeof import('primevue/checkbox')['default']

@@ -95,7 +95,7 @@
 </template>
 
 <script lang="ts">
-import { getOrder } from '@/app/orders/infrastructure/order.http-service';
+import { ordersHttpService } from '@/app/orders/infrastructure/order.http-service';
 import { defineComponent, ref, watch } from 'vue'; // , toRaw
 import { useRoute } from 'vue-router';
 
@@ -153,7 +153,7 @@ export default defineComponent({
         }
         const idNum = Number.parseInt(id, 10);
         if (Number.isNaN(idNum)) return;
-        getOrder(idNum).then((o) => {
+        ordersHttpService.getOrder(idNum).then((o) => {
           if (o == null || o.data == null) return;
           const model = {
             id: o.data.id,

@@ -13,5 +13,7 @@ export class ProductShortsState extends StateBase {
 
   pageSize = 16;
 
+  showFilters = false;
+
   selectedItem: NotValidData<ProductionModel> | null = null;
 }

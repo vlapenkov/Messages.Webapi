@@ -50,7 +50,6 @@ import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 import { productionsStore } from '@/app/productions/state/productions.store';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 
 export default defineComponent({
@@ -65,7 +64,7 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
 
-    const { showFilters } = catalogFiltersStore;
+    const { showFilters } = productionsStore;
     const notifyHandler = useToastNotificationHandler(toast);
     return {
       notifyHandler,

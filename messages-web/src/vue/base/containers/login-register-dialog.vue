@@ -20,7 +20,7 @@
         class="col-6 col-offset-3 mb-6"
       />
       <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-3" @click="login" />
-      <router-link to="register" class="no-underline">
+      <router-link to="/register" class="no-underline">
         <prime-button
           label="Зарегистрироваться"
           class="col-6 col-offset-3 p-button-sm p-button-text"

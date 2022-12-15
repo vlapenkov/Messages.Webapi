@@ -45,6 +45,7 @@ declare module '@vue/runtime-core' {
     HelloWorld: typeof import('./src/vue/presentational/hello-world.vue')['default']
     HomeView: typeof import('./src/vue/views/home-view.vue')['default']
     HoverTag: typeof import('./src/vue/base/presentational/hover-tag.vue')['default']
+    IncomingOrdersView: typeof import('./src/vue/views/incoming-orders-view.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LabsView: typeof import('./src/vue/views/labs-view.vue')['default']

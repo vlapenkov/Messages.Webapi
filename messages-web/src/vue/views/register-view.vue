@@ -460,8 +460,6 @@ export default defineComponent({
     });
 
     const save = async () => {
-      console.log(save);
-
       createItem();
       const item = new OrganizationFullModel();
       item.fromResponse(formState);

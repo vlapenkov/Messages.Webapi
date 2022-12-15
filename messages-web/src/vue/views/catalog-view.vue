@@ -15,7 +15,7 @@ import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPa
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useElementSize } from '@vueuse/core';
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
@@ -44,32 +44,18 @@ export default defineComponent({
       ref: searchQuery,
     });
 
-    watch(
-      [
-        productionsStore.pageNumber,
-        productionsStore.pageSize,
-        searchQuery,
-        sectionId,
-        region,
-        organization,
-      ],
-      ([pageNumber, pageSize, query, catalogSectionId, reg, org]) => {
-        // console.log('Запрашиваем страницы', pageNumber, pageSize, query, catalogSectionId);
-        const request: IproductionsPageRequest = {
-          name: isNullOrEmpty(query) ? null : query,
-          catalogSectionId: catalogSectionId ?? undefined,
-          pageNumber,
-          pageSize,
-          producerName: org ?? null,
-          region: reg ?? null,
-        };
+    onMounted(() => {
+      const request: IproductionsPageRequest = {
+        name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
+        catalogSectionId: sectionId.value ?? undefined,
+        pageNumber: productionsStore.pageNumber.value,
+        pageSize: productionsStore.pageSize.value,
+        producerName: organization.value ?? null,
+        region: region.value ?? null,
+      };
 
-        productionsService.loadPage(request);
-      },
-      {
-        immediate: true,
-      },
-    );
+      productionsService.loadPage(request);
+    });
 
     const productsContainerRef = ref<HTMLElement>();
     const { width: productsContainerSize } = useElementSize(productsContainerRef);

@@ -1,8 +1,8 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <transition-fade>
-    <app-container :style="{ marginTop }" class="absolute left-0 top-0 w-full">
-      <div v-if="showFilters" class="z-1">
+    <app-container v-if="showFilters" :style="{ marginTop }" class="absolute left-0 top-0 w-full">
+      <div class="z-1">
         <card class="shadow-7">
           <template #title>
             <div class="flex flex-row justify-content-end">

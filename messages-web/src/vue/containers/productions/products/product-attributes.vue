@@ -44,6 +44,9 @@ export default defineComponent({
         }
         attributes.value = propduct.attributeValues;
       },
+      {
+        immediate: true,
+      },
     );
 
     const getAttributeName = (id: number) => {

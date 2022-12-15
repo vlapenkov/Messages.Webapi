@@ -23,6 +23,8 @@ export class OrderModel extends ModelBase<IOrderModel> {
 
   quantity = -1;
 
+  statusText = '';
+
   fromResponse(model: IOrderModel): boolean {
     try {
       this.id = model.id;
@@ -35,6 +37,7 @@ export class OrderModel extends ModelBase<IOrderModel> {
       this.comments = model.comments;
       this.sum = model.sum;
       this.quantity = model.quantity;
+      this.statusText = model.statusText;
       return true;
     } catch (error) {
       return false;
@@ -54,6 +57,7 @@ export class OrderModel extends ModelBase<IOrderModel> {
       id: this.id,
       quantity: this.quantity,
       [modelMarker]: this[modelMarker],
+      statusText: this.statusText,
     };
   }
 
@@ -71,3 +75,4 @@ export class OrderModel extends ModelBase<IOrderModel> {
     return nm;
   }
 }
+

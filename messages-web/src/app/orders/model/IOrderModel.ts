@@ -11,6 +11,7 @@ export interface IOrderModel extends IModel {
   sum: number;
   quantity: number;
   id: number;
+  statusText: string;
 }
 
 export interface IOrderModelFull extends IModel {
@@ -22,6 +23,7 @@ export interface IOrderModelFull extends IModel {
   organisationName: string;
   userName: string;
   comments: string;
+  statusText: string;
   orderItems: [
     {
       productId: number;
@@ -34,3 +36,4 @@ export interface IOrderModelFull extends IModel {
   ];
   sum: number;
 }
+

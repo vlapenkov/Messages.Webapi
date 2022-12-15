@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Rk.Messages.Domain.Enums;
 
 namespace Rk.Messages.Domain.Entities
@@ -147,6 +148,24 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>Признак организации- покупателя</summary>
         public bool IsBuyer { get; private set; }
 
+        [StringLength(1024)]
+        public string FactAddress { get; private set; }
+
+        [StringLength(512)]
+        public string BankName { get; private set; }
+
+        [StringLength(512)]
+        public string Account { get; private set; }
+
+        [StringLength(512)]
+        public string CorrAccount { get; private set; }
+
+        [StringLength(512)]
+        public string Bik { get; private set; }
+
+        
+        public Guid? DocumentId { get; private set; }
+
         #endregion
 
         public void SetProducer(bool isProducer) {
@@ -156,6 +175,29 @@ namespace Rk.Messages.Domain.Entities
         public void SetBuyer(bool isBuyer)
         {
             IsBuyer = isBuyer;
+        }
+
+        public void SetFactAddress(string factAddress)
+        {
+            FactAddress = factAddress;
+        }
+
+        /// <summary>Установить банковские реквизиты</summary>
+        public void SetAccountParameters(string bankName, string account, string corrAccount, string bik) { 
+        
+            BankName = bankName;
+            Account = account;
+            CorrAccount = corrAccount;
+            Bik = bik;
+        }
+
+        public void  SetDocumentId(Guid? documentId) { 
+            DocumentId = documentId;
+        }
+
+        public void SetStatus(OrganizationStatus status)
+        {
+            Status = status;
         }
     }
 }

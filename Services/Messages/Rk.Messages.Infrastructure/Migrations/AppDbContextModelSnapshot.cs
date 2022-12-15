@@ -277,15 +277,35 @@ namespace Rk.Messages.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Account")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("account");
+
                     b.Property<string>("Address")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("address");
 
+                    b.Property<string>("BankName")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("bankname");
+
+                    b.Property<string>("Bik")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("bik");
+
                     b.Property<string>("City")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("city");
+
+                    b.Property<string>("CorrAccount")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("corraccount");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone")
@@ -295,10 +315,19 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("documentid");
+
                     b.Property<string>("Email")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("email");
+
+                    b.Property<string>("FactAddress")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("factaddress");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(1024)
@@ -612,6 +641,53 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Review", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BaseProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("baseproductid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
+
+                    b.HasKey("Id")
+                        .HasName("pk_reviews");
+
+                    b.HasIndex("BaseProductId")
+                        .HasDatabaseName("ix_reviews_baseproductid");
+
+                    b.ToTable("reviews", (string)null);
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
                 {
                     b.Property<long>("Id")
@@ -700,6 +776,11 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasMaxLength(4096)
                         .HasColumnType("character varying(4096)")
                         .HasColumnName("address");
+
+                    b.Property<string>("Article")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("article");
 
                     b.Property<int>("AvailableStatus")
                         .HasColumnType("integer")
@@ -863,6 +944,18 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("Rk.Messages.Domain.Entities.Products.BaseProduct", "BaseProduct")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BaseProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_reviews_baseproduct_baseproductid");
+
+                    b.Navigation("BaseProduct");
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
                 {
                     b.HasOne("Rk.Messages.Domain.Entities.CatalogSection", "Section")
@@ -915,6 +1008,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("AttributeValues");
 
                     b.Navigation("ProductDocuments");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

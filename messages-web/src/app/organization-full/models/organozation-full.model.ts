@@ -1,4 +1,3 @@
-import { IModel } from '@/app/core/models/@types/IModel';
 import { ModelBase } from '@/app/core/models/base/model-base';
 import { description } from '@/app/core/models/decorators/description.decorator';
 import { hidden } from '@/app/core/models/decorators/hidden.decorator';
@@ -37,6 +36,8 @@ export class OrganizationFullModel
   @description('Адрес')
   address = '';
 
+  factAddress = '';
+
   @description('ОКВЕД')
   okved = '';
 
@@ -45,6 +46,26 @@ export class OrganizationFullModel
 
   @description('Сайт')
   site = '';
+
+  phone = '';
+
+  email = '';
+
+  isProducer = false;
+
+  isBuyer = false;
+
+  bankName = '';
+
+  account = '';
+
+  corrAccount = '';
+
+  bik = '';
+
+  latitude = 0;
+
+  longitude = 0;
 
   statusText = '';
 
@@ -55,10 +76,6 @@ export class OrganizationFullModel
   created = '';
 
   createdBy = '';
-
-  latitude = 0;
-
-  longitude = 0;
 
   fromResponse(model: IOrganizationFullModel): boolean {
     try {
@@ -86,7 +103,9 @@ export class OrganizationFullModel
       this.address === mb.address &&
       this.site === mb.site &&
       this.okved === mb.okved &&
-      this.okved2 === mb.okved2
+      this.okved2 === mb.okved2 &&
+      this.latitude === mb.latitude &&
+      this.longitude === mb.longitude
     );
   }
 
@@ -94,7 +113,7 @@ export class OrganizationFullModel
     return this.id;
   }
 
-  clone(): ModelBase<IModel> {
+  clone(): OrganizationFullModel {
     const cloned = new OrganizationFullModel();
     Object.assign(cloned, this);
     return cloned;

@@ -91,6 +91,16 @@ export default defineComponent({
         icon: 'pi pi-chart-bar',
       },
       {
+        label: 'География производства',
+        to: { name: 'production-geo' },
+        icon: 'pi pi-map',
+      },
+      {
+        label: 'Добавить организацию',
+        to: { name: 'organization-add' },
+        icon: 'pi pi-plus',
+      },
+      {
         label: 'Выход',
         icon: 'pi pi-sign-out',
         command: () => {

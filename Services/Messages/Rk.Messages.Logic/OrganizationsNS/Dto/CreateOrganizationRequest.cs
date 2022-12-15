@@ -1,4 +1,6 @@
-﻿namespace Rk.Messages.Logic.OrganizationsNS.Dto
+﻿using Rk.Messages.Logic.ProductsNS.Dto;
+
+namespace Rk.Messages.Logic.OrganizationsNS.Dto
 {
     /// <summary>
     /// Создание организации
@@ -22,9 +24,7 @@
 
         public string Address { get; set; }
 
-        public string FactAddress { get; set; }
-
-        public string PostAddress { get; set; }
+        public string FactAddress { get; set; }       
 
         public string Site { get; set; }
 
@@ -46,12 +46,19 @@
         /// <summary>Признак организации- покупателя</summary>
         public bool IsBuyer { get; set; }
 
+        /// <summary>банк</summary>
         public string BankName { get; set; }
 
+        /// <summary>рс</summary>
         public string Account { get; set; }
 
+        /// <summary>кс</summary>
         public string CorrAccount { get; set; }
 
+        /// <summary>бик</summary>
         public string Bik { get; set; }
+
+        /// <summary>документ для картинки</summary>
+        public FileDataDto Document { get; set; }
     }
 }

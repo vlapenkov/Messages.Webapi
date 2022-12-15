@@ -12,17 +12,20 @@ export function useOrganizations() {
     }
   });
 
-  const regions = computed(() =>
+  const organizations = computed(() => organizationsStore.currentPageItems.value ?? []);
+
+  const regionOptions = computed(() =>
     (organizationsStore.currentPageItems.value ?? [])
       .map((x) => x.region)
       .filter((val, ind, arr) => arr.indexOf(val) === ind),
   );
-  const organizations = computed(() =>
+  const organizationOptions = computed(() =>
     (organizationsStore.currentPageItems.value ?? []).map((x) => x.name),
   );
 
   return {
-    regions,
     organizations,
+    regionOptions,
+    organizationOptions,
   };
 }

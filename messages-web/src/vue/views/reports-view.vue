@@ -172,6 +172,9 @@
             </card>
           </div>
         </tab-panel>
+        <tab-panel header="По организации">
+          <org-chart></org-chart>
+        </tab-panel>
       </tab-view>
     </div>
   </app-page>

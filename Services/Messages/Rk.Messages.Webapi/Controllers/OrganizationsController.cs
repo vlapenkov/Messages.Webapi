@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rk.Messages.Domain.Enums;
 using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization;
+using Rk.Messages.Logic.OrganizationsNS.Commands.SetStatus;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganization;
 using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganizations;
@@ -38,6 +40,13 @@ namespace Rk.Messages.Webapi.Controllers
         public async Task<long> CreateOrganization([FromBody] CreateOrganizationRequest request)
         {
             return await _mediator.Send(new CreateOrganizationCommand { Request = request });
+        }
+
+        /// <summary>Установить статус</summary>
+        [HttpPatch("{id:long}/status")]
+        public async Task SetStatus(long id, [FromBody] long status)
+        {
+            await _mediator.Send(new SetStatusCommand { OrganizationId = id, Status = (OrganizationStatus) status });
         }
     }
 }

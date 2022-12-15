@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Domain.Enums;
 using Rk.Messages.Logic.CommonNS.Dto;
+using Rk.Messages.Logic.ProductsNS.Commands.AddReview;
 using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
 using Rk.Messages.Logic.ProductsNS.Commands.SetStatus;
 using Rk.Messages.Logic.ProductsNS.Dto;
@@ -59,6 +60,13 @@ namespace Rk.Messages.Webapi.Controllers
         {
             var result = await _mediator.Send(new GetProductAttributesQuery { });
             return result;
+        }
+
+        /// <summary>Добавить отзыв о продукции</summary>  
+        [HttpPost("{id:long}/reviews")]
+        public async Task AddReview(long id, [FromBody] CreateReviewRequest request)
+        {
+            await _mediator.Send(new AddReviewCommand { ProductId = id, Request = request });
         }
     }
 }

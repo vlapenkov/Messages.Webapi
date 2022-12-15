@@ -6,7 +6,9 @@
     <template #body>
       <router-view v-slot="{ Component }">
         <transition-fade>
-          <component :is="Component"></component>
+          <auth-guard>
+            <component :is="Component"></component>
+          </auth-guard>
         </transition-fade>
       </router-view>
     </template>

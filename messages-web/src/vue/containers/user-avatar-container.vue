@@ -10,6 +10,9 @@
     <div>{{ userShortName }}</div>
     <avatar shape="circle" icon="pi pi-user"></avatar>
   </div>
+  <div v-else>
+    <prime-button label="Вход/Регистрация" class="p-button-sm ml-3" @click="login" />
+  </div>
   <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
   </prime-menu>
 </template>
@@ -19,7 +22,7 @@ import { isAuthenticated, userInfo } from '@/store/user.store';
 import { computed, defineComponent, ref } from 'vue';
 // import { url } from 'gravatar';
 import { screenMiddle } from '@/app/core/services/window/window.service';
-import { logout } from '@/app/core/services/keycloak/keycloak.service';
+import { login, logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 
@@ -117,7 +120,7 @@ export default defineComponent({
       menu.value.toggle(event);
     };
 
-    return { isAuthenticated, gravatarUrl, userShortName, menu, menuItems, toggleMenu };
+    return { isAuthenticated, gravatarUrl, userShortName, menu, menuItems, toggleMenu, login };
   },
 });
 </script>

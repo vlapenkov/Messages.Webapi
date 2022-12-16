@@ -23,7 +23,7 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         Task DeleteProductById(long id);               
 
         /// <summary>Установить статус продукции</summary>  
-        [Patch("/api/v1/Products/{id}/status")]
+        [Patch("/api/v1/Productions/{id}/status")]
         Task SetStatus(long id, [Body] long status);
 
         /// <summary>Добавить отзыв о продукции</summary>  

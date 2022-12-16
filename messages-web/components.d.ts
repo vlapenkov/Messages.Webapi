@@ -68,6 +68,7 @@ declare module '@vue/runtime-core' {
     PrimeDivider: typeof import('./src/vue/base/presentational/prime/prime-divider.vue')['default']
     ProductAttributes: typeof import('./src/vue/containers/productions/products/product-attributes.vue')['default']
     ProductCard: typeof import('./src/vue/containers/productions/products/product-card.vue')['default']
+    ProductCardFlat: typeof import('./src/vue/containers/productions/products/product-card-flat.vue')['default']
     ProductDocumentDisplay: typeof import('./src/vue/presentational/product-document-display.vue')['default']
     ProductEdit: typeof import('./src/vue/views/product-edit.vue')['default']
     ProductFileEditor: typeof import('./src/vue/containers/product-file-editor.vue')['default']

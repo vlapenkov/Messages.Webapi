@@ -22,7 +22,7 @@
         <prime-divider class="mt-0"></prime-divider>
         <div class="grid w-full h-full">
           <div class="col-3">
-            <card class="h-full news-card p-3">
+            <card class="h-full news-card p-3 shadow-none">
               <template #content>
                 <div class="w-full flex flex-row">
                   <span
@@ -43,7 +43,7 @@
           </div>
 
           <div class="col-3">
-            <card class="h-full news-card p-3">
+            <card class="h-full news-card p-3 shadow-none">
               <template #content>
                 <div class="w-full flex flex-row">
                   <span
@@ -64,7 +64,7 @@
           </div>
 
           <div class="col-3">
-            <card class="h-full news-card p-3">
+            <card class="h-full news-card p-3 shadow-none">
               <template #content>
                 <div class="w-full flex flex-row">
                   <span
@@ -85,7 +85,7 @@
           </div>
 
           <div class="col-3">
-            <card class="h-full news-card p-3">
+            <card class="h-full news-card p-3 shadow-none">
               <template #content>
                 <div class="w-full flex flex-row">
                   <span

@@ -74,7 +74,11 @@
               class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
             >
               <div class="flex flex-column">
-                <i class="pi pi-shopping-cart" v-if="cartCapacity > 0" v-badge="cartCapacity"></i>
+                <i
+                  class="pi pi-shopping-cart badge-small"
+                  v-if="cartCapacity > 0"
+                  v-badge.info="cartCapacity"
+                ></i>
                 <i class="pi pi-shopping-cart" v-else></i>
                 <span>Корзина</span>
               </div>
@@ -126,4 +130,10 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+i.badge-small {
+  :deep(span) {
+    font-size: 9px;
+  }
+}
+</style>

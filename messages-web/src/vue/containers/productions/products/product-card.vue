@@ -4,22 +4,34 @@
     class="h-full re-padding-card trans-shadow relative"
     :class="{
       'shadow-none': !isCardHovered,
-      'shadow-7': isCardHovered,
+      'shadow-2': isCardHovered,
     }"
     ref="cardRef"
     :style="cardStyle"
   >
     <template #header>
-      <div class="w-full h-full" ref="headerRef">
+      <div class="relative" ref="headerRef">
         <file-store-image
+          fit-width
           :min-height="206"
           :max-height="206"
           :id="product.documentId"
         ></file-store-image>
+        <div v-if="productType" class="absolute left-0 bottom-0 p-2">
+          <tag severity="warning" v-if="product.availableStatusText" class="tag-height" rounded>
+            <div class="text-sm font-normal">{{ product.availableStatusText }}</div>
+          </tag>
+        </div>
+        <div v-if="productType" class="absolute right-0 bottom-0 p-2">
+          <tag class="tag-secondary tag-height" rounded>
+            <div class="text-sm font-normal">{{ productType }}</div>
+          </tag>
+        </div>
       </div>
     </template>
     <template #content>
       <div class="h-full flex flex-column justify-content-between gap-1 p-2">
+        <div class="text-sm font-normal">{{ product.code || 'Артикул не найден' }}</div>
         <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 text-left">
           {{ product.name }}
@@ -34,8 +46,8 @@
             </prime-button>
           </div>
           <div class="text-sm">{{ product.organization.region }}</div>
-          <div class="text-md">
-            <i class="pi pi-star star-yellow"></i> {{ product.rating ?? 0 }}
+          <div class="text-md" :style="{ opacity: (product.rating ?? 0) > 0 ? 1 : 0 }">
+            <i class="star-filled star-yellow"></i> {{ product.rating ?? 0 }}
           </div>
           <div
             :class="{ 'half-transparent': isNotProduct }"
@@ -45,18 +57,18 @@
               :disabled="isNotProduct"
               @click.stop="addToCart(product)"
               class="p-button-sm p-button-outlined h-full py-1 flex-grow-1"
-              label="В Корзину"
             >
+              <span class="font-medium w-full">В корзину</span>
             </prime-button>
             <prime-button
-              :disabled="isNotProduct"
+              disabled
               icon="pi pi-chart-bar"
-              class="p-button-secondary p-button-text py-1"
+              class="p-button-secondary p-button-outlined p-0 py-1 square-button"
             ></prime-button>
             <prime-button
-              :disabled="isNotProduct"
+              disabled
               icon="pi pi-arrows-h"
-              class="p-button-secondary p-button-text py-1"
+              class="p-button-secondary p-button-outlined p-0 py-1 square-button"
             ></prime-button>
           </div>
         </div>
@@ -104,6 +116,19 @@ export default defineComponent({
 
     const isNotProduct = computed(() => props.product.productionType !== 'Product');
 
+    const productType = computed(() => {
+      switch (props.product.productionType) {
+        case 'Product':
+          return 'Товар';
+        case 'WorkProduct':
+          return 'Работа';
+        case 'ServiceProduct':
+          return 'Услуга';
+        default:
+          return null;
+      }
+    });
+
     return {
       headerRef,
       cardRef,
@@ -113,12 +138,30 @@ export default defineComponent({
       viewOrganization,
       isCardHovered,
       isNotProduct,
+      productType,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.square-button {
+  flex-basis: 33px;
+}
+
+.tag-secondary {
+  background-color: rgba(180, 187, 186, 0.39);
+}
+
+.tag-height {
+  min-height: 24px;
+}
+
+.star-filled {
+  &::before {
+    content: url('@/assets/icons/star.svg');
+  }
+}
 .star-yellow {
   color: #ffb800;
 }

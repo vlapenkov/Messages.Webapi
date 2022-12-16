@@ -9,7 +9,7 @@
     @viewProduct="viewProduct"
     @viewOrganization="viewOrganization"
   />
-  <card v-else class="shadow-none"></card>
+  <product-card-flat v-else></product-card-flat>
 </template>
 
 <script lang="ts">

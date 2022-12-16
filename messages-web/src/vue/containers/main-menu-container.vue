@@ -2,7 +2,7 @@
   <transition enter-active-class="scalein animation-duration-200" appear>
     <toolbar
       class="border-noround pl-2 pr-1 pb-0 pt-2 toolbar-start-w-full no-padding"
-      :class="{ 'shadow-6 backdrop': y > 20 }"
+      :class="{ 'shadow-4 backdrop': y > 20 }"
     >
       <template #start>
         <div class="w-full">

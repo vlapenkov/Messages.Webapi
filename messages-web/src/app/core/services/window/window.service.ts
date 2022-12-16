@@ -1,7 +1,7 @@
 import { useWindowSize } from '@vueuse/core';
 import { computed } from 'vue';
 
-const { width: screenWidth } = useWindowSize();
+export const { width: screenWidth } = useWindowSize();
 
 export enum WindowBreakpoints {
   Small = 576,

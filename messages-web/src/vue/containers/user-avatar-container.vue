@@ -134,16 +134,15 @@ export default defineComponent({
             to: { name: 'categories' },
             icon: 'pi pi-book',
           },
-
+          {
+            label: 'Управление организациями',
+            to: { name: 'organizations' },
+            icon: 'pi pi-plus',
+          },
           {
             label: 'Общие отчеты',
             to: { name: 'reports' },
             icon: 'pi pi-chart-bar',
-          },
-          {
-            label: 'Управление организациями',
-            to: { name: 'organization-add' },
-            icon: 'pi pi-plus',
           },
         );
       }

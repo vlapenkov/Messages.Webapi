@@ -29,20 +29,15 @@
               </div>
             </template>
           </column>
-          <column header="Последнее редактирование" headerStyle="width: 30%">
+          <column header="Дата изменения" headerStyle="width: 20%">
             <template #body="slopProps">
               <span class="p-component">
                 {{ formatDateString(slopProps.data.lastModified) }}
-                {{
-                  slopProps.data.lastModifiedBy != null && slopProps.data.lastModifiedBy != ''
-                    ? ','
-                    : undefined
-                }}
-                {{ slopProps.data.lastModifiedBy }}
               </span>
             </template>
           </column>
-          <column field="statusText" header="Статус" headerStyle="width: 30%">
+          <column field="lastModifiedBy" header="Кем измененно" headerStyle="width: 20%" />
+          <column field="statusText" header="Статус" headerStyle="width: 20%">
             <template #body="slopProps">
               <dropdown
                 v-if="orgStatusModels != null"

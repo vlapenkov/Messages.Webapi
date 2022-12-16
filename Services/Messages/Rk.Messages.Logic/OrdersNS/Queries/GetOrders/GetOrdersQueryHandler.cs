@@ -66,7 +66,7 @@ namespace Rk.Messages.Logic.OrdersNS.Queries.GetOrders
                 ordersQuery = ordersQuery.Where(order => order.Created < request.DateTo);
 
 
-            IPagedList<Order> queryResult = await ordersQuery.OrderBy(order => order.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
+            IPagedList<Order> queryResult = await ordersQuery.OrderByDescending(order => order.Id).ToPagedListAsync(request.PageNumber, request.PageSize, cancellationToken);
 
 
             // преобразование из IPagedList<Order> -> PagedResponse<OrderShortDto>

@@ -139,4 +139,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+:deep(div.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled
+    span.p-dropdown-label.p-inputtext) {
+  padding: 6px;
+}
+:deep(.p-card-content) {
+  padding: 0;
+}
+</style>

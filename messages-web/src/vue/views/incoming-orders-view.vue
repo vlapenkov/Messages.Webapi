@@ -7,8 +7,11 @@
             <div class="flex flex-row" style="align-items: baseline">
               <router-link :to="{ name: 'order', params: { id: item.id } }"
                 class="p-component text-primary text-lg font-bold not-link">Заказ № {{ item.id }}</router-link>
-              <tag class="ml-2" :severity="getSeverity(item.statusText)" style="height: 24px">{{ item.statusText }}
-              </tag>
+
+              <tag class="ml-2" :severity="getSeverity(item.statusText)" style="height: 24px">
+                {{ item.statusText }}</tag>
+              <dropdown class="ml-3" v-model="item.statusText" :options="getStatus(item.statusText)" optionLabel="value"
+                v-if="getStatus(item.statusText) != null" @change="changeStatus($event, item.id)" optionValue="value" />
             </div>
             <prime-button style="transform: scale(0.7)" class="p-button-rounded p-button-text p-button-secondary"
               @click="item.expanded.value = !item.expanded.value"
@@ -27,9 +30,9 @@
                 <span class="text-primary"> {{ item.userName || 'неизвестный пользователь' }}</span>
               </div>
               <div class="p-component text-md">
-                Производитель:
+                Организация:
                 <span class="text-primary">
-                  {{ item.producerName || 'неизвестный пользователь' }}</span>
+                  {{ item.organisationName || 'неизвестный пользователь' }}</span>
               </div>
             </div>
             <template v-if="!item.expanded.value">
@@ -91,6 +94,7 @@ import { IOrderModelFull } from '@/app/orders/model/IOrderModel';
 import { ordersService } from '@/app/orders/services/orders.service';
 import { ordersStore } from '@/app/orders/state/orders.store';
 import { userInfo } from '@/store/user.store';
+
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { defineComponent, ref, watch, computed } from 'vue'; // , toRaw
 
@@ -98,14 +102,15 @@ export default defineComponent({
   components: { PrimePaginator },
   setup() {
     const userOrg = computed(() => userInfo.value?.org)
+
     watch(
       [ordersStore.pageNumber, ordersStore.pageSize],
       ([pageNumber, pageSize]) => {
         ordersService.loadPage({
           pageNumber,
           pageSize,
-          producerId: undefined,
-          organisationId: userOrg.value?.id
+          producerId: userOrg.value?.id,
+          organisationId: undefined
         });
       },
       {
@@ -171,6 +176,25 @@ export default defineComponent({
       },
     );
 
+    const status = [
+      { key: 0, value: 'Новый' },
+      { key: 1, value: 'В обработке' },
+      { key: 10, value: 'Завершен' },
+      { key: 11, value: 'Отменен' }
+    ]
+
+    const getStatus = (current: string) => {
+      if (current === 'Новый') {
+        return status;
+      }
+
+      if (current === 'В обработке') {
+        return status.slice(1);
+      }
+
+      return undefined;
+    }
+
     const getSeverity = (current: string) => {
       if (current === 'Новый') {
         return "info";
@@ -191,6 +215,19 @@ export default defineComponent({
       return "info";
     }
 
+    const changeStatus = async (event: { value: string }, id: number,) => {
+      const s = status.filter(x => x.value === event.value)[0].key;
+      const res = await ordersService.updateStatus(id, s);
+      if (res) {
+        ordersService.loadPage({
+          pageNumber: ordersStore.pageNumber.value,
+          pageSize: ordersStore.pageSize.value,
+          producerId: userOrg.value?.id,
+          organisationId: undefined
+        });
+      }
+    }
+
     return {
       ordersStore,
       ordersStatus,
@@ -201,6 +238,10 @@ export default defineComponent({
       pageItems,
       getxpandControllerFor,
       expandedOrders,
+      userOrg,
+      status,
+      changeStatus,
+      getStatus,
       getSeverity
     };
   },
@@ -210,6 +251,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 :deep(.p-card-title) {
   height: 28px;
+}
+
+:deep(div.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled span.p-dropdown-label.p-inputtext) {
+  padding: 6px;
 }
 
 .not-link {

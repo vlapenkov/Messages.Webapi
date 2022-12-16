@@ -12,6 +12,10 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>Получить инфо об организации</summary>  
         [Get("/api/v1/Organizations/{id}")]
         Task<OrganizationDto> GetOrganization(long id);
+        
+        /// <summary>Получить инфо об организации по ИНН</summary>  
+        [Get("/api/v1/Organizations/inn/{inn}")]
+        Task<OrganizationDto> GetOrganization(string inn);
 
         /// <summary>Получить инфо об организации</summary>  
         [Get("/api/v1/Organizations")]

@@ -1,5 +1,5 @@
-import { keycloakToken } from '@/app/core/services/keycloak/keycloak.service';
 import axios from 'axios';
+import { keycloakToken } from '../../keycloak/local-storage.service';
 
 export const http = axios.create({
   baseURL: process.env.VUE_APP_API_URL,

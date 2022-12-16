@@ -78,6 +78,7 @@ export default defineComponent({
     const searchHeight = searchHeightProvider.inject();
     const marginTop = computed(() => `${headerHeight.value + searchHeight.value + 10}px`);
     watchEffect(() => {
+      // eslint-disable-next-line
       console.log('marginTop', marginTop.value);
     });
     const { showFilters, ...rest } = useCatalogFilters();

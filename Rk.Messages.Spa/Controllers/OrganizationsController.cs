@@ -28,6 +28,13 @@ namespace Rk.Messages.Spa.Controllers
         {
             return await _service.GetOrganization(id);
         }
+        
+        /// <summary>Получить организацию по ИНН</summary>        
+        [HttpGet("inn/{inn}")]
+        public async Task<OrganizationDto> GetOrganization(string inn)
+        {
+            return await _service.GetOrganization(inn);
+        }
 
         /// <summary>Получить организации</summary>
         [HttpGet]

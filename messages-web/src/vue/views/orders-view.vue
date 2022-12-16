@@ -7,7 +7,8 @@
             <div class="flex flex-row" style="align-items: baseline">
               <router-link :to="{ name: 'order', params: { id: item.id } }"
                 class="p-component text-primary text-lg font-bold not-link">Заказ № {{ item.id }}</router-link>
-              <tag class="ml-2" value="Primary" rounded style="height: 24px">{{ item.statusText }}</tag>
+              <tag class="ml-2" :severity="getSeverity(item.statusText)" style="height: 24px">{{ item.statusText }}
+              </tag>
             </div>
             <prime-button style="transform: scale(0.7)" class="p-button-rounded p-button-text p-button-secondary"
               @click="item.expanded.value = !item.expanded.value"
@@ -170,6 +171,26 @@ export default defineComponent({
       },
     );
 
+    const getSeverity = (current: string) => {
+      if (current === 'Новый') {
+        return "info";
+      }
+
+      if (current === 'В обработке') {
+        return "warning";
+      }
+
+      if (current === 'Завершен') {
+        return "success";
+      }
+
+      if (current === 'Отменен') {
+        return "danger";
+      }
+
+      return "info";
+    }
+
     return {
       ordersStore,
       ordersStatus,
@@ -180,6 +201,7 @@ export default defineComponent({
       pageItems,
       getxpandControllerFor,
       expandedOrders,
+      getSeverity
     };
   },
 });

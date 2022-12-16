@@ -7,8 +7,11 @@
             <div class="flex flex-row" style="align-items: baseline">
               <router-link :to="{ name: 'order', params: { id: item.id } }"
                 class="p-component text-primary text-lg font-bold not-link">Заказ № {{ item.id }}</router-link>
-              <dropdown class="ml-3" v-model="item.statusText" :options="status" optionLabel="value"
-                @change="changeStatus($event, item.id)" optionValue="value" />
+
+              <tag class="ml-2" :severity="getSeverity(item.statusText)" style="height: 24px">
+                {{ item.statusText }}</tag>
+              <dropdown class="ml-3" v-model="item.statusText" :options="getStatus(item.statusText)" optionLabel="value"
+                v-if="getStatus(item.statusText) != null" @change="changeStatus($event, item.id)" optionValue="value" />
             </div>
             <prime-button style="transform: scale(0.7)" class="p-button-rounded p-button-text p-button-secondary"
               @click="item.expanded.value = !item.expanded.value"
@@ -180,6 +183,38 @@ export default defineComponent({
       { key: 11, value: 'Отменен' }
     ]
 
+    const getStatus = (current: string) => {
+      if (current === 'Новый') {
+        return status;
+      }
+
+      if (current === 'В обработке') {
+        return status.slice(1);
+      }
+
+      return undefined;
+    }
+
+    const getSeverity = (current: string) => {
+      if (current === 'Новый') {
+        return "info";
+      }
+
+      if (current === 'В обработке') {
+        return "warning";
+      }
+
+      if (current === 'Завершен') {
+        return "success";
+      }
+
+      if (current === 'Отменен') {
+        return "danger";
+      }
+
+      return "info";
+    }
+
     const changeStatus = async (event: { value: string }, id: number,) => {
       const s = status.filter(x => x.value === event.value)[0].key;
       const res = await ordersService.updateStatus(id, s);
@@ -205,7 +240,9 @@ export default defineComponent({
       expandedOrders,
       userOrg,
       status,
-      changeStatus
+      changeStatus,
+      getStatus,
+      getSeverity
     };
   },
 });

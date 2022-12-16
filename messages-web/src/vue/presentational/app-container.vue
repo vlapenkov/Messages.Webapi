@@ -1,5 +1,5 @@
 <template>
-  <div v-if="useFixedWidth" class="flex flex-row justify-content-center">
+  <div v-if="useFixedWidth" class="flex flex-row justify-content-center pb-1">
     <div class="flex-grow-1 flex-shrink-1" style="max-width: 1200px">
       <slot></slot>
     </div>

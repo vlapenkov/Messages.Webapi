@@ -2,8 +2,8 @@
   <toast position="top-right" group="tr" />
   <div class="w-full grid mr-0">
     <template v-if="productions == null">
-      <div v-for="i in 8" :key="i" class="col-3">
-        <skeleton height="250px" />
+      <div v-for="i in 12" :key="i" class="col-3">
+        <skeleton height="350px" />
       </div>
     </template>
     <div v-else v-for="item in productions" :key="item.id" class="col-12 md:col-6 lg:col-3">

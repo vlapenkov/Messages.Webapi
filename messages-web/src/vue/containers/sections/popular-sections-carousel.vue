@@ -20,6 +20,7 @@
             }"
           >
             <file-store-image
+              v-if="slotProps.data"
               :id="slotProps.data.documentId"
               :max-height="162"
               :min-height="162"
@@ -28,6 +29,7 @@
               :header-text="slotProps.data.name"
               @click="viewSection(slotProps.data)"
             />
+            <skeleton width="160px" v-else height="162px"> </skeleton>
           </div>
         </template>
       </carousel>
@@ -49,7 +51,9 @@ export default defineComponent({
 
     const { list: items } = useSections();
     const itemsWithDocumentId = computed(() =>
-      (items.value ?? []).filter((x) => x.documentId != null && x.documentId !== ''),
+      items.value == null
+        ? [null, null, null, null]
+        : items.value.filter((x) => x.documentId != null && x.documentId !== ''),
     );
     const responsiveOptions = [
       {

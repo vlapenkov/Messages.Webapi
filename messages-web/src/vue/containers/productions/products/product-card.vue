@@ -19,11 +19,11 @@
         ></file-store-image>
         <div v-if="productType" class="absolute left-0 bottom-0 p-2">
           <tag severity="warning" v-if="product.availableStatusText" class="tag-height" rounded>
-            <div class="text-sm font-normal">{{ product.availableStatusText }}</div>
+            <div class="text-sm font-normal lowercase">{{ product.availableStatusText }}</div>
           </tag>
         </div>
         <div v-if="productType" class="absolute right-0 bottom-0 p-2">
-          <tag class="tag-secondary tag-height" rounded>
+          <tag class="tag-secondary tag-height lowercase" rounded>
             <div class="text-sm font-normal">{{ productType }}</div>
           </tag>
         </div>
@@ -31,9 +31,11 @@
     </template>
     <template #content>
       <div class="h-full flex flex-column justify-content-between gap-1 p-2">
-        <div class="text-sm font-normal">{{ product.code || 'Артикул не найден' }}</div>
+        <div class="text-sm font-normal article">
+          {{ product.codeTnVed || '123456' }}
+        </div>
         <app-price :price="product.price"></app-price>
-        <div class="flex flex-grow-1 text-left">
+        <div class="flex flex-grow-1 name-font">
           {{ product.name }}
         </div>
         <div class="h-full flex gap-1 flex-column flex-auto justify-content-end">
@@ -45,9 +47,15 @@
               {{ product.organization.name }}
             </prime-button>
           </div>
-          <div class="text-sm">{{ product.organization.region }}</div>
-          <div class="text-md" :style="{ opacity: (product.rating ?? 0) > 0 ? 1 : 0 }">
-            <i class="star-filled star-yellow"></i> {{ product.rating ?? 0 }}
+          <div class="text-sm article">{{ product.organization.region }}</div>
+          <div
+            class="flex flex-row gap-1 align-content-center text-md"
+            :style="{ opacity: (product.rating ?? 0) > 0 ? 1 : 0 }"
+          >
+            <i class="star-filled star-yellow"></i>
+            <span>
+              {{ product.rating ?? 0 }}
+            </span>
           </div>
           <div
             :class="{ 'half-transparent': isNotProduct }"
@@ -156,6 +164,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.article {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #898989;
+}
+
+.name-font {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #3d3d3d;
+}
+
 .square-button {
   flex-basis: 33px;
 }

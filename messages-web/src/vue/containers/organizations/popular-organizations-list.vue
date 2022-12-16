@@ -1,9 +1,15 @@
 <template>
   <div class="popular-organization-list">
     <div class="grid w-full">
-      <div v-for="o in items" :key="o.id" class="col-3">
+      <template v-if="items == null">
+        <div v-for="i in 8" :key="i" class="col-3">
+          <skeleton height="100px"></skeleton>
+        </div>
+      </template>
+      <hover-tag v-slot="{ hover }" v-else v-for="o in items" :key="o.id" class="col-3">
         <card
-          class="h-full shadow-none"
+          class="h-full shadow-none trans-shadow"
+          :class="{ 'shadow-none': !hover, 'shadow-2': hover }"
           @click="viewOrganization(o)"
           :style="{ cursor: 'pointer' }"
         >
@@ -23,7 +29,7 @@
             </div>
           </template>
         </card>
-      </div>
+      </hover-tag>
     </div>
   </div>
 </template>
@@ -38,7 +44,10 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const items = computed(() => {
-      const data = [...(organizationsStore.currentPageItems.value ?? [])];
+      if (organizationsStore.currentPageItems.value == null) {
+        return null;
+      }
+      const data = [...organizationsStore.currentPageItems.value];
       return data
         .sort((a: OrganizationModel, b: OrganizationModel) => a.name[0].localeCompare(b.name[0]))
         .slice(0.8);

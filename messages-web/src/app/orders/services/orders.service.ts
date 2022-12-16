@@ -26,9 +26,12 @@ async function loadPage(request: IOrderPagedRequest) {
 }
 
 async function updateStatus(id: number, status: number) {
-  const response = await ordersHttpService.updateStaus(id, status);
-  if (response.statusText === 'OK') return true;
-  return false;
+  try {
+    await ordersHttpService.updateStaus(id, status);
+  } catch (error) {
+    return false;
+  }
+  return true;
 }
 
 export const ordersService = {

@@ -1,5 +1,10 @@
 <template>
-  <div class="grid">
+  <div v-if="useFixedWidth" class="flex flex-row justify-content-center pb-1">
+    <div class="flex-grow-1 flex-shrink-1" style="max-width: 1200px">
+      <slot></slot>
+    </div>
+  </div>
+  <div v-else class="grid">
     <div class="col-12 lg:col-10 xl:col-8 lg:col-offset-1 xl:col-offset-2">
       <slot></slot>
     </div>
@@ -7,11 +12,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { screenWidth } from '@/app/core/services/window/window.service';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
-    return {};
+    const useFixedWidth = computed(() => screenWidth.value >= 1200);
+    return { useFixedWidth };
   },
 });
 </script>

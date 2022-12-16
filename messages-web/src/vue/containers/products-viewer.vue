@@ -4,12 +4,20 @@
     <transition-fade>
       <template v-if="productShortsItems != null">
         <div v-if="productShortsItems.length > 0" class="grid">
+          <div class="col-12">
+            <production-toolbar-container></production-toolbar-container>
+          </div>
           <div
             v-for="item in productShortsItems"
             :key="item.id"
-            :class="{ 'col-3': !showFilters, 'col-4': showFilters }"
+            :class="{
+              'col-3': viewMode === 'grid' && !showFilters,
+              'col-4': viewMode === 'grid' && showFilters,
+              'col-12': viewMode === 'list',
+            }"
           >
-            <production-list-item :production="item" @notify="notifyHandler" />
+            <production-list-item :production="item" @notify="notifyHandler">
+            </production-list-item>
           </div>
         </div>
         <div
@@ -51,6 +59,7 @@ import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
+import { viewModeProvider } from '../presentational/providers/view-mode.provider';
 
 export default defineComponent({
   components: { PrimePaginator, Toast },
@@ -66,18 +75,18 @@ export default defineComponent({
 
     const { showFilters } = productionsStore;
     const notifyHandler = useToastNotificationHandler(toast);
+    const viewMode = viewModeProvider.provide();
     return {
       notifyHandler,
-
       productFullStore,
       productShortsItems,
       productShortsStatus,
-
       pageNumber,
       pageSize,
       currentPage,
       changePage,
       showFilters,
+      viewMode,
     };
   },
 });

@@ -13,6 +13,7 @@ export interface IProductionModel extends IModel {
   description: string;
   statusText: string;
   availableStatusText: string;
+  codeTnVed: string;
   price: number | null;
   productionType: ProductionType;
   rating: number | null;
@@ -42,6 +43,8 @@ export class ProductionModel extends ModelBase<IProductionModel> implements IPro
   statusText = '';
 
   availableStatusText = '';
+
+  codeTnVed = '';
 
   price: number | null = null;
 

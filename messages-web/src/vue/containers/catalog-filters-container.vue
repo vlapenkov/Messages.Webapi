@@ -6,41 +6,23 @@
         <card class="shadow-7">
           <template #title>
             <div class="flex flex-row justify-content-end">
-              <prime-button
-                class="p-button-sm p-button-text text-color"
-                icon="pi pi-times"
-                label="Сбросить"
-                @click="showFilters = false"
-              ></prime-button>
+              <prime-button class="p-button-sm p-button-text text-color" icon="pi pi-times" label="Сбросить"
+                @click="showFilters = false"></prime-button>
             </div>
           </template>
           <template #content>
             <div class="grid">
               <div class="col-4">
-                <tree-select
-                  class="w-full"
-                  :options="sectionsTree"
-                  v-model="sectionModelTree"
-                  placeholder="Область применения"
-                ></tree-select>
+                <tree-select class="w-full" :options="sectionsTree" v-model="sectionModelTree"
+                  placeholder="Область применения"></tree-select>
               </div>
               <div class="col-4">
-                <dropdown
-                  v-model="regionModel"
-                  :options="regionOptions"
-                  placeholder="Регион"
-                  show-clear
-                  :style="{ width: '100%' }"
-                />
+                <dropdown v-model="regionModel" :options="regionOptions" placeholder="Регион" show-clear
+                  :style="{ width: '100%' }" />
               </div>
               <div class="col-4">
-                <dropdown
-                  v-model="organizationModel"
-                  :options="organizationOptions"
-                  placeholder="Производитель"
-                  show-clear
-                  :style="{ width: '100%' }"
-                />
+                <dropdown v-model="organizationModel" :options="organizationOptions" placeholder="Производитель"
+                  show-clear :style="{ width: '100%' }" />
               </div>
               <div v-if="false" class="col-12 mt-1 flex flex-row gap-4">
                 <div class="field-radiobutton">
@@ -77,6 +59,7 @@ export default defineComponent({
     const searchHeight = searchHeightProvider.inject();
     const marginTop = computed(() => `${headerHeight.value + searchHeight.value + 10}px`);
     watchEffect(() => {
+      // eslint-disable-next-line
       console.log('marginTop', marginTop.value);
     });
     return { ...useCatalogFilters(), marginTop };
@@ -84,4 +67,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -9,6 +9,10 @@ const get = defineGet<IOrganizationFullModel, number>((id: number) => ({
   url: `/${id}`,
 }));
 
+const getByInn = defineGet<IOrganizationFullModel, string>((inn) => ({
+  url: `/inn/${inn}`,
+}));
+
 const post = definePost<number, IOrganizationFullModel>();
 
 export interface ISetOrganizationStatusArg {
@@ -21,4 +25,4 @@ const setStatus = definePatch<void, ISetOrganizationStatusArg>(({ id, status }) 
   bodyOrParams: status,
 }));
 
-export const organizationHttpService = { get, post, setStatus };
+export const organizationHttpService = { get, post, setStatus, getByInn };

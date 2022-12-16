@@ -1,5 +1,6 @@
 import { IPagedRequest } from '@/app/core/services/http/@types/IPagedRequest';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
+import { http } from '@/app/core/services/http/axios/axios.service';
 import { defineHttpService } from '@/app/core/services/http/define-http.service';
 import { IOrderModel, IOrderModelFull } from '../model/IOrderModel';
 
@@ -15,4 +16,15 @@ const postOrder = definePost<number, undefined>();
 
 const getPage = defineGet<IPagedResponse<IOrderModel>, IPagedRequest>();
 
-export const ordersHttpService = { postOrder, getOrder, getPage };
+const updateStaus = async (id: number, status: number) => {
+  const response = await http.patch(`api/Orders/${id}/status`, status, {
+    headers: {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
+};
+
+export const ordersHttpService = { postOrder, getOrder, getPage, updateStaus };
+

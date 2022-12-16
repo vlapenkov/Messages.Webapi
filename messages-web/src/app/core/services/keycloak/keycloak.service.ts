@@ -1,11 +1,7 @@
 import { setToken } from '@/store/user.store';
-import { useStorage } from '@vueuse/core';
 import Keycloak, { KeycloakTokenParsed } from 'keycloak-js';
 import { watch } from 'vue';
-
-const userTokenKey = '__kc_token_parsed__';
-const keycloakAuthTokenKey = '__kc_token_auth__';
-const keycloakRefreshTokenKey = '__kc_token_refresh__';
+import { keycloakToken, keycloakTokenRefresh, userData } from './local-storage.service';
 
 const keycloakInitOptions = {
   url: process.env.VUE_APP_KEYCLOACK_URL ?? '',
@@ -19,10 +15,6 @@ const tokenRefreshInterval =
     : 0;
 
 const keycloakInst = new Keycloak(keycloakInitOptions);
-
-const userData = useStorage<string | null>(userTokenKey, null);
-export const keycloakToken = useStorage<string | null>(keycloakAuthTokenKey, null);
-export const keycloakTokenRefresh = useStorage<string | null>(keycloakRefreshTokenKey, null);
 
 // function setKeycloakToken(token: string, refreshToken: string) {
 //   localStorage.setItem('vue-token', token);
@@ -87,5 +79,7 @@ export function login() {
 }
 
 export function logout() {
+  cleanTokens();
   keycloakInst.logout();
 }
+

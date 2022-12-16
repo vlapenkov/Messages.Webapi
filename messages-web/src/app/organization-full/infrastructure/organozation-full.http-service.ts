@@ -9,6 +9,11 @@ const get = defineGet<IOrganizationFullModel, number>((id: number) => ({
   url: `/${id}`,
 }));
 
+const getByInn = defineGet<IOrganizationFullModel, string>((inn) => ({
+  url: `/inn/${inn}`,
+}));
+
 const post = definePost<number, IOrganizationFullModel>();
 
-export const organizationHttpService = { get, post };
+export const organizationHttpService = { get, getByInn, post };
+

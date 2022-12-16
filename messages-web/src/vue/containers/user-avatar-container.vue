@@ -83,7 +83,7 @@ export default defineComponent({
           },
           {
             label: 'Заказы',
-            to: { name: 'orders' },
+            to: { name: 'incoming-orders' },
             icon: 'pi pi-box',
           },
           {

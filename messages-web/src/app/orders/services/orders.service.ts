@@ -1,13 +1,13 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { IPagedRequest } from '@/app/core/services/http/@types/IPagedRequest';
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
+import { IOrderPagedRequest } from '../@types/IPagedRequest';
 import { ordersHttpService } from '../infrastructure/order.http-service';
 import { IOrderModel } from '../model/IOrderModel';
 import { OrderModel } from '../model/order.model';
 import { ordersStore } from '../state/orders.store';
 
-async function loadPage(request: IPagedRequest) {
+async function loadPage(request: IOrderPagedRequest) {
   ordersStore.status.value = new DataStatus('loading');
   const response = await ordersHttpService.getPage(request);
   if (response.status === HttpStatus.Success && response.data != null) {
@@ -25,6 +25,14 @@ async function loadPage(request: IPagedRequest) {
   }
 }
 
+async function updateStatus(id: number, status: number) {
+  const response = await ordersHttpService.updateStaus(id, status);
+  if (response.statusText === 'OK') return true;
+  return false;
+}
+
 export const ordersService = {
   loadPage,
+  updateStatus,
 };
+

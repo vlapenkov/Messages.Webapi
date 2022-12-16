@@ -76,6 +76,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/incoming-orders',
+    name: 'incoming-orders',
+    component: () =>
+      import(/* webpackChunkName: "orders" */ '../vue/views/incoming-orders-view.vue'),
+  },
+  {
     path: '/shopping-cart',
     name: 'shopping-cart',
     component: () =>

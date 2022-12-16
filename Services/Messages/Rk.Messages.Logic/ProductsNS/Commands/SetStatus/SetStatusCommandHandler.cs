@@ -18,9 +18,9 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.SetStatus
 
         protected override async Task Handle(SetStatusCommand command, CancellationToken cancellationToken)
         {
-            var productFound = await _appDbContext.Products.FirstOrDefaultAsync(self => self.Id == command.ProductId) ?? throw new EntityNotFoundException($"Продукция с Id= {command.ProductId} не найдена");
+            var productionFound = await _appDbContext.BaseProduct.FirstOrDefaultAsync(self => self.Id == command.ProductId) ?? throw new EntityNotFoundException($"Продукция с Id= {command.ProductId} не найдена");
 
-            productFound.SetStatus(command.Status);
+            productionFound.SetStatus(command.Status);
 
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

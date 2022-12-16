@@ -15,7 +15,7 @@ export function useStatuses() {
     },
     {
       value: 1,
-      name: 'Активна',
+      name: 'Активная',
       color: 'var(--green-700)',
     },
     {

@@ -7,6 +7,7 @@ import { defineHttpService, HttpServiceOptions } from '../define-http.service';
 import { useDefaultQueries } from '../handlers/use-default-queries';
 
 export interface IPageableCollectionHttpServie<TIModel extends IModel> {
+  [x: string]: any;
   post: RequetstHandler<TIModel, TIModel>;
   put: RequetstHandler<TIModel, TIModel>;
   getPage: RequetstHandler<IPagedResponse<TIModel>, IPagedRequest>;

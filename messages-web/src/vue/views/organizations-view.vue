@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-unused-vars -->
 <template>
   <app-page title="Организации">
     <card>
@@ -51,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { organizationHttpService } from '@/app/organization-full/infrastructure/organozation-full.http-service';
+import { updateStatus } from '@/app/organizations/infrastructure/organization.http-service';
 import { useOrganizations } from '@/composables/organizations.composable';
 import { IStatus, useStatuses } from '@/composables/statuses.composable';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
@@ -75,7 +74,7 @@ export default defineComponent({
       organizations.value.forEach((org) => {
         Object.assign(res, {
           ...res,
-          [org.id]: statuses.value.find((s) => s.value === +org.statusText) ?? initial.value,
+          [org.id]: statuses.value.find((s) => s.name === org.statusText) ?? initial.value,
         });
       });
       return res;
@@ -91,37 +90,8 @@ export default defineComponent({
     );
     const changed = (val: Ref<IStatus>, id: number) => {
       const status = val.value.value;
-      console.log(status, id);
-      organizationHttpService.setStatus({
-        id,
-        status,
-      });
+      updateStatus(id, status);
     };
-    // watch(orgStatusModels, (val, prev) => {
-    //   console.log(val, prev);
-    //   if (val == null || prev == null) return;
-
-    //   const valKeys = Object.keys(val);
-    //   const prevKeys = Object.keys(prev);
-    //   if (valKeys.length !== prevKeys.length) return;
-
-    //   interface IRes {
-    //     orgId: number;
-    //     newVal: IStatus | undefined;
-    //   }
-    //   const changed: IRes[] = [];
-    //   valKeys.forEach((key) => {
-    //     const valField = val[+key];
-    //     const prevField = prev[+key];
-    //     if (valField !== prevField) {
-    //       changed.push({
-    //         orgId: +key,
-    //         newVal: valField,
-    //       });
-    //     }
-    //   });
-    //   console.log(changed);
-    // });
     return {
       orgStatuses,
       orgStatusModels,

@@ -83,6 +83,7 @@ export class OrganizationModel extends ModelBase<IOrganizationModel> {
       this.latitude = model.latitude;
       this.longitude = model.longitude;
       this.documentId = model.documentId;
+      this.statusText = model.statusText;
       return true;
     } catch (error) {
       return false;

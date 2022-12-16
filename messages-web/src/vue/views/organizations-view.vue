@@ -36,7 +36,7 @@
               </span>
             </template>
           </column>
-          <column field="lastModifiedBy" header="Кем измененно" headerStyle="width: 20%" />
+          <column field="lastModifiedBy" header="Кем изменено" headerStyle="width: 20%" />
           <column field="statusText" header="Статус" headerStyle="width: 20%">
             <template #body="slopProps">
               <dropdown
@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { updateStatus } from '@/app/organizations/infrastructure/organization.http-service';
+import { organizationsService } from '@/app/organizations/services/organization.service';
 import { useOrganizations } from '@/composables/organizations.composable';
 import { IStatus, useStatuses } from '@/composables/statuses.composable';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
@@ -95,9 +95,9 @@ export default defineComponent({
         immediate: true,
       },
     );
-    const changed = (val: Ref<IStatus>, id: number) => {
+    const changed = async (val: Ref<IStatus>, id: number) => {
       const status = val.value.value;
-      updateStatus(id, status);
+      await organizationsService.updateStatus(id, status);
     };
     return {
       orgStatuses,

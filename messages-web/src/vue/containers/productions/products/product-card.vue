@@ -60,6 +60,9 @@
             ></prime-button>
           </div>
         </div>
+        <teleport to="body">
+          <login-register-dialog :visible="visibleModel" @update:visible="updatevisibleModel" />
+        </teleport>
       </div>
     </template>
   </card>
@@ -70,7 +73,6 @@ import { ProductionModel } from '@/app/productions/models/production.model';
 import { isAuthenticated } from '@/store/user.store';
 import { useElementHover, useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   props: {
@@ -85,13 +87,12 @@ export default defineComponent({
     viewOrganization: (_: ProductionModel) => true,
   },
   setup(props, { emit }) {
-    const router = useRouter();
+    const visibleModel = ref(false);
+    const updatevisibleModel = (v: boolean) => {
+      visibleModel.value = v;
+    };
     const addToCart = (p: ProductionModel) => {
-      if (!isAuthenticated.value) {
-        router.push({
-          name: 'register',
-        });
-      }
+      visibleModel.value = !isAuthenticated.value;
       emit('addToCart', p);
     };
     const viewOrganization = (p: ProductionModel) => {
@@ -121,6 +122,8 @@ export default defineComponent({
       viewOrganization,
       isCardHovered,
       isNotProduct,
+      visibleModel,
+      updatevisibleModel,
     };
   },
 });

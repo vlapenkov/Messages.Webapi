@@ -6,11 +6,8 @@
           <shopping-cart-item v-for="item in items" :key="item.productId" :item="item" />
           <div class="flex flex-row justify-content-between align-items-center mt-1">
             <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
-            <prime-button
-              @click="createNewOrder"
-              label="Оформить заказ"
-              :disabled="createNewOrderDisabled"
-            ></prime-button>
+            <prime-button @click="createNewOrder" label="Оформить заказ"
+              :disabled="createNewOrderDisabled"></prime-button>
           </div>
         </template>
       </card>
@@ -36,7 +33,8 @@ export default defineComponent({
 
     const createNewOrder = async () => {
       const response = await ordersHttpService.postOrder(undefined);
-      router.push({ name: 'order', params: { id: response.data } });
+      console.log(response);
+      router.push({ name: 'orders' });
     };
 
     const createNewOrderDisabled = computed(() => (items.value ?? []).length === 0);

@@ -32,8 +32,7 @@ export default defineComponent({
     });
 
     const createNewOrder = async () => {
-      const response = await ordersHttpService.postOrder(undefined);
-      console.log(response);
+      await ordersHttpService.postOrder(undefined);
       router.push({ name: 'orders' });
     };
 

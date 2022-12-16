@@ -6,6 +6,18 @@
           <column header="Наименование" headerStyle="width: 40%">
             <template #body="slopProps">
               <div class="w-full flex flex-row align-items-center">
+                <img
+                  v-if="slopProps.data.documentId == null"
+                  :src="require('@/assets/images/profile.svg')"
+                  alt="Изображение профиля"
+                  width="50"
+                  height="50"
+                  :style="{
+                    objectFit: 'cover',
+                    borderRadius: '0.5rem',
+                  }"
+                  class="mr-3"
+                />
                 <file-store-image
                   v-if="slopProps.data.documentId != null"
                   :max-width="50"

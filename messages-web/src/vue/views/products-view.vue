@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts">
-import { organizationsService } from '@/app/organizations/services/organization.service';
 import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
@@ -119,7 +118,7 @@ export default defineComponent({
     );
     const changed = async (val: Ref<IProductStatus>, id: number) => {
       const status = val.value.value;
-      await organizationsService.updateStatus(id, status);
+      await productionsService.updateStatus(id, status);
     };
     const changePage = ({ page }: { page: number }) => {
       pageNumber.value = page + 1;

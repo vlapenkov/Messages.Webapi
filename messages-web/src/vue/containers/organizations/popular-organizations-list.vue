@@ -49,8 +49,12 @@ export default defineComponent({
       }
       const data = [...organizationsStore.currentPageItems.value];
       return data
+        .sort(
+          (a: OrganizationModel, b: OrganizationModel) =>
+            (a.lastModified?.getTime() ?? 0) - (b.lastModified?.getTime() ?? 0),
+        )
         .sort((a: OrganizationModel, b: OrganizationModel) => a.name[0].localeCompare(b.name[0]))
-        .slice(0.8);
+        .slice(0, 8);
     });
     const viewOrganization = (item: OrganizationModel) => {
       router.push({ name: 'organization', params: { id: item.id } });

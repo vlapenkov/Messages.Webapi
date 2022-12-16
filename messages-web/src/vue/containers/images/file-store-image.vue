@@ -2,18 +2,11 @@
   <div class="file-store-image">
     <div :style="imageContainerStyle" class="max-height border-round overflow-hidden container">
       <img
-        v-if="id != null && imageData != null"
         class="border-round"
         :style="imageStyle"
         :class="{ 'max-w-full': fitWidth }"
-        :src="imageData"
+        :src="imageData ?? require('@/assets/images/fallback-image.png')"
         :alt="headerText ?? 'Изображение товара'"
-      />
-      <skeleton
-        v-else
-        :animation="animationMode"
-        :width="minWidth ? '' + minWidth + 'px' : undefined"
-        :height="'' + maxHeight + 'px'"
       />
       <span
         v-if="headerText != null && id != null && imageData != null"

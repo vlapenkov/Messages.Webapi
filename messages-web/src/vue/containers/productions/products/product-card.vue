@@ -17,6 +17,13 @@
           :max-height="206"
           :id="product.documentId"
         ></file-store-image>
+        <prime-button
+          style="box-shadow: none"
+          @click.stop="isInFavorites = !isInFavorites"
+          class="absolute p-button-text p-1 right-0 top-0 m-2"
+        >
+          <i class="heart" :class="{ invert: isInFavorites }"></i>
+        </prime-button>
         <div v-if="productType" class="absolute left-0 bottom-0 p-2">
           <tag severity="warning" v-if="product.availableStatusText" class="tag-height" rounded>
             <div class="text-sm font-normal lowercase">{{ product.availableStatusText }}</div>
@@ -146,6 +153,8 @@ export default defineComponent({
       }
     });
 
+    const isInFavorites = ref(false);
+
     return {
       headerRef,
       cardRef,
@@ -158,6 +167,7 @@ export default defineComponent({
       visibleModel,
       updatevisibleModel,
       productType,
+      isInFavorites,
     };
   },
 });
@@ -198,6 +208,31 @@ export default defineComponent({
     content: url('@/assets/icons/star.svg');
   }
 }
+
+.heart {
+  &:not(.invert) {
+    &:not(:hover) {
+      &::before {
+        content: url('@/assets/icons/heart.svg');
+      }
+    }
+    &:hover {
+      &::before {
+        content: url('@/assets/icons/heart-filled.svg');
+      }
+    }
+  }
+  &.invert {
+    &::before {
+      content: url('@/assets/icons/heart-filled.svg');
+    }
+  }
+  &:hover {
+    transform: scale(1.3, 1.3);
+  }
+  transition: transform 0.3s;
+}
+
 .star-yellow {
   color: #ffb800;
 }

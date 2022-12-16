@@ -29,7 +29,7 @@
               :header-text="slotProps.data.name"
               @click="viewSection(slotProps.data)"
             />
-            <skeleton width="160px" v-else height="162px"> </skeleton>
+            <skeleton v-else height="162px"> </skeleton>
           </div>
         </template>
       </carousel>

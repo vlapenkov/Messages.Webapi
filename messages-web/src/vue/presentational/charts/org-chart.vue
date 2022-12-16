@@ -102,12 +102,12 @@
 <script lang="ts">
 import { use, graphic } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart, FunnelChart, PieChart } from 'echarts/charts';
+import { BarChart, FunnelChart, LineChart, PieChart } from 'echarts/charts';
 import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
 import VChart from 'vue-echarts';
 import { ref, defineComponent } from 'vue';
 
-use([CanvasRenderer, PieChart, FunnelChart, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent]);
+use([CanvasRenderer, PieChart, FunnelChart, BarChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent, LineChart]);
 
 export default defineComponent({
   name: 'org-chart',
@@ -349,7 +349,7 @@ export default defineComponent({
       ],
     });
 
-    return {pieOptions, barOptions, funnelOptions, trendOptions };
+    return { pieOptions, barOptions, funnelOptions, trendOptions };
   },
 });
 </script>

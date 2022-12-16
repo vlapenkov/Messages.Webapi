@@ -7,16 +7,12 @@
             <template #content>
               <div class="card-container">
                 <div class="flex">
-                  <div
-                    class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                  >
+                  <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                     <div class="text-3xl font-semibold">3,2 млн. руб</div>
                   </div>
                 </div>
                 <div class="flex">
-                  <div
-                    class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                  >
+                  <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                     <div>Сумма всех заключенных сделок</div>
                   </div>
                 </div>
@@ -29,16 +25,12 @@
               <template #content>
                 <div class="card-container">
                   <div class="flex">
-                    <div
-                      class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                    >
+                    <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                       <div class="text-3xl font-semibold">36</div>
                     </div>
                   </div>
                   <div class="flex">
-                    <div
-                      class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                    >
+                    <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                       <div>Клиентов</div>
                     </div>
                   </div>
@@ -49,16 +41,12 @@
               <template #content>
                 <div class="card-container">
                   <div class="flex">
-                    <div
-                      class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                    >
+                    <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                       <div class="text-3xl font-semibold">58%</div>
                     </div>
                   </div>
                   <div class="flex">
-                    <div
-                      class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                    >
+                    <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                       <div>Конверсия сделок</div>
                     </div>
                   </div>
@@ -69,16 +57,12 @@
               <template #content>
                 <div class="card-container">
                   <div class="flex">
-                    <div
-                      class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                    >
+                    <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                       <div class="text-3xl font-semibold">6</div>
                     </div>
                   </div>
                   <div class="flex">
-                    <div
-                      class="flex-grow-1 flex align-items-center justify-content-center border-round"
-                    >
+                    <div class="flex-grow-1 flex align-items-center justify-content-center border-round">
                       <div>Средний срок оплаты дней</div>
                     </div>
                   </div>
@@ -141,21 +125,13 @@
           <div class="flex mt-3">
             <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
               <template #content>
-                <top-chart2
-                  chartId="id5"
-                  cssClasses="chart-size"
-                  title="Топ популярных категорий"
-                />
+                <top-chart2 chartId="id5" cssClasses="chart-size" title="Топ популярных категорий" />
               </template>
             </card>
             <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
               <template #content>
                 <div class="flex">
-                  <top-chart3
-                    chartId="id6"
-                    cssClasses="chart-size"
-                    title="Топ популярных товаров"
-                  />
+                  <top-chart3 chartId="id6" cssClasses="chart-size" title="Топ популярных товаров" />
                 </div>
               </template>
             </card>
@@ -163,17 +139,10 @@
           <div class="flex mt-3">
             <card class="flex-1 flex align-items-center justify-content-center border-round mr-2">
               <template #content>
-                <doughnut-chart2
-                  chartId="id9"
-                  cssClasses="full-chart-size"
-                  title="Топ организаций производителей"
-                />
+                <doughnut-chart2 chartId="id9" cssClasses="full-chart-size" title="Топ организаций производителей" />
               </template>
             </card>
           </div>
-        </tab-panel>
-        <tab-panel header="По организации">
-          <org-chart></org-chart>
         </tab-panel>
       </tab-view>
     </div>

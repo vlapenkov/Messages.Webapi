@@ -4,7 +4,7 @@
     <transition-fade>
       <template v-if="productShortsItems != null">
         <div v-if="productShortsItems.length > 0" class="grid">
-          <div class="col-12">
+          <div v-if="false" class="col-12">
             <production-toolbar-container></production-toolbar-container>
           </div>
           <div
@@ -53,7 +53,7 @@
 <script lang="ts">
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
@@ -66,21 +66,20 @@ export default defineComponent({
   setup() {
     const toast = useToast();
 
-    const productShortsItems = computed(() => productionsStore.currentPageItems.value);
-    const { status: productShortsStatus, pageNumber, pageSize, currentPage } = productionsStore;
+    const { status, pageNumber, pageSize, currentPage, showFilters, currentPageItems } =
+      productionsStore;
+
+    const notifyHandler = useToastNotificationHandler(toast);
+    const viewMode = viewModeProvider.provide();
 
     const changePage = ({ page }: { page: number }) => {
       pageNumber.value = page + 1;
     };
-
-    const { showFilters } = productionsStore;
-    const notifyHandler = useToastNotificationHandler(toast);
-    const viewMode = viewModeProvider.provide();
     return {
       notifyHandler,
       productFullStore,
-      productShortsItems,
-      productShortsStatus,
+      productShortsItems: currentPageItems,
+      productShortsStatus: status,
       pageNumber,
       pageSize,
       currentPage,

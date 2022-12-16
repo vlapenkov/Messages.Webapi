@@ -1,19 +1,165 @@
 <template>
-  <div class="flex flex-row justify-content-end">
-    <router-link class="no-underline" :to="{ name: 'create-product' }">
-      <prime-button-add label="Добавить товар"></prime-button-add>
-    </router-link>
-  </div>
+  <app-page title="Товары (Менеджер производителя)">
+    <template #subheader>
+      <div class="flex flex-row justify-content-end">
+        <div>
+          <prime-button
+            class="p-button-sm py-2 px-3"
+            icon="pi pi-plus"
+            label="Добавить"
+            @click="toggleMenu"
+            aria-controls="overlay_menu-products_edit"
+          ></prime-button>
+          <prime-menu id="overlay_menu-products_edit" ref="menu" :model="menuItems" :popup="true" />
+        </div>
+      </div>
+    </template>
+    <div class="grid">
+      <div class="col-12">
+        <div v-if="status.status === 'loaded'">
+          <data-table class="no-background-table" :value="productions">
+            <column header="Артикул" field="article">
+              <template #body="{ data }">{{ data.article || '123456' }}</template>
+            </column>
+            <column header="Наименование" field="name">
+              <template #body="{ data }">
+                <div class="flex flex-row gap-2 align-items-center">
+                  <div style="flex-basis: 100px">
+                    <file-store-image
+                      max-height="90"
+                      fit-width
+                      :id="data.documentId"
+                    ></file-store-image>
+                  </div>
+                  <div>{{ data.name }}</div>
+                </div>
+              </template>
+            </column>
+            <column header="Последнее редактирование" field="lastModifiedBy">
+              <template #body="{ data }">
+                <div class="flex flex-column gap-2">
+                  <div>{{ getLastEditTime(data) }}</div>
+                  <div>{{ data.lastModifiedBy }}</div>
+                </div>
+              </template>
+            </column>
+            <column header="Статус" field="statusText"> </column>
+            <column header="">
+              <template #body>
+                <router-link class="no-underline" :to="{ name: 'edit-product' }">
+                  <prime-button-edit
+                    class="edit-button p-button-rounded p-button-text"
+                  ></prime-button-edit>
+                </router-link>
+              </template>
+            </column>
+          </data-table>
+        </div>
+        <div v-else class="flex flex-column gap-1">
+          <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
+        </div>
+        <prime-paginator
+          class="mt-2 border-1 shadow-1 products-paginator"
+          v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+          @page="changePage"
+          :rows="pageSize"
+          :first="pageSize * (pageNumber - 1)"
+          :totalRecords="currentPage?.totalItemCount ?? 0"
+        ></prime-paginator>
+      </div>
+      <div class="col-12"></div>
+    </div>
+  </app-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { ProductionModel } from '@/app/productions/models/production.model';
+import { productionsService } from '@/app/productions/services/productions.service';
+import { productionsStore } from '@/app/productions/state/productions.store';
+import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { PrimePaginator } from '@/tools/prime-vue-components';
+import Menu from 'primevue/menu';
+import type { MenuItem } from 'primevue/menuitem';
+import { defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
+  components: { PrimePaginator, PrimeMenu: Menu },
   setup() {
-    return {};
+    const {
+      status,
+      pageNumber,
+      pageSize,
+      currentPage,
+      showFilters,
+      currentPageItems: productions,
+    } = productionsStore;
+    const { searchQuery } = catalogFiltersStore;
+    watch(
+      [pageNumber, pageSize, searchQuery],
+      ([pnum, psize, query]) => {
+        productionsService.loadPage({
+          name: query ?? null,
+          pageNumber: pnum,
+          pageSize: psize,
+          producerName: null,
+          region: null,
+        });
+      },
+      {
+        immediate: true,
+      },
+    );
+
+    const changePage = ({ page }: { page: number }) => {
+      pageNumber.value = page + 1;
+    };
+
+    const getLastEditTime = (mod: ProductionModel) =>
+      new Date(mod.lastModified).toLocaleDateString();
+
+    const menuItems: MenuItem[] = [
+      {
+        label: 'Товар',
+        to: { name: 'create-product' },
+      },
+      {
+        label: 'Услугу',
+        to: { name: 'create-product' },
+      },
+      {
+        label: 'Работу',
+        to: { name: 'create-product' },
+      },
+    ];
+
+    const menu = ref();
+
+    const toggleMenu = (event: PointerEvent) => {
+      console.log('menu', menu.value);
+
+      menu.value.toggle(event);
+    };
+
+    return {
+      status,
+      pageSize,
+      currentPage,
+      showFilters,
+      productions,
+      changePage,
+      pageNumber,
+      getLastEditTime,
+      menuItems,
+      menu,
+      toggleMenu,
+    };
   },
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.edit-button {
+  transform: scale(0.8, 0.8);
+  background-color: #f4f7fb;
+}
+</style>

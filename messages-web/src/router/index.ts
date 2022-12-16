@@ -41,7 +41,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../vue/views/labs-view.vue'),
     meta: { requiresAuth: true },
   },
-
   {
     path: '/product/:id',
     name: 'product',

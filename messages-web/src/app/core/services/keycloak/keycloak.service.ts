@@ -51,7 +51,7 @@ export async function initKeycloak() {
   );
   const authSuccess = await keycloakInst.init({
     checkLoginIframe: false,
-    onLoad: 'login-required',
+    onLoad: 'check-sso',
     // silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
   });
   if (!authSuccess) {
@@ -72,6 +72,10 @@ export async function initKeycloak() {
       }
     }, tokenRefreshInterval * 1000);
   }
+}
+
+export function login() {
+  keycloakInst.login();
 }
 
 export function logout() {

@@ -127,6 +127,13 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ '../vue/views/register-view.vue'),
     meta: { requiresAuth: false },
   },
+  {
+    path: '/organization-reports',
+    name: 'organization-reports',
+    component: () =>
+      import(/* webpackChunkName: "register" */ '../vue/views/organization-reports-view.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

@@ -31,7 +31,14 @@ const routes: Array<RouteRecordRaw> = [
         name: 'products',
         component: () =>
           import(/* webpackChunkName: "sections" */ '../vue/views/products-view.vue'),
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/organizations',
+        name: 'organizations',
+        component: () =>
+          import(/* webpackChunkName: "organizations" */ '../vue/views/organizations-view.vue'),
+        meta: { requiresAuth: true },
       },
     ],
   },
@@ -99,13 +106,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'organization',
     component: () =>
       import(/* webpackChunkName: "organization" */ '../vue/views/organization-view.vue'),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/organizations',
-    name: 'organizations',
-    component: () =>
-      import(/* webpackChunkName: "organizations" */ '../vue/views/organizations-view.vue'),
     meta: { requiresAuth: true },
   },
   {

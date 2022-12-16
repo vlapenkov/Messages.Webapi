@@ -59,12 +59,15 @@
 <script lang="ts">
 import { organizationsService } from '@/app/organizations/services/organization.service';
 import { useOrganizations } from '@/composables/organizations.composable';
-import { IStatus, useStatuses } from '@/composables/statuses.composable';
+import {
+  IOrganizationStatus,
+  useOrganizationStatuses,
+} from '@/composables/organization-statuses.composable';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 export default defineComponent({
   setup() {
-    const { statuses, initial } = useStatuses();
+    const { statuses, initial } = useOrganizationStatuses();
     const { organizations } = useOrganizations();
     const formatDateString = (d: Date) => {
       if (d == null) return '';
@@ -74,9 +77,9 @@ export default defineComponent({
         day: 'numeric',
       });
     };
-    const orgStatusModels = ref<Record<number, IStatus | undefined>>();
-    const orgStatuses = computed<Record<number, IStatus | undefined>>(() => {
-      const res: Record<number, IStatus | undefined> = {};
+    const orgStatusModels = ref<Record<number, IOrganizationStatus | undefined>>();
+    const orgStatuses = computed<Record<number, IOrganizationStatus | undefined>>(() => {
+      const res: Record<number, IOrganizationStatus | undefined> = {};
       if (initial.value == null) return res;
       organizations.value.forEach((org) => {
         Object.assign(res, {
@@ -95,7 +98,7 @@ export default defineComponent({
         immediate: true,
       },
     );
-    const changed = async (val: Ref<IStatus>, id: number) => {
+    const changed = async (val: Ref<IOrganizationStatus>, id: number) => {
       const status = val.value.value;
       await organizationsService.updateStatus(id, status);
     };

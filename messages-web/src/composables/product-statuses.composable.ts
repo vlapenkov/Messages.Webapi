@@ -1,26 +1,26 @@
 import { computed, ref } from 'vue';
 
-export interface IStatus {
+export interface IProductStatus {
   name: string;
   color: string;
   value: number;
 }
 
-export function useStatuses() {
-  const statuses = ref<IStatus[]>([
+export function useProductStatuses() {
+  const statuses = ref<IProductStatus[]>([
     {
       value: 0,
-      name: 'Новая',
+      name: 'Черновик',
       color: 'var(--orange-400)',
     },
     {
       value: 1,
-      name: 'Активная',
+      name: 'Опубликован',
       color: 'var(--green-700)',
     },
     {
-      value: 10,
-      name: 'Закрыта',
+      value: 2,
+      name: 'Архивный',
       color: 'var(--red-700)',
     },
   ]);

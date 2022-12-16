@@ -1,19 +1,30 @@
 <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
   <div>
-    <div aria-controls="overlay_menu" aria-haspopup="true" @click="toggleMenu"
-      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl" v-if="isAuthenticated">
+    <div
+      aria-controls="overlay_menu"
+      aria-haspopup="true"
+      @click="toggleMenu"
+      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
+      v-if="isAuthenticated"
+    >
       <div>{{ userShortName }}</div>
       <avatar shape="circle" icon="pi pi-user"></avatar>
     </div>
     <div v-else>
-      <prime-button label="Вход/Регистрация" class="p-button-sm ml-3"
-        @click="vidibleLoginDialog = !vidibleLoginDialog" />
+      <prime-button
+        label="Вход/Регистрация"
+        class="p-button-sm ml-3"
+        @click="vidibleLoginDialog = !vidibleLoginDialog"
+      />
     </div>
     <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
     </prime-menu>
     <teleport to="body">
-      <login-register-dialog :visible="vidibleLoginDialog" @update:visible="updatevidibleLoginDialog" />
+      <login-register-dialog
+        :visible="vidibleLoginDialog"
+        @update:visible="updatevidibleLoginDialog"
+      />
     </teleport>
   </div>
 </template>
@@ -90,10 +101,11 @@ export default defineComponent({
             icon: 'pi pi-th-large',
           },
           {
-            label: `Корзина${shoppingCartStore.totalQuantity.value > 0
+            label: `Корзина${
+              shoppingCartStore.totalQuantity.value > 0
                 ? ` (${shoppingCartStore.totalQuantity.value})`
                 : ''
-              }`,
+            }`,
             to: { name: 'shopping-cart' },
             icon: 'pi pi-shopping-cart',
             badge: 5,
@@ -118,14 +130,14 @@ export default defineComponent({
             icon: 'pi pi-bars',
           },
           {
-            label: 'Управление категориями',
-            to: { name: 'categories' },
-            icon: 'pi pi-book',
-          },
-          {
             label: 'Управление организациями',
             to: { name: 'organizations' },
             icon: 'pi pi-plus',
+          },
+          {
+            label: 'Управление категориями',
+            to: { name: 'categories' },
+            icon: 'pi pi-book',
           },
           {
             label: 'Общие отчеты',

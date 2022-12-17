@@ -18,3 +18,15 @@ $sizes: (
   '3': $size * 3,
   '5': $size * 5,
 );
+
+$colors-light: (
+  'text-buttton-background': #f4f4fb,
+  'toolbar-selected': #fff,
+  'primary': #3275e1,
+  'text-primary': #2f7ff9,
+  'yellow': #ffb800,
+  'orange': #ff9900,
+  'grey-transparent': rgba(180, 187, 186, 0.39),
+  'backgroud-green': #d5fef3,
+  'text-success': #00ba88,
+);

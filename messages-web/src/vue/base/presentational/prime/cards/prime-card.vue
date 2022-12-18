@@ -72,10 +72,6 @@ export default defineComponent({
     }
   }
 
-  :deep(.p-card-body) {
-    height: var(--p-card-body-height) !important;
-  }
-
   :deep(.p-card-content) {
     padding-bottom: 0;
     padding-top: 0;

@@ -52,7 +52,11 @@ export default defineComponent({
       h(
         Card,
         { class: cardClasses.value, ref: cardRef },
-        { ...slots, title: props.title == null ? slots.title : () => props.title },
+        {
+          ...slots,
+          title: props.title == null ? slots.title : () => props.title,
+          content: slots.default ?? slots.content,
+        },
       );
   },
 });

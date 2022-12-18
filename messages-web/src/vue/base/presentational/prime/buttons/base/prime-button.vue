@@ -1,7 +1,6 @@
 <script lang="ts">
-import { isDark } from '@/store/theme.store';
 import Button from 'primevue/button';
-import { computed, defineComponent, h } from 'vue';
+import { defineComponent, h } from 'vue';
 
 export const defaultButtonStyle = 'p-button-sm';
 
@@ -37,15 +36,10 @@ export default defineComponent({
       default: 'pi pi-spinner pi-spin',
     },
   },
-  setup(props, { slots, attrs }) {
-    const buttonStyle = computed(() => ({
-      [defaultButtonStyle]: attrs.class == null,
-      ' p-button-outlined blurred': isDark.value,
-    }));
-
+  setup(props, { slots }) {
     return () =>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      h(Button as any, { ...props, class: buttonStyle.value }, { ...slots });
+      h(Button as any, { ...props }, { ...slots });
   },
 });
 </script>

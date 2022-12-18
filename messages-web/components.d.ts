@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     AppPrice: typeof import('./src/vue/presentational/productions/app-price.vue')['default']
     AppRoot: typeof import('./src/vue/app-root.vue')['default']
     AppScroller: typeof import('./src/vue/presentational/app-scroller.vue')['default']
+    AppText: typeof import('./src/vue/base/presentational/typography/app-text.vue')['default']
     AuthGuard: typeof import('./src/vue/base/containers/auth-guard.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
     Card: typeof import('primevue/card')['default']

@@ -1,7 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <app-page title="Эксперименты">
-    <div>
+    <div class="flex flex-column gap-3">
       <prime-card title="Inputs">
         <div class="p-fluid grid mt-3">
           <prime-input-text class="col-4" label="Текст" v-model="text"></prime-input-text>
@@ -25,18 +25,26 @@
           <prime-input-number class="col-4" label="Число" v-model="number"></prime-input-number>
         </div>
       </prime-card>
-      <prime-card no-padding class="mt-2">
+      <prime-card no-padding class>
         <!-- <template #header>header</template> -->
-        <template #title>title</template>
-        <template #subtitle>subtitle</template>
-        <template #footer>footer</template>
-        <div>
+        <template #title>
+          <app-text mode="header">Header</app-text>
+        </template>
+        <template #subtitle>
+          <app-text mode="subheader">SubHeader</app-text>
+        </template>
+        <template #footer>
+          <app-text mode="primary">Primary</app-text>
+          <app-text mode="weak">Weak</app-text>
+          <app-text mode="weaker">Weaker</app-text>
+        </template>
+        <app-text mode="default">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, quaerat dignissimos!
           Natus, quo cum nam suscipit, quidem vitae recusandae amet consequatur harum veritatis
           similique voluptatibus ut magnam a? Delectus, iure alias sint autem quae quaerat
           consectetur necessitatibus ratione molestiae fugiat corrupti ab aspernatur numquam
           temporibus explicabo eum, cum facilis dolores.
-        </div>
+        </app-text>
       </prime-card>
       <prime-card title="Кнопки" shadow="default" shadow-hover="none">
         <template #content>

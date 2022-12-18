@@ -154,10 +154,10 @@ export default defineComponent({
         );
       }
       items.push(
-        {
-          label: 'Эксперименты',
-          to: { name: 'labs' },
-        },
+        // {
+        //   label: 'Эксперименты',
+        //   to: { name: 'labs' },
+        // },
         {
           label: 'Выход',
           icon: 'pi pi-sign-out',

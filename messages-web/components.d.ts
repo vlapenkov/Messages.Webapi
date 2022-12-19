@@ -91,7 +91,7 @@ declare module '@vue/runtime-core' {
     ProductionToolbarContainer: typeof import('./src/vue/containers/productions/production-toolbar-container.vue')['default']
     ProductServiceView: typeof import('./src/vue/views/product-service-view.vue')['default']
     ProductsManagerView: typeof import('./src/vue/views/products-manager-view.vue')['default']
-    ProductsView: typeof import('./src/vue/views/products-view.vue')['default']
+    ProductsOrgManagerView: typeof import('./src/vue/views/products-org-manager-view.vue')['default']
     ProductsViewer: typeof import('./src/vue/containers/products-viewer.vue')['default']
     ProductView: typeof import('./src/vue/views/product-view.vue')['default']
     ProductWorkView: typeof import('./src/vue/views/product-work-view.vue')['default']

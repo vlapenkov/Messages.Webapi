@@ -101,6 +101,11 @@ export default defineComponent({
             icon: 'pi pi-th-large',
           },
           {
+            label: 'Статусы товаров',
+            to: { name: 'catalog' },
+            icon: 'pi pi-th-large',
+          },
+          {
             label: `Корзина${
               shoppingCartStore.totalQuantity.value > 0
                 ? ` (${shoppingCartStore.totalQuantity.value})`
@@ -126,7 +131,7 @@ export default defineComponent({
         items.push(
           {
             label: 'Управление товарами',
-            to: { name: 'products' },
+            to: { name: 'org-products' },
             icon: 'pi pi-bars',
           },
           {

@@ -26,7 +26,7 @@
         </div>
         <div>
           <prime-button
-            class="p-button-secondary p-button-sm"
+            class="p-button-secondary"
             icon="pi pi-sliders-h"
             @click="showFilters = !showFilters"
           ></prime-button>
@@ -74,7 +74,11 @@
               class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
             >
               <div class="flex flex-column">
-                <i class="pi pi-shopping-cart" v-if="cartCapacity > 0" v-badge="cartCapacity"></i>
+                <i
+                  class="pi pi-shopping-cart badge-small badge-margin"
+                  v-if="cartCapacity > 0"
+                  v-badge.info="cartCapacity"
+                ></i>
                 <i class="pi pi-shopping-cart" v-else></i>
                 <span>Корзина</span>
               </div>
@@ -109,8 +113,10 @@ export default defineComponent({
     const { searchForProducts, searchQuery, showFilters } = useCatalogFilters();
 
     const router = useRouter();
-    router.beforeEach(() => {
-      showFilters.value = false;
+    router.beforeEach((to, from) => {
+      if (to.name !== from.name) {
+        showFilters.value = false;
+      }
     });
     const { totalQuantity: cartCapacity } = shoppingCartStore;
     const searchRef = ref();
@@ -124,4 +130,16 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+i.badge-small {
+  :deep(span) {
+    font-size: 9px;
+  }
+}
+
+i.badge-margin {
+  :deep(.p-badge) {
+    margin-right: 0.5rem;
+  }
+}
+</style>

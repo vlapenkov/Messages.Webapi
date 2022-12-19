@@ -93,6 +93,7 @@ export function useCatalogFilters() {
         searchQuery: searchQuery.value,
       },
     });
+    showFilters.value = false;
   };
 
   return {

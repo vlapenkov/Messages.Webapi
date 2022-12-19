@@ -145,7 +145,7 @@
           </div>
         </tab-panel>
         <!-- <tab-panel header="asdfdfasdf">
-          <markeplaces-tab></markeplaces-tab>
+          <excel-tab></excel-tab>
         </tab-panel> -->
       </tab-view>
     </div>

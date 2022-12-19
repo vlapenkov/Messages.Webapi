@@ -1,4 +1,5 @@
 <template>
+  <toast position="top-right" group="tr1" />
   <card>
     <template #content>
       <div class="flex card-container blue-container overflow-hidden">
@@ -16,7 +17,7 @@
             @click="vidibleLoginDialog = !vidibleLoginDialog" />
         </div>
       </div>
-      <data-table :value="[]" responsiveLayout="scroll">
+      <!-- <data-table :value="[]" responsiveLayout="scroll">
         <column header="Дата">
           <template #body="slopProps">
             <span class="p-component">
@@ -26,7 +27,7 @@
         </column>
         <column header="Ответственный" field="itemsCount" />
         <column field="Загружено" header="Выгружено заказов" />
-      </data-table>
+      </data-table> -->
     </template>
   </card>
   <teleport to="body">
@@ -37,10 +38,12 @@
 <script lang="ts">
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { productionsHttpService } from '@/app/productions/infrastructure/productions.http-service';
+import { useToast } from 'primevue/usetoast';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   setup() {
+    const toast = useToast();
     const vidibleLoginDialog = ref(false);
     const formatDateString = (d: Date) => {
       const date = new Date(d);
@@ -57,9 +60,21 @@ export default defineComponent({
       console.log(data.name, b64,)
       const response = await productionsHttpService.fromExcel({ fileNmae: data.name, data: b64 })
       if (response.status === HttpStatus.Success) {
-        console.log(response);
+        toast.add({
+          severity: 'success',
+          group: 'tr1',
+          summary: 'Успех',
+          detail: 'Загрузка из Excel завершилась ушпешно',
+          life: 4000,
+        });
       } else {
-        console.log(response);
+        toast.add({
+          severity: 'error',
+          group: 'tr1',
+          summary: 'Ошибка',
+          detail: 'Загрузка из Excel завершилось с ошибкой',
+          life: 4000,
+        });
       }
     }
 

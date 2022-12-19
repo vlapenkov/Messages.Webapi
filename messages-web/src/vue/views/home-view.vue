@@ -127,6 +127,7 @@ export default defineComponent({
         pageSize: 12,
         producerName: null,
         region: null,
+        orderBy: null,
       });
       shoppingCartStore.getDataAsync();
     });

@@ -16,7 +16,6 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.fio"
-                    :maxlength="13"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -27,7 +26,6 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.phone"
-                    :maxlength="9"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -38,7 +36,6 @@
                     type="email"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.email"
-                    :maxlength="10"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -49,7 +46,6 @@
                     type="password"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.password"
-                    :maxlength="10"
                   />
                 </div>
                 <div class="col-8"></div>

@@ -15,11 +15,11 @@
       <img
         src="@/assets/images/logo.svg"
         alt=""
-        width="50"
-        height="50"
-        class="col-6 col-offset-3 mb-6"
+        width="70"
+        height="70"
+        class="col-6 col-offset-3 mb-4"
       />
-      <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-3" @click="login" />
+      <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-2" @click="login" />
       <router-link :to="{ name: 'register' }" class="no-underline">
         <prime-button
           label="Зарегистрироваться"

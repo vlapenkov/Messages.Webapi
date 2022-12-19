@@ -3,7 +3,7 @@
     <card>
       <template #content>
         <data-table :value="organizations" responsiveLayout="scroll" class="no-background-table">
-          <column header="Наименование" headerStyle="width: 40%">
+          <column field="name" header="Наименование" headerStyle="width: 40%" :sortable="true">
             <template #body="slopProps">
               <router-link
                 :to="{ name: 'organization', params: { id: slopProps.data.id } }"
@@ -34,15 +34,25 @@
               </router-link>
             </template>
           </column>
-          <column header="Дата изменения" headerStyle="width: 20%">
+          <column
+            field="lastModified"
+            header="Дата изменения"
+            headerStyle="width: 20%"
+            :sortable="true"
+          >
             <template #body="slopProps">
               <span class="p-component">
                 {{ formatDateString(slopProps.data.lastModified) }}
               </span>
             </template>
           </column>
-          <column field="lastModifiedBy" header="Кем изменено" headerStyle="width: 20%" />
-          <column field="statusText" header="Статус" headerStyle="width: 20%">
+          <column
+            field="lastModifiedBy"
+            header="Кем изменено"
+            headerStyle="width: 20%"
+            :sortable="true"
+          />
+          <column field="statusText" header="Статус" headerStyle="width: 20%" :sortable="true">
             <template #body="slopProps">
               <dropdown
                 v-if="orgStatusModels != null"

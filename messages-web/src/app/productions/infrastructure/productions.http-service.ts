@@ -1,10 +1,11 @@
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
 import { http } from '@/app/core/services/http/axios/axios.service';
 import { defineHttpService } from '@/app/core/services/http/define-http.service';
+import { IExcelProductResponse } from '../@types/IExcelProductResponse';
 import { IproductionsPageRequest } from '../@types/IproductionsPageRequest';
 import { IProductionModel } from '../models/production.model';
 
-const { defineGet, defineDelete, definePatch } = defineHttpService({
+const { defineGet, defineDelete, definePatch, definePost } = defineHttpService({
   url: 'api/productions',
 });
 
@@ -43,4 +44,16 @@ const updateStatus = async (id: number, status: number) => {
   return response;
 };
 
-export const productionsHttpService = { getPage, getAttributes, remove, setStatus, updateStatus };
+const fromExcel = definePost<IExcelProductResponse[], { fileNmae: string; data: string }>((v) => ({
+  url: `/fromexcel`,
+  bodyOrParams: v,
+}));
+
+export const productionsHttpService = {
+  getPage,
+  getAttributes,
+  remove,
+  setStatus,
+  updateStatus,
+  fromExcel,
+};

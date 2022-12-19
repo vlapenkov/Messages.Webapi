@@ -1,6 +1,5 @@
 <template>
-  <app-page title="Товары">
-    <card>
+   <card>
       <template #content>
         <data-table :value="items" responsiveLayout="scroll">
           <column header="Торговая площадка" headerStyle="width: 30%">
@@ -38,7 +37,6 @@
         </data-table>
       </template>
     </card>
-  </app-page>
 </template>
 
 <script lang="ts">

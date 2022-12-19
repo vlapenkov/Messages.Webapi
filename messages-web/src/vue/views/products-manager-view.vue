@@ -5,28 +5,33 @@
         <data-table :value="productShortsItems" responsiveLayout="scroll">
           <column header="Наименование" headerStyle="width: 30%">
             <template #body="slopProps">
-              <div class="w-full flex flex-row align-items-center">
-                <img
-                  v-if="slopProps.data.documentId == null"
-                  :src="require('@/assets/images/profile.svg')"
-                  alt="Изображение профиля"
-                  width="50"
-                  height="50"
-                  :style="{
-                    objectFit: 'cover',
-                    borderRadius: '0.5rem',
-                  }"
-                  class="mr-3"
-                />
-                <file-store-image
-                  v-if="slopProps.data.documentId != null"
-                  :max-width="50"
-                  :max-height="50"
-                  :id="slopProps.data.documentId"
-                  class="mr-3"
-                ></file-store-image>
-                <span class="p-component">{{ slopProps.data.name }}</span>
-              </div>
+              <router-link
+                :to="{ name: 'product', params: { id: slopProps.data.id } }"
+                class="no-underline text-color"
+              >
+                <div class="w-full flex flex-row align-items-center">
+                  <img
+                    v-if="slopProps.data.documentId == null"
+                    :src="require('@/assets/images/profile.svg')"
+                    alt="Изображение профиля"
+                    width="50"
+                    height="50"
+                    :style="{
+                      objectFit: 'cover',
+                      borderRadius: '0.5rem',
+                    }"
+                    class="mr-3"
+                  />
+                  <file-store-image
+                    v-if="slopProps.data.documentId != null"
+                    :max-width="50"
+                    :max-height="50"
+                    :id="slopProps.data.documentId"
+                    class="mr-3"
+                  ></file-store-image>
+                  <span class="p-component">{{ slopProps.data.name }}</span>
+                </div>
+              </router-link>
             </template>
           </column>
           <column header="Наименование организации" headerStyle="width: 25%">

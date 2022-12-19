@@ -131,7 +131,7 @@ export default defineComponent({
         items.push(
           {
             label: 'Управление товарами',
-            to: { name: 'org-products' },
+            to: { name: 'products' },
             icon: 'pi pi-bars',
           },
           {

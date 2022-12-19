@@ -32,11 +32,12 @@
 <script lang="ts">
 import { isAuthenticated, userInfo } from '@/store/user.store';
 import { computed, defineComponent, ref } from 'vue';
-// import { url } from 'gravatar';
 import { screenMiddle } from '@/app/core/services/window/window.service';
 import { login, logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import type { MenuItem } from 'primevue/menuitem';
+// import { url } from 'gravatar';
 
 // const avatarSize = 100;
 export default defineComponent({
@@ -72,7 +73,7 @@ export default defineComponent({
     });
 
     const menuItems = computed(() => {
-      const items = [];
+      const items: MenuItem[] = [];
       const roles = userInfo.value?.role;
       if (roles != null && roles.indexOf('manager_org_seller') >= 0) {
         items.push(
@@ -152,13 +153,19 @@ export default defineComponent({
           },
         );
       }
-      items.push({
-        label: 'Выход',
-        icon: 'pi pi-sign-out',
-        command: () => {
-          logout();
+      items.push(
+        // {
+        //   label: 'Эксперименты',
+        //   to: { name: 'labs' },
+        // },
+        {
+          label: 'Выход',
+          icon: 'pi pi-sign-out',
+          command: () => {
+            logout();
+          },
         },
-      });
+      );
       return items;
     });
 

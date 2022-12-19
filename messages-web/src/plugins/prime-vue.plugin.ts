@@ -6,6 +6,9 @@ import Tooltip from 'primevue/tooltip';
 import BadgeDirective from 'primevue/badgedirective';
 import ToastService from 'primevue/toastservice';
 
+import 'primevue/resources/themes/lara-light-blue/theme.css';
+import 'primevue/resources/primevue.min.css';
+
 export const primeVuePlugin: Plugin = {
   install(app) {
     app.directive('tooltip', Tooltip);

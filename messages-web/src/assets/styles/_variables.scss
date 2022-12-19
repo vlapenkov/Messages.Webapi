@@ -18,3 +18,37 @@ $sizes: (
   '3': $size * 3,
   '5': $size * 5,
 );
+
+$colors: (
+  'text-buttton-background': #f4f4fb,
+  'toolbar-selected': #fff,
+  'primary': #3275e1,
+  'yellow': #ffb800,
+  'orange': #ff9900,
+  'weak': rgba(180, 187, 186, 0.39),
+  'backgroud-success': #d5fef3,
+  'background': #fcfcfc,
+);
+
+$colors-text: (
+  'weak': #898989,
+  'primary': #2f7ff9,
+  'success': #00ba88,
+  'default': #3d3d3d,
+  'header': #14142b,
+  'strong': #000000,
+  'button': #686b76,
+);
+
+$sizes-text: (
+  'small': 12px,
+  'middle': 14px,
+  'upper-middle': 16px,
+  'subheader': 22px,
+  'header': 26px,
+);
+
+$font-weights: (
+  'normal': 400,
+  'large': 500,
+);

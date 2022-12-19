@@ -36,7 +36,10 @@ body {
   cursor: pointer;
 }
 
-$background-color: #fcfcfc;
+$background-color: map-get(
+  $map: $colors,
+  $key: 'background',
+);
 
 body {
   --surface-ground: $background-color;

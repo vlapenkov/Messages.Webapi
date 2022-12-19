@@ -2,7 +2,7 @@
   <app-page title="Организации">
     <card>
       <template #content>
-        <data-table :value="organizations" responsiveLayout="scroll">
+        <data-table :value="organizations" responsiveLayout="scroll" class="no-background-table">
           <column header="Наименование" headerStyle="width: 40%">
             <template #body="slopProps">
               <router-link
@@ -63,17 +63,24 @@
 
 <script lang="ts">
 import { organizationsService } from '@/app/organizations/services/organization.service';
-import { useOrganizations } from '@/composables/organizations.composable';
 import {
   IOrganizationStatus,
   useOrganizationStatuses,
 } from '@/composables/organization-statuses.composable';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
+import { organizationsStore } from '@/app/organizations/state/organizations.store';
 
 export default defineComponent({
   setup() {
+    onMounted(() => {
+      // на бэке нет параметров для пэйджинга, грузим все
+      organizationsService.loadPage({
+        pageNumber: 1,
+        pageSize: 8,
+      });
+    });
     const { statuses, initial } = useOrganizationStatuses();
-    const { organizations } = useOrganizations();
+    const { currentPageItems: organizations } = organizationsStore;
     const formatDateString = (d: Date) => {
       if (d == null) return '';
       return d.toLocaleString('ru-RU', {
@@ -86,7 +93,7 @@ export default defineComponent({
     const orgStatuses = computed<Record<number, IOrganizationStatus | undefined>>(() => {
       const res: Record<number, IOrganizationStatus | undefined> = {};
       if (initial.value == null) return res;
-      organizations.value.forEach((org) => {
+      (organizations.value ?? []).forEach((org) => {
         Object.assign(res, {
           ...res,
           [org.id]: statuses.value.find((s) => s.name === org.statusText) ?? initial.value,

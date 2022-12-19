@@ -11,17 +11,17 @@ export function useOrganizationStatuses() {
     {
       value: 0,
       name: 'Новая',
-      color: 'var(--orange-400)',
+      color: 'var(--orange-500)',
     },
     {
       value: 1,
       name: 'Активная',
-      color: 'var(--green-700)',
+      color: 'var(--green-500)',
     },
     {
       value: 10,
       name: 'Закрыта',
-      color: 'var(--red-700)',
+      color: 'var(--red-500)',
     },
   ]);
   const initial = computed(() => statuses.value.find((x) => x.value === 0));

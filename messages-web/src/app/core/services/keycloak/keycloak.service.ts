@@ -75,11 +75,13 @@ export async function initKeycloak() {
 }
 
 export function login() {
-  keycloakInst.login();
+  const { origin } = window.location;
+  keycloakInst.login({
+    redirectUri: `${origin}/`,
+  });
 }
 
 export function logout() {
   cleanTokens();
   keycloakInst.logout();
 }
-

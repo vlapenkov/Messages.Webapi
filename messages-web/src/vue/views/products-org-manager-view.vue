@@ -103,6 +103,7 @@ export default defineComponent({
           pageSize: psize,
           producerName: null,
           region: null,
+          orderBy: null,
         });
       },
       {

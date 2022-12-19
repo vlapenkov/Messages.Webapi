@@ -5,4 +5,5 @@ export interface IproductionsPageRequest extends IPagedRequest {
   name: string | null;
   region: string | null;
   producerName: string | null;
+  orderBy: number | null;
 }

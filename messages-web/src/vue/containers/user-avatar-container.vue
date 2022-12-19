@@ -77,8 +77,8 @@ export default defineComponent({
       if (roles != null && roles.indexOf('manager_org_seller') >= 0) {
         items.push(
           {
-            label: 'Товары',
-            to: { name: 'products' },
+            label: 'Управление товарами',
+            to: { name: 'org-products' },
             icon: 'pi pi-bars',
           },
           {
@@ -131,24 +131,23 @@ export default defineComponent({
         items.push(
           {
             label: 'Управление товарами',
-            to: { name: 'org-products' },
+            to: { name: 'products' },
             icon: 'pi pi-bars',
+          },
+          {
+            label: 'Управление организациями',
+            to: { name: 'organizations' },
+            icon: 'pi pi-plus',
           },
           {
             label: 'Управление категориями',
             to: { name: 'categories' },
             icon: 'pi pi-book',
           },
-
           {
             label: 'Общие отчеты',
             to: { name: 'reports' },
             icon: 'pi pi-chart-bar',
-          },
-          {
-            label: 'Управление организациями',
-            to: { name: 'organization-add' },
-            icon: 'pi pi-plus',
           },
         );
       }

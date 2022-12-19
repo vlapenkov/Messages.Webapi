@@ -28,6 +28,13 @@ async function loadPage(request: IPagedRequest) {
   }
 }
 
+async function updateStatus(id: number, status: number) {
+  const response = await organizationsHttpService.updateStatus(id, status);
+  if (response.statusText === 'OK') return true;
+  return false;
+}
+
 export const organizationsService = {
   loadPage,
+  updateStatus,
 };

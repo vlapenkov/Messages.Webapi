@@ -28,8 +28,13 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    maxWidth: {
+      type: Number,
+      default: null,
+    },
     minWidth: {
       type: Number,
+      default: null,
     },
     maxHeight: {
       type: Number,
@@ -80,6 +85,7 @@ export default defineComponent({
     }));
 
     const imageStyle = computed<CSSProperties>(() => ({
+      maxWidth: props.maxWidth != null ? `${props.maxWidth}px` : undefined,
       minWidth: props.minWidth != null ? `${props.minWidth}px` : undefined,
       minHeight: props.minHeight != null ? `${props.minHeight}px` : undefined,
       objectFit: props.objectFit != null ? props.objectFit : undefined,

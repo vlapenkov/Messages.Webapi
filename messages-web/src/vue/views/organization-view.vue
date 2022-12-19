@@ -83,7 +83,7 @@
 
 <script lang="ts">
 import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
-import { useStatuses } from '@/composables/statuses.composable';
+import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
 import { defineComponent, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -101,7 +101,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const item = organizationFullStore.organization;
-    const { statuses } = useStatuses();
+    const { statuses } = useOrganizationStatuses();
     const statusColor = computed(
       () => statuses.value.find((x) => x.name === item.value?.statusText)?.color,
     );

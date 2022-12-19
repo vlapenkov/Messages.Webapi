@@ -62,6 +62,7 @@ declare module '@vue/runtime-core' {
     OrderView: typeof import('./src/vue/views/order-view.vue')['default']
     OrganizationAddView: typeof import('./src/vue/views/organization-add-view.vue')['default']
     OrganizationReportsView: typeof import('./src/vue/views/organization-reports-view.vue')['default']
+    OrganizationsView: typeof import('./src/vue/views/organizations-view.vue')['default']
     OrganizationView: typeof import('./src/vue/views/organization-view.vue')['default']
     OrgChart: typeof import('./src/vue/presentational/charts/org-chart.vue')['default']
     ParentSectionSelector: typeof import('./src/vue/containers/parent-section-selector.vue')['default']

@@ -50,19 +50,33 @@
             <column
               field="lastModifiedBy"
               header="Кем изменено"
-              headerStyle="width: 20%"
+              headerStyle="width: 15%"
               :sortable="true"
             />
-            <column field="statusText" header="Статус" headerStyle="width: 20%" :sortable="true">
+            <column
+              field="createdBy"
+              header="Кто создал"
+              headerStyle="width: 15%"
+              :sortable="true"
+            />
+            <column field="statusText" header="Статус" headerStyle="width: 10%" :sortable="true">
               <template #body="slopProps">
                 <dropdown
-                  v-if="orgStatusModels != null"
+                  v-if="orgStatusModels != null && orgStatusModels[slopProps.data.id]?.value === 0"
                   v-model="orgStatusModels[slopProps.data.id]"
                   :options="statuses"
                   optionLabel="name"
                   class="w-full"
-                  :disabled="orgStatusModels[slopProps.data.id]?.value !== 0"
                   @change="changed($event, slopProps.data.id)"
+                />
+                <tag
+                  v-else
+                  :value="orgStatusModels != null && orgStatusModels[slopProps.data.id]?.name"
+                  :style="{
+                    backgroundColor:
+                      orgStatusModels != null && orgStatusModels[slopProps.data.id]?.color,
+                  }"
+                  class="w-full"
                 />
               </template>
             </column>
@@ -102,6 +116,9 @@ export default defineComponent({
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
       });
     };
     const orgStatusModels = ref<Record<number, IOrganizationStatus | undefined>>();

@@ -449,6 +449,7 @@ export default defineComponent({
       bankName: '',
       account: '',
       corrAccount: '',
+      createdBy: userState.fio,
       bik: '',
     });
 

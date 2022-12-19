@@ -1,22 +1,25 @@
 <template>
   <transition-fade>
-    <template v-if="canView">
-      <slot></slot>
-    </template>
-    <div v-else>
-      <div class="w-full flex flex-row justify-content-center mt-6">
-        <span class="p-component text-2xl">Войдите или зарегистрируйтесь</span>
-      </div>
+    <div>
       <teleport to="body">
-        <login-register-dialog :visible="visibleModel" @update:visible="updatevisibleModel" />
+        <login-register-dialog />
       </teleport>
+      <template v-if="canView">
+        <slot></slot>
+      </template>
+      <div v-else>
+        <div class="w-full flex flex-row justify-content-center mt-6">
+          <span class="p-component text-2xl">Войдите или зарегистрируйтесь</span>
+        </div>
+      </div>
     </div>
   </transition-fade>
 </template>
 
 <script lang="ts">
+import { showRegisterDialog } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
@@ -27,18 +30,18 @@ export default defineComponent({
       if (!requiresAuth.value) return true;
       return isAuthenticated.value;
     });
-    const visibleModel = ref(!canView.value);
-    watch(canView, (r) => {
-      visibleModel.value = !r;
-    });
-    const updatevisibleModel = (v: boolean) => {
-      visibleModel.value = v;
-    };
+    watch(
+      canView,
+      (r) => {
+        showRegisterDialog.value = !r;
+      },
+      {
+        immediate: true,
+      },
+    );
     return {
       canView,
       isAuthenticated,
-      visibleModel,
-      updatevisibleModel,
     };
   },
 });

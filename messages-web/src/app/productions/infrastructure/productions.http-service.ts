@@ -1,4 +1,5 @@
 import { IPagedResponse } from '@/app/core/services/http/@types/IPagedResponse';
+import { http } from '@/app/core/services/http/axios/axios.service';
 import { defineHttpService } from '@/app/core/services/http/define-http.service';
 import { IproductionsPageRequest } from '../@types/IproductionsPageRequest';
 import { IProductionModel } from '../models/production.model';
@@ -32,4 +33,14 @@ const setStatus = definePatch<void, ISetProdstionStatusArg>(({ id, status }) => 
 /** Получить атрибуты всей продукции */
 const getAttributes = defineGet<{ id: number; name: string }[]>();
 
-export const productionsHttpService = { getPage, getAttributes, remove, setStatus };
+const updateStatus = async (id: number, status: number) => {
+  const response = await http.patch(`api/Productions/${id}/status`, status, {
+    headers: {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
+};
+
+export const productionsHttpService = { getPage, getAttributes, remove, setStatus, updateStatus };

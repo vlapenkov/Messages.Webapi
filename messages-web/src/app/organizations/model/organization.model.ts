@@ -54,11 +54,13 @@ export class OrganizationModel extends ModelBase<IOrganizationModel> {
   @description('ОКВЭД 2')
   okved2 = '';
 
-  latitude: number | null = null;
-
-  longitude: number | null = null;
-
   statusText = '';
+
+  latitude? = 0;
+
+  longitude? = 0;
+
+  documentId? = '';
 
   fromResponse(model: IOrganizationModel): boolean {
     try {
@@ -80,6 +82,8 @@ export class OrganizationModel extends ModelBase<IOrganizationModel> {
       this.okved2 = model.okved2;
       this.latitude = model.latitude;
       this.longitude = model.longitude;
+      this.documentId = model.documentId;
+      this.statusText = model.statusText;
       return true;
     } catch (error) {
       return false;
@@ -107,6 +111,7 @@ export class OrganizationModel extends ModelBase<IOrganizationModel> {
       statusText: this.statusText,
       latitude: this.latitude,
       longitude: this.longitude,
+      documentId: this.documentId,
       [modelMarker]: this[modelMarker],
     };
   }

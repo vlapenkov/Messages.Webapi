@@ -16,4 +16,3 @@ const getByInn = defineGet<IOrganizationFullModel, string>((inn) => ({
 const post = definePost<number, IOrganizationFullModel>();
 
 export const organizationHttpService = { get, getByInn, post };
-

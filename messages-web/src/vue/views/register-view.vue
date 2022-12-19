@@ -413,8 +413,8 @@ import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
-import { useStatuses } from '@/composables/statuses.composable';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
+import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
 
 export default defineComponent({
   components: { Toast },
@@ -431,7 +431,7 @@ export default defineComponent({
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
     const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
-    const { statuses } = useStatuses();
+    const { statuses } = useOrganizationStatuses();
     const statusOptions = computed(() => statuses.value.map((x) => x.name));
     const formState = reactive<IOrganizationFullModel>({
       ogrn: '',

@@ -26,12 +26,20 @@ async function loadPage(request: IproductionsPageRequest) {
     productionsStore.status.value = new DataStatus('loaded');
   }
 }
+
 const isProductInShoppingCart = (product: ProductionModel) =>
   computed(
     () => shoppingCartStore.items.value?.find((i) => i.productId === product.id) !== undefined,
   );
 
+async function updateStatus(id: number, status: number) {
+  const response = await productionsHttpService.updateStatus(id, status);
+  if (response.statusText === 'OK') return true;
+  return false;
+}
+
 export const productionsService = {
   loadPage,
   isProductInShoppingCart,
+  updateStatus,
 };

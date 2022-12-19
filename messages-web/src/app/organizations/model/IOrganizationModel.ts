@@ -18,6 +18,7 @@ export interface IOrganizationModel extends IModel {
   okved: string;
   okved2: string;
   statusText: string;
-  latitude: number | null;
-  longitude: number | null;
+  documentId?: string;
+  latitude?: number;
+  longitude?: number;
 }

@@ -27,11 +27,27 @@ const routes: Array<RouteRecordRaw> = [
         meta: { requiresAuth: false },
       },
       {
+        path: '/products',
+        name: 'products',
+        component: () =>
+          import(/* webpackChunkName: "products" */ '../vue/views/products-manager-view.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/organizations',
+        name: 'organizations',
+        component: () =>
+          import(/* webpackChunkName: "organizations" */ '../vue/views/organizations-view.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
         path: '/org-products',
         name: 'org-products',
         component: () =>
-          import(/* webpackChunkName: "sections" */ '../vue/views/products-org-manager-view.vue'),
-        meta: { requiresAuth: false },
+          import(
+            /* webpackChunkName: "org-products" */ '../vue/views/products-org-manager-view.vue'
+          ),
+        meta: { requiresAuth: true },
       },
     ],
   },

@@ -20,11 +20,10 @@
         class="col-6 col-offset-3 mb-6"
       />
       <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-3" @click="login" />
-      <router-link to="/register" class="no-underline">
+      <router-link :to="{ name: 'register' }" class="no-underline">
         <prime-button
           label="Зарегистрироваться"
           class="col-6 col-offset-3 p-button-sm p-button-text"
-          @click="register"
         />
       </router-link>
     </div>
@@ -35,6 +34,7 @@
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { computed, defineComponent } from 'vue';
+import {} from 'vue-router';
 
 export default defineComponent({
   components: { PrimeDialog },
@@ -52,12 +52,8 @@ export default defineComponent({
       get: () => props.visible,
       set: (v) => emit('update:visible', v),
     });
-    const register = () => {
-      visibilityModel.value = false;
-    };
     return {
       visibilityModel,
-      register,
       login,
     };
   },

@@ -36,7 +36,10 @@ body {
   cursor: pointer;
 }
 
-$background-color: #fcfcfc;
+$background-color: map-get(
+  $map: $colors,
+  $key: 'background',
+);
 
 body {
   --surface-ground: $background-color;
@@ -44,4 +47,27 @@ body {
 
 .p-card {
   background-color: $background-color;
+}
+
+.no-background-table {
+  table.p-datatable-table {
+    thead {
+      th {
+        background-color: #fff;
+        color: #898989;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+      }
+    }
+    tbody {
+      td {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 140%;
+      }
+    }
+  }
 }

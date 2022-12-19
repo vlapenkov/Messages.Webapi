@@ -27,10 +27,10 @@ const routes: Array<RouteRecordRaw> = [
         meta: { requiresAuth: false },
       },
       {
-        path: '/products',
-        name: 'products',
+        path: '/org-products',
+        name: 'org-products',
         component: () =>
-          import(/* webpackChunkName: "sections" */ '../vue/views/products-view.vue'),
+          import(/* webpackChunkName: "sections" */ '../vue/views/products-org-manager-view.vue'),
         meta: { requiresAuth: false },
       },
     ],
@@ -41,7 +41,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../vue/views/labs-view.vue'),
     meta: { requiresAuth: true },
   },
-
   {
     path: '/product/:id',
     name: 'product',

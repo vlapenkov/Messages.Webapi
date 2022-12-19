@@ -15,7 +15,6 @@
                 </div>
               </router-link>
               <div class="flex flex-row align-items-center flex-shrink-0">
-                <theme-switch-container></theme-switch-container>
                 <user-avatar-container />
               </div>
             </div>

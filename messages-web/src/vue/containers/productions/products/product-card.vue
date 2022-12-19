@@ -39,7 +39,7 @@
     <template #content>
       <div class="h-full flex flex-column justify-content-between gap-1 p-2">
         <div class="text-sm font-normal article">
-          {{ product.codeTnVed || '123456' }}
+          {{ product.article || '123456' }}
         </div>
         <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 name-font">

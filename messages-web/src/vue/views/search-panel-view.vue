@@ -26,7 +26,7 @@
         </div>
         <div>
           <prime-button
-            class="p-button-secondary p-button-sm"
+            class="p-button-secondary"
             icon="pi pi-sliders-h"
             @click="showFilters = !showFilters"
           ></prime-button>
@@ -75,7 +75,7 @@
             >
               <div class="flex flex-column">
                 <i
-                  class="pi pi-shopping-cart badge-small"
+                  class="pi pi-shopping-cart badge-small badge-margin"
                   v-if="cartCapacity > 0"
                   v-badge.info="cartCapacity"
                 ></i>
@@ -134,6 +134,12 @@ export default defineComponent({
 i.badge-small {
   :deep(span) {
     font-size: 9px;
+  }
+}
+
+i.badge-margin {
+  :deep(.p-badge) {
+    margin-right: 0.5rem;
   }
 }
 </style>

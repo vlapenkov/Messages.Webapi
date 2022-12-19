@@ -23,10 +23,7 @@
                   </div>
                 </div>
                 <div class="col-8 file-upload">
-                  <div class="w-full flex flex-column">
-                    <span class="mb-3 p-component text-xl font-semibold text-900">
-                      {{ organizationName }}
-                    </span>
+                  <div class="w-full h-full flex flex-column justify-content-center">
                     <file-upload
                       mode="basic"
                       id="organization-img"
@@ -449,13 +446,7 @@ export default defineComponent({
       }
       [file.value] = files;
     };
-
-    const organizationName = computed(() =>
-      formState.name != null && formState.name !== '' ? formState.name : 'Название',
-    );
-
     return {
-      organizationName,
       statusOptions,
       isModeration,
       formState,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-row justify-content-between gap-5 align-items-center">
-      <h1 class="p-component text-xl sm:text-2xl">{{ title }}</h1>
+      <app-text class="p-component my-3" mode="header">{{ title }}</app-text>
       <slot name="subheader"></slot>
     </div>
     <slot></slot>

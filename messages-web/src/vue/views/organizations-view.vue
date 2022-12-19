@@ -2,70 +2,75 @@
   <app-page title="Организации">
     <card>
       <template #content>
-        <data-table :value="organizations" responsiveLayout="scroll" class="no-background-table">
-          <column field="name" header="Наименование" headerStyle="width: 40%" :sortable="true">
-            <template #body="slopProps">
-              <router-link
-                :to="{ name: 'organization', params: { id: slopProps.data.id } }"
-                class="no-underline text-color"
-              >
-                <div class="w-full flex flex-row align-items-center">
-                  <img
-                    v-if="slopProps.data.documentId == null"
-                    :src="require('@/assets/images/profile.svg')"
-                    alt="Изображение профиля"
-                    width="50"
-                    height="50"
-                    :style="{
-                      objectFit: 'cover',
-                      borderRadius: '0.5rem',
-                    }"
-                    class="mr-3"
-                  />
-                  <file-store-image
-                    v-if="slopProps.data.documentId != null"
-                    :max-width="50"
-                    :max-height="50"
-                    :id="slopProps.data.documentId"
-                    class="mr-3"
-                  ></file-store-image>
-                  <span class="p-component">{{ slopProps.data.name }}</span>
-                </div>
-              </router-link>
-            </template>
-          </column>
-          <column
-            field="lastModified"
-            header="Дата изменения"
-            headerStyle="width: 20%"
-            :sortable="true"
-          >
-            <template #body="slopProps">
-              <span class="p-component">
-                {{ formatDateString(slopProps.data.lastModified) }}
-              </span>
-            </template>
-          </column>
-          <column
-            field="lastModifiedBy"
-            header="Кем изменено"
-            headerStyle="width: 20%"
-            :sortable="true"
-          />
-          <column field="statusText" header="Статус" headerStyle="width: 20%" :sortable="true">
-            <template #body="slopProps">
-              <dropdown
-                v-if="orgStatusModels != null"
-                v-model="orgStatusModels[slopProps.data.id]"
-                :options="statuses"
-                optionLabel="name"
-                class="w-full"
-                :disabled="orgStatusModels[slopProps.data.id]?.value !== 0"
-                @change="changed($event, slopProps.data.id)"
-              />
-            </template>
-          </column>
-        </data-table>
+        <div v-if="organizationStatus.status === 'loaded'">
+          <data-table :value="organizations" responsiveLayout="scroll" class="no-background-table">
+            <column field="name" header="Наименование" headerStyle="width: 40%" :sortable="true">
+              <template #body="slopProps">
+                <router-link
+                  :to="{ name: 'organization', params: { id: slopProps.data.id } }"
+                  class="no-underline text-color"
+                >
+                  <div class="w-full flex flex-row align-items-center">
+                    <img
+                      v-if="slopProps.data.documentId == null"
+                      :src="require('@/assets/images/profile.svg')"
+                      alt="Изображение профиля"
+                      width="50"
+                      height="50"
+                      :style="{
+                        objectFit: 'cover',
+                        borderRadius: '0.5rem',
+                      }"
+                      class="mr-3"
+                    />
+                    <file-store-image
+                      v-if="slopProps.data.documentId != null"
+                      :max-width="50"
+                      :max-height="50"
+                      :id="slopProps.data.documentId"
+                      class="mr-3"
+                    ></file-store-image>
+                    <span class="p-component">{{ slopProps.data.name }}</span>
+                  </div>
+                </router-link>
+              </template>
+            </column>
+            <column
+              field="lastModified"
+              header="Дата изменения"
+              headerStyle="width: 20%"
+              :sortable="true"
+            >
+              <template #body="slopProps">
+                <span class="p-component">
+                  {{ formatDateString(slopProps.data.lastModified) }}
+                </span>
+              </template>
+            </column>
+            <column
+              field="lastModifiedBy"
+              header="Кем изменено"
+              headerStyle="width: 20%"
+              :sortable="true"
+            />
+            <column field="statusText" header="Статус" headerStyle="width: 20%" :sortable="true">
+              <template #body="slopProps">
+                <dropdown
+                  v-if="orgStatusModels != null"
+                  v-model="orgStatusModels[slopProps.data.id]"
+                  :options="statuses"
+                  optionLabel="name"
+                  class="w-full"
+                  :disabled="orgStatusModels[slopProps.data.id]?.value !== 0"
+                  @change="changed($event, slopProps.data.id)"
+                />
+              </template>
+            </column>
+          </data-table>
+        </div>
+        <div v-else class="flex flex-column gap-1">
+          <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
+        </div>
       </template>
     </card>
   </app-page>
@@ -90,7 +95,7 @@ export default defineComponent({
       });
     });
     const { statuses, initial } = useOrganizationStatuses();
-    const { currentPageItems: organizations } = organizationsStore;
+    const { currentPageItems: organizations, status: organizationStatus } = organizationsStore;
     const formatDateString = (d: Date) => {
       if (d == null) return '';
       return d.toLocaleString('ru-RU', {
@@ -125,6 +130,7 @@ export default defineComponent({
       await organizationsService.updateStatus(id, status);
     };
     return {
+      organizationStatus,
       orgStatuses,
       orgStatusModels,
       statuses,

@@ -1,5 +1,18 @@
 <template>
-  <app-page title="Товары">
+  <app-page title="Товары" class="products-manager-page">
+    <div class="w-full flex flex-row justify-content-end align-items-center mb-3">
+      <span class="p-component text-color-secondary">Сортировка:</span>
+      <dropdown
+        class="ml-2"
+        :style="{ width: '380px' }"
+        :options="ordersByProductWithName"
+        optionLabel="name"
+        optionValue="value"
+        placeholder="Выберите"
+        :showClear="true"
+        v-model="orderBy"
+      />
+    </div>
     <card>
       <template #content>
         <div>
@@ -88,6 +101,7 @@
 </template>
 
 <script lang="ts">
+import { ordersByProductWithName } from '@/app/productions/models/OrderByProduct';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { IProductStatus, useProductStatuses } from '@/composables/product-statuses.composable';
@@ -103,19 +117,20 @@ export default defineComponent({
       pageNumber,
       pageSize,
       currentPage,
+      orderBy,
       currentPageItems: productShortsItems,
     } = productionsStore;
     const { searchQuery } = catalogFiltersStore;
     watch(
-      [pageNumber, pageSize, searchQuery],
-      ([pnum, psize, query]) => {
+      [pageNumber, pageSize, searchQuery, orderBy],
+      ([pnum, psize, query, ob]) => {
         productionsService.loadPage({
           name: query ?? null,
           pageNumber: pnum,
           pageSize: psize,
           producerName: null,
           region: null,
-          orderBy: null,
+          orderBy: ob ?? null,
         });
       },
       {
@@ -162,6 +177,7 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
     return {
+      ordersByProductWithName,
       statuses,
       productStatuses,
       productStatusModels,
@@ -170,6 +186,7 @@ export default defineComponent({
       currentPage,
       pageNumber,
       pageSize,
+      orderBy,
       changed,
       changePage,
       formatDateString,
@@ -179,11 +196,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-:deep(div.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled
-    span.p-dropdown-label.p-inputtext) {
-  padding: 6px;
-}
-:deep(.p-card-content) {
-  padding: 0;
+.products-manager-page {
+  :deep(span.p-dropdown-label.p-inputtext) {
+    padding: 6px;
+  }
+  :deep(.p-card-content) {
+    padding: 0;
+  }
 }
 </style>

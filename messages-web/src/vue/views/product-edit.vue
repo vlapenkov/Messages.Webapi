@@ -2,184 +2,118 @@
 <template>
   <app-page :title="pageTitle">
     <toast position="top-right" group="tr" />
-    <card class="shadow-none" id="main-card">
-      <template #content>
-        <tab-view ref="tabview1">
-          <tab-panel header="Описание">
-            <div class="grid p-fluid mt-2">
-              <div class="col-12 md:col-4">
-                <div class="grid p-fluid">
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <input-text id="productName" type="text" v-model="models.name.value" />
-                      <label for="productName">Краткое наименование товара</label>
-                    </span>
-                  </div>
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <prime-textarea
-                        id="productDescr"
-                        auto-resize
-                        type="text"
-                        v-model="models.description.value"
-                      />
-                      <label for="productDescr">Описание товара</label>
-                    </span>
-                  </div>
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <dropdown
-                        id="categoryId"
-                        v-model="models.categoryId.value"
-                        :options="sectionsCollection"
-                        optionLabel="name"
-                        optionValue="id"
-                      />
-                      <label for="categoryId">Категория</label>
-                    </span>
-                  </div>
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <input-text id="codeTnVed" type="text" v-model="models.codeTnVed.value" />
-                      <label for="codeTnVed">Код товара</label>
-                    </span>
-                  </div>
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <input-text id="country" type="text" v-model="models.country.value" />
-                      <label for="country">Страна производства</label>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 md:col-4">
-                <div class="grid p-fluid">
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <prime-textarea
-                        auto-resize
-                        id="fullName"
-                        type="text"
-                        v-model="models.fullName.value"
-                      />
-                      <label for="fullName">Полное наименование товара</label>
-                    </span>
-                  </div>
-
-                  <div class="field col-12">
-                    <span class="p-float-label p-input-icon-right">
-                      <i class="pi pi-money-bill" />
-                      <input-number
-                        id="price"
-                        mode="decimal"
-                        :minFractionDigits="2"
-                        :maxFractionDigits="10"
-                        v-model="models.price.value"
-                      />
-                      <label for="price">Цена, руб</label>
-                    </span>
-                  </div>
-                  <div class="field col-12">
-                    <span class="p-float-label">
-                      <input-text id="measuring" type="text" v-model="models.measuringUnit.value" />
-                      <label for="measuring">Единицы измерения</label>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 md:col-4">
-                <div class="field col-12 md:col-4">
-                  <label class="font mb-1">Изображение продукта</label>
-                  <div>
-                    <file-upload
-                      mode="basic"
-                      id="product-img"
-                      accept="image/*"
-                      :maxFileSize="1000000"
-                      @input="onFileInput"
-                      :auto="true"
-                      :customUpload="true"
-                      chooseLabel="Выбрать"
-                    />
-                  </div>
-                  <div class="mt-2 grid">
-                    <div
-                      class="col-12 md:col-6"
-                      v-for="doc in models.documents.value"
-                      :key="doc.fileId"
-                    >
-                      <product-document-display :document="doc"></product-document-display>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <prime-card no-padding shadow-hover="none">
+      <div class="grid m-2">
+        <div class="col-12 md:col-7">
+          <prime-card shadow-hover="none">
+            <template #title>
+              <app-text mode="subheader">1. Основные данные</app-text>
+            </template>
+            <div class="p-fluid grid mt-4">
+              <prime-input-text
+                class="col-12 md:col-6"
+                id="--prodct-short-name"
+                v-model="models.name.value"
+                label="Сокращённое наименование"
+              />
+              <prime-input-text
+                id="--prodct-full-name"
+                class="col-12 md:col-6"
+                v-model="models.fullName.value"
+                label="Полное наименование"
+              />
+              <prime-input-tree-select
+                :options="sectionsTree"
+                v-model="categoryId"
+                class="col-12 md:col-6"
+                label="Категория"
+              />
+              <prime-input-textarea
+                class="col-12"
+                label="Описание"
+                v-model="models.description.value"
+              />
             </div>
-          </tab-panel>
-          <tab-panel header="Технические характеристики">
-            <ul>
-              <li v-for="attr in attributesCollection" :key="attr.attributeId">
-                <div class="grid p-fluid mt-2">
-                  <!-- строка 1 -->
-                  <div class="field col-12 md:col-3">
-                    <span class="p-float-label">
-                      <dropdown
-                        id="attributeId"
-                        v-model="attr.attributeId"
-                        :options="attributeDefs"
-                        optionLabel="name"
-                        optionValue="id"
-                      />
-                      <label for="attributeId">Название характеристики</label>
-                    </span>
-                  </div>
-                  <div class="field col-12 md:col-9">
-                    <span class="p-float-label">
-                      <input-text id="attr-value" type="text" v-model="attr.value" />
-                      <label for="attr-value">Значение характеристики</label>
-                    </span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="flex card-container blue-container overflow-hidden">
-              <div class="flex-none flex">
-                <span class="text-xl"></span>
-              </div>
-              <div class="flex-grow-1 flex"></div>
-              <div class="flex-none flex">
-                <prime-button
-                  icon="pi pi-plus"
-                  class="p-button-sm py-1 px-1 ml-1"
-                  @click="addAttribute()"
-                >
-                </prime-button>
-              </div>
-            </div>
-            <div class="field col-12">
-              <prime-button label="Сохранить" @click="saveAttributes"></prime-button>
-            </div>
-          </tab-panel>
-        </tab-view>
-      </template>
-      <template #footer>
-        <div class="flex flex-row justify-content-end">
-          <prime-button
-            :label="mode === 'create' ? 'Создать товар' : 'Сохранить изменения'"
-            @click="createProduct"
-            v-if="isNew"
-          ></prime-button>
+          </prime-card>
         </div>
-      </template>
-    </card>
+        <div class="col-12 md:col-5">
+          <product-documents-editor-container v-model="models.documents.value" />
+        </div>
+        <div v-if="productionType === 'product'" class="col-12">
+          <div class="p-fluid grid mt-2">
+            <prime-input-text
+              id="--prodct-articule"
+              class="col-12 md:col-4"
+              v-model="models.article.value"
+              label="Артикул"
+            />
+            <prime-input-text
+              id="--prodct-code-okpd"
+              class="col-12 md:col-4"
+              v-model="models.codeOkpd2.value"
+              label="Код ОКПД 2"
+            />
+            <prime-input-text
+              id="--prodct-code"
+              class="col-12 md:col-4"
+              v-model="models.codeTnVed.value"
+              label="Код товара"
+            />
+            <prime-input-text
+              id="--prodct-adress"
+              class="col-12 md:col-8"
+              v-model="models.address.value"
+              label="Адрес"
+            />
+          </div>
+        </div>
+        <template v-if="productionType === 'product'">
+          <prime-divider></prime-divider>
+          <div class="col-12">
+            <prime-card shadow-hover="none">
+              <template #title>
+                <app-text mode="subheader">2. Характеристики</app-text>
+              </template>
+              <attributes-editor-container class="mt-4" v-model="models.attributes.value" />
+            </prime-card>
+          </div>
+        </template>
+        <prime-divider></prime-divider>
+        <div class="col-12">
+          <prime-card shadow-hover="none">
+            <template #title>
+              <app-text mode="subheader">3. Цена</app-text>
+            </template>
+            <div class="flex flex-row gap-3 mt-5">
+              <prime-input-number
+                :disabled="isPriceEmpty"
+                label="Цена"
+                v-model="models.price.value"
+                id="--product-price"
+              ></prime-input-number>
+              <div class="field-checkbox">
+                <checkbox inputId="binary" v-model="isPriceEmpty" :binary="true" />
+                <label for="binary">Договорная</label>
+              </div>
+            </div>
+          </prime-card>
+        </div>
+        <prime-divider></prime-divider>
+        <div class="col-12 pb-5">
+          <div class="flex flex-row justify-content-end">
+            <prime-button label="Сохранить" @click="saveProduct"></prime-button>
+          </div>
+        </div>
+      </div>
+    </prime-card>
   </app-page>
 </template>
 
 <script lang="ts">
 import { ProductFullModel } from '@/app/product-full/models/product-full.model';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
-import { PrimeTextarea } from '@/tools/prime-vue-components';
 import { useBase64 } from '@vueuse/core';
-import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
+import { defineComponent, computed, watch, ref, Ref, onMounted, PropType } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { productFullService } from '@/app/product-full/infrastructure/product-full.http-service';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
@@ -194,17 +128,25 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { loadingStatusProvider } from '../base/presentational/state/collection/providers/loading-status.provider';
 
 export default defineComponent({
-  components: { PrimeTextarea, Toast },
-  setup() {
+  components: { Toast },
+  props: {
+    productionType: {
+      type: String as PropType<'product' | 'service' | 'work'>,
+      required: true,
+    },
+    dataMode: {
+      type: String as PropType<DataMode>,
+      required: true,
+    },
+  },
+  setup(props) {
     const toast = useToast();
     const route = useRoute();
-
-    const metaStatus = computed(() => route.meta.mode as DataMode | undefined);
 
     watch(
       () => route.params.id as string | undefined,
       (id) => {
-        if (metaStatus.value !== 'edit' || id == null) {
+        if (props.dataMode !== 'edit' || id == null) {
           return;
         }
         productFullStore.getAsync(+id).then(() => {
@@ -217,7 +159,7 @@ export default defineComponent({
     );
 
     watch(
-      metaStatus,
+      () => props.dataMode,
       (mst) => {
         if (mst === 'create') {
           productFullStore.startCreation();
@@ -233,7 +175,7 @@ export default defineComponent({
 
     const attributeDefs = attributes.items;
     loadingStatusProvider.provideFrom(() => productFullStore.status);
-    const { list: sectionsCollection } = useSections();
+    const { list: sectionsCollection, tree: sectionsTree } = useSections();
 
     const mode = computed({
       get: () => productFullStore.selected?.value?.mode,
@@ -271,9 +213,37 @@ export default defineComponent({
       },
     });
 
-    const pageTitle = computed(() =>
-      mode.value === 'create' ? 'Добавление товара' : 'Редактирование товара',
-    );
+    const pageTitle = computed(() => {
+      let whatToDo = '';
+      let withWhat = '';
+      switch (mode.value) {
+        case 'create':
+          whatToDo = 'Создание';
+          break;
+        case 'edit':
+          whatToDo = 'Редактирование';
+          break;
+        case 'moderate':
+          whatToDo = 'Модерирование';
+          break;
+        default:
+          throw new Error('Неизвестный тип действий');
+      }
+      switch (props.productionType) {
+        case 'product':
+          withWhat = 'товара';
+          break;
+        case 'service':
+          withWhat = 'услуги';
+          break;
+        case 'work':
+          withWhat = 'работы';
+          break;
+        default:
+          throw new Error('Неизвестный тип товара');
+      }
+      return `${whatToDo} ${withWhat}`;
+    });
 
     const isNew = computed(() => mode.value === 'create');
 
@@ -287,6 +257,8 @@ export default defineComponent({
           if (selectedData.value == null || val == null) {
             return;
           }
+          console.log('setting', key, val);
+
           const cloned = selectedData.value.clone();
           cloned.setKey(key, val);
           selectedData.value = cloned;
@@ -355,6 +327,9 @@ export default defineComponent({
       country: getModelFor('country', ''),
       documents: getModelFor('documents', []),
       attributes: getModelFor('attributeValues', []),
+      article: getModelFor('article', ''),
+      address: getModelFor('address', ''),
+      codeOkpd2: getModelFor('codeOkpd2', ''),
     };
 
     const addAttribute = () => {
@@ -411,6 +386,34 @@ export default defineComponent({
         });
     };
 
+    const categoryId = computed({
+      get: () =>
+        models.categoryId.value == null || models.categoryId.value <= 0
+          ? undefined
+          : { [models.categoryId.value]: true },
+      set: (val) => {
+        if (models.categoryId.value == null || val == null) {
+          return;
+        }
+        const key = Object.keys(val).find((k) => val[+k] === true);
+        if (key != null) {
+          models.categoryId.value = +key;
+        }
+      },
+    });
+
+    const isPriceEmpty = ref(false);
+
+    watch(isPriceEmpty, (empty) => {
+      if (empty) {
+        models.price.value = null;
+      }
+    });
+
+    const saveProduct = () => {
+      throw new Error('Not Implemented!');
+    };
+
     return {
       status: productFullStore.status,
       mode,
@@ -424,8 +427,12 @@ export default defineComponent({
       pageTitle,
       models,
       sectionsCollection,
+      sectionsTree,
       isNew,
+      categoryId,
       attributeDefs,
+      isPriceEmpty,
+      saveProduct,
     };
   },
 });

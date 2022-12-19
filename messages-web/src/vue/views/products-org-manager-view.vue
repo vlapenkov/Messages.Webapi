@@ -124,11 +124,11 @@ export default defineComponent({
       },
       {
         label: 'Услугу',
-        to: { name: 'create-product' },
+        to: { name: 'create-service' },
       },
       {
         label: 'Работу',
-        to: { name: 'create-product' },
+        to: { name: 'create-work' },
       },
     ];
 

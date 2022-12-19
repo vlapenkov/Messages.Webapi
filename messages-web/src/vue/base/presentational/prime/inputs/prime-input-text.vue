@@ -3,7 +3,7 @@
   <div class="field">
     <span class="p-float-label" :class="spanStyle">
       <i v-if="icon" :class="icon" />
-      <input-text :id="id" :class="inputStyle" type="text" v-model="value" />
+      <input-text :id="id" :class="inputStyle" type="text" v-bind="{ disabled }" v-model="value" />
       <label :for="id">{{ label }}</label>
     </span>
   </div>

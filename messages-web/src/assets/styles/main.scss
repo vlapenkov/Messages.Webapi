@@ -42,7 +42,7 @@ $background-color: map-get(
 );
 
 body {
-  --surface-ground: $background-color;
+  --surface-ground: #{$background-color};
 }
 
 .p-card {

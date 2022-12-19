@@ -75,7 +75,33 @@ const routes: Array<RouteRecordRaw> = [
     name: 'create-product',
     component: () =>
       import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: { requiresAuth: true },
+    props: {
+      productionType: 'product',
+      dataMode: 'create',
+    },
+  },
+  {
+    path: '/create-service',
+    name: 'create-service',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: { requiresAuth: true },
+    props: {
+      productionType: 'service',
+      dataMode: 'create',
+    },
+  },
+  {
+    path: '/create-work',
+    name: 'create-work',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
     meta: { mode: 'create', requiresAuth: true },
+    props: {
+      productionType: 'work',
+      dataMode: 'create',
+    },
   },
   {
     path: '/categories',

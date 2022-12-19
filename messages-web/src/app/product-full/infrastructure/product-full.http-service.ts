@@ -28,7 +28,7 @@ export interface IProductPutModel {
   name: string;
   fullName: string;
   description: string;
-  price: number;
+  price: number | null;
   codeTnVed: string;
   codeOkpd2: string;
   address: string;

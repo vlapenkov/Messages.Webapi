@@ -2,33 +2,37 @@
 <template>
   <div class="field">
     <span class="p-float-label">
-      <input-number :id="id" v-model="value" v-bind="{ disabled }" />
+      <tree-select :id="id" v-model="value" v-bind="{ disabled }" :options="options"></tree-select>
       <label :for="id">{{ label }}</label>
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { TreeNode } from 'primevue/tree';
+import { computed, defineComponent, PropType } from 'vue';
 import { inputProps } from './input-props';
 
 export default defineComponent({
   props: {
     modelValue: {
-      type: Number,
+      type: Object as PropType<TreeNode>,
+    },
+    options: {
+      type: Array as PropType<TreeNode[]>,
     },
     id: {
       type: String,
-      default: 'inputNumber',
+      default: 'inputTreeSelect',
     },
     label: {
       type: String,
-      default: 'inputNumber',
+      default: 'inputTreeSelect',
     },
     ...inputProps,
   },
   emits: {
-    'update:modelValue': (_: number | undefined) => true,
+    'update:modelValue': (_: TreeNode | undefined) => true,
   },
   setup(props, { emit }) {
     const value = computed({

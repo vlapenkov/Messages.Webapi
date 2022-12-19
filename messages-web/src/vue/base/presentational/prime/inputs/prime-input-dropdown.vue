@@ -2,7 +2,7 @@
 <template>
   <div class="field">
     <span class="p-float-label">
-      <input-number :id="id" v-model="value" v-bind="{ disabled }" />
+      <dropdown v-model="value" v-bind="{ options, optionLabel, optionValue, id, disabled }" />
       <label :for="id">{{ label }}</label>
     </span>
   </div>
@@ -12,23 +12,33 @@
 import { computed, defineComponent } from 'vue';
 import { inputProps } from './input-props';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Option = any;
+
 export default defineComponent({
   props: {
-    modelValue: {
-      type: Number,
-    },
+    modelValue: {},
     id: {
       type: String,
-      default: 'inputNumber',
+      default: 'inputDropdown',
     },
     label: {
       type: String,
-      default: 'inputNumber',
+      default: 'inputDropdown',
+    },
+    options: {
+      type: Array,
+    },
+    optionLabel: {
+      type: [String, Function],
+    },
+    optionValue: {
+      type: [String, Function],
     },
     ...inputProps,
   },
   emits: {
-    'update:modelValue': (_: number | undefined) => true,
+    'update:modelValue': (_: Option) => true,
   },
   setup(props, { emit }) {
     const value = computed({

@@ -135,8 +135,6 @@ export default defineComponent({
     const menu = ref();
 
     const toggleMenu = (event: PointerEvent) => {
-      console.log('menu', menu.value);
-
       menu.value.toggle(event);
     };
 

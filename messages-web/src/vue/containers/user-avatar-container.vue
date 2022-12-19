@@ -77,8 +77,8 @@ export default defineComponent({
       if (roles != null && roles.indexOf('manager_org_seller') >= 0) {
         items.push(
           {
-            label: 'Товары',
-            to: { name: 'products' },
+            label: 'Управление товарами',
+            to: { name: 'org-products' },
             icon: 'pi pi-bars',
           },
           {

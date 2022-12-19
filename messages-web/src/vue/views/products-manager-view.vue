@@ -4,9 +4,12 @@
       <span class="p-component text-color-secondary">Сортировка:</span>
       <dropdown
         class="ml-2"
+        :style="{ width: '380px' }"
         :options="ordersByProductWithName"
         optionLabel="name"
         optionValue="value"
+        placeholder="Выберите"
+        :showClear="true"
         v-model="orderBy"
       />
     </div>

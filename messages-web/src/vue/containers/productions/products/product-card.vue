@@ -195,12 +195,6 @@ export default defineComponent({
   min-height: 24px;
 }
 
-.star-filled {
-  &::before {
-    content: url('@/assets/icons/star.svg');
-  }
-}
-
 .heart {
   &:not(.invert) {
     &:not(:hover) {
@@ -225,9 +219,6 @@ export default defineComponent({
   transition: transform 0.3s;
 }
 
-.star-yellow {
-  color: #ffb800;
-}
 .half-transparent {
   opacity: 0.5;
 }

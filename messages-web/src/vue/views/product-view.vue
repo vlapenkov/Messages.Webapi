@@ -23,27 +23,21 @@
                 {{ item.rating ?? 0 }}
               </span>
             </div>
-            <div class="flex flex-row mt-2">
+            <div class="flex flex-row gap-1 mt-2">
               <div>
-                <prime-button
-                  label="Добавить в избранное"
-                  icon="pi pi-heart"
-                  class="p-button-text py-1 button-light"
-                />
+                <prime-button-weak disabled small label="Добавить в избранное" icon="pi pi-heart" />
               </div>
               <div>
-                <prime-button
+                <prime-button-weak
+                  disabled
+                  class="p-button-sm"
+                  small
                   label="Добавить к сравнению"
-                  icon="pi pi-chart-bar"
-                  class="p-button-text py-1 button-light"
+                  icon="pi pi-chart-bar "
                 />
               </div>
               <div>
-                <prime-button
-                  label="Искать аналоги"
-                  icon="pi pi-arrows-h"
-                  class="p-button-text py-1 button-light"
-                />
+                <prime-button-weak disabled small label="Искать аналоги" icon="pi pi-arrows-h" />
               </div>
             </div>
             <div v-if="productTypeText">

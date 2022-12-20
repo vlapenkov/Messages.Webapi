@@ -81,6 +81,7 @@ declare module '@vue/runtime-core' {
     PrimeButtonDelete: typeof import('./src/vue/base/presentational/prime/buttons/prime-button-delete.vue')['default']
     PrimeButtonEdit: typeof import('./src/vue/base/presentational/prime/buttons/prime-button-edit.vue')['default']
     PrimeButtonSave: typeof import('./src/vue/base/presentational/prime/buttons/prime-button-save.vue')['default']
+    PrimeButtonWeak: typeof import('./src/vue/base/presentational/prime/buttons/prime-button-weak.vue')['default']
     PrimeCard: typeof import('./src/vue/base/presentational/prime/cards/prime-card.vue')['default']
     PrimeDivider: typeof import('./src/vue/base/presentational/prime/prime-divider.vue')['default']
     PrimeInputDropdown: typeof import('./src/vue/base/presentational/prime/inputs/prime-input-dropdown.vue')['default']

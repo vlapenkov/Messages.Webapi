@@ -25,11 +25,7 @@
           <prime-button @click="searchMe" icon="pi pi-search"></prime-button>
         </div>
         <div>
-          <prime-button
-            class="p-button-secondary"
-            icon="pi pi-sliders-h"
-            @click="showFilters = !showFilters"
-          ></prime-button>
+          <prime-button-weak icon="pi pi-sliders-h" @click="showFilters = !showFilters" />
         </div>
       </div>
       <div class="flex flex-row justify-content-between align-items-center gap-2">

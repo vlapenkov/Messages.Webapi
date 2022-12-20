@@ -106,6 +106,13 @@
           <tab-panel v-if="productionType === 'product'" header="Технические характеристики">
             <product-attributes :product="item"> </product-attributes>
           </tab-panel>
+          <tab-panel v-if="productionType === 'product'" disabled header="Аналоги">
+            <div class="grid">
+              <div class="col-4" v-for="i in 10" :key="i">
+                <skeleton height="150px"></skeleton>
+              </div>
+            </div>
+          </tab-panel>
         </tab-view>
       </prime-card>
     </div>

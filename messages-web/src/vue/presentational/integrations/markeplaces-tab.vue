@@ -1,42 +1,42 @@
 <template>
-   <card>
-      <template #content>
-        <data-table :value="items" responsiveLayout="scroll">
-          <column header="Торговая площадка" headerStyle="width: 30%">
-            <template #body="slopProps">
-              <div class="w-full flex flex-row align-items-center">
-                <img :src="require('@/assets' + slopProps.data.image)" alt="Изображение профиля" width="100" :style="{
-                  objectFit: 'cover',
-                  borderRadius: '0.5rem',
-                }" class="mr-3" />
-                <span class="p-component">{{ slopProps.data.name }}</span>
-              </div>
-            </template>
-          </column>
-          <column header="Выгружено товаров" field="itemsCount" />
-          <column header="Дата выгрузки товаров">
-            <template #body="slopProps">
-              <span class="p-component">
-                {{ formatDateString(slopProps.data.lastUploaded) }}
-              </span>
-            </template>
-          </column>
-          <column field="ordersCount" header="Выгружено заказов" />
-          <column header="Дата загрузки товаров">
-            <template #body="slopProps">
-              <span class="p-component">
-                {{ formatDateString(slopProps.data.lastLoaded) }}
-              </span>
-            </template>
-          </column>
-          <column field="statusText" header="Статус">
-            <template #body="slopProps">
-              <checkbox inputId="binary" v-model="slopProps.data.active" :binary="true" :disabled="true" />
-            </template>
-          </column>
-        </data-table>
-      </template>
-    </card>
+  <card>
+    <template #content>
+      <data-table :value="items" responsiveLayout="scroll">
+        <column header="Торговая площадка" headerStyle="width: 30%">
+          <template #body="slopProps">
+            <div class="w-full flex flex-row align-items-center">
+              <img :src="require('@/assets' + slopProps.data.image)" alt="Изображение профиля" width="100" :style="{
+                objectFit: 'cover',
+                borderRadius: '0.5rem',
+              }" class="mr-3" />
+              <span class="p-component">{{ slopProps.data.name }}</span>
+            </div>
+          </template>
+        </column>
+        <column header="Выгружено товаров" field="itemsCount" />
+        <column header="Дата выгрузки товаров">
+          <template #body="slopProps">
+            <span class="p-component">
+              {{ formatDateString(slopProps.data.lastUploaded) }}
+            </span>
+          </template>
+        </column>
+        <column field="ordersCount" header="Загружено заказов" />
+        <column header="Дата загрузки заказов">
+          <template #body="slopProps">
+            <span class="p-component">
+              {{ formatDateString(slopProps.data.lastLoaded) }}
+            </span>
+          </template>
+        </column>
+        <column field="statusText" header="Статус">
+          <template #body="slopProps">
+            <checkbox inputId="binary" v-model="slopProps.data.active" :binary="true" :disabled="true" />
+          </template>
+        </column>
+      </data-table>
+    </template>
+  </card>
 </template>
 
 <script lang="ts">

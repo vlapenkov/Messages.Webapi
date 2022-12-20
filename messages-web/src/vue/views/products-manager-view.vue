@@ -129,7 +129,7 @@ export default defineComponent({
           pageSize: psize,
           producerName: null,
           region: null,
-          orderBy: ob ?? 0,
+          orderBy: ob,
         });
       },
       {

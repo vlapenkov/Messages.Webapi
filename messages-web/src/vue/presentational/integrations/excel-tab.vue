@@ -1,5 +1,4 @@
 <template>
-  <toast position="top-right" group="tr1" />
   <card>
     <template #content>
       <div class="flex card-container blue-container overflow-hidden">
@@ -31,6 +30,7 @@
     </template>
   </card>
   <teleport to="body">
+    <toast position="top-right" group="tr1" />
     <excel-load-dialog v-model:visible="vidibleselectDialog" @fileSelected="handleFile" />
     <excel-loading-indicator v-model:visible="vidibleLoadingDialog" />
   </teleport>
@@ -38,12 +38,14 @@
 
 <script lang="ts">
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
-import { productionsHttpService } from '@/app/productions/infrastructure/productions.http-service';
+import { productFullService } from '@/app/product-full/infrastructure/product-full.http-service';
+import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, ref } from 'vue';
 
 
 export default defineComponent({
+  components: { Toast },
   setup() {
     const toast = useToast();
     const vidibleselectDialog = ref(false);
@@ -58,14 +60,13 @@ export default defineComponent({
       });
     };
 
-
-
     const handleFile = async (data: { name: string; b64: string; }) => {
       const b64 = data.b64.replace(/(^data:.*\/.*;base64,)/gi, '');
-      // console.log(data.name, b64,);
+      console.log(data.name, b64,);
       try {
         vidibleLoadingDialog.value = true
-        const response = await productionsHttpService.fromExcel({ fileNmae: data.name, data: b64 })
+        const response = await productFullService.fromExcel({ fileName: data.name, data: b64 })
+        console.log(response);
         vidibleLoadingDialog.value = false
         if (response.status === HttpStatus.Success) {
           toast.add({
@@ -85,7 +86,7 @@ export default defineComponent({
           });
         }
       } catch (err) {
-        console.error(err)
+        // console.error(err)
         vidibleLoadingDialog.value = false
         toast.add({
           severity: 'error',

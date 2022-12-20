@@ -9,7 +9,8 @@ export interface IProductFullModel extends IModel {
   codeTnVed: string;
   codeOkpd2: string;
   address: string;
-  price: number;
+  article: string;
+  price: number | null;
   measuringUnit: string;
   country: string;
   currency: string;

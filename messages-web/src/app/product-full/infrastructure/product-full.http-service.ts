@@ -9,18 +9,28 @@ const get = defineGet<IProductFullModel, number>((id) => ({
   url: `/${id}`,
 }));
 
-const post = definePost<number, IProductFullModel>((md) => ({
-  bodyOrParams: {
-    catalogSectionId: md.catalogSectionId,
-    name: md.name,
-    fullName: md.fullName,
-    description: md.description,
-    attributeValues: md.attributeValues,
-    codeTnVed: md.codeTnVed,
-    price: md.price,
-    documents: md.documents,
-  },
-}));
+export interface IProductPostModel {
+  catalogSectionId: number;
+  name: string;
+  fullName: string;
+  description: string;
+  codeTnVed: string;
+  codeOkpd2: string;
+  address: string;
+  price: number | null;
+  article: string;
+  attributeValues: {
+    attributeId: number;
+    value: string;
+  }[];
+  documents: {
+    fileName: string;
+    data: string;
+    fileId: string;
+  }[];
+}
+
+const post = definePost<number, IProductPostModel>();
 
 export interface IProductPutModel {
   id: number;
@@ -28,7 +38,7 @@ export interface IProductPutModel {
   name: string;
   fullName: string;
   description: string;
-  price: number;
+  price: number | null;
   codeTnVed: string;
   codeOkpd2: string;
   address: string;
@@ -43,4 +53,4 @@ export const put = definePut<void, IProductPutModel>(({ id, ...rest }) => ({
   url: `/${id}`,
 }));
 
-export const productFullService = { get, post, put };
+export const productFullHttpService = { get, post, put };

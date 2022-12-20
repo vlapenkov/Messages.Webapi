@@ -1,13 +1,9 @@
 import { ModelBase } from '@/app/core/models/base/model-base';
-import { description } from '@/app/core/models/decorators/description.decorator';
-import { hidden } from '@/app/core/models/decorators/hidden.decorator';
 import { IAttribute } from '../@types/IAttribute';
 
 export class AttributeModel extends ModelBase<IAttribute> implements IAttribute {
-  @hidden()
   id = 0;
 
-  @description('Название')
   name = '';
 
   fromResponse(model: IAttribute): boolean {

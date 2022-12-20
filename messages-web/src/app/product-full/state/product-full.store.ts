@@ -2,10 +2,14 @@ import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { Creation, Edititng } from '@/app/core/services/harlem/tools/not-valid-data';
-import { productFullService } from '../infrastructure/product-full.http-service';
+import { productServiceHttpService } from '@/app/productions/infrastructure/product-service.http-service';
+import { productWorkHttpService } from '@/app/productions/infrastructure/product-work.http-service';
+import { productFullHttpService } from '../infrastructure/product-full.http-service';
 import { ProductFullModel } from '../models/product-full.model';
 
 import { ProductFullState } from './product-full.state';
+
+export type ProductType = 'product' | 'service' | 'work';
 
 const { computeState, action, mutation } = defineStore('product-full', new ProductFullState());
 
@@ -18,7 +22,7 @@ const selected = computeState((state) => state.itemSelected);
 const getAsync = action<number>('get-async', async (id) => {
   status.value = new DataStatus('loading');
   try {
-    const response = await productFullService.get(id);
+    const response = await productFullHttpService.get(id);
     if (response.status === HttpStatus.Success && response.data != null) {
       const newModel = new ProductFullModel();
       const succesParsed = newModel.fromResponse(response.data);
@@ -42,6 +46,46 @@ const startEditing = mutation('begin-product-editing', (state) => {
   state.itemSelected = new Edititng(state.item.clone());
 });
 
+const saveChanges = action<ProductType>('save-changes', async (type) => {
+  if (selected.value == null) {
+    return;
+  }
+  switch (type) {
+    case 'product':
+      switch (selected.value.mode) {
+        case 'create':
+          await productFullHttpService.post(selected.value.data);
+          break;
+        case 'edit':
+          await productFullHttpService.put(selected.value.data);
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'service':
+      switch (selected.value.mode) {
+        case 'create':
+          await productServiceHttpService.post(selected.value.data);
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'work':
+      switch (selected.value.mode) {
+        case 'create':
+          await productWorkHttpService.post(selected.value.data);
+          break;
+        default:
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+});
+
 export const productFullStore = {
   product,
   status,
@@ -49,4 +93,5 @@ export const productFullStore = {
   getAsync,
   startCreation,
   startEditing,
+  saveChanges,
 };

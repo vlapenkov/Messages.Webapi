@@ -25,11 +25,7 @@
               <template #body="{ data }">
                 <div class="flex flex-row gap-2 align-items-center">
                   <div style="flex-basis: 100px">
-                    <file-store-image
-                      max-height="90"
-                      fit-width
-                      :id="data.documentId"
-                    ></file-store-image>
+                    <file-store-image fit-width :id="data.documentId"></file-store-image>
                   </div>
                   <div>{{ data.name }}</div>
                 </div>
@@ -45,8 +41,19 @@
             </column>
             <column header="Статус" field="statusText"> </column>
             <column header="">
-              <template #body>
-                <router-link class="no-underline" :to="{ name: 'edit-product' }">
+              <template #body="{ data }">
+                <router-link
+                  class="no-underline"
+                  :to="{
+                    name:
+                      data.productionType === 'Product'
+                        ? 'edit-product'
+                        : data.productionType === 'ServiceProduct'
+                        ? 'edit-product-service'
+                        : 'edit-product-work',
+                    params: { id: data.id },
+                  }"
+                >
                   <prime-button-edit
                     class="edit-button p-button-rounded p-button-text"
                   ></prime-button-edit>
@@ -125,11 +132,11 @@ export default defineComponent({
       },
       {
         label: 'Услугу',
-        to: { name: 'create-product' },
+        to: { name: 'create-service' },
       },
       {
         label: 'Работу',
-        to: { name: 'create-product' },
+        to: { name: 'create-work' },
       },
     ];
 

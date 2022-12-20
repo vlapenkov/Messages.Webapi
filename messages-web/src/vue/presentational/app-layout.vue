@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen ml-2 mr-2 pb-3 flex flex-column justify-content-between gap-3">
+  <div class="relative min-h-screen ml-2 mr-2 flex flex-column justify-content-between gap-3">
     <div ref="headRef" class="fixed top-0 left-0 min-w-full z-2">
       <slot name="head"></slot>
     </div>
@@ -8,8 +8,7 @@
         <slot name="body"></slot>
       </app-container>
     </div>
-    <div v-if="hasFooter">
-      <prime-divider></prime-divider>
+    <div v-if="hasFooter" class="-mx-2">
       <slot name="footer"></slot>
     </div>
   </div>

@@ -60,4 +60,3 @@ const fromExcel = definePost<IExcelProductResponse[], { fileName: string; data: 
 }));
 
 export const productFullHttpService = { get, post, put, fromExcel };
-

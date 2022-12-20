@@ -3,23 +3,23 @@
   <div class="home-content-card">
     <div class="grid mt-4">
       <div class="col-12">
-        <h1 class="p-component text-xl sm:text-2xl mb-1 mt-0">Популярные категории</h1>
-        <prime-divider class="mt-0"></prime-divider>
+        <app-text mode="header" class="p-component">Популярные категории</app-text>
+        <prime-divider class="mt-2"></prime-divider>
         <popular-sections-carousel class="w-full"></popular-sections-carousel>
       </div>
       <div class="col-12 mt-5">
-        <h1 class="p-component text-xl sm:text-2xl mb-1">Популярные товары</h1>
-        <prime-divider class="mt-0"></prime-divider>
+        <app-text mode="header" class="p-component">Популярные товары</app-text>
+        <prime-divider class="mt-2"></prime-divider>
         <popular-products-list></popular-products-list>
       </div>
       <div class="col-12 mt-5">
-        <h1 class="p-component text-xl sm:text-2xl mb-1">Производители</h1>
-        <prime-divider class="mt-0"></prime-divider>
+        <app-text mode="header" class="p-component">Производители</app-text>
+        <prime-divider class="mt-2"></prime-divider>
         <popular-organizations-list></popular-organizations-list>
       </div>
       <div class="col-12 mt-5">
-        <h1 class="p-component text-xl sm:text-2xl mb-1">Дайджесты</h1>
-        <prime-divider class="mt-0"></prime-divider>
+        <app-text mode="header" class="p-component">Дайджесты</app-text>
+        <prime-divider class="mt-2"></prime-divider>
         <div class="grid w-full">
           <div class="col-3">
             <card class="h-full news-card shadow-none">

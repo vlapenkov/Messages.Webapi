@@ -57,12 +57,6 @@ export default defineComponent({
 
     const uploadPossible = ref<boolean>(false);
 
-    watch(file, (val) => {
-      if (val != null) {
-        uploadPossible.value = true;
-      }
-    })
-
     const onFileInput = (e: Event) => {
       const target = e.target as HTMLInputElement;
       const { files } = target;
@@ -73,7 +67,16 @@ export default defineComponent({
     };
 
     watch(visibilityModel, (val) => {
-      if (!val) file.value = null;
+      if (!val) {
+        file.value = null;
+        uploadPossible.value = false;
+      }
+    })
+
+    watch(file, (val) => {
+      if (val != null) {
+        uploadPossible.value = true;
+      }
     })
 
     const close = () => {

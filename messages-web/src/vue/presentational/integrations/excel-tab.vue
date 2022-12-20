@@ -14,7 +14,7 @@
         </div>
         <div class="flex-none flex align-items-center justify-content-center border-round">
           <prime-button icon="pi pi-download" iconPos="right" label="Загрузить"
-            @click="vidibleLoginDialog = !vidibleLoginDialog" />
+            @click="vidibleselectDialog = !vidibleselectDialog" />
         </div>
       </div>
       <!-- <data-table :value="[]" responsiveLayout="scroll">
@@ -31,7 +31,8 @@
     </template>
   </card>
   <teleport to="body">
-    <excel-load-dialog v-model:visible="vidibleLoginDialog" @fileSelected="handleFile" />
+    <excel-load-dialog v-model:visible="vidibleselectDialog" @fileSelected="handleFile" />
+    <excel-loading-indicator v-model:visible="vidibleLoadingDialog" />
   </teleport>
 </template>
 
@@ -41,10 +42,12 @@ import { productionsHttpService } from '@/app/productions/infrastructure/product
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, ref } from 'vue';
 
+
 export default defineComponent({
   setup() {
     const toast = useToast();
-    const vidibleLoginDialog = ref(false);
+    const vidibleselectDialog = ref(false);
+    const vidibleLoadingDialog = ref(false);
     const formatDateString = (d: Date) => {
       const date = new Date(d);
       if (date == null) return '';
@@ -55,10 +58,14 @@ export default defineComponent({
       });
     };
 
+
+
     const handleFile = async (data: { name: string; b64: string; }) => {
       const b64 = data.b64.replace(/(^data:.*\/.*;base64,)/gi, '');
-      console.log(data.name, b64,)
+      // console.log(data.name, b64,);
+      vidibleLoadingDialog.value = true
       const response = await productionsHttpService.fromExcel({ fileNmae: data.name, data: b64 })
+      vidibleLoadingDialog.value = false
       if (response.status === HttpStatus.Success) {
         toast.add({
           severity: 'success',
@@ -78,7 +85,7 @@ export default defineComponent({
       }
     }
 
-    return { formatDateString, handleFile, vidibleLoginDialog };
+    return { formatDateString, handleFile, vidibleselectDialog, vidibleLoadingDialog, };
   },
 });
 </script>

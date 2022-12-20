@@ -14,14 +14,14 @@
   <div class="text-base mt-1">
     <span class="text-color-secondary">Цена:</span>&nbsp;<span>{{ product.price }} ₽</span>
   </div>
-  <div class="text-base text-info mt-1">
+  <div class="text-base text-info mt-1" v-if="dateStr != null">
     <span class="text-color-secondary">Дата актуализации:</span>&nbsp;<span>{{ dateStr }}</span>
   </div>
 </template>
 
 <script lang="ts">
 import { IProductFullModel } from '@/app/product-full/@types/IProductFullModel';
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
@@ -31,11 +31,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let dateStr = '';
-    if (props?.product?.lastModified != null) {
-      const d = new Date(props?.product?.lastModified);
-      dateStr = d.toLocaleString();
-    }
+    const dateStr = computed(() => {
+      if (props.product == null || props.product.lastModified == null) return null;
+      return new Date(props.product.lastModified).toLocaleString('ru-RU');
+    });
     return { dateStr };
   },
 });

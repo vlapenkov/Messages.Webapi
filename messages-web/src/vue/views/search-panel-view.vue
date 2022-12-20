@@ -26,8 +26,8 @@
         </div>
         <div>
           <prime-button
-            class="p-button-secondary"
-            icon="pi pi-sliders-h"
+            class="p-button-secondary text-color bg-gray-200 border-0"
+            icon="pi pi-sliders-h "
             @click="showFilters = !showFilters"
           ></prime-button>
         </div>
@@ -35,31 +35,31 @@
       <div class="flex flex-row justify-content-between align-items-center gap-2">
         <div>
           <prime-button
-            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary text-color"
           >
             <div class="flex flex-column">
-              <i class="pi pi-heart"></i>
+              <i class="pi pi-heart font-semibold"></i>
               <span>Избранное</span>
             </div>
           </prime-button>
         </div>
         <div>
           <prime-button
-            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary text-color"
           >
             <div class="flex flex-column">
-              <i class="pi pi-chart-bar"></i>
+              <i class="pi pi-chart-bar font-semibold"></i>
               <span>Сравнение</span>
             </div>
           </prime-button>
         </div>
         <div>
           <prime-button
-            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+            class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary text-color"
           >
             <div class="flex flex-column">
               <i
-                class="pi pi-sort-alt"
+                class="pi pi-sort-alt font-semibold"
                 :style="{
                   transform: 'rotate(90deg)',
                 }"
@@ -71,15 +71,15 @@
         <div>
           <router-link to="shopping-cart" :style="{ textDecoration: 'none' }">
             <prime-button
-              class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary"
+              class="text-sm font-normal p-bbutton-sm p-2 p-button-text p-button-secondary text-color"
             >
               <div class="flex flex-column">
                 <i
-                  class="pi pi-shopping-cart badge-small badge-margin"
+                  class="pi pi-shopping-cart badge-small badge-margin font-semibold"
                   v-if="cartCapacity > 0"
                   v-badge.info="cartCapacity"
                 ></i>
-                <i class="pi pi-shopping-cart" v-else></i>
+                <i class="pi pi-shopping-cart font-semibold" v-else></i>
                 <span>Корзина</span>
               </div>
             </prime-button>

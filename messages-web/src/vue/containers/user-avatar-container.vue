@@ -49,24 +49,24 @@ export default defineComponent({
     // computed(() =>
     //   userInfo.value == null ? undefined : url(userInfo.value.email, { s: `${avatarSize}` }),
     // );
-    const orgs: Record<string, string> = {
-      '5907001774': 'НПО «ИСКРА»',
-      '6312139922': 'Прогресс',
-      '7404052938': 'Златоустовский машиностроительный завод',
-      '5047008220': 'НПО Энергомаш',
-      '7804588900': 'АО «КБ «Арсенал»',
-      '7743254939': 'АО НТЦ «Охрана»',
-      '5042006211': 'ФКП «НИЦ РКП»',
-      '9710021379': 'ООО «СБ «РК-Страхование»',
-    };
+    // const orgs: Record<string, string> = {
+    //   '5907001774': 'НПО «ИСКРА»',
+    //   '6312139922': 'Прогресс',
+    //   '7404052938': 'Златоустовский машиностроительный завод',
+    //   '5047008220': 'НПО Энергомаш',
+    //   '7804588900': 'АО «КБ «Арсенал»',
+    //   '7743254939': 'АО НТЦ «Охрана»',
+    //   '5042006211': 'ФКП «НИЦ РКП»',
+    //   '9710021379': 'ООО «СБ «РК-Страхование»',
+    // };
 
     const userShortName = computed(() => {
-      let user = [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
+      const user = [userInfo.value?.familyName ?? '', userInfo.value?.givenName ?? '']
         .map((part) => (!screenMiddle.value ? `${part[0]}.` : part))
         .join(' ');
-      if (userInfo.value?.inn != null && orgs[userInfo.value.inn] != null) {
-        user = `${user}, ${orgs[userInfo.value.inn]}`;
-      }
+      // if (userInfo.value?.inn != null && orgs[userInfo.value.inn] != null) {
+      //   user = `${user}, ${orgs[userInfo.value.inn]}`;
+      // }
       return user;
     });
 

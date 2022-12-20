@@ -45,6 +45,7 @@ declare module '@vue/runtime-core' {
     EditItemButton: typeof import('./src/vue/base/presentational/state/collection/components/buttons/edit-item-button.vue')['default']
     FileStoreImage: typeof import('./src/vue/containers/images/file-store-image.vue')['default']
     FileUpload: typeof import('primevue/fileupload')['default']
+    FooterContainer: typeof import('./src/vue/containers/footer-container.vue')['default']
     FunnelChart: typeof import('./src/vue/presentational/charts/funnel-chart.vue')['default']
     GridItem: typeof import('./src/vue/base/presentational/grid/grid-item.vue')['default']
     HelloWorld: typeof import('./src/vue/presentational/hello-world.vue')['default']

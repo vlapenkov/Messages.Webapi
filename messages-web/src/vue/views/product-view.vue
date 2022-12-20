@@ -15,8 +15,8 @@
             <app-text mode="header"> {{ item.name }}</app-text>
             <app-text mode="weak"> {{ item.article || '123456' }}</app-text>
             <div
+              v-if="(item.rating ?? 0) > 0"
               class="flex flex-row gap-1 align-content-center text-md"
-              :style="{ opacity: (item.rating ?? 0) > 0 ? 1 : 0 }"
             >
               <i class="star-filled star-yellow"></i>
               <span>
@@ -46,6 +46,11 @@
                 />
               </div>
             </div>
+            <div v-if="productTypeText">
+              <tag class="tag-secondary lowercase p-2" rounded>
+                <div class="text-sm font-normal">{{ productTypeText }}</div>
+              </tag>
+            </div>
             <div class="flex flex-row gap-2">
               <app-text style="line-height: 19px">Производитель:</app-text>
               <router-link
@@ -73,11 +78,14 @@
 
             <div class="mt-4">
               <div>
-                <app-text mode="header-strong"> {{ item.price }} ₽ </app-text>
+                <app-text v-if="item.price && item.price > 0" mode="header-strong">
+                  {{ item.price }} ₽
+                </app-text>
+                <app-text v-else mode="header-strong"> Цена договорная </app-text>
               </div>
               <prime-button
                 @click="addToCart(item.id, item.name)"
-                class="p-button-sm mt-1"
+                class="p-button-sm mt-3"
                 style="width: 221px; height: 44px"
                 label="В корзину"
               >
@@ -95,7 +103,7 @@
               <column field="value"></column>
             </data-table>
           </tab-panel>
-          <tab-panel header="Технические характеристики">
+          <tab-panel v-if="productionType === 'product'" header="Технические характеристики">
             <product-attributes :product="item"> </product-attributes>
           </tab-panel>
         </tab-view>
@@ -105,18 +113,24 @@
 </template>
 
 <script lang="ts">
-import { productFullStore } from '@/app/product-full/state/product-full.store';
+import { productFullStore, ProductType } from '@/app/product-full/state/product-full.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useSections } from '@/composables/sections.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { computed, defineComponent, watch } from 'vue';
+import { computed, defineComponent, PropType, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
   components: { Toast },
-  setup() {
+  props: {
+    productionType: {
+      type: String as PropType<ProductType>,
+      required: true,
+    },
+  },
+  setup(props) {
     const route = useRoute();
     const toast = useToast();
     const item = productFullStore.product;
@@ -126,7 +140,7 @@ export default defineComponent({
         if (id == null || id === '' || id.trim() === '') {
           return;
         }
-        productFullStore.getAsync(+id);
+        productFullStore.getAsync({ id: +id, type: props.productionType });
       },
       {
         immediate: true,
@@ -203,7 +217,26 @@ export default defineComponent({
       },
     ]);
 
-    return { item, addToCart: addProductToShopingCart, actualizationDate, tableRows };
+    const productTypeText = computed(() => {
+      switch (props.productionType) {
+        case 'product':
+          return 'Товар';
+        case 'work':
+          return 'Работа';
+        case 'service':
+          return 'Услуга';
+        default:
+          return null;
+      }
+    });
+
+    return {
+      item,
+      addToCart: addProductToShopingCart,
+      actualizationDate,
+      tableRows,
+      productTypeText,
+    };
   },
 });
 </script>
@@ -213,6 +246,14 @@ export default defineComponent({
   font-weight: 400;
   width: 170px;
   text-align: left;
+}
+
+.tag-secondary {
+  background-color: rgba(180, 187, 186, 0.39);
+}
+
+.tag-height {
+  min-height: 24px;
 }
 
 .no-head {

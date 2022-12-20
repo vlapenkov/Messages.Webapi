@@ -24,7 +24,7 @@
         >
           <i class="heart" :class="{ invert: isInFavorites }"></i>
         </prime-button>
-        <div v-if="productType" class="absolute left-0 bottom-0 p-2">
+        <div class="absolute left-0 bottom-0 p-2">
           <tag severity="warning" v-if="product.availableStatusText" class="tag-height" rounded>
             <div class="text-sm font-normal lowercase">{{ product.availableStatusText }}</div>
           </tag>

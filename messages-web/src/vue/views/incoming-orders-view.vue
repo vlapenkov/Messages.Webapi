@@ -81,9 +81,9 @@
         </template>
       </card>
     </div>
-    <prime-paginator class="mt-2 border-1 shadow-1"
-      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0" @page="changePage" :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)" :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
+    <prime-paginator class="mt-2" v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+      @page="changePage" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
+      :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
   </app-page>
 </template>
 

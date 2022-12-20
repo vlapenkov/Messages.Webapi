@@ -29,7 +29,7 @@
             </span>
           </template>
         </column>
-        <column field="statusText" header="Статус">
+        <column field="statusText" header="Активность">
           <template #body="slopProps">
             <checkbox inputId="binary" v-model="slopProps.data.active" :binary="true" :disabled="true" />
           </template>
@@ -80,11 +80,13 @@ export default defineComponent({
   color: #989898;
 }
 
+:deep(.p-card .p-card-body) {
+  background-color: #fff;
+}
+
 :deep(.p-datatable-thead tr th) {
   background-color: #FFFFFF;
 }
-
-
 
 :deep(.p-card-content) {
   padding: 0;

@@ -11,58 +11,61 @@
     </template>
     <tab-view ref="tabs">
       <tab-panel header="Все">
-        <div class="grid">
-          <div class="col-12">
-            <div v-if="status.status === 'loaded'">
-              <data-table class="no-background-table" :value="productions">
-                <column header="Артикул" field="article">
-                  <template #body="{ data }">{{ data.article || '123456' }}</template>
-                </column>
-                <column header="Наименование" field="name">
-                  <template #body="{ data }">
-                    <div class="flex flex-row gap-2 align-items-center">
-                      <div style="flex-basis: 100px">
-                        <file-store-image fit-width :id="data.documentId"></file-store-image>
-                      </div>
-                      <div>{{ data.name }}</div>
-                    </div>
-                  </template>
-                </column>
-                <column header="Последнее редактирование" field="lastModifiedBy">
-                  <template #body="{ data }">
-                    <div class="flex flex-column gap-2">
-                      <div>{{ getLastEditTime(data) }}</div>
-                      <div>{{ data.lastModifiedBy }}</div>
-                    </div>
-                  </template>
-                </column>
-                <column header="Статус" field="statusText"> </column>
-                <column header="">
-                  <template #body="{ data }">
-                    <router-link class="no-underline" :to="{
-                      name:
-                        data.productionType === 'Product'
-                          ? 'edit-product'
-                          : data.productionType === 'ServiceProduct'
-                            ? 'edit-product-service'
-                            : 'edit-product-work',
-                      params: { id: data.id },
-                    }">
-                    </router-link>
-                  </template>
-                </column>
-              </data-table>
+        <card>
+          <template #content>
+            <div class="grid">
+              <div class="col-12">
+                <div v-if="status.status === 'loaded'">
+                  <data-table class="no-background-table" :value="productions">
+                    <column header="Артикул" field="article">
+                      <template #body="{ data }">{{ data.article || '123456' }}</template>
+                    </column>
+                    <column header="Наименование" field="name">
+                      <template #body="{ data }">
+                        <div class="flex flex-row gap-2 align-items-center">
+                          <div style="flex-basis: 100px">
+                            <file-store-image fit-width :id="data.documentId"></file-store-image>
+                          </div>
+                          <div>{{ data.name }}</div>
+                        </div>
+                      </template>
+                    </column>
+                    <column header="Последнее редактирование" field="lastModifiedBy">
+                      <template #body="{ data }">
+                        <div class="flex flex-column gap-2">
+                          <div>{{ getLastEditTime(data) }}</div>
+                          <div>{{ data.lastModifiedBy }}</div>
+                        </div>
+                      </template>
+                    </column>
+                    <column header="Статус" field="statusText"> </column>
+                    <column header="">
+                      <template #body="{ data }">
+                        <router-link class="no-underline" :to="{
+                          name:
+                            data.productionType === 'Product'
+                              ? 'edit-product'
+                              : data.productionType === 'ServiceProduct'
+                                ? 'edit-product-service'
+                                : 'edit-product-work',
+                          params: { id: data.id },
+                        }">
+                        </router-link>
+                      </template>
+                    </column>
+                  </data-table>
+                </div>
+                <div v-else class="flex flex-column gap-1">
+                  <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
+                </div>
+                <prime-paginator class="mt-2" v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+                  @page="changePage" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
+                  :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
+              </div>
+              <div class="col-12"></div>
             </div>
-            <div v-else class="flex flex-column gap-1">
-              <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
-            </div>
-            <prime-paginator class="mt-2 border-1 shadow-1 products-paginator"
-              v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0" @page="changePage"
-              :rows="pageSize" :first="pageSize * (pageNumber - 1)"
-              :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
-          </div>
-          <div class="col-12"></div>
-        </div>
+          </template>
+        </card>
       </tab-panel>
       <tab-panel header="Обмен">
         <excel-tab></excel-tab>
@@ -164,9 +167,25 @@ export default defineComponent({
   background-color: #f4f7fb;
 }
 
+:deep(.p-tabview-panels) {
+  padding: 1.25rem 0;
+}
+
 :deep(.p-tabview .p-tabview-nav li .p-tabview-nav-link) {
   font-weight: 400;
   color: #000000;
+}
+
+:deep(div.p-tabview .p-tabview-panels) {
+  background: none !important;
+}
+
+:deep(ul.p-tabview-nav) {
+  background: none !important;
+}
+
+:deep(.p-tabview-header .p-tabview-nav-link.p-tabview-header-action) {
+  background: none !important;
 }
 
 :deep(.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link) {

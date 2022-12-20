@@ -61,21 +61,79 @@ const routes: Array<RouteRecordRaw> = [
     path: '/product/:id',
     name: 'product',
     component: () => import(/*  webpackChunkName: "product" */ '../vue/views/product-view.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: '/edit-product/:id?',
     name: 'edit-product',
     component: () =>
       import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
-    meta: { mode: 'edit', requiresAuth: true },
+    meta: {
+      requiresAuth: true,
+    },
+    props: {
+      productionType: 'product',
+      dataMode: 'edit',
+    },
+  },
+  {
+    path: '/edit-product-work/:id?',
+    name: 'edit-product-work',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+    props: {
+      productionType: 'work',
+      dataMode: 'edit',
+    },
+  },
+  {
+    path: '/edit-product-service/:id?',
+    name: 'edit-product-service',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+    props: {
+      productionType: 'service',
+      dataMode: 'edit',
+    },
   },
   {
     path: '/create-product',
     name: 'create-product',
     component: () =>
       import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: { requiresAuth: true },
+    props: {
+      productionType: 'product',
+      dataMode: 'create',
+    },
+  },
+  {
+    path: '/create-service',
+    name: 'create-service',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
+    meta: { requiresAuth: true },
+    props: {
+      productionType: 'service',
+      dataMode: 'create',
+    },
+  },
+  {
+    path: '/create-work',
+    name: 'create-work',
+    component: () =>
+      import(/*  webpackChunkName: "edit-product" */ '../vue/views/product-edit.vue'),
     meta: { mode: 'create', requiresAuth: true },
+    props: {
+      productionType: 'work',
+      dataMode: 'create',
+    },
   },
   {
     path: '/categories',

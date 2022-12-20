@@ -36,8 +36,10 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
 
   address = '';
 
+  article = '';
+
   @description('Цена')
-  price = 0;
+  price: number | null = null;
 
   @hidden('edit')
   @description('Единицы измерения')

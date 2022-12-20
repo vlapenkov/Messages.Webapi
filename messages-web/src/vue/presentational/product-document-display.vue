@@ -1,8 +1,7 @@
 <!-- eslint-disable vue/component-name-in-template-casing -->
 <template>
   <img
-    class="max-w-full border-round"
-    style="max-height: 150px"
+    class="max-w-full border-round fit-cover"
     :src="fileData"
     ref="imgRef"
     :alt="document.fileName"
@@ -38,4 +37,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.fit-cover {
+  object-fit: cover;
+}
+</style>

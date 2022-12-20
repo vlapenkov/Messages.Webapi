@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
-import { productFullService } from '@/app/product-full/infrastructure/product-full.http-service';
+import { productFullHttpService } from '@/app/product-full/infrastructure/product-full.http-service';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, ref } from 'vue';
@@ -65,7 +65,7 @@ export default defineComponent({
       console.log(data.name, b64,);
       try {
         vidibleLoadingDialog.value = true
-        const response = await productFullService.fromExcel({ fileName: data.name, data: b64 })
+        const response = await productFullHttpService.fromExcel({ fileName: data.name, data: b64 })
         console.log(response);
         vidibleLoadingDialog.value = false
         if (response.status === HttpStatus.Success) {

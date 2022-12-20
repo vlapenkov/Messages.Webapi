@@ -52,6 +52,7 @@ export default defineComponent({
         pageSize: productionsStore.pageSize.value,
         producerName: organization.value ?? null,
         region: region.value ?? null,
+        orderBy: null,
       };
 
       productionsService.loadPage(request);

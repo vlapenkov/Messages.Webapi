@@ -28,6 +28,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    transparent: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { slots }) {
     const cardRef = ref();
@@ -46,6 +50,7 @@ export default defineComponent({
       if (props.imageHeader) {
         classes.push('image-header');
       }
+      classes.push(props.transparent ? 'card-transparent' : 'card-white');
       return classes;
     });
     return () =>
@@ -63,6 +68,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/_variables.scss';
+
+.card {
+  &-transparent {
+    background-color: map-get($map: $colors, $key: 'background');
+  }
+  &-white {
+    background-color: map-get($map: $colors, $key: 'white');
+  }
+}
 .re-padding-card {
   &.image-header {
     :deep(.p-card-header) {

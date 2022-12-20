@@ -2,33 +2,45 @@
 <template>
   <div class="field">
     <span class="p-float-label">
-      <input-number :id="id" v-model="value" v-bind="{ disabled }" />
+      <prime-textarea
+        :id="id"
+        auto-resize
+        :class="inputStyle"
+        type="text"
+        v-bind="{ disabled }"
+        v-model="value"
+      />
       <label :for="id">{{ label }}</label>
     </span>
   </div>
 </template>
 
 <script lang="ts">
+import { PrimeTextarea } from '@/tools/prime-vue-components';
 import { computed, defineComponent } from 'vue';
+import { useSize } from './composables/size.composable';
 import { inputProps } from './input-props';
 
+export type IconPlacement = 'left' | 'right';
+
 export default defineComponent({
+  components: { PrimeTextarea },
   props: {
     modelValue: {
-      type: Number,
+      type: String,
     },
     id: {
       type: String,
-      default: 'inputNumber',
+      default: 'inputTextarea',
     },
     label: {
       type: String,
-      default: 'inputNumber',
+      default: 'inputTextarea',
     },
     ...inputProps,
   },
   emits: {
-    'update:modelValue': (_: number | undefined) => true,
+    'update:modelValue': (_: string | undefined) => true,
   },
   setup(props, { emit }) {
     const value = computed({
@@ -37,7 +49,9 @@ export default defineComponent({
         emit('update:modelValue', val);
       },
     });
-    return { value };
+
+    const inputStyle = useSize(props.size);
+    return { value, inputStyle };
   },
 });
 </script>

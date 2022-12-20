@@ -6,4 +6,8 @@ export const inputProps = {
     type: String as PropType<InputSize>,
     default: 'middle',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 };

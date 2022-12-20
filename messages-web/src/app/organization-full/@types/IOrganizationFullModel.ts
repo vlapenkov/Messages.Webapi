@@ -16,8 +16,8 @@ export interface IOrganizationFullModel extends IModel {
   okved2: string;
   phone: string;
   email: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   isProducer: boolean;
   isBuyer: boolean;
   bankName: string;

@@ -15,41 +15,33 @@
       <prime-button
         label="Вход/Регистрация"
         class="p-button-sm ml-3"
-        @click="vidibleLoginDialog = !vidibleLoginDialog"
+        @click="showRegisterDialog = !showRegisterDialog"
       />
     </div>
     <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
     </prime-menu>
-    <teleport to="body">
-      <login-register-dialog v-model:visible="vidibleLoginDialog" />
-    </teleport>
   </div>
 </template>
 
 <script lang="ts">
 import { isAuthenticated, userInfo } from '@/store/user.store';
-import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 // import { url } from 'gravatar';
 import { screenMiddle } from '@/app/core/services/window/window.service';
 import { login, logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useRouter } from 'vue-router';
+import { showRegisterDialog } from '@/store/register.store';
 
 // const avatarSize = 100;
 export default defineComponent({
   components: { PrimeMenu: Menu },
   setup() {
-    const vidibleLoginDialog = ref(false);
-
-    watchEffect(() => {
-      console.log('vidibleLoginDialog', vidibleLoginDialog.value);
-    });
-
     const router = useRouter();
     router.beforeEach((to) => {
       if (to.name === 'register') {
-        vidibleLoginDialog.value = false;
+        showRegisterDialog.value = false;
       }
     });
 
@@ -176,7 +168,7 @@ export default defineComponent({
     };
 
     return {
-      vidibleLoginDialog,
+      showRegisterDialog,
       isAuthenticated,
       gravatarUrl,
       userShortName,

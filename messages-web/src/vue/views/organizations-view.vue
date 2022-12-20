@@ -1,10 +1,27 @@
 <template>
-  <app-page title="Организации">
+  <app-page title="Организации" class="organizations-manager-page">
+    <div class="w-full flex flex-row justify-content-end align-items-center mb-3">
+      <span class="p-component text-color-secondary">Сортировка:</span>
+      <dropdown
+        class="ml-2"
+        :style="{ width: '380px' }"
+        :options="ordersByOrganizations"
+        optionLabel="name"
+        placeholder="Выберите"
+        v-model="orderByModel"
+      />
+    </div>
     <card>
       <template #content>
         <div v-if="organizationStatus.status === 'loaded'">
-          <data-table :value="organizations" responsiveLayout="scroll" class="no-background-table">
-            <column field="name" header="Наименование" headerStyle="width: 40%" :sortable="true">
+          <data-table
+            :value="organizations"
+            responsiveLayout="scroll"
+            class="no-background-table"
+            :sortField="orderByModel.sortField"
+            :sortOrder="orderByModel.sortOrder"
+          >
+            <column field="name" header="Наименование" headerStyle="width: 40%">
               <template #body="slopProps">
                 <router-link
                   :to="{ name: 'organization', params: { id: slopProps.data.id } }"
@@ -35,31 +52,16 @@
                 </router-link>
               </template>
             </column>
-            <column
-              field="lastModified"
-              header="Дата изменения"
-              headerStyle="width: 20%"
-              :sortable="true"
-            >
+            <column field="lastModified" header="Дата изменения" headerStyle="width: 20%">
               <template #body="slopProps">
                 <span class="p-component">
                   {{ formatDateString(slopProps.data.lastModified) }}
                 </span>
               </template>
             </column>
-            <column
-              field="lastModifiedBy"
-              header="Кем изменено"
-              headerStyle="width: 15%"
-              :sortable="true"
-            />
-            <column
-              field="createdBy"
-              header="Кто создал"
-              headerStyle="width: 15%"
-              :sortable="true"
-            />
-            <column field="statusText" header="Статус" headerStyle="width: 10%" :sortable="true">
+            <column field="lastModifiedBy" header="Кем изменено" headerStyle="width: 15%" />
+            <column field="createdBy" header="Кто создал" headerStyle="width: 15%" />
+            <column field="statusText" header="Статус" headerStyle="width: 10%">
               <template #body="slopProps">
                 <dropdown
                   v-if="orgStatusModels != null && orgStatusModels[slopProps.data.id]?.value === 0"
@@ -98,6 +100,12 @@ import {
 } from '@/composables/organization-statuses.composable';
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { organizationsStore } from '@/app/organizations/state/organizations.store';
+
+interface IOrderByOrganizations {
+  name: string;
+  sortField: string;
+  sortOrder: number;
+}
 
 export default defineComponent({
   setup() {
@@ -146,7 +154,62 @@ export default defineComponent({
       const status = val.value.value;
       await organizationsService.updateStatus(id, status);
     };
+    const ordersByOrganizations: IOrderByOrganizations[] = [
+      {
+        sortField: 'name',
+        sortOrder: 1,
+        name: 'по названию (возрастание)',
+      },
+      {
+        sortField: 'name',
+        sortOrder: -1,
+        name: 'по названию (убывание)',
+      },
+      {
+        sortField: 'lastModified',
+        sortOrder: 1,
+        name: 'по дате изменения (возрастание)',
+      },
+      {
+        sortField: 'lastModified',
+        sortOrder: -1,
+        name: 'по дате изменения (убывание)',
+      },
+      {
+        sortField: 'lastModifiedBy',
+        sortOrder: 1,
+        name: 'по изменяющему (возрастание)',
+      },
+      {
+        sortField: 'lastModifiedBy',
+        sortOrder: -1,
+        name: 'по изменяющему (убывание)',
+      },
+      {
+        sortField: 'createdBy',
+        sortOrder: 1,
+        name: 'по создающему (возрастание)',
+      },
+      {
+        sortField: 'createdBy',
+        sortOrder: -1,
+        name: 'по создающему (убывание)',
+      },
+      {
+        sortField: 'statusText',
+        sortOrder: 1,
+        name: 'по статусу (возрастание)',
+      },
+      {
+        sortField: 'statusText',
+        sortOrder: -1,
+        name: 'по статусу (убывание)',
+      },
+    ];
+    const orderByModel = ref<IOrderByOrganizations>(ordersByOrganizations[0]);
     return {
+      ordersByOrganizations,
+      orderByModel,
       organizationStatus,
       orgStatuses,
       orgStatusModels,
@@ -160,11 +223,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-:deep(div.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled
-    span.p-dropdown-label.p-inputtext) {
-  padding: 6px;
-}
-:deep(.p-card-content) {
-  padding: 0;
+.organizations-manager-page {
+  :deep(span.p-dropdown-label.p-inputtext) {
+    padding: 6px;
+  }
+  :deep(.p-card-content) {
+    padding: 0;
+  }
 }
 </style>

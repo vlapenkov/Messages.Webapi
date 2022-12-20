@@ -9,7 +9,6 @@
         optionLabel="name"
         optionValue="value"
         placeholder="Выберите"
-        :showClear="true"
         v-model="orderBy"
       />
     </div>
@@ -130,7 +129,7 @@ export default defineComponent({
           pageSize: psize,
           producerName: null,
           region: null,
-          orderBy: ob ?? null,
+          orderBy: ob ?? 0,
         });
       },
       {

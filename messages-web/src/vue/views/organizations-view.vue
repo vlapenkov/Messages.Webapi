@@ -11,7 +11,7 @@
         v-model="orderByModel"
       />
     </div>
-    <card>
+    <card class="shadow-none">
       <template #content>
         <div v-if="organizationStatus.status === 'loaded'">
           <data-table

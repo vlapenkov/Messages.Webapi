@@ -19,7 +19,6 @@
             </div>
           </div>
         </div>
-        <prime-divider class="mt-4 mb-3"></prime-divider>
         <div>
           <span class="p-component text-500 text-sm ml-1">
             © {{ new Date().getFullYear() }} Маркетплейс продукции гражданского назначения

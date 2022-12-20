@@ -13,6 +13,7 @@
       </router-view>
     </template>
     <template #footer>
+      <prime-divider class="my-0"></prime-divider>
       <footer-container />
     </template>
   </app-layout>

@@ -1,13 +1,16 @@
 <template>
   <app-page title="Корзина">
     <div class="flex flex-column">
-      <card class="shopping-cart-inner-card">
+      <card class="shopping-cart-inner-card shadow-none">
         <template #content>
           <shopping-cart-item v-for="item in items" :key="item.productId" :item="item" />
           <div class="flex flex-row justify-content-between align-items-center mt-1">
             <div class="p-component text-lg font-semibold">Общая стоимость: {{ sum }} ₽</div>
-            <prime-button @click="createNewOrder" label="Оформить заказ"
-              :disabled="createNewOrderDisabled"></prime-button>
+            <prime-button
+              @click="createNewOrder"
+              label="Оформить заказ"
+              :disabled="createNewOrderDisabled"
+            ></prime-button>
           </div>
         </template>
       </card>

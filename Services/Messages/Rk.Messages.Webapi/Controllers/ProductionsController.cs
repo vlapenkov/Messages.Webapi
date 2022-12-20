@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Domain.Enums;
 using Rk.Messages.Logic.CommonNS.Dto;
+using Rk.Messages.Logic.ProductsNS.Commands.AddExchange;
 using Rk.Messages.Logic.ProductsNS.Commands.AddReview;
 using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
 using Rk.Messages.Logic.ProductsNS.Commands.SetStatus;
 using Rk.Messages.Logic.ProductsNS.Dto;
+using Rk.Messages.Logic.ProductsNS.Queries.GetProductsExchanges;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -68,5 +70,19 @@ namespace Rk.Messages.Webapi.Controllers
         {
             await _mediator.Send(new AddReviewCommand { ProductId = id, Request = request });
         }
+
+        /// <summary>Добавить информацию о регистрации</summary>  
+        [HttpPost("exchanges")]
+        public async Task RegisterExchange( [FromBody] RegisterProductsExchangeRequest request)
+        {
+            await _mediator.Send(new RegisterProductExchangeCommand { ExchangeType = request.ExchangeType,ProductsLoaded = request.ProductsLoaded });
+        }
+
+        [HttpGet("exchanges")]
+        public async Task<IReadOnlyCollection<ProductsExchangeDto>> GetExchanges()
+        {
+            return await _mediator.Send(new GetProductsExchangesQuery() );
+        }
+
     }
 }

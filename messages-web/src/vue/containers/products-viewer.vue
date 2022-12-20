@@ -7,24 +7,17 @@
           <div v-if="false" class="col-12">
             <production-toolbar-container></production-toolbar-container>
           </div>
-          <div
-            v-for="item in productShortsItems"
-            :key="item.id"
-            :class="{
-              'col-3': viewMode === 'grid' && !showFilters,
-              'col-4': viewMode === 'grid' && showFilters,
-              'col-12': viewMode === 'list',
-            }"
-          >
+          <div v-for="item in productShortsItems" :key="item.id" :class="{
+            'col-3': viewMode === 'grid' && !showFilters,
+            'col-4': viewMode === 'grid' && showFilters,
+            'col-12': viewMode === 'list',
+          }">
             <production-list-item :production="item" @notify="notifyHandler">
             </production-list-item>
           </div>
         </div>
-        <div
-          v-else
-          style="background-color: var(--surface-card)"
-          class="w-full h-full flex justify-content-center border-round align-items-center"
-        >
+        <div v-else style="background-color: var(--surface-card)"
+          class="w-full h-full flex justify-content-center border-round align-items-center">
           <div class="text-center">
             <i class="pi pi-inbox text-8xl opacity-50"></i>
             <div class="p-component text-lg mt-3">Товаров не найдено</div>
@@ -39,14 +32,9 @@
         </div>
       </template>
     </transition-fade>
-    <prime-paginator
-      class="mt-2 border-1 shadow-1 products-paginator"
-      v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-      @page="changePage"
-      :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)"
-      :totalRecords="currentPage?.totalItemCount ?? 0"
-    ></prime-paginator>
+    <prime-paginator class="mt-2" v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+      @page="changePage" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
+      :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
   </div>
 </template>
 
@@ -163,8 +151,8 @@ TODO
 Разобраться, почему на dev зоне цвет рамки - инверсия выбранной темы
 */
 .products-paginator {
-  border: solid #e9ecef !important;
-  border-width: 0 !important;
-  border-radius: 6px !important;
+  // border: solid #e9ecef !important;
+  // border-width: 0 !important;
+  // border-radius: 6px !important;
 }
 </style>

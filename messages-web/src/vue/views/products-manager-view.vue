@@ -2,51 +2,26 @@
   <app-page title="Товары" class="products-manager-page">
     <div class="w-full flex flex-row justify-content-end align-items-center mb-3">
       <span class="p-component text-color-secondary">Сортировка:</span>
-      <dropdown
-        class="ml-2"
-        :style="{ width: '380px' }"
-        :options="ordersByProductWithName"
-        optionLabel="name"
-        optionValue="value"
-        placeholder="Выберите"
-        v-model="orderBy"
-      />
+      <dropdown class="ml-2" :style="{ width: '380px' }" :options="ordersByProductWithName" optionLabel="name"
+        optionValue="value" placeholder="Выберите" v-model="orderBy" />
     </div>
     <card class="shadow-none">
       <template #content>
         <div>
           <div v-if="productShortsStatus.status === 'loaded'">
-            <data-table
-              :value="productShortsItems"
-              responsiveLayout="scroll"
-              class="no-background-table"
-            >
+            <data-table :value="productShortsItems" responsiveLayout="scroll" class="no-background-table">
               <column header="Наименование" headerStyle="width: 30%">
                 <template #body="slopProps">
-                  <router-link
-                    :to="{ name: 'product', params: { id: slopProps.data.id } }"
-                    class="no-underline text-color"
-                  >
+                  <router-link :to="{ name: 'product', params: { id: slopProps.data.id } }"
+                    class="no-underline text-color">
                     <div class="w-full flex flex-row align-items-center">
-                      <img
-                        v-if="slopProps.data.documentId == null"
-                        :src="require('@/assets/images/profile.svg')"
-                        alt="Изображение профиля"
-                        width="50"
-                        height="50"
-                        :style="{
+                      <img v-if="slopProps.data.documentId == null" :src="require('@/assets/images/profile.svg')"
+                        alt="Изображение профиля" width="50" height="50" :style="{
                           objectFit: 'cover',
                           borderRadius: '0.5rem',
-                        }"
-                        class="mr-3"
-                      />
-                      <file-store-image
-                        v-if="slopProps.data.documentId != null"
-                        :max-width="50"
-                        :max-height="50"
-                        :id="slopProps.data.documentId"
-                        class="mr-3"
-                      ></file-store-image>
+                        }" class="mr-3" />
+                      <file-store-image v-if="slopProps.data.documentId != null" :max-width="50" :max-height="50"
+                        :id="slopProps.data.documentId" class="mr-3"></file-store-image>
                       <span class="p-component">{{ slopProps.data.name }}</span>
                     </div>
                   </router-link>
@@ -69,15 +44,10 @@
               <column field="lastModifiedBy" header="Кем изменено" headerStyle="width: 20%" />
               <column field="statusText" header="Статус" headerStyle="width: 15%">
                 <template #body="slopProps">
-                  <dropdown
-                    v-if="productStatusModels != null"
-                    v-model="productStatusModels[slopProps.data.id]"
-                    :options="statuses"
-                    optionLabel="name"
-                    class="w-full"
+                  <dropdown v-if="productStatusModels != null" v-model="productStatusModels[slopProps.data.id]"
+                    :options="statuses" optionLabel="name" class="w-full"
                     :disabled="productStatusModels[slopProps.data.id]?.value !== 0"
-                    @change="changed($event, slopProps.data.id)"
-                  />
+                    @change="changed($event, slopProps.data.id)" />
                 </template>
               </column>
             </data-table>
@@ -85,14 +55,9 @@
           <div v-else class="flex flex-column gap-1">
             <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
           </div>
-          <prime-paginator
-            class="w-full mt-2 border-1 shadow-1 products-paginator"
-            v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-            @page="changePage"
-            :rows="pageSize"
-            :first="pageSize * (pageNumber - 1)"
-            :totalRecords="currentPage?.totalItemCount ?? 0"
-          ></prime-paginator>
+          <prime-paginator class="w-full mt-2" v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+            @page="changePage" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
+            :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
         </div>
       </template>
     </card>
@@ -199,6 +164,7 @@ export default defineComponent({
   :deep(span.p-dropdown-label.p-inputtext) {
     padding: 6px;
   }
+
   :deep(.p-card-content) {
     padding: 0;
   }

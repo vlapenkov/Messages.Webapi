@@ -1,13 +1,7 @@
 <template>
   <transition enter-active-class="scalein animation-duration-200" appear>
-    <prime-paginator
-      v-if="pageNumber && pageSize"
-      class="mt-2 border-1 shadow-1"
-      :rows="pageSize"
-      :first="pageSize * (pageNumber - 1)"
-      :totalRecords="totalItemsCount"
-      @page="changePage"
-    ></prime-paginator>
+    <prime-paginator v-if="pageNumber && pageSize" class="mt-2" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
+      :totalRecords="totalItemsCount" @page="changePage"></prime-paginator>
   </transition>
 </template>
 
@@ -24,4 +18,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

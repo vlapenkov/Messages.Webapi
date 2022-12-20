@@ -43,4 +43,11 @@ const updateStatus = async (id: number, status: number) => {
   return response;
 };
 
-export const productionsHttpService = { getPage, getAttributes, remove, setStatus, updateStatus };
+export const productionsHttpService = {
+  getPage,
+  getAttributes,
+  remove,
+  setStatus,
+  updateStatus,
+};
+

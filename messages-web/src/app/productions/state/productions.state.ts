@@ -18,5 +18,5 @@ export class ProductShortsState extends StateBase {
 
   selectedItem: NotValidData<ProductionModel> | null = null;
 
-  orderBy: OrderByProduct | null = null;
+  orderBy: OrderByProduct | null = 0;
 }

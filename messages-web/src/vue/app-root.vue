@@ -12,6 +12,9 @@
         </transition-fade>
       </router-view>
     </template>
+    <template #footer>
+      <footer-container />
+    </template>
   </app-layout>
 </template>
 

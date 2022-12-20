@@ -21,16 +21,21 @@ namespace Rk.Messages.Spa.Controllers
 
         private readonly IProductsPrepareService _productsPrepareService;
 
-        private readonly ILogger _logger;
+        private readonly IProductionsService _productionsService;
 
+        
 
-        public ProductsController(IProductsService productsService, IFileStoreService filesService, IProductsPrepareService productsPrepareService, ILogger<ProductsController> logger)
+        public ProductsController(IProductsService productsService, IFileStoreService filesService, IProductsPrepareService productsPrepareService, IProductionsService productionsService)
         {
             _productsService = productsService;
             _filesService = filesService;
             _productsPrepareService = productsPrepareService;
-            _logger = logger;   
+            _productionsService = productionsService;
+        
         }
+
+
+
 
         /// <summary>Создать товар</summary>
         [HttpPost]        
@@ -59,8 +64,10 @@ namespace Rk.Messages.Spa.Controllers
             {
                 var productId = await _productsService.CreateProduct(productRequest);
 
-                _logger.LogInformation($"Создана продукция id={productId}");
+              //  _logger.LogInformation($"Создана продукция id={productId}");
             }
+
+            await _productionsService.RegisterExchange(new RegisterProductsExchangeRequest { ExchangeType = (int)ProductExchangeType.Excel, ProductsLoaded = productsPrepared.Count });
 
             return productsPrepared;
 

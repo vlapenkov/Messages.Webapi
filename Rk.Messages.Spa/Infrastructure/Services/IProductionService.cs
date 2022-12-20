@@ -29,5 +29,14 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>Добавить отзыв о продукции</summary>  
         [Post("/api/v1/Productions/{id}/reviews")]
         Task AddReview(long id, [Body] CreateReviewRequest request);
+
+        /// <summary>Регистрировать обмен</summary>  
+        [Post("/api/v1/Productions/exchanges")]
+        Task RegisterExchange(RegisterProductsExchangeRequest request);
+
+        /// <summary>Получить обмены</summary>  
+        [Get("/api/v1/Productions/exchanges")]
+        Task <IReadOnlyCollection<ProductsExchangeDto>> GetExchanges();
+        
     }
 }

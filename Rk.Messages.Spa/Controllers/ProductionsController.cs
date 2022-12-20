@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
 using Rk.Messages.Spa.Infrastructure.Services;
@@ -59,6 +60,20 @@ namespace Rk.Messages.Spa.Controllers
         public async Task AddReview(long id, [FromBody] CreateReviewRequest request)
         {
             await _service.AddReview(id, request);
+        }
+
+        /// <summary>Добавить информацию о регистрации</summary>  
+        [HttpPost("exchanges")]
+        public async Task RegisterExchange([FromBody] RegisterProductsExchangeRequest request)
+        {
+            await _service.RegisterExchange( request);
+        }
+
+        /// <summary>получить информацию о регистрации</summary>  
+        [HttpGet("exchanges")]
+        public async Task<IReadOnlyCollection<ProductsExchangeDto>> GetExchanges()
+        {
+           return await _service.GetExchanges();
         }
     }
 }

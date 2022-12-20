@@ -46,6 +46,8 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<ProductsExchange> ProductsExchanges { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
                       

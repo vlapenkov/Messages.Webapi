@@ -46,7 +46,7 @@ body {
 }
 
 .p-card {
-  background-color: $background-color;
+  background-color: map-get($map: $colors, $key: 'background');
 }
 
 .no-background-table {
@@ -80,4 +80,14 @@ body {
 
 .star-yellow {
   color: map-get($map: $colors, $key: 'yellow');
+}
+
+.p-tabview {
+  .p-tabview-panels,
+  .p-tabview-nav,
+  .p-tabview-header,
+  .p-tabview-nav-link,
+  .p-tabview-header-action {
+    background: none !important;
+  }
 }

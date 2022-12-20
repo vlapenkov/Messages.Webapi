@@ -25,19 +25,28 @@
             </div>
             <div class="flex flex-row gap-1 mt-2">
               <div>
-                <prime-button-weak disabled small label="Добавить в избранное" icon="pi pi-heart" />
+                <prime-button-weak disabled small>
+                  <div class="flex flex-row gap-2 align-items-end">
+                    <i class="pi pi-heart text-primary"> </i>
+                    <span>Добавить в избранное</span>
+                  </div>
+                </prime-button-weak>
               </div>
               <div>
-                <prime-button-weak
-                  disabled
-                  class="p-button-sm"
-                  small
-                  label="Добавить к сравнению"
-                  icon="pi pi-chart-bar "
-                />
+                <prime-button-weak disabled small>
+                  <div class="flex flex-row align-items-end gap-2">
+                    <i class="pi pi-arrows-h text-primary"> </i>
+                    <span>Добавить к сравнению</span>
+                  </div>
+                </prime-button-weak>
               </div>
               <div>
-                <prime-button-weak disabled small label="Искать аналоги" icon="pi pi-arrows-h" />
+                <prime-button-weak disabled small>
+                  <div class="flex flex-row align-items-end gap-2">
+                    <i class="pi pi-chart-bar text-primary"> </i>
+                    <span>Искать аналоги</span>
+                  </div>
+                </prime-button-weak>
               </div>
             </div>
             <div v-if="productTypeText">

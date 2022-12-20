@@ -63,18 +63,30 @@ export default defineComponent({
     const handleFile = async (data: { name: string; b64: string; }) => {
       const b64 = data.b64.replace(/(^data:.*\/.*;base64,)/gi, '');
       // console.log(data.name, b64,);
-      vidibleLoadingDialog.value = true
-      const response = await productionsHttpService.fromExcel({ fileNmae: data.name, data: b64 })
-      vidibleLoadingDialog.value = false
-      if (response.status === HttpStatus.Success) {
-        toast.add({
-          severity: 'success',
-          group: 'tr1',
-          summary: 'Успех',
-          detail: 'Загрузка из Excel завершилась ушпешно',
-          life: 4000,
-        });
-      } else {
+      try {
+        vidibleLoadingDialog.value = true
+        const response = await productionsHttpService.fromExcel({ fileNmae: data.name, data: b64 })
+        vidibleLoadingDialog.value = false
+        if (response.status === HttpStatus.Success) {
+          toast.add({
+            severity: 'success',
+            group: 'tr1',
+            summary: 'Успех',
+            detail: 'Загрузка из Excel завершилась ушпешно',
+            life: 4000,
+          });
+        } else {
+          toast.add({
+            severity: 'error',
+            group: 'tr1',
+            summary: 'Ошибка',
+            detail: 'Загрузка из Excel завершилось с ошибкой',
+            life: 4000,
+          });
+        }
+      } catch (err) {
+        console.error(err)
+        vidibleLoadingDialog.value = false
         toast.add({
           severity: 'error',
           group: 'tr1',

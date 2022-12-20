@@ -1,6 +1,6 @@
 import { defineHttpService } from '@/app/core/services/http/define-http.service';
 
-const { definePost } = defineHttpService({
+const { definePost, defineGet } = defineHttpService({
   url: 'api/WorkProducts',
 });
 
@@ -19,4 +19,6 @@ export interface IWorkProductPostModel {
 
 const post = definePost<number, IWorkProductPostModel>();
 
-export const productWorkHttpService = { post };
+const get = defineGet<unknown, number>((id) => ({ url: `/${id}` }));
+
+export const productWorkHttpService = { post, get };

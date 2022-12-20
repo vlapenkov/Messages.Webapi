@@ -51,6 +51,6 @@ export interface IServiceProduct {
 
 const post = definePost<number, IServiceProductPostModel>();
 
-const get = defineGet<IServiceProduct>();
+const get = defineGet<IServiceProduct, number>((id) => ({ url: `/${id}` }));
 
 export const productServiceHttpService = { post, get };

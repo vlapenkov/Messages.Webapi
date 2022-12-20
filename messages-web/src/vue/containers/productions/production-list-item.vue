@@ -51,7 +51,19 @@ export default defineComponent({
       if (props.production == null) {
         return;
       }
-      router.push({ name: 'product', params: { id: props.production.id } });
+      switch (props.production.productionType) {
+        case 'Product':
+          router.push({ name: 'product', params: { id: props.production.id } });
+          break;
+        case 'ServiceProduct':
+          router.push({ name: 'product-service', params: { id: props.production.id } });
+          break;
+        case 'WorkProduct':
+          router.push({ name: 'product-work', params: { id: props.production.id } });
+          break;
+        default:
+          break;
+      }
     };
     const viewOrganization = () => {
       if (props.production == null) {

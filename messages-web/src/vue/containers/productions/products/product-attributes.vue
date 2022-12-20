@@ -1,25 +1,28 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <div
-    class="flex card-container blue-container overflow-hidden mt-1"
-    v-for="attr in attributes"
-    :key="attr.attributeId"
-  >
-    <div class="flex-none flex align-items-center justify-content-center">
-      {{ getAttributeName(attr.attributeId) }}
+  <template v-if="attributesExists">
+    <div
+      class="flex card-container blue-container overflow-hidden mt-1"
+      v-for="attr in attributes"
+      :key="attr.attributeId"
+    >
+      <div class="flex-none flex align-items-center justify-content-center">
+        {{ getAttributeName(attr.attributeId) }}
+      </div>
+      <div class="flex-grow-1 flex align-items-center justify-content-center dotted-border"></div>
+      <div class="flex-none flex align-items-center justify-content-center">
+        {{ attr.value }}
+      </div>
     </div>
-    <div class="flex-grow-1 flex align-items-center justify-content-center dotted-border"></div>
-    <div class="flex-none flex align-items-center justify-content-center">
-      {{ attr.value }}
-    </div>
-  </div>
+  </template>
+  <app-text v-else> Характеристики отсутствуют </app-text>
 </template>
 
 <script lang="ts">
 import { IProductAttribute } from '@/app/product-full/@types/IProductAttribute';
 import { IProductFullModel } from '@/app/product-full/@types/IProductFullModel';
 import { useAttributes } from '@/composables/attributes.composable';
-import { defineComponent, PropType, ref, watch } from 'vue';
+import { computed, defineComponent, PropType, ref, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -56,7 +59,10 @@ export default defineComponent({
       }
       return '-';
     };
-    return { attributes, getAttributeName };
+
+    const attributesExists = computed(() => (attributes.value?.length ?? 0) > 0);
+
+    return { attributes, getAttributeName, attributesExists };
   },
 });
 </script>

@@ -54,7 +54,7 @@ body {
   table.p-datatable-table {
     thead {
       th {
-        background-color: #fff;
+        background-color: $background-color;
         color: #898989;
         font-style: normal;
         font-weight: 400;
@@ -64,6 +64,7 @@ body {
     }
     tbody {
       td {
+        background-color: $background-color;
         font-style: normal;
         font-weight: 400;
         font-size: 14px;

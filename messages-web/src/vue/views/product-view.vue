@@ -99,7 +99,7 @@
         </div>
       </prime-card>
       <prime-card transparent shadow-hover="none">
-        <tab-view ref="tabview1">
+        <tab-view class="no-background-table" ref="tabview1">
           <tab-panel header="Описание">
             <data-table class="no-head p-datatable-sm" :value="tableRows">
               <column field="name"></column>

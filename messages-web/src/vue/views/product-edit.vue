@@ -111,18 +111,18 @@
 
 <script lang="ts">
 import { ProductFullModel } from '@/app/product-full/models/product-full.model';
-import { productFullStore } from '@/app/product-full/state/product-full.store';
+import { productFullStore, ProductType } from '@/app/product-full/state/product-full.store';
 import { useBase64 } from '@vueuse/core';
 import { defineComponent, computed, watch, ref, Ref, onMounted, PropType } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
-import { productFullService } from '@/app/product-full/infrastructure/product-full.http-service';
+import { productFullHttpService } from '@/app/product-full/infrastructure/product-full.http-service';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { attributeStore } from '@/app/attributes/state/attribute.store';
 import { http } from '@/app/core/services/http/axios/axios.service';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 import { useSections } from '@/composables/sections.composable';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { DataMode } from '@/app/core/services/harlem/tools/not-valid-data';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { loadingStatusProvider } from '../base/presentational/state/collection/providers/loading-status.provider';
@@ -131,7 +131,7 @@ export default defineComponent({
   components: { Toast },
   props: {
     productionType: {
-      type: String as PropType<'product' | 'service' | 'work'>,
+      type: String as PropType<ProductType>,
       required: true,
     },
     dataMode: {
@@ -142,6 +142,7 @@ export default defineComponent({
   setup(props) {
     const toast = useToast();
     const route = useRoute();
+    const router = useRouter();
 
     watch(
       () => route.params.id as string | undefined,
@@ -216,7 +217,7 @@ export default defineComponent({
     const pageTitle = computed(() => {
       let whatToDo = '';
       let withWhat = '';
-      switch (mode.value) {
+      switch (props.dataMode) {
         case 'create':
           whatToDo = 'Создание';
           break;
@@ -227,7 +228,7 @@ export default defineComponent({
           whatToDo = 'Модерирование';
           break;
         default:
-          throw new Error('Неизвестный тип действий');
+          throw new Error(`Неизвестный тип действий - ${props.dataMode}`);
       }
       switch (props.productionType) {
         case 'product':
@@ -257,7 +258,6 @@ export default defineComponent({
           if (selectedData.value == null || val == null) {
             return;
           }
-          console.log('setting', key, val);
 
           const cloned = selectedData.value.clone();
           cloned.setKey(key, val);
@@ -298,7 +298,7 @@ export default defineComponent({
     const createProduct = async () => {
       if (productFullStore.selected?.value == null) return;
       const request = productFullStore.selected?.value.data.toRequest();
-      const result = await productFullService.post(request);
+      const result = await productFullHttpService.post(request);
       if (result.status === HttpStatus.Success) {
         mode.value = 'edit';
         if (selectedData.value == null) {
@@ -313,7 +313,7 @@ export default defineComponent({
     const saveChanges = async () => {
       if (productFullStore.selected?.value == null) return;
       const request = productFullStore.selected?.value.data.toRequest();
-      await productFullService.put(request);
+      await productFullHttpService.put(request);
     };
 
     const models = {
@@ -405,13 +405,19 @@ export default defineComponent({
     const isPriceEmpty = ref(false);
 
     watch(isPriceEmpty, (empty) => {
-      if (empty) {
-        models.price.value = null;
+      if (empty && selectedData.value != null) {
+        const cloned = selectedData.value.clone();
+        cloned.price = null;
+        selectedData.value = cloned;
       }
     });
 
     const saveProduct = () => {
-      throw new Error('Not Implemented!');
+      productFullStore.saveChanges(props.productionType).then(() => {
+        router.push({
+          name: 'org-products',
+        });
+      });
     };
 
     return {

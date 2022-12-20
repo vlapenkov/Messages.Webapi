@@ -40,6 +40,8 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
 
         DbSet<Review> Reviews { get; set; }
 
+        DbSet<ProductsExchange> ProductsExchanges { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -16,18 +16,16 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.fio"
-                    :maxlength="13"
                   />
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
                   <label for="phone" class="text-600">Контактный телефон</label>
-                  <input-text
+                  <input-mask
                     id="phone"
-                    type="text"
+                    mask="9 (999) 999-99-99"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.phone"
-                    :maxlength="9"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -38,7 +36,6 @@
                     type="email"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.email"
-                    :maxlength="10"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -49,7 +46,6 @@
                     type="password"
                     class="w-full p-inputtext-sm rk-input"
                     v-model="userState.password"
-                    :maxlength="10"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -75,10 +71,7 @@
                     </div>
                   </div>
                   <div class="col-8 file-upload">
-                    <div class="w-full flex flex-column">
-                      <span class="mb-3 p-component text-xl font-semibold text-900">
-                        {{ organizationName }}
-                      </span>
+                    <div class="w-full h-full flex flex-column justify-content-center">
                       <file-upload
                         mode="basic"
                         id="organization-img"
@@ -283,6 +276,7 @@
                       mode="decimal"
                       locale="ru-RU"
                       class="w-full p-inputtext-sm rk-input"
+                      placeholder="Не указана"
                       :minFractionDigits="1"
                       :maxFractionDigits="12"
                       v-model="formState.latitude"
@@ -296,6 +290,7 @@
                       mode="decimal"
                       locale="ru-RU"
                       class="w-full p-inputtext-sm rk-input"
+                      placeholder="Не указана"
                       :minFractionDigits="1"
                       :maxFractionDigits="12"
                       v-model="formState.longitude"
@@ -357,10 +352,10 @@
                 <h2 class="mt-0">5. Контактные данные</h2>
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
-                    <label for="phone" class="text-600">Контактный телефон</label>
-                    <input-text
-                      id="phone"
-                      type="text"
+                    <label for="org-phone" class="text-600">Контактный телефон</label>
+                    <input-mask
+                      id="org-phone"
+                      mask="9 (999) 999-99-99"
                       class="w-full p-inputtext-sm rk-input"
                       v-model="formState.phone"
                       :disabled="isModeration"
@@ -447,8 +442,6 @@ export default defineComponent({
       address: '',
       factAddress: '',
       site: '',
-      latitude: 0,
-      longitude: 0,
       phone: '',
       email: '',
       isProducer: false,
@@ -456,6 +449,7 @@ export default defineComponent({
       bankName: '',
       account: '',
       corrAccount: '',
+      createdBy: userState.fio,
       bik: '',
     });
 
@@ -511,13 +505,8 @@ export default defineComponent({
       }
       [file.value] = files;
     };
-
-    const organizationName = computed(() =>
-      formState.name != null && formState.name !== '' ? formState.name : 'Название',
-    );
     return {
       userState,
-      organizationName,
       statusOptions,
       isModeration,
       formState,

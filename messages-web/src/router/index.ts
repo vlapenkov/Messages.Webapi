@@ -61,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/product/:id',
     name: 'product',
     component: () => import(/*  webpackChunkName: "product" */ '../vue/views/product-view.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: '/edit-product/:id?',

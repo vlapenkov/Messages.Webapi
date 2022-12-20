@@ -2,55 +2,89 @@
   <app-page title="Организации">
     <card>
       <template #content>
-        <data-table :value="organizations" responsiveLayout="scroll">
-          <column header="Наименование" headerStyle="width: 40%">
-            <template #body="slopProps">
-              <div class="w-full flex flex-row align-items-center">
-                <img
-                  v-if="slopProps.data.documentId == null"
-                  :src="require('@/assets/images/profile.svg')"
-                  alt="Изображение профиля"
-                  width="50"
-                  height="50"
-                  :style="{
-                    objectFit: 'cover',
-                    borderRadius: '0.5rem',
-                  }"
-                  class="mr-3"
+        <div v-if="organizationStatus.status === 'loaded'">
+          <data-table :value="organizations" responsiveLayout="scroll" class="no-background-table">
+            <column field="name" header="Наименование" headerStyle="width: 40%" :sortable="true">
+              <template #body="slopProps">
+                <router-link
+                  :to="{ name: 'organization', params: { id: slopProps.data.id } }"
+                  class="no-underline text-color"
+                >
+                  <div class="w-full flex flex-row align-items-center">
+                    <img
+                      v-if="slopProps.data.documentId == null"
+                      :src="require('@/assets/images/profile.svg')"
+                      alt="Изображение профиля"
+                      width="50"
+                      height="50"
+                      :style="{
+                        objectFit: 'cover',
+                        borderRadius: '0.5rem',
+                      }"
+                      class="mr-3"
+                    />
+                    <file-store-image
+                      v-if="slopProps.data.documentId != null"
+                      :max-width="50"
+                      :max-height="50"
+                      :id="slopProps.data.documentId"
+                      class="mr-3"
+                    ></file-store-image>
+                    <span class="p-component">{{ slopProps.data.name }}</span>
+                  </div>
+                </router-link>
+              </template>
+            </column>
+            <column
+              field="lastModified"
+              header="Дата изменения"
+              headerStyle="width: 20%"
+              :sortable="true"
+            >
+              <template #body="slopProps">
+                <span class="p-component">
+                  {{ formatDateString(slopProps.data.lastModified) }}
+                </span>
+              </template>
+            </column>
+            <column
+              field="lastModifiedBy"
+              header="Кем изменено"
+              headerStyle="width: 15%"
+              :sortable="true"
+            />
+            <column
+              field="createdBy"
+              header="Кто создал"
+              headerStyle="width: 15%"
+              :sortable="true"
+            />
+            <column field="statusText" header="Статус" headerStyle="width: 10%" :sortable="true">
+              <template #body="slopProps">
+                <dropdown
+                  v-if="orgStatusModels != null && orgStatusModels[slopProps.data.id]?.value === 0"
+                  v-model="orgStatusModels[slopProps.data.id]"
+                  :options="statuses"
+                  optionLabel="name"
+                  class="w-full"
+                  @change="changed($event, slopProps.data.id)"
                 />
-                <file-store-image
-                  v-if="slopProps.data.documentId != null"
-                  :max-width="50"
-                  :max-height="50"
-                  :id="slopProps.data.documentId"
-                  class="mr-3"
-                ></file-store-image>
-                <span class="p-component">{{ slopProps.data.name }}</span>
-              </div>
-            </template>
-          </column>
-          <column header="Дата изменения" headerStyle="width: 20%">
-            <template #body="slopProps">
-              <span class="p-component">
-                {{ formatDateString(slopProps.data.lastModified) }}
-              </span>
-            </template>
-          </column>
-          <column field="lastModifiedBy" header="Кем изменено" headerStyle="width: 20%" />
-          <column field="statusText" header="Статус" headerStyle="width: 20%">
-            <template #body="slopProps">
-              <dropdown
-                v-if="orgStatusModels != null"
-                v-model="orgStatusModels[slopProps.data.id]"
-                :options="statuses"
-                optionLabel="name"
-                class="w-full"
-                :disabled="orgStatusModels[slopProps.data.id]?.value !== 0"
-                @change="changed($event, slopProps.data.id)"
-              />
-            </template>
-          </column>
-        </data-table>
+                <tag
+                  v-else
+                  :value="orgStatusModels != null && orgStatusModels[slopProps.data.id]?.name"
+                  :style="{
+                    backgroundColor:
+                      orgStatusModels != null && orgStatusModels[slopProps.data.id]?.color,
+                  }"
+                  class="w-full"
+                />
+              </template>
+            </column>
+          </data-table>
+        </div>
+        <div v-else class="flex flex-column gap-1">
+          <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
+        </div>
       </template>
     </card>
   </app-page>
@@ -58,30 +92,40 @@
 
 <script lang="ts">
 import { organizationsService } from '@/app/organizations/services/organization.service';
-import { useOrganizations } from '@/composables/organizations.composable';
 import {
   IOrganizationStatus,
   useOrganizationStatuses,
 } from '@/composables/organization-statuses.composable';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
+import { organizationsStore } from '@/app/organizations/state/organizations.store';
 
 export default defineComponent({
   setup() {
+    onMounted(() => {
+      // на бэке нет параметров для пэйджинга, грузим все
+      organizationsService.loadPage({
+        pageNumber: 1,
+        pageSize: 8,
+      });
+    });
     const { statuses, initial } = useOrganizationStatuses();
-    const { organizations } = useOrganizations();
+    const { currentPageItems: organizations, status: organizationStatus } = organizationsStore;
     const formatDateString = (d: Date) => {
       if (d == null) return '';
       return d.toLocaleString('ru-RU', {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
       });
     };
     const orgStatusModels = ref<Record<number, IOrganizationStatus | undefined>>();
     const orgStatuses = computed<Record<number, IOrganizationStatus | undefined>>(() => {
       const res: Record<number, IOrganizationStatus | undefined> = {};
       if (initial.value == null) return res;
-      organizations.value.forEach((org) => {
+      (organizations.value ?? []).forEach((org) => {
         Object.assign(res, {
           ...res,
           [org.id]: statuses.value.find((s) => s.name === org.statusText) ?? initial.value,
@@ -103,6 +147,7 @@ export default defineComponent({
       await organizationsService.updateStatus(id, status);
     };
     return {
+      organizationStatus,
       orgStatuses,
       orgStatusModels,
       statuses,

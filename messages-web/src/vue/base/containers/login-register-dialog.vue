@@ -1,6 +1,6 @@
 <template>
   <prime-dialog
-    v-model:visible="visibilityModel"
+    v-model:visible="showRegisterDialog"
     :draggable="false"
     modal
     :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
@@ -15,11 +15,11 @@
       <img
         src="@/assets/images/logo.svg"
         alt=""
-        width="50"
-        height="50"
-        class="col-6 col-offset-3 mb-6"
+        width="70"
+        height="70"
+        class="col-6 col-offset-3 mb-4"
       />
-      <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-3" @click="login" />
+      <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-2" @click="login" />
       <router-link :to="{ name: 'register' }" class="no-underline">
         <prime-button
           label="Зарегистрироваться"
@@ -32,28 +32,16 @@
 
 <script lang="ts">
 import { login } from '@/app/core/services/keycloak/keycloak.service';
+import { showRegisterDialog } from '@/store/register.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import {} from 'vue-router';
 
 export default defineComponent({
   components: { PrimeDialog },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: {
-    'update:visible': (_: boolean) => true,
-  },
-  setup(props, { emit }) {
-    const visibilityModel = computed({
-      get: () => props.visible,
-      set: (v) => emit('update:visible', v),
-    });
+  setup() {
     return {
-      visibilityModel,
+      showRegisterDialog,
       login,
     };
   },

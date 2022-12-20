@@ -15,14 +15,16 @@ import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPa
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useElementSize } from '@vueuse/core';
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { onBeforeRouteLeave } from 'vue-router';
 
 export default defineComponent({
   setup() {
     const { sectionId, region, organization, searchQuery } = catalogFiltersStore;
+    const { pageNumber, pageSize, orderBy } = productionsStore;
 
     useRouteQueryBinded('sectionId', {
       type: 'number',
@@ -48,14 +50,28 @@ export default defineComponent({
       const request: IproductionsPageRequest = {
         name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
         catalogSectionId: sectionId.value ?? undefined,
-        pageNumber: productionsStore.pageNumber.value,
-        pageSize: productionsStore.pageSize.value,
+        pageNumber: pageNumber.value,
+        pageSize: pageSize.value,
         producerName: organization.value ?? null,
         region: region.value ?? null,
         orderBy: null,
       };
-
       productionsService.loadPage(request);
+    });
+
+    watch([pageNumber, pageSize], ([pnum, psize]) => {
+      productionsService.loadPage({
+        name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
+        pageNumber: pnum,
+        pageSize: psize,
+        producerName: organization.value ?? null,
+        region: region.value,
+        orderBy: orderBy.value,
+      });
+    });
+
+    onBeforeRouteLeave(() => {
+      pageNumber.value = 1;
     });
 
     const productsContainerRef = ref<HTMLElement>();

@@ -5,7 +5,7 @@
       <dropdown class="ml-2" :style="{ width: '380px' }" :options="ordersByProductWithName" optionLabel="name"
         optionValue="value" placeholder="Выберите" v-model="orderBy" />
     </div>
-    <card>
+    <card class="shadow-none">
       <template #content>
         <div>
           <div v-if="productShortsStatus.status === 'loaded'">

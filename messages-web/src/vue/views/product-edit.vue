@@ -150,7 +150,7 @@ export default defineComponent({
         if (props.dataMode !== 'edit' || id == null) {
           return;
         }
-        productFullStore.getAsync(+id).then(() => {
+        productFullStore.getAsync({ id: +id, type: props.productionType }).then(() => {
           productFullStore.startEditing();
         });
       },

@@ -8,7 +8,9 @@ export default defineComponent({
       default: 'span',
     },
     mode: {
-      type: String as PropType<'primary' | 'default' | 'weak' | 'weaker' | 'header' | 'subheader'>,
+      type: String as PropType<
+        'primary' | 'default' | 'weak' | 'weaker' | 'header' | 'header-strong' | 'subheader'
+      >,
       default: 'default',
     },
   },
@@ -65,6 +67,12 @@ export default defineComponent({
     font-weight: 500;
     font-size: 22px;
     line-height: 26px;
+  }
+  &#{&}-header-strong {
+    color: map-get($map: $colors-text, $key: 'strong');
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
   }
 }
 </style>

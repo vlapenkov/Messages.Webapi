@@ -59,6 +59,10 @@ namespace Rk.Messages.Logic.ProductsNS.Mappings
             CreateMap<Document, FileDataDto>()
               .ReverseMap();
 
+            CreateMap<ProductsExchange, ProductsExchangeDto>()
+             .ForMember(dest => dest.ProductExchangeText, opt => opt.MapFrom(src => src.ExchangeType.GetDescription()))             
+            .ReverseMap();
+
         }
     }
 }

@@ -2,7 +2,7 @@
 <template>
   <app-page title="Регистрация">
     <toast position="top-right" group="tr" />
-    <card class="re-padding">
+    <card class="re-padding shadow-none">
       <template #content>
         <tab-view class="w-full">
           <tab-panel header="Профиль пользователя">

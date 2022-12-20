@@ -1,4 +1,5 @@
 import { defineHttpService } from '@/app/core/services/http/define-http.service';
+import { IExcelProductResponse } from '../@types/IExcelProductResponse';
 import { IProductFullModel } from '../@types/IProductFullModel';
 
 const { defineGet, definePost, definePut } = defineHttpService<IProductFullModel>({
@@ -53,4 +54,10 @@ export const put = definePut<void, IProductPutModel>(({ id, ...rest }) => ({
   url: `/${id}`,
 }));
 
-export const productFullHttpService = { get, post, put };
+const fromExcel = definePost<IExcelProductResponse[], { fileName: string; data: string }>((v) => ({
+  url: `/fromexcel`,
+  bodyOrParams: v,
+}));
+
+export const productFullHttpService = { get, post, put, fromExcel };
+

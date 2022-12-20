@@ -1,36 +1,18 @@
 <template>
   <div class="flex flex-column gap-2">
     <div class="relative text-center">
-      <img
-        v-if="docsToDisplay.firstDoc == null"
-        alt="load image"
-        class="w-full"
-        :src="require('@/assets/images/fallback-image.png')"
-      />
+      <img v-if="docsToDisplay.firstDoc == null" alt="load image" class="w-full"
+        :src="require('@/assets/images/fallback-image.png')" />
       <product-document-display v-else :document="docsToDisplay.firstDoc">
       </product-document-display>
       <div class="absolute bottom-0 w-full flex flex-row pb-3 justify-content-center">
-        <file-upload
-          mode="basic"
-          id="organization-img"
-          accept="image/*"
-          :maxFileSize="3000000"
-          @input="onFileInput"
-          :auto="true"
-          :customUpload="true"
-          chooseLabel="Загрузить изображение"
-          class="p-button-sm"
-        />
+        <file-upload mode="basic" id="organization-img" accept="image/*" :maxFileSize="3000000" @input="onFileInput"
+          :auto="true" :customUpload="true" chooseLabel="Загрузить изображение" class="p-button-sm" />
       </div>
     </div>
     <div class="grid">
       <div class="col-3 h-full" v-for="(doc, i) in docsToDisplay.otherDocs" :key="i">
-        <img
-          v-if="doc == null"
-          alt="load image"
-          class="w-full"
-          :src="require('@/assets/images/fallback-image.png')"
-        />
+        <img v-if="doc == null" alt="load image" class="w-full" :src="require('@/assets/images/fallback-image.png')" />
         <product-document-display style="min-height: 80.12px" v-else :document="doc" />
       </div>
     </div>
@@ -75,7 +57,7 @@ export default defineComponent({
         fileId: uuidv4(),
         fileName: file.value.name,
       });
-      console.log({ docsToUpdate });
+      // console.log({ docsToUpdate });
 
       docs.value = docsToUpdate;
     });
@@ -106,4 +88,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

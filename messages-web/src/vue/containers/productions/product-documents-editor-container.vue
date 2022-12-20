@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-column gap-2">
-    <div class="relative">
+    <div class="relative text-center">
       <img
         v-if="docsToDisplay.firstDoc == null"
         alt="load image"

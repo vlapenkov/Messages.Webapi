@@ -12,7 +12,7 @@
         v-model="orderBy"
       />
     </div>
-    <card>
+    <card class="shadow-none">
       <template #content>
         <div>
           <div v-if="productShortsStatus.status === 'loaded'">

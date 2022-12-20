@@ -144,9 +144,6 @@
             </card>
           </div>
         </tab-panel>
-        <!-- <tab-panel header="asdfdfasdf">
-          <excel-tab></excel-tab>
-        </tab-panel> -->
       </tab-view>
     </div>
   </app-page>

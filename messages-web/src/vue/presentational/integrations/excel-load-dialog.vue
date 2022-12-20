@@ -16,12 +16,14 @@
       </div>
     </template>
     <div class="w-full flex flex-column">
-      <span class="col-6 col-offset-3 p-button-sm mb-3">{{ file?.name != null ? file.name : 'Файл не выбран' }}</span>
+      <span class="col-12 mx-1 word-break">{{ file?.name != null ? file.name : 'Файл не выбран'
+      }}</span>
       <file-upload mode="basic" id="excel-file"
         accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         :maxFileSize="10000000" @input="onFileInput" :auto="true" :customUpload="true" chooseLabel="Выбрать файл"
         class="col-6 col-offset-3 p-button-sm mb-3" />
-      <prime-button label="Загрузить" class="col-6 col-offset-3 p-button-sm mb-3" @click="close" />
+      <prime-button label="Загрузить" class="col-6 col-offset-3 p-button-sm mb-3" @click="close"
+        :disabled="!uploadPossible" />
     </div>
   </prime-dialog>
 </template>
@@ -53,6 +55,14 @@ export default defineComponent({
     const file = ref();
     const { base64: fileB64 } = useBase64(file);
 
+    const uploadPossible = ref<boolean>(false);
+
+    watch(file, (val) => {
+      if (val != null) {
+        uploadPossible.value = true;
+      }
+    })
+
     const onFileInput = (e: Event) => {
       const target = e.target as HTMLInputElement;
       const { files } = target;
@@ -74,7 +84,7 @@ export default defineComponent({
     };
 
     return {
-      visibilityModel, file, close, onFileInput
+      visibilityModel, file, uploadPossible, close, onFileInput
     };
   },
 });
@@ -96,6 +106,10 @@ export default defineComponent({
 
   .p-dialog-header {
     padding-bottom: 0;
+  }
+
+  .word-break {
+    word-break: break-all;
   }
 }
 </style>

@@ -13,20 +13,34 @@
 </template>
 
 <script lang="ts">
+import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
+import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
   components: { Toast },
   setup() {
     const toast = useToast();
 
+    onMounted(() => {
+      productionsService.loadPage({
+        name: null,
+        catalogSectionId: undefined,
+        pageNumber: 1,
+        pageSize: 12,
+        producerName: null,
+        region: null,
+        orderBy: null,
+      });
+      shoppingCartStore.getDataAsync();
+    });
+
     const notifyHandler = useToastNotificationHandler(toast);
     const { currentPageItems: productions } = productionsStore;
-
     return { productions, notifyHandler };
   },
 });

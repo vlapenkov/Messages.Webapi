@@ -147,26 +147,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import { productionsService } from '@/app/productions/services/productions.service';
+import { defineComponent, ref } from 'vue';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 
 export default defineComponent({
   setup() {
     const { showFilters } = catalogFiltersStore;
-    onMounted(() => {
-      productionsService.loadPage({
-        name: null,
-        catalogSectionId: undefined,
-        pageNumber: 1,
-        pageSize: 12,
-        producerName: null,
-        region: null,
-        orderBy: null,
-      });
-      shoppingCartStore.getDataAsync();
-    });
+
     const hasPhoto = ref(false);
 
     const cartCapacity = shoppingCartStore.totalQuantity;

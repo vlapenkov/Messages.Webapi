@@ -3,17 +3,26 @@
     <template #content>
       <div class="flex card-container blue-container overflow-hidden">
         <div class="flex-none flex align-items-center justify-content-center border-round">
-          <img :src="require('@/assets/images/excel.svg')" alt="excel" width="50" :style="{
-            objectFit: 'cover',
-            borderRadius: '0.5rem',
-          }" class="mr-3" />
+          <img
+            :src="require('@/assets/images/excel.svg')"
+            alt="excel"
+            width="50"
+            :style="{
+              objectFit: 'cover',
+              borderRadius: '0.5rem',
+            }"
+            class="mr-3"
+          />
           <span class="text-xl font-semibold">Загрузка из Exel</span>
         </div>
-        <div class="flex-grow-1 flex align-items-center justify-content-center  border-round">
-        </div>
+        <div class="flex-grow-1 flex align-items-center justify-content-center border-round"></div>
         <div class="flex-none flex align-items-center justify-content-center border-round">
-          <prime-button icon="pi pi-download" iconPos="right" label="Загрузить"
-            @click="vidibleselectDialog = !vidibleselectDialog" />
+          <prime-button
+            icon="pi pi-download"
+            iconPos="right"
+            label="Загрузить"
+            @click="vidibleselectDialog = !vidibleselectDialog"
+          />
         </div>
       </div>
       <!-- <data-table :value="[]" responsiveLayout="scroll">
@@ -43,7 +52,6 @@ import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, ref } from 'vue';
 
-
 export default defineComponent({
   components: { Toast },
   setup() {
@@ -60,14 +68,14 @@ export default defineComponent({
       });
     };
 
-    const handleFile = async (data: { name: string; b64: string; }) => {
+    const handleFile = async (data: { name: string; b64: string }) => {
       const b64 = data.b64.replace(/(^data:.*\/.*;base64,)/gi, '');
-      console.log(data.name, b64,);
+      // console.log(data.name, b64,);
       try {
-        vidibleLoadingDialog.value = true
-        const response = await productFullHttpService.fromExcel({ fileName: data.name, data: b64 })
-        console.log(response);
-        vidibleLoadingDialog.value = false
+        vidibleLoadingDialog.value = true;
+        const response = await productFullHttpService.fromExcel({ fileName: data.name, data: b64 });
+        // console.log(response);
+        vidibleLoadingDialog.value = false;
         if (response.status === HttpStatus.Success) {
           toast.add({
             severity: 'success',
@@ -87,7 +95,7 @@ export default defineComponent({
         }
       } catch (err) {
         // console.error(err)
-        vidibleLoadingDialog.value = false
+        vidibleLoadingDialog.value = false;
         toast.add({
           severity: 'error',
           group: 'tr1',
@@ -96,9 +104,9 @@ export default defineComponent({
           life: 4000,
         });
       }
-    }
+    };
 
-    return { formatDateString, handleFile, vidibleselectDialog, vidibleLoadingDialog, };
+    return { formatDateString, handleFile, vidibleselectDialog, vidibleLoadingDialog };
   },
 });
 </script>
@@ -110,7 +118,7 @@ export default defineComponent({
 }
 
 :deep(.p-datatable-thead tr th) {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 :deep(.p-card-content) {

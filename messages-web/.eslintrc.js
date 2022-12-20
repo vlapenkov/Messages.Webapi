@@ -15,7 +15,9 @@ module.exports = {
   },
   rules: {
     'no-console':
-      process.env.NODE_ENV === 'production' ? ['error', { allow: ['warn', 'error'] }] : 'off',
+      process.env.NODE_ENV === 'production'
+        ? ['error', { allow: ['warn', 'error'] }]
+        : ['error', { allow: ['warn', 'error'] }],
     'no-debugger': 'error',
     'vue/component-api-style': ['error', ['script-setup', 'composition']],
     'vue/component-name-in-template-casing': [

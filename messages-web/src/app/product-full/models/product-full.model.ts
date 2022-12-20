@@ -38,6 +38,10 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
 
   article = '';
 
+  availableStatusText = '';
+
+  rating = 0;
+
   @description('Цена')
   price: number | null = null;
 

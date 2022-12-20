@@ -1,9 +1,8 @@
 <template>
-  <div class="text-2xl font-medium mt-1">{{ product.name }}</div>
   <div class="text-base text-primary mt-1">
     <router-link
       :to="{ name: 'organization', params: { id: product.organization.id } }"
-      class="flex gap-3 align-items-center not-link"
+      class="flex gap-3 align-items-center no-underline"
     >
       {{ product.organization.name }}</router-link
     >
@@ -20,13 +19,13 @@
 </template>
 
 <script lang="ts">
-import { IProductFullModel } from '@/app/product-full/@types/IProductFullModel';
+import { ProductFullModel } from '@/app/product-full/models/product-full.model';
 import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
     product: {
-      type: Object as PropType<IProductFullModel>,
+      type: Object as PropType<ProductFullModel>,
       default: () => null,
     },
   },
@@ -40,16 +39,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.not-link {
-  text-decoration: none;
-  /* color: black; */
-}
-
-a,
-a:visited,
-a:hover,
-a:active {
-  color: inherit;
-}
-</style>
+<style scoped></style>

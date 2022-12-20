@@ -1,3 +1,4 @@
+import { HttpResult } from '@/app/core/handlers/http/results/base/http-result';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
@@ -19,10 +20,24 @@ const status = computeState((state) => state.status);
 
 const selected = computeState((state) => state.itemSelected);
 
-const getAsync = action<number>('get-async', async (id) => {
+const getAsync = action<{ id: number; type: ProductType }>('get-async', async ({ id, type }) => {
   status.value = new DataStatus('loading');
   try {
-    const response = await productFullHttpService.get(id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let response!: HttpResult<any>;
+    switch (type) {
+      case 'product':
+        response = await productFullHttpService.get(id);
+        break;
+      case 'service':
+        response = await productServiceHttpService.get(id);
+        break;
+      case 'work':
+        response = await productWorkHttpService.get(id);
+        break;
+      default:
+        break;
+    }
     if (response.status === HttpStatus.Success && response.data != null) {
       const newModel = new ProductFullModel();
       const succesParsed = newModel.fromResponse(response.data);

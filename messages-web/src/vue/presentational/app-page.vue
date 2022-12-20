@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-row justify-content-between gap-5 align-items-center">
-      <app-text class="p-component my-3" mode="header">{{ title }}</app-text>
+      <app-text v-if="!hideTitle" class="p-component my-3" mode="header">{{ title }}</app-text>
       <slot name="subheader"></slot>
     </div>
     <slot></slot>
@@ -17,6 +17,10 @@ export default defineComponent({
     title: {
       type: String,
       default: 'Без названия',
+    },
+    hideTitle: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {

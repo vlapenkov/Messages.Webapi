@@ -58,10 +58,10 @@
                             params: { id: data.id },
                           }"
                         >
-                          <prime-button
+                          <prime-button-weak
                             class="p-button-rounded edit-button"
                             icon="pi pi-pencil"
-                          ></prime-button>
+                          ></prime-button-weak>
                         </router-link>
                       </template>
                     </column>
@@ -182,8 +182,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .edit-button {
   transform: scale(0.8, 0.8);
-  background-color: #f4f7fb;
-  color: #000;
 }
 
 :deep(.p-column-header-content .p-column-title) {

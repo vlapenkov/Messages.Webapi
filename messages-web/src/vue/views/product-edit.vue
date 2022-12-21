@@ -101,7 +101,11 @@
         <prime-divider></prime-divider>
         <div class="col-12 pb-5">
           <div class="flex flex-row justify-content-end">
-            <prime-button label="Сохранить" @click="saveProduct"></prime-button>
+            <prime-button
+              :disabled="productionType !== 'product'"
+              label="Сохранить"
+              @click="saveProduct"
+            ></prime-button>
           </div>
         </div>
       </div>

@@ -71,7 +71,7 @@
       <tab-panel header="Обмен">
         <excel-tab></excel-tab>
       </tab-panel>
-      <tab-panel header="Интеграция">
+      <tab-panel header="Интеграции">
         <markeplaces-tab></markeplaces-tab>
       </tab-panel>
     </tab-view>

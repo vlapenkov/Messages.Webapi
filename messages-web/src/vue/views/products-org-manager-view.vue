@@ -19,6 +19,9 @@
         <card>
           <template #content>
             <div class="grid">
+              <div class="col-12 flex flex-row justify-content-end">
+                <sort-by-container></sort-by-container>
+              </div>
               <div class="col-12">
                 <div v-if="status.status === 'loaded'">
                   <data-table :value="productions">
@@ -115,17 +118,17 @@ export default defineComponent({
       showFilters,
       currentPageItems: productions,
     } = productionsStore;
-    const { searchQuery } = catalogFiltersStore;
+    const { searchQuery, orderBy } = catalogFiltersStore;
     watch(
-      [pageNumber, pageSize, searchQuery],
-      ([pnum, psize, query]) => {
+      [pageNumber, pageSize, searchQuery, orderBy],
+      ([pnum, psize, query, order]) => {
         productionsService.loadPage({
           name: query ?? null,
           pageNumber: pnum,
           pageSize: psize,
           producerName: null,
           region: null,
-          orderBy: null,
+          orderBy: order,
           status: null,
         });
       },

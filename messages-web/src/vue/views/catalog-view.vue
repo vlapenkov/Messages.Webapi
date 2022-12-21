@@ -1,6 +1,9 @@
 <template>
   <app-page id="filter-container" class="relative" title="Каталог товаров">
     <template #subheader> </template>
+    <div class="flex flex-row justify-content-end">
+      <sort-by-container></sort-by-container>
+    </div>
     <div class="grid mt-1">
       <div v-if="showFilters" class="col-3 gap-2 flex flex-column"></div>
       <div ref="productsContainerRef" :class="{ 'col-9': showFilters, 'col-12': !showFilters }">
@@ -26,8 +29,8 @@ import { onBeforeRouteLeave } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    const { sectionId, region, organization, searchQuery } = catalogFiltersStore;
-    const { pageNumber, pageSize, orderBy } = productionsStore;
+    const { sectionId, region, organization, searchQuery, orderBy } = catalogFiltersStore;
+    const { pageNumber, pageSize } = productionsStore;
 
     useRouteQueryBinded('sectionId', {
       type: 'number',
@@ -57,20 +60,20 @@ export default defineComponent({
         pageSize: pageSize.value,
         producerName: organization.value ?? null,
         region: region.value ?? null,
-        orderBy: null,
+        orderBy: orderBy.value,
         status: ProductStatus.Active,
       };
       productionsService.loadPage(request);
     });
 
-    watch([pageNumber, pageSize], ([pnum, psize]) => {
+    watch([pageNumber, pageSize, orderBy], ([pnum, psize, order]) => {
       productionsService.loadPage({
         name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
         pageNumber: pnum,
         pageSize: psize,
         producerName: organization.value ?? null,
         region: region.value,
-        orderBy: orderBy.value,
+        orderBy: order,
         status: ProductStatus.Active,
       });
     });

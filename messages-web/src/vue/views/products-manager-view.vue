@@ -1,16 +1,7 @@
 <template>
   <app-page title="Товары" class="products-manager-page">
     <div class="w-full flex flex-row justify-content-end align-items-center mb-3">
-      <span class="p-component text-color-secondary">Сортировка:</span>
-      <dropdown
-        class="ml-2"
-        :style="{ width: '380px' }"
-        :options="ordersByProductWithName"
-        optionLabel="name"
-        optionValue="value"
-        placeholder="Выберите"
-        v-model="orderBy"
-      />
+      <sort-by-container></sort-by-container>
     </div>
     <card class="shadow-none">
       <template #content>
@@ -96,7 +87,6 @@
 </template>
 
 <script lang="ts">
-import { ordersByProductWithName } from '@/app/productions/models/OrderByProduct';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { IProductStatus, useProductStatuses } from '@/composables/product-statuses.composable';
@@ -112,10 +102,10 @@ export default defineComponent({
       pageNumber,
       pageSize,
       currentPage,
-      orderBy,
       currentPageItems: productShortsItems,
     } = productionsStore;
-    const { searchQuery } = catalogFiltersStore;
+
+    const { searchQuery, orderBy } = catalogFiltersStore;
     watch(
       [pageNumber, pageSize, searchQuery, orderBy],
       ([pnum, psize, query, ob]) => {
@@ -173,7 +163,6 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
     return {
-      ordersByProductWithName,
       statuses,
       productStatuses,
       productStatusModels,
@@ -182,7 +171,6 @@ export default defineComponent({
       currentPage,
       pageNumber,
       pageSize,
-      orderBy,
       changed,
       changePage,
       formatDateString,
@@ -193,10 +181,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .products-manager-page {
-  :deep(span.p-dropdown-label.p-inputtext) {
-    padding: 6px;
-  }
-
   :deep(.p-card-content) {
     padding: 0;
   }

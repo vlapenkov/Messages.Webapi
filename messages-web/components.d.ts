@@ -122,6 +122,7 @@ declare module '@vue/runtime-core' {
     SingleItemState: typeof import('./src/vue/base/presentational/state/single/single-item-state.vue')['default']
     SizeProvider: typeof import('./src/vue/base/presentational/grid/size-provider.vue')['default']
     Skeleton: typeof import('primevue/skeleton')['default']
+    SortByContainer: typeof import('./src/vue/containers/filters/sort-by-container.vue')['default']
     TabPanel: typeof import('primevue/tabpanel')['default']
     TabView: typeof import('primevue/tabview')['default']
     Tag: typeof import('primevue/tag')['default']

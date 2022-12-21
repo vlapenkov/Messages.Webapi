@@ -102,7 +102,7 @@
         <div class="col-12 pb-5">
           <div class="flex flex-row justify-content-end">
             <prime-button
-              :disabled="productionType !== 'product'"
+              :disabled="productionType !== 'product' && dataMode !== 'create'"
               label="Сохранить"
               @click="saveProduct"
             ></prime-button>

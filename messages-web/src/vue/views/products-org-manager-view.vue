@@ -3,8 +3,13 @@
     <template #subheader>
       <div class="flex flex-row justify-content-end">
         <div>
-          <prime-button class="p-button-sm py-2 px-3" icon="pi pi-plus" label="Добавить" @click="toggleMenu"
-            aria-controls="overlay_menu-products_edit"></prime-button>
+          <prime-button
+            class="p-button-sm py-2 px-3"
+            icon="pi pi-plus"
+            label="Добавить"
+            @click="toggleMenu"
+            aria-controls="overlay_menu-products_edit"
+          ></prime-button>
           <prime-menu id="overlay_menu-products_edit" ref="menu" :model="menuItems" :popup="true" />
         </div>
       </div>
@@ -41,16 +46,22 @@
                     <column header="Статус" field="statusText"> </column>
                     <column header="">
                       <template #body="{ data }">
-                        <router-link class="no-underline" :to="{
-                          name:
-                            data.productionType === 'Product'
-                              ? 'edit-product'
-                              : data.productionType === 'ServiceProduct'
+                        <router-link
+                          class="no-underline"
+                          :to="{
+                            name:
+                              data.productionType === 'Product'
+                                ? 'edit-product'
+                                : data.productionType === 'ServiceProduct'
                                 ? 'edit-product-service'
                                 : 'edit-product-work',
-                          params: { id: data.id },
-                        }">
-                          <prime-button class="p-button-rounded edit-button" icon="pi pi-pencil"></prime-button>
+                            params: { id: data.id },
+                          }"
+                        >
+                          <prime-button
+                            class="p-button-rounded edit-button"
+                            icon="pi pi-pencil"
+                          ></prime-button>
                         </router-link>
                       </template>
                     </column>
@@ -59,9 +70,14 @@
                 <div v-else class="flex flex-column gap-1">
                   <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
                 </div>
-                <prime-paginator class="mt-2" v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-                  @page="changePage" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
-                  :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
+                <prime-paginator
+                  class="mt-2"
+                  v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+                  @page="changePage"
+                  :rows="pageSize"
+                  :first="pageSize * (pageNumber - 1)"
+                  :totalRecords="currentPage?.totalItemCount ?? 0"
+                ></prime-paginator>
               </div>
               <div class="col-12"></div>
             </div>
@@ -110,6 +126,7 @@ export default defineComponent({
           producerName: null,
           region: null,
           orderBy: null,
+          status: null,
         });
       },
       {
@@ -175,7 +192,7 @@ export default defineComponent({
 }
 
 :deep(.p-datatable-thead tr th) {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 :deep(.p-tabview-panels) {

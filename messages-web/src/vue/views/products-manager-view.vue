@@ -126,6 +126,7 @@ export default defineComponent({
           producerName: null,
           region: null,
           orderBy: ob,
+          status: null,
         });
       },
       {

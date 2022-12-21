@@ -11,10 +11,17 @@ export enum OrderByProduct {
   RatingByDesc,
 }
 
+export enum ProductStatus {
+  Draft,
+  Active,
+  Archive,
+}
+
 export interface IproductionsPageRequest extends IPagedRequest {
   catalogSectionId?: number;
   name: string | null;
   region: string | null;
   producerName: string | null;
   orderBy: OrderByProduct | null;
+  status: ProductStatus.Active | null;
 }

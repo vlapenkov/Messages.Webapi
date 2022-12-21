@@ -11,7 +11,10 @@
 </template>
 
 <script lang="ts">
-import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
+import {
+  IproductionsPageRequest,
+  ProductStatus,
+} from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useElementSize } from '@vueuse/core';
@@ -55,6 +58,7 @@ export default defineComponent({
         producerName: organization.value ?? null,
         region: region.value ?? null,
         orderBy: null,
+        status: ProductStatus.Active,
       };
       productionsService.loadPage(request);
     });
@@ -67,6 +71,7 @@ export default defineComponent({
         producerName: organization.value ?? null,
         region: region.value,
         orderBy: orderBy.value,
+        status: ProductStatus.Active,
       });
     });
 

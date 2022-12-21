@@ -13,7 +13,12 @@
           </div>
           <div class="col-8 flex flex-column gap-2">
             <app-text mode="header"> {{ item.name }}</app-text>
-            <app-text mode="weak"> {{ item.article || '123456' }}</app-text>
+            <app-text
+              :class="{ 'opacity-0': item.article == null || item.article === '' }"
+              mode="weak"
+            >
+              {{ item.article || '123456' }}</app-text
+            >
             <div
               v-if="(item.rating ?? 0) > 0"
               class="flex flex-row gap-1 align-content-center text-md"

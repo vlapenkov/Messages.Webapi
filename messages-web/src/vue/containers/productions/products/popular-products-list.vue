@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts">
+import { ProductStatus } from '@/app/productions/@types/IproductionsPageRequest';
 import { OrderByProduct } from '@/app/productions/models/OrderByProduct';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
@@ -40,6 +41,7 @@ export default defineComponent({
         producerName: null,
         region: null,
         orderBy: OrderByProduct.RatingByDesc,
+        status: ProductStatus.Active,
       });
       shoppingCartStore.getDataAsync();
     });

@@ -38,7 +38,10 @@
     </template>
     <template #content>
       <div class="h-full flex flex-column justify-content-between gap-1 p-2">
-        <div class="text-sm font-normal article">
+        <div
+          class="text-sm font-normal article"
+          :class="{ 'opacity-0': product.article == null || product.article === '' }"
+        >
           {{ product.article || '123456' }}
         </div>
         <app-price :price="product.price"></app-price>

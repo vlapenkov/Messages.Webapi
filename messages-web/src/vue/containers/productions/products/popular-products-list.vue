@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts">
+import { OrderByProduct } from '@/app/productions/models/OrderByProduct';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
@@ -27,14 +28,18 @@ export default defineComponent({
     const toast = useToast();
 
     onMounted(() => {
+      const pageNumberDefault = 1;
+      const pageSizeDefault = 12;
+      productionsStore.pageNumber.value = pageNumberDefault;
+      productionsStore.pageSize.value = pageSizeDefault;
       productionsService.loadPage({
         name: null,
         catalogSectionId: undefined,
-        pageNumber: 1,
-        pageSize: 12,
+        pageNumber: pageNumberDefault,
+        pageSize: pageSizeDefault,
         producerName: null,
         region: null,
-        orderBy: null,
+        orderBy: OrderByProduct.RatingByDesc,
       });
       shoppingCartStore.getDataAsync();
     });

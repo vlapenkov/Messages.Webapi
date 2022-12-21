@@ -71,9 +71,16 @@
             <prime-button
               :disabled="isNotProduct"
               @click.stop="addToCart(product)"
-              class="p-button-sm p-button-outlined h-full py-1 flex-grow-1"
+              :class="{ 'p-button-outlined': !isInCart }"
+              class="p-button-sm h-full py-1 flex-grow-1"
             >
-              <span class="font-medium w-full">В корзину</span>
+              <div class="flex flex-row w-full gap-3 align-items-center justify-content-center">
+                <i v-if="isInCart" class="pi pi-check"></i>
+                <span class="font-medium">
+                  <template v-if="isInCart"> В корзине</template>
+                  <template v-else>В корзину</template>
+                </span>
+              </div>
             </prime-button>
             <prime-button
               disabled
@@ -94,6 +101,7 @@
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
+import { useIsInCart } from '@/composables/is-in-cart.composable';
 import { showRegisterDialog } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
 import { useElementHover, useElementSize } from '@vueuse/core';
@@ -112,7 +120,12 @@ export default defineComponent({
     viewOrganization: (_: ProductionModel) => true,
   },
   setup(props, { emit }) {
+    const isInCart = useIsInCart(props.product.id);
+
     const addToCart = (p: ProductionModel) => {
+      if (isInCart.value) {
+        return;
+      }
       showRegisterDialog.value = !isAuthenticated.value;
       emit('addToCart', p);
     };
@@ -160,6 +173,7 @@ export default defineComponent({
       isNotProduct,
       productType,
       isInFavorites,
+      isInCart,
     };
   },
 });

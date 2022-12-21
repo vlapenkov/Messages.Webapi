@@ -93,3 +93,14 @@ body {
     background: none !important;
   }
 }
+$zoomIn: 1.1;
+.hover-zoom {
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale($zoomIn, $zoomIn);
+  }
+}
+
+.bg-transparent {
+  background-color: transparent;
+}

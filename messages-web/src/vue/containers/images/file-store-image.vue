@@ -4,7 +4,7 @@
       <img
         class="border-round"
         :style="imageStyle"
-        :class="{ 'max-w-full': fitWidth }"
+        :class="{ 'min-w-full max-w-full': fitWidth }"
         :src="imageData ?? require('@/assets/images/fallback-image.png')"
         :alt="headerText ?? 'Изображение товара'"
       />

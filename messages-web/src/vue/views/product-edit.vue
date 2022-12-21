@@ -101,7 +101,11 @@
         <prime-divider></prime-divider>
         <div class="col-12 pb-5">
           <div class="flex flex-row justify-content-end">
-            <prime-button label="Сохранить" @click="saveProduct"></prime-button>
+            <prime-button
+              :disabled="productionType !== 'product'"
+              label="Сохранить"
+              @click="saveProduct"
+            ></prime-button>
           </div>
         </div>
       </div>
@@ -402,15 +406,24 @@ export default defineComponent({
       },
     });
 
-    const isPriceEmpty = ref(false);
-
-    watch(isPriceEmpty, (empty) => {
-      if (empty && selectedData.value != null) {
-        const cloned = selectedData.value.clone();
-        cloned.price = null;
-        selectedData.value = cloned;
-      }
+    const isPriceEmpty = computed({
+      get: () => (selectedData.value?.price ?? null) == null,
+      set: (empty) => {
+        if (empty && selectedData.value != null) {
+          const cloned = selectedData.value.clone();
+          cloned.price = null;
+          selectedData.value = cloned;
+        }
+      },
     });
+
+    // watch(isPriceEmpty, (empty) => {
+    //   if (empty && selectedData.value != null) {
+    //     const cloned = selectedData.value.clone();
+    //     cloned.price = null;
+    //     selectedData.value = cloned;
+    //   }
+    // });
 
     const saveProduct = () => {
       productFullStore.saveChanges(props.productionType).then(() => {

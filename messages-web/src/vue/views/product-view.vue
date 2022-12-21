@@ -4,16 +4,21 @@
     <div class="flex mt-5 flex-column gap-3">
       <prime-card transparent shadow-hover="none">
         <div class="grid">
-          <div class="col-3">
+          <div class="col-5">
             <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"
               :fitWidth="true"
             ></file-store-image>
           </div>
-          <div class="col-9 flex flex-column gap-2">
+          <div class="col-7 pl-4 flex flex-column gap-2">
             <app-text mode="header"> {{ item.name }}</app-text>
-            <app-text mode="weak"> {{ item.article || '123456' }}</app-text>
+            <app-text
+              :class="{ 'opacity-0': item.article == null || item.article === '' }"
+              mode="weak"
+            >
+              {{ item.article || '123456' }}</app-text
+            >
             <div
               v-if="(item.rating ?? 0) > 0"
               class="flex flex-row gap-1 align-content-center text-md"
@@ -87,10 +92,11 @@
                 <app-text v-else mode="header-strong"> Цена договорная </app-text>
               </div>
               <prime-button
+                :disabled="isInCart"
                 @click="addToCart(item.id, item.name)"
                 class="p-button-sm mt-3"
                 style="width: 221px; height: 44px"
-                label="В корзину"
+                :label="isInCart ? 'В корзине' : 'В корзину'"
               >
               </prime-button>
             </div>
@@ -125,7 +131,10 @@
 <script lang="ts">
 import { productFullStore, ProductType } from '@/app/product-full/state/product-full.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { useIsInCart } from '@/composables/is-in-cart.composable';
 import { useSections } from '@/composables/sections.composable';
+import { showRegisterDialog } from '@/store/register.store';
+import { isAuthenticated } from '@/store/user.store';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -157,7 +166,13 @@ export default defineComponent({
       },
     );
 
+    const isInCart = useIsInCart(item.value.id);
+
     const addProductToShopingCart = async (id: number, name: string) => {
+      if (!isAuthenticated.value) {
+        showRegisterDialog.value = true;
+        return;
+      }
       await shoppingCartStore.addToCart({
         productId: id,
         quantity: 1,
@@ -246,6 +261,8 @@ export default defineComponent({
       actualizationDate,
       tableRows,
       productTypeText,
+      isAuthenticated,
+      isInCart,
     };
   },
 });

@@ -3,8 +3,13 @@
     <template #subheader>
       <div class="flex flex-row justify-content-end">
         <div>
-          <prime-button class="p-button-sm py-2 px-3" icon="pi pi-plus" label="Добавить" @click="toggleMenu"
-            aria-controls="overlay_menu-products_edit"></prime-button>
+          <prime-button
+            class="p-button-sm py-2 px-3"
+            icon="pi pi-plus"
+            label="Добавить"
+            @click="toggleMenu"
+            aria-controls="overlay_menu-products_edit"
+          ></prime-button>
           <prime-menu id="overlay_menu-products_edit" ref="menu" :model="menuItems" :popup="true" />
         </div>
       </div>
@@ -14,6 +19,9 @@
         <card>
           <template #content>
             <div class="grid">
+              <div class="col-12 flex flex-row justify-content-end">
+                <sort-by-container></sort-by-container>
+              </div>
               <div class="col-12">
                 <div v-if="status.status === 'loaded'">
                   <data-table :value="productions">
@@ -41,16 +49,22 @@
                     <column header="Статус" field="statusText"> </column>
                     <column header="">
                       <template #body="{ data }">
-                        <router-link class="no-underline" :to="{
-                          name:
-                            data.productionType === 'Product'
-                              ? 'edit-product'
-                              : data.productionType === 'ServiceProduct'
+                        <router-link
+                          class="no-underline"
+                          :to="{
+                            name:
+                              data.productionType === 'Product'
+                                ? 'edit-product'
+                                : data.productionType === 'ServiceProduct'
                                 ? 'edit-product-service'
                                 : 'edit-product-work',
-                          params: { id: data.id },
-                        }">
-                          <prime-button class="p-button-rounded edit-button" icon="pi pi-pencil"></prime-button>
+                            params: { id: data.id },
+                          }"
+                        >
+                          <prime-button-weak
+                            class="p-button-rounded edit-button"
+                            icon="pi pi-pencil"
+                          ></prime-button-weak>
                         </router-link>
                       </template>
                     </column>
@@ -59,9 +73,14 @@
                 <div v-else class="flex flex-column gap-1">
                   <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
                 </div>
-                <prime-paginator class="mt-2" v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-                  @page="changePage" :rows="pageSize" :first="pageSize * (pageNumber - 1)"
-                  :totalRecords="currentPage?.totalItemCount ?? 0"></prime-paginator>
+                <prime-paginator
+                  class="mt-2"
+                  v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+                  @page="changePage"
+                  :rows="pageSize"
+                  :first="pageSize * (pageNumber - 1)"
+                  :totalRecords="currentPage?.totalItemCount ?? 0"
+                ></prime-paginator>
               </div>
               <div class="col-12"></div>
             </div>
@@ -99,17 +118,18 @@ export default defineComponent({
       showFilters,
       currentPageItems: productions,
     } = productionsStore;
-    const { searchQuery } = catalogFiltersStore;
+    const { searchQuery, orderBy } = catalogFiltersStore;
     watch(
-      [pageNumber, pageSize, searchQuery],
-      ([pnum, psize, query]) => {
+      [pageNumber, pageSize, searchQuery, orderBy],
+      ([pnum, psize, query, order]) => {
         productionsService.loadPage({
           name: query ?? null,
           pageNumber: pnum,
           pageSize: psize,
           producerName: null,
           region: null,
-          orderBy: null,
+          orderBy: order,
+          status: null,
         });
       },
       {
@@ -165,8 +185,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .edit-button {
   transform: scale(0.8, 0.8);
-  background-color: #f4f7fb;
-  color: #000;
 }
 
 :deep(.p-column-header-content .p-column-title) {
@@ -175,7 +193,7 @@ export default defineComponent({
 }
 
 :deep(.p-datatable-thead tr th) {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 :deep(.p-tabview-panels) {

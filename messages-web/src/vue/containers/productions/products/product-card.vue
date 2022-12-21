@@ -38,8 +38,11 @@
     </template>
     <template #content>
       <div class="h-full flex flex-column justify-content-between gap-1 p-2">
-        <div class="text-sm font-normal article">
-          {{ product.article || '123456' }}
+        <div
+          class="text-sm font-normal article"
+          :class="{ 'opacity-0': product.article == null || product.article === '' }"
+        >
+          {{ product.article || '' }}
         </div>
         <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 name-font">
@@ -71,9 +74,16 @@
             <prime-button
               :disabled="isNotProduct"
               @click.stop="addToCart(product)"
-              class="p-button-sm p-button-outlined h-full py-1 flex-grow-1"
+              :class="{ 'p-button-outlined': !isInCart }"
+              class="p-button-sm h-full py-1 flex-grow-1"
             >
-              <span class="font-medium w-full">В корзину</span>
+              <div class="flex flex-row w-full gap-3 align-items-center justify-content-center">
+                <i v-if="isInCart" class="pi pi-check"></i>
+                <span class="font-medium">
+                  <template v-if="isInCart"> В корзине</template>
+                  <template v-else>В корзину</template>
+                </span>
+              </div>
             </prime-button>
             <prime-button
               disabled
@@ -94,8 +104,7 @@
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
-import { showRegisterDialog } from '@/store/register.store';
-import { isAuthenticated } from '@/store/user.store';
+import { useIsInCart } from '@/composables/is-in-cart.composable';
 import { useElementHover, useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 
@@ -112,8 +121,13 @@ export default defineComponent({
     viewOrganization: (_: ProductionModel) => true,
   },
   setup(props, { emit }) {
+    const isInCart = useIsInCart(props.product.id);
+
     const addToCart = (p: ProductionModel) => {
-      showRegisterDialog.value = !isAuthenticated.value;
+      if (isInCart.value) {
+        return;
+      }
+
       emit('addToCart', p);
     };
     const viewOrganization = (p: ProductionModel) => {
@@ -160,6 +174,7 @@ export default defineComponent({
       isNotProduct,
       productType,
       isInFavorites,
+      isInCart,
     };
   },
 });

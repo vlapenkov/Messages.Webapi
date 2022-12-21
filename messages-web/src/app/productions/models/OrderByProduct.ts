@@ -1,13 +1,4 @@
-export enum OrderByProduct {
-  NameByAsc,
-  NameByDesc,
-  RegionByAsc,
-  RegionByDesc,
-  ProducerByAsc,
-  ProducerByDesc,
-  RatingByAsc,
-  RatingByDesc,
-}
+import { OrderByProduct } from '@/store/catalog-filters.store';
 
 export interface IOrderByProductWithName {
   value: OrderByProduct;

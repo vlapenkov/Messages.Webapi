@@ -9,7 +9,6 @@ const { getter, mutation, computeState } = defineStore('products', new ProductSh
 const pageNumber = computeState((state) => state.pageNumber);
 const pageSize = computeState((state) => state.pageSize);
 const pages = computeState((state) => state.pages);
-const orderBy = computeState((state) => state.orderBy);
 
 const currentPage = getter('get-current-page', (state) => {
   const foundedPage = state.pages.find((s) => s.pageNumber === state.pageNumber);
@@ -65,7 +64,6 @@ const setPage = mutation<IPagedResponse<ProductionModel>>('set-page', (state, pa
 });
 
 export const productionsStore = {
-  orderBy,
   currentPage,
   currentPageItems,
   status,

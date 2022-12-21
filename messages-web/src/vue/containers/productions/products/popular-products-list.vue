@@ -13,10 +13,12 @@
 </template>
 
 <script lang="ts">
+import { ProductStatus } from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
+import { OrderByProduct } from '@/store/catalog-filters.store';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, onMounted } from 'vue';
@@ -27,14 +29,19 @@ export default defineComponent({
     const toast = useToast();
 
     onMounted(() => {
+      const pageNumberDefault = 1;
+      const pageSizeDefault = 12;
+      productionsStore.pageNumber.value = pageNumberDefault;
+      productionsStore.pageSize.value = pageSizeDefault;
       productionsService.loadPage({
         name: null,
         catalogSectionId: undefined,
-        pageNumber: 1,
-        pageSize: 12,
+        pageNumber: pageNumberDefault,
+        pageSize: pageSizeDefault,
         producerName: null,
         region: null,
-        orderBy: null,
+        orderBy: OrderByProduct.RatingByDesc,
+        status: ProductStatus.Active,
       });
       shoppingCartStore.getDataAsync();
     });

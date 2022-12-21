@@ -1,22 +1,14 @@
 <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
   <div>
-    <div
-      aria-controls="overlay_menu"
-      aria-haspopup="true"
-      @click="toggleMenu"
-      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
-      v-if="isAuthenticated"
-    >
+    <div aria-controls="overlay_menu" aria-haspopup="true" @click="toggleMenu"
+      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl" v-if="isAuthenticated">
       <div>{{ userShortName }}</div>
       <avatar shape="circle" icon="pi pi-user"></avatar>
     </div>
     <div v-else>
-      <prime-button
-        label="Вход/Регистрация"
-        class="p-button-sm ml-3"
-        @click="showRegisterDialog = !showRegisterDialog"
-      />
+      <prime-button label="Вход/Регистрация" class="p-button-sm ml-3"
+        @click="showRegisterDialog = !showRegisterDialog" />
     </div>
     <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
     </prime-menu>
@@ -100,16 +92,10 @@ export default defineComponent({
             icon: 'pi pi-th-large',
           },
           {
-            label: 'Статусы товаров',
-            to: { name: 'catalog' },
-            icon: 'pi pi-th-large',
-          },
-          {
-            label: `Корзина${
-              shoppingCartStore.totalQuantity.value > 0
+            label: `Корзина${shoppingCartStore.totalQuantity.value > 0
                 ? ` (${shoppingCartStore.totalQuantity.value})`
                 : ''
-            }`,
+              }`,
             to: { name: 'shopping-cart' },
             icon: 'pi pi-shopping-cart',
             badge: 5,

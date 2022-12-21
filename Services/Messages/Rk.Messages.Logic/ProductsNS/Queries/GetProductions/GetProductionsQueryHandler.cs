@@ -129,6 +129,13 @@ namespace Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery
                     productsQuery = productsQuery.OrderByDescending(product => product.Rating ?? -1);
                     break;
 
+                case OrderByProduct.IdByAsc:
+                    productsQuery = productsQuery.OrderBy(product => product.Id);
+                    break;
+                case OrderByProduct.IdByDesc:
+                    productsQuery = productsQuery.OrderByDescending(product => product.Id);
+                    break;
+
                 default:
                     productsQuery = productsQuery.OrderBy(product => product.Name);
                     break;

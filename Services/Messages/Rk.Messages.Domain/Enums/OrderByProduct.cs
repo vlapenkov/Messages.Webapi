@@ -18,6 +18,8 @@ namespace Rk.Messages.Domain.Enums
         ProducerByAsc,
         ProducerByDesc,
         RatingByAsc,
-        RatingByDesc
+        RatingByDesc,
+        IdByAsc,
+        IdByDesc
     }
 }

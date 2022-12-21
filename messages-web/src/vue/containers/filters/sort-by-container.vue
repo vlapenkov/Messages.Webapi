@@ -14,9 +14,48 @@
 </template>
 
 <script lang="ts">
-import { ordersByProductWithName } from '@/app/productions/models/OrderByProduct';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, OrderByProduct } from '@/store/catalog-filters.store';
 import { defineComponent } from 'vue';
+
+export interface IOrderByProductWithName {
+  value: OrderByProduct;
+  name: string;
+}
+
+const ordersByProductWithName: IOrderByProductWithName[] = [
+  {
+    value: OrderByProduct.NameByAsc,
+    name: 'по названию (возрастание)',
+  },
+  {
+    value: OrderByProduct.NameByDesc,
+    name: 'по названию (убывание)',
+  },
+  {
+    value: OrderByProduct.RegionByAsc,
+    name: 'по региону (возрастание)',
+  },
+  {
+    value: OrderByProduct.RegionByDesc,
+    name: 'по региону (убывание)',
+  },
+  {
+    value: OrderByProduct.ProducerByAsc,
+    name: 'по названию производителя (возрастание)',
+  },
+  {
+    value: OrderByProduct.ProducerByDesc,
+    name: 'по названию производителя (убывание)',
+  },
+  {
+    value: OrderByProduct.RatingByAsc,
+    name: 'по рейтингу (возрастание)',
+  },
+  {
+    value: OrderByProduct.RatingByDesc,
+    name: 'по рейтингу (убывание)',
+  },
+];
 
 export default defineComponent({
   setup() {

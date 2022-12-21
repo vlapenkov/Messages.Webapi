@@ -17,7 +17,6 @@
           <data-table
             :value="organizations"
             responsiveLayout="scroll"
-            class="no-background-table"
             :sortField="orderByModel.sortField"
             :sortOrder="orderByModel.sortOrder"
           >

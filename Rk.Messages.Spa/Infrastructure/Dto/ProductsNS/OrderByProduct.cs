@@ -18,6 +18,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         ProducerByAsc,
         ProducerByDesc,
         RatingByAsc,
-        RatingByDesc
+        RatingByDesc,
+        IdByAsc,
+        IdByDesc
     }
 }

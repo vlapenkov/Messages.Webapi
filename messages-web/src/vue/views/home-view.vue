@@ -8,7 +8,19 @@
         <popular-sections-carousel class="w-full"></popular-sections-carousel>
       </div>
       <div class="col-12 mt-5">
-        <app-text mode="header" class="p-component">Популярные товары</app-text>
+        <div class="flex flex-row justify-content-between align-items-end mr-1">
+          <app-text mode="header" class="p-component">Популярные товары</app-text>
+          <router-link class="no-underline" :to="{ name: 'catalog' }">
+            <div class="flex flex-row gap-2 align-items-center">
+              <div class="pb-1">
+                <app-text class="p-component" mode="primary"> Все товары и услуги </app-text>
+              </div>
+              <div>
+                <app-text tag="i" class="pi pi-arrow-right" mode="primary"> </app-text>
+              </div>
+            </div>
+          </router-link>
+        </div>
         <prime-divider class="mt-2"></prime-divider>
         <popular-products-list></popular-products-list>
       </div>

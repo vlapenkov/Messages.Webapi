@@ -95,7 +95,7 @@ body {
 }
 $zoomIn: 1.1;
 .hover-zoom {
-  transition: transform 0.1s;
+  transition: transform 0.2s;
   &:hover {
     transform: scale($zoomIn, $zoomIn);
   }

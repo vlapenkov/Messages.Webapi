@@ -41,10 +41,14 @@ app.UseProblemDetails();
 app.UseReverseProxy(builder.Configuration);
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {
-    ResponseWriter = HealthCheckUiExtensions.WriteResponse
+    ResponseWriter = HealthCheckUiExtensions.WriteResponse,
 });
 
-app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
+app.UseHealthChecksUI(config =>
+{
+    config.UIPath = "/hc-ui";
+    config.AddCustomStylesheet("wwwroot/rk.css");
+});
 app.UseSwaggerUI(builder, "Api gateway");
 
 app.UseEndpoints(endpoints =>

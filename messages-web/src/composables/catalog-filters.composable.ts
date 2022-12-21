@@ -87,6 +87,7 @@ export function useCatalogFilters() {
     searchQuery,
     showFilters,
     orderBy,
+    sectionId,
   } = catalogFiltersStore;
 
   const searchForProducts = () => {
@@ -100,6 +101,7 @@ export function useCatalogFilters() {
         region: regionModel.value,
         orderBy: orderBy.value,
         status: ProductStatus.Active,
+        catalogSectionId: sectionId.value ?? undefined,
       });
     } else {
       router.push({
@@ -108,7 +110,7 @@ export function useCatalogFilters() {
           sectionId: catalogFiltersStore.sectionId.value,
           region: regionModel.value,
           organization: organizationModel.value,
-          searchQuery: searchQuery.value,
+          searchQuery: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
         },
       });
     }

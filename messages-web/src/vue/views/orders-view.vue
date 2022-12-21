@@ -53,7 +53,7 @@
                 </div>
                 <prime-divider class="mt-1 mb-2"></prime-divider>
                 <div v-for="product in item.fullOrder.value.orderItems" :key="product.productId"
-                  class="grid px-1 mt-1 border-round surface-200">
+                  class="grid px-1 mt-1 border-round shadow-1">
                   <div class="col-2">
                     <file-store-image fit-width :id="product.documentId"></file-store-image>
                   </div>

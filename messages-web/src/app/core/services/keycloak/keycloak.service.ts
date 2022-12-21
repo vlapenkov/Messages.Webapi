@@ -1,7 +1,7 @@
+import router from '@/router';
 import { setToken } from '@/store/user.store';
 import Keycloak, { KeycloakTokenParsed } from 'keycloak-js';
 import { watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { keycloakToken, keycloakTokenRefresh, userData } from './local-storage.service';
 
 const keycloakInitOptions = {
@@ -16,7 +16,6 @@ const tokenRefreshInterval =
     : 0;
 
 const keycloakInst = new Keycloak(keycloakInitOptions);
-const router = useRouter();
 
 // function setKeycloakToken(token: string, refreshToken: string) {
 //   localStorage.setItem('vue-token', token);
@@ -84,7 +83,11 @@ export function login() {
 }
 
 export function logout() {
-  cleanTokens();
-  keycloakInst.logout();
   router.push({ name: 'home' });
+  cleanTokens();
+  const { origin } = window.location;
+  keycloakInst.logout({
+    redirectUri: `${origin}/`,
+  });
 }
+

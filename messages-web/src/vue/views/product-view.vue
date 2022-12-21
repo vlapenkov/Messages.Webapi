@@ -5,11 +5,12 @@
       <prime-card transparent shadow-hover="none">
         <div class="grid">
           <div class="col-5">
-            <file-store-image
+            <!-- <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"
               :fitWidth="true"
-            ></file-store-image>
+            ></file-store-image> -->
+            <production-documents-carousel :docs="item?.documents"></production-documents-carousel>
           </div>
           <div class="col-7 pl-4 flex flex-column gap-2">
             <app-text mode="header"> {{ item.name }}</app-text>

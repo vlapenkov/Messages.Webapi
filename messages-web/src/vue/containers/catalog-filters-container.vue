@@ -69,11 +69,13 @@
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { computed, defineComponent, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 import { headerHeightProvider } from '../presentational/providers/headerHeightProvider';
 import { searchHeightProvider } from '../views/providers/search-height.provider';
 
 export default defineComponent({
   setup() {
+    const route = useRoute();
     const headerHeight = headerHeightProvider.inject();
     const searchHeight = searchHeightProvider.inject();
     const marginTop = computed(() => `${headerHeight.value + searchHeight.value + 10}px`);
@@ -85,6 +87,9 @@ export default defineComponent({
     const undo = () => {
       showFilters.value = false;
       catalogFiltersStore.undoMainFilters();
+      if (route.name === 'catalog') {
+        rest.searchForProducts();
+      }
     };
 
     return { ...rest, showFilters, marginTop, undo };

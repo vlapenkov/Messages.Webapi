@@ -1,7 +1,11 @@
+import { ProductStatus } from '@/app/productions/@types/IproductionsPageRequest';
+import { productionsService } from '@/app/productions/services/productions.service';
+import { productionsStore } from '@/app/productions/state/productions.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { isNullOrEmpty } from '@/tools/string-tools';
 import { TreeNode } from 'primevue/tree';
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useOrganizations } from './organizations.composable';
 import { useSections } from './sections.composable';
 
@@ -34,6 +38,7 @@ function findInTree(
 
 export function useCatalogFilters() {
   const router = useRouter();
+  const route = useRoute();
   const { list: sectionsList, tree: sectionsTree } = useSections();
   const { organizationOptions, regionOptions } = useOrganizations();
   const sectionOptions = computed(() =>
@@ -81,18 +86,32 @@ export function useCatalogFilters() {
     organization: organizationModel,
     searchQuery,
     showFilters,
+    orderBy,
   } = catalogFiltersStore;
 
   const searchForProducts = () => {
-    router.push({
-      name: 'catalog',
-      query: {
-        sectionId: catalogFiltersStore.sectionId.value,
+    if (route.name === 'catalog') {
+      const { pageNumber, pageSize } = productionsStore;
+      productionsService.loadPage({
+        name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
+        pageNumber: pageNumber.value,
+        pageSize: pageSize.value,
+        producerName: organizationModel.value ?? null,
         region: regionModel.value,
-        organization: organizationModel.value,
-        searchQuery: searchQuery.value,
-      },
-    });
+        orderBy: orderBy.value,
+        status: ProductStatus.Active,
+      });
+    } else {
+      router.push({
+        name: 'catalog',
+        query: {
+          sectionId: catalogFiltersStore.sectionId.value,
+          region: regionModel.value,
+          organization: organizationModel.value,
+          searchQuery: searchQuery.value,
+        },
+      });
+    }
     showFilters.value = false;
   };
 

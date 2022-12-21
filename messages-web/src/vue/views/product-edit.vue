@@ -402,15 +402,24 @@ export default defineComponent({
       },
     });
 
-    const isPriceEmpty = ref(false);
-
-    watch(isPriceEmpty, (empty) => {
-      if (empty && selectedData.value != null) {
-        const cloned = selectedData.value.clone();
-        cloned.price = null;
-        selectedData.value = cloned;
-      }
+    const isPriceEmpty = computed({
+      get: () => (selectedData.value?.price ?? null) == null,
+      set: (empty) => {
+        if (empty && selectedData.value != null) {
+          const cloned = selectedData.value.clone();
+          cloned.price = null;
+          selectedData.value = cloned;
+        }
+      },
     });
+
+    // watch(isPriceEmpty, (empty) => {
+    //   if (empty && selectedData.value != null) {
+    //     const cloned = selectedData.value.clone();
+    //     cloned.price = null;
+    //     selectedData.value = cloned;
+    //   }
+    // });
 
     const saveProduct = () => {
       productFullStore.saveChanges(props.productionType).then(() => {

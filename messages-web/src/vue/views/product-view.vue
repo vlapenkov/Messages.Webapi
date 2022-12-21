@@ -96,7 +96,7 @@
                 @click="addToCart(item.id, item.name)"
                 class="p-button-sm mt-3"
                 style="width: 221px; height: 44px"
-                label="В корзину"
+                :label="isInCart ? 'В корзине' : 'В корзину'"
               >
               </prime-button>
             </div>

@@ -66,9 +66,10 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
 
             product
             .SetCodeTnVed(request.CodeTnVed)
-            .SetCodeOkpd2(request.CodeOkpd2)
-            .SetArticle(request.Article)
+            .SetCodeOkpd2(request.CodeOkpd2)            
             .SetAddress(request.Address);
+
+            product.SetArticle(request.Article);
 
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 

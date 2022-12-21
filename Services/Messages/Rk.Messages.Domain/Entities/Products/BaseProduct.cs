@@ -53,6 +53,9 @@ namespace Rk.Messages.Domain.Entities.Products
         [StringLength(4096)]
         public string Description { get; protected set; }
 
+        [StringLength(1024)]
+        public string Article { get; protected set; }
+
         /// <summary>Цена, если null, то договорная</summary>        
         public decimal? Price { get; protected set; }
 
@@ -113,7 +116,7 @@ namespace Rk.Messages.Domain.Entities.Products
             Rating =  _reviews.Sum(x => x.Rating) / _reviews.Count;
                         
         }
-
+        
 
 
         public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
@@ -133,6 +136,12 @@ namespace Rk.Messages.Domain.Entities.Products
             FullName = fullName;
             Description = description;
             Price = price;
+        }
+
+        public void SetArticle(string article)
+        {
+            Article = article;
+           
         }
 
         public abstract string GetProductionType();

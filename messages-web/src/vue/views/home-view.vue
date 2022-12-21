@@ -10,7 +10,7 @@
       <div class="col-12 mt-5">
         <div class="flex flex-row justify-content-between align-items-end mr-1">
           <app-text mode="header" class="p-component">Популярные товары</app-text>
-          <router-link class="no-underline" :to="{ name: 'catalog' }">
+          <router-link class="no-underline hover-zoom bg-transparent" :to="{ name: 'catalog' }">
             <div class="flex flex-row gap-2 align-items-center">
               <div class="pb-1">
                 <app-text class="p-component" mode="primary"> Все товары и услуги </app-text>

@@ -33,6 +33,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         /// <summary>Рейтинг</summary>
         public float? Rating { get; set; }
 
+        public string Article { get; set; }
+
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 

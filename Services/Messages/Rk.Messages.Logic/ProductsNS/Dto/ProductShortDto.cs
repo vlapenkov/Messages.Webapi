@@ -30,6 +30,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         /// <summary>Рейтинг</summary>
         public float? Rating { get; set; }
 
+        public string Article { get; set; }
+
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 

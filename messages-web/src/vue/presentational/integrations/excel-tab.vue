@@ -7,7 +7,7 @@
             objectFit: 'cover',
             borderRadius: '0.5rem',
           }" class="mr-3" />
-          <span class="text-xl font-semibold">Загрузка из Exel</span>
+          <span class="text-xl font-semibold">Загрузка из Excel</span>
         </div>
         <div class="flex-grow-1 flex align-items-center justify-content-center border-round"></div>
         <div class="flex-none flex align-items-center justify-content-center border-round">
@@ -71,7 +71,7 @@ export default defineComponent({
             severity: 'success',
             group: 'tr1',
             summary: 'Успех',
-            detail: 'Загрузка из Excel завершилась ушпешно',
+            detail: 'Загрузка из Excel завершилась уcпешно',
             life: 4000,
           });
         } else {

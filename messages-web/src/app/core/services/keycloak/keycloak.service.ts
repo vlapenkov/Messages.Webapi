@@ -1,4 +1,3 @@
-import router from '@/router';
 import { setToken } from '@/store/user.store';
 import Keycloak, { KeycloakTokenParsed } from 'keycloak-js';
 import { watch } from 'vue';
@@ -83,7 +82,6 @@ export function login() {
 }
 
 export function logout() {
-  router.push({ name: 'home' });
   cleanTokens();
   const { origin } = window.location;
   keycloakInst.logout({

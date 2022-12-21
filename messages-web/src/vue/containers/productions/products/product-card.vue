@@ -102,8 +102,6 @@
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { useIsInCart } from '@/composables/is-in-cart.composable';
-import { showRegisterDialog } from '@/store/register.store';
-import { isAuthenticated } from '@/store/user.store';
 import { useElementHover, useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 
@@ -126,7 +124,7 @@ export default defineComponent({
       if (isInCart.value) {
         return;
       }
-      showRegisterDialog.value = !isAuthenticated.value;
+
       emit('addToCart', p);
     };
     const viewOrganization = (p: ProductionModel) => {

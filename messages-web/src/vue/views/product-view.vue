@@ -87,6 +87,7 @@
                 <app-text v-else mode="header-strong"> Цена договорная </app-text>
               </div>
               <prime-button
+                :disabled="isInCart"
                 @click="addToCart(item.id, item.name)"
                 class="p-button-sm mt-3"
                 style="width: 221px; height: 44px"
@@ -125,7 +126,10 @@
 <script lang="ts">
 import { productFullStore, ProductType } from '@/app/product-full/state/product-full.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { useIsInCart } from '@/composables/is-in-cart.composable';
 import { useSections } from '@/composables/sections.composable';
+import { showRegisterDialog } from '@/store/register.store';
+import { isAuthenticated } from '@/store/user.store';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -157,7 +161,13 @@ export default defineComponent({
       },
     );
 
+    const isInCart = useIsInCart(item.value.id);
+
     const addProductToShopingCart = async (id: number, name: string) => {
+      if (!isAuthenticated.value) {
+        showRegisterDialog.value = true;
+        return;
+      }
       await shoppingCartStore.addToCart({
         productId: id,
         quantity: 1,
@@ -246,6 +256,8 @@ export default defineComponent({
       actualizationDate,
       tableRows,
       productTypeText,
+      isAuthenticated,
+      isInCart,
     };
   },
 });

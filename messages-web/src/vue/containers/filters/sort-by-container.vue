@@ -55,6 +55,14 @@ const ordersByProductWithName: IOrderByProductWithName[] = [
     value: OrderByProduct.RatingByDesc,
     name: 'по рейтингу (убывание)',
   },
+  {
+    value: OrderByProduct.IdByAsc,
+    name: 'по дате (от старых к новым)',
+  },
+  {
+    value: OrderByProduct.IdByDesc,
+    name: 'по дате (от новых к старым)',
+  },
 ];
 
 export default defineComponent({

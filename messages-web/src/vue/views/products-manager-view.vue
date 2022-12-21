@@ -90,9 +90,9 @@
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { IProductStatus, useProductStatuses } from '@/composables/product-statuses.composable';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, OrderByProduct } from '@/store/catalog-filters.store';
 import { PrimePaginator } from '@/tools/prime-vue-components';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 
 export default defineComponent({
   components: { PrimePaginator },
@@ -123,6 +123,10 @@ export default defineComponent({
         immediate: true,
       },
     );
+
+    onMounted(() => {
+      orderBy.value = OrderByProduct.IdByDesc;
+    });
 
     const { statuses, initial } = useProductStatuses();
     const formatDateString = (d: Date) => {

@@ -1,15 +1,5 @@
 import { IPagedRequest } from '@/app/core/services/http/@types/IPagedRequest';
-
-export enum OrderByProduct {
-  NameByAsc = 0,
-  NameByDesc,
-  RegionByAsc,
-  RegionByDesc,
-  ProducerByAsc,
-  ProducerByDesc,
-  RatingByAsc,
-  RatingByDesc,
-}
+import { OrderByProduct } from '@/store/catalog-filters.store';
 
 export enum ProductStatus {
   Draft,

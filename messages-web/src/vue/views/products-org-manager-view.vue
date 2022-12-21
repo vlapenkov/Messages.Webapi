@@ -101,11 +101,11 @@
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, OrderByProduct } from '@/store/catalog-filters.store';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import Menu from 'primevue/menu';
 import type { MenuItem } from 'primevue/menuitem';
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 
 export default defineComponent({
   components: { PrimePaginator, PrimeMenu: Menu },
@@ -136,6 +136,10 @@ export default defineComponent({
         immediate: true,
       },
     );
+
+    onMounted(() => {
+      orderBy.value = OrderByProduct.IdByDesc;
+    });
 
     const changePage = ({ page }: { page: number }) => {
       pageNumber.value = page + 1;

@@ -9,6 +9,8 @@ export enum OrderByProduct {
   ProducerByDesc,
   RatingByAsc,
   RatingByDesc,
+  IdByAsc,
+  IdByDesc,
 }
 
 export interface ICatalogFilterState {

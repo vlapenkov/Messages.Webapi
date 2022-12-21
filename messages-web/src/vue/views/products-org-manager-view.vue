@@ -32,7 +32,11 @@
                       <template #body="{ data }">
                         <div class="flex flex-row gap-2 align-items-center">
                           <div style="flex-basis: 100px">
-                            <file-store-image fit-width :id="data.documentId"></file-store-image>
+                            <file-store-image
+                              fit-width
+                              :id="data.documentId"
+                              :key="data.documentId"
+                            ></file-store-image>
                           </div>
                           <div>{{ data.name }}</div>
                         </div>

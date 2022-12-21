@@ -83,6 +83,9 @@ const saveChanges = action<ProductType>('save-changes', async (type) => {
         case 'create':
           await productServiceHttpService.post(selected.value.data);
           break;
+        case 'edit':
+          await productServiceHttpService.put(selected.value.data);
+          break;
         default:
           break;
       }
@@ -91,6 +94,9 @@ const saveChanges = action<ProductType>('save-changes', async (type) => {
       switch (selected.value.mode) {
         case 'create':
           await productWorkHttpService.post(selected.value.data);
+          break;
+        case 'edit':
+          await productWorkHttpService.put(selected.value.data);
           break;
         default:
           break;

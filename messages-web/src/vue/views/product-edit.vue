@@ -409,11 +409,12 @@ export default defineComponent({
     const isPriceEmpty = computed({
       get: () => (selectedData.value?.price ?? null) == null,
       set: (empty) => {
-        if (empty && selectedData.value != null) {
-          const cloned = selectedData.value.clone();
-          cloned.price = null;
-          selectedData.value = cloned;
+        if (selectedData.value == null) {
+          return;
         }
+        const cloned = selectedData.value.clone();
+        cloned.price = empty ? null : 0;
+        selectedData.value = cloned;
       },
     });
 

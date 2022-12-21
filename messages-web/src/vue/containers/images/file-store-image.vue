@@ -72,6 +72,7 @@ export default defineComponent({
             }
           });
         } else {
+          imageData.value = undefined;
           animationMode.value = 'none';
         }
       },

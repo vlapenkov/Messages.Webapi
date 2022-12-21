@@ -4,14 +4,14 @@
     <div class="flex mt-5 flex-column gap-3">
       <prime-card transparent shadow-hover="none">
         <div class="grid">
-          <div class="col-4">
+          <div class="col-5">
             <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"
               :fitWidth="true"
             ></file-store-image>
           </div>
-          <div class="col-8 flex flex-column gap-2">
+          <div class="col-7 pl-4 flex flex-column gap-2">
             <app-text mode="header"> {{ item.name }}</app-text>
             <app-text
               :class="{ 'opacity-0': item.article == null || item.article === '' }"

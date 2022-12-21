@@ -42,7 +42,7 @@
           class="text-sm font-normal article"
           :class="{ 'opacity-0': product.article == null || product.article === '' }"
         >
-          {{ product.article || '123456' }}
+          {{ product.article || '' }}
         </div>
         <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 name-font">

@@ -25,7 +25,20 @@
         <popular-products-list></popular-products-list>
       </div>
       <div class="col-12 mt-5">
-        <app-text mode="header" class="p-component">Производители</app-text>
+        <div class="flex flex-row justify-content-between align-content-end">
+          <app-text mode="header" class="p-component">Производители</app-text>
+          <router-link v-if="isContentManager" class="no-underline" :to="{ name: 'organizations' }">
+            <div class="flex flex-row gap-2 align-items-center">
+              <div class="pb-1">
+                <app-text class="p-component" mode="primary"> Все производители </app-text>
+              </div>
+              <div>
+                <app-text tag="i" class="pi pi-arrow-right" mode="primary"> </app-text>
+              </div>
+            </div>
+          </router-link>
+        </div>
+
         <prime-divider class="mt-2"></prime-divider>
         <popular-organizations-list></popular-organizations-list>
       </div>
@@ -159,9 +172,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { userInfo } from '@/store/user.store';
 
 export default defineComponent({
   setup() {
@@ -171,10 +185,15 @@ export default defineComponent({
 
     const cartCapacity = shoppingCartStore.totalQuantity;
 
+    const isContentManager = computed(() =>
+      userInfo.value?.role.find((r) => r === 'content_manager'),
+    );
+
     return {
       hasPhoto,
       cartCapacity,
       showFilters,
+      isContentManager,
     };
   },
 });

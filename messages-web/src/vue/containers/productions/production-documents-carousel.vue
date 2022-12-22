@@ -53,7 +53,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$radius: 1rem;
+$radius: var(--border-radius);
 .re-skin {
   :deep(.p-carousel-indicator) {
     button {

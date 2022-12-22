@@ -50,7 +50,9 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
                 request.Okved2,
                 request.Phone,
                 request.Email,
-                OrganizationStatus.New
+                OrganizationStatus.New,                
+                request.Latitude,
+                request.Longitude
                 );
                         
 

@@ -1,6 +1,4 @@
-using System;
-using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
+﻿using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +10,7 @@ using Rk.Messages.Infrastructure.EFCore;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Webapi.Extensions;
 using Serilog;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,7 +61,7 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-app.UseSwaggerUI(builder.Configuration, "Api ��� ������ � Marketplace V1");
+app.UseSwaggerUI(builder.Configuration, "Api Marketplace V1");
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

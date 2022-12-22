@@ -92,7 +92,7 @@ export default defineComponent({
             life: 4000,
           });
           await exchangeService.load();
-          productionsService.loadPage({
+          await productionsService.loadPage({
             name: searchQuery.value ?? null,
             pageNumber: pageNumber.value,
             pageSize: pageSize.value,

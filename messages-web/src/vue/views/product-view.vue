@@ -142,6 +142,12 @@ import { useToast } from 'primevue/usetoast';
 import { computed, defineComponent, PropType, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
+interface IRowItem {
+  name: string;
+  value: string;
+  forTypes: ProductType[] | 'all';
+}
+
 export default defineComponent({
   components: { Toast },
   props: {
@@ -198,50 +204,66 @@ export default defineComponent({
 
     const { list: sectionsList } = useSections();
 
-    const tableRows = computed<{ name: string; value: string }[]>(() => [
-      {
-        name: 'Код по ОКПД 2',
-        value: item.value.codeOkpd2,
-      },
-      {
-        name: 'Код ТН ВЭД',
-        value: item.value.codeTnVed,
-      },
-      {
-        name: 'Полное наименование',
-        value: item.value.fullName,
-      },
-      {
-        name: 'Сокращённое наименование',
-        value: item.value.name,
-      },
-      {
-        name: 'Единицы измерения',
-        value: item.value.measuringUnit,
-      },
-      {
-        name: 'Отрасли применения',
-        value:
-          sectionsList.value?.find((x) => x.id === item.value?.catalogSectionId)?.name ??
-          'Не указаны',
-      },
-      {
-        name: 'Страна происхождения',
-        value: item.value.country,
-      },
-      {
-        name: 'Организация производства',
-        value: item.value.organization.name,
-      },
-      {
-        name: 'Адрес производства',
-        value: isNullOrEmpty(item.value.address) ? 'Не указан' : item.value.address,
-      },
-      {
-        name: 'Описание',
-        value: item.value.description,
-      },
-    ]);
+    const tableRows = computed<IRowItem[]>(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const rows: IRowItem[] = [
+        {
+          name: 'Код по ОКПД 2',
+          value: item.value.codeOkpd2,
+          forTypes: ['product'],
+        },
+        {
+          name: 'Код ТН ВЭД',
+          value: item.value.codeTnVed,
+          forTypes: ['product'],
+        },
+        {
+          name: 'Полное наименование',
+          value: item.value.fullName,
+          forTypes: 'all',
+        },
+        {
+          name: 'Сокращённое наименование',
+          value: item.value.name,
+          forTypes: 'all',
+        },
+        {
+          name: 'Единицы измерения',
+          value: item.value.measuringUnit,
+          forTypes: ['product'],
+        },
+        {
+          name: 'Отрасли применения',
+          value:
+            sectionsList.value?.find((x) => x.id === item.value?.catalogSectionId)?.name ??
+            'Не указаны',
+          forTypes: 'all',
+        },
+        {
+          name: 'Страна происхождения',
+          value: item.value.country,
+          forTypes: 'all',
+        },
+        {
+          name: 'Организация производства',
+          value: item.value.organization.name,
+          forTypes: 'all',
+        },
+        {
+          name: 'Адрес производства',
+          value: isNullOrEmpty(item.value.address) ? 'Не указан' : item.value.address,
+          forTypes: 'all',
+        },
+        {
+          name: 'Описание',
+          value: item.value.description,
+          forTypes: 'all',
+        },
+      ];
+      return rows.filter(
+        (row) => row.forTypes === 'all' || row.forTypes.some((t) => t === props.productionType),
+      );
+    });
 
     const productTypeText = computed(() => {
       switch (props.productionType) {

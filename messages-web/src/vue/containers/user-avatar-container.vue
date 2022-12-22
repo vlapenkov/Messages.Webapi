@@ -91,10 +91,7 @@ export default defineComponent({
           },
         );
       }
-      if (
-        userRoleContains('manager_org_buyer')
-          .value /* roles != null && roles.indexOf('manager_org_buyer') >= 0 */
-      ) {
+      if (userRoleContains('manager_org_buyer').value) {
         items.push(
           {
             label: 'Каталог товаров',
@@ -123,10 +120,7 @@ export default defineComponent({
           },
         );
       }
-      if (
-        userRoleContains('content_manager')
-          .value /* roles != null && roles.indexOf('content_manager') >= 0 */
-      ) {
+      if (userRoleContains('content_manager').value) {
         items.push(
           {
             label: 'Управление товарами',

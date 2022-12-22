@@ -1,5 +1,6 @@
 ﻿using Refit;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
+using Rk.Messages.Spa.Infrastructure.Dto.WorkProductNS;
 
 namespace Rk.Messages.Spa.Infrastructure.Services
 {

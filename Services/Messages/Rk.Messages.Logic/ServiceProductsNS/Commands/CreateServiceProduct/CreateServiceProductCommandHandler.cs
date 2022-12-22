@@ -66,7 +66,7 @@ namespace Rk.Messages.Logic.ServiceProductsNS.Commands.CreateServiceProduct
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 
             product.AddProductDocuments(productDocuments);
-
+            product.SetAreForeignComponentsUsed(request.AreForeignComponentsUsed ?? false);
             _dbContext.ServiceProducts.Add(product);
 
             await _dbContext.SaveChangesAsync(cancellationToken);

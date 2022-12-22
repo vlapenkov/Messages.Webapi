@@ -33,14 +33,14 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes
             productFound.UpdateAttributeValues(attributeValues);
 
             productFound.Update(request.CatalogSectionId, request.Name, request.FullName, request.Description, request.Price);
-
-
+            
             productFound
             .SetCodeTnVed(request.CodeTnVed)                            
             .SetCodeOkpd2(request.CodeOkpd2)            
             .SetAddress(request.Address);
 
             productFound.SetArticle(request.Article);
+            productFound.SetShareOfForeignComponents(request.ShareOfForeignComponents ?? 0f);
 
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

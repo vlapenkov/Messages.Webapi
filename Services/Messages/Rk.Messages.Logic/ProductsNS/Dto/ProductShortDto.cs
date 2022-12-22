@@ -31,7 +31,7 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
         public float? Rating { get; set; }
 
         public string Article { get; set; }
-
+        
         /// <summary>Ссылка на документ</summary>
         public Guid? DocumentId { get; set; }
 

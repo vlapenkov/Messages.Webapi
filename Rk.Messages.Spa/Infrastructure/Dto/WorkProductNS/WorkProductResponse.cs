@@ -24,6 +24,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         /// <summary>документы</summary>
         public FileDataDto[] Documents { get; set; }
+        
+        public float? ShareOfForeignComponents { get; set; }
 
        
     }

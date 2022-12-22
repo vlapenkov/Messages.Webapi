@@ -105,6 +105,11 @@ $zoomIn: 1.1;
   background-color: transparent;
 }
 
-.p-image-preview {
-  max-height: 80vh !important;
+.p-image {
+  &-toolbar {
+    z-index: 1 !important;
+  }
+  &-preview {
+    border-radius: 0.8rem;
+  }
 }

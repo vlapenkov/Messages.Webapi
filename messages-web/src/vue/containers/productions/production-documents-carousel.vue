@@ -67,11 +67,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/_variables.scss';
+
 .re-skin-caroulsel {
   :deep(.p-carousel-indicator) {
     button {
-      background: #686b76;
+      background: map-get($colors, 'weak');
       border-radius: 14.9049px;
+      height: 4px;
+      box-shadow: none;
     }
   }
   :deep(img) {

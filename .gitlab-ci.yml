@@ -89,6 +89,20 @@ messages_api_build_push_registry:
   tags:
     - artifactory_eip_rkp
 
+release:
+  image: registry.dev.roscosmos.digital/versioning/gitlab-semantic-release:latest  
+  stage: release
+  script:
+    - env
+    - npx semantic-release
+  only:
+    - develop
+  except:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TITLE =~ /^RELEASE:.+$/
+
 
 deploy_marketplace:
   stage: deploy

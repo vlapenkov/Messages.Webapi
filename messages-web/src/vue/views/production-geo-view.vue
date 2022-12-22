@@ -39,7 +39,17 @@
     </div>
 
     <transition-fade>
-      <productions-map v-if="selectedMode === Modes.MAP" :organizations="filteredOrgs" />
+      <div v-if="selectedMode === Modes.MAP" class="map">
+        <yandex-map
+          :settings="settings"
+          :coords="coords"
+          :zoom="zoom"
+          :style="{
+            height: '50vh',
+          }"
+        >
+        </yandex-map>
+      </div>
       <div v-if="selectedMode === Modes.LIST">
         <div v-if="filteredOrgs.length > 0" class="w-full h-full grid mt-1">
           <div v-for="(org, i) in filteredOrgs" :key="i" class="col-4">
@@ -77,13 +87,26 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
+import { yandexMap } from 'vue-yandex-maps';
 
 export default defineComponent({
+  components: {
+    yandexMap,
+  },
   setup() {
     enum Modes {
       MAP,
       LIST,
     }
+    const settings = {
+      apiKey: '4a0f40df-6a9a-477e-842c-27bf707c8e45',
+      lang: 'ru_RU',
+      coordorder: 'latlong',
+      enterprise: false,
+      version: '2.1',
+    };
+    const zoom = 3;
+    const coords = [65, 90];
     const selectedMode = ref(Modes.MAP);
     const regionModel = ref();
     const organizationModel = ref();
@@ -103,6 +126,9 @@ export default defineComponent({
       organizationModel,
       organizationOptions,
       regionOptions,
+      settings,
+      coords,
+      zoom,
     };
   },
 });
@@ -112,6 +138,11 @@ export default defineComponent({
 .production-geo-card {
   :deep(.p-card-content) {
     padding: 0;
+  }
+}
+.map {
+  :deep(.ymap-container) {
+    height: 100%;
   }
 }
 </style>

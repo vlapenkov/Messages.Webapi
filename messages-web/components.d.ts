@@ -101,7 +101,7 @@ declare module '@vue/runtime-core' {
     ProductionDocumentsCarousel: typeof import('./src/vue/containers/productions/production-documents-carousel.vue')['default']
     ProductionGeoView: typeof import('./src/vue/views/production-geo-view.vue')['default']
     ProductionListItem: typeof import('./src/vue/containers/productions/production-list-item.vue')['default']
-    ProductionsMap: typeof import('./src/vue/presentational/charts/productions-map.vue')['default']
+    ProductionsMapChart: typeof import('./src/vue/presentational/charts/productions-map-chart.vue')['default']
     ProductionToolbarContainer: typeof import('./src/vue/containers/productions/production-toolbar-container.vue')['default']
     ProductServiceView: typeof import('./src/vue/views/product-service-view.vue')['default']
     ProductsManagerView: typeof import('./src/vue/views/products-manager-view.vue')['default']

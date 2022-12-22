@@ -8,7 +8,10 @@
     :value="images"
   >
     <template #item="{ data }">
-      <div class="flex h-full align-items-center justify-content-center max-h-full">
+      <div
+        class="flex h-full align-items-center justify-content-center max-h-full"
+        style="line-height: 0"
+      >
         <prime-image :style="itemStyle" preview :src="data.src" alt="document image" />
       </div>
     </template>

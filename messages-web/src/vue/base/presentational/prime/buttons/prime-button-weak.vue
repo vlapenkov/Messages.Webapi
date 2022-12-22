@@ -62,7 +62,7 @@ $button-background: map-get(
   }
   &.hover {
     &:hover {
-      background: darken($color: $button-background, $amount: 10);
+      background: darken($button-background, 3);
       color: map-get($map: $colors-text, $key: 'button');
     }
   }

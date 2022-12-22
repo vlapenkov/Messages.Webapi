@@ -77,6 +77,11 @@ export default defineComponent({
       height: 4px;
       box-shadow: none;
     }
+    &.p-highlight {
+      button {
+        background: #686b76;
+      }
+    }
   }
   :deep(img) {
     max-width: var(--prime-image-carousel-max-width);

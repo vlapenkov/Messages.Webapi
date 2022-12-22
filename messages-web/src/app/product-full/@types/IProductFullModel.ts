@@ -33,4 +33,7 @@ export interface IProductFullModel extends IModel {
     name: string;
     region: string;
   };
+  shareOfForeignComponents: number;
+  areForeignComponentsUsed: boolean;
 }
+

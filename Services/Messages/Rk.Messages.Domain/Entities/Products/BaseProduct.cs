@@ -64,6 +64,11 @@ namespace Rk.Messages.Domain.Entities.Products
 
         /// <summary>Рейтинг</summary>
         public float? Rating { get; protected set; } = 0f;
+        
+        /// <summary>
+        /// Используются ли иностранные компоненты
+        /// </summary>
+        public bool? AreForeignComponentsUsed { get; protected set; } = false;
 
        
         /// <summary>

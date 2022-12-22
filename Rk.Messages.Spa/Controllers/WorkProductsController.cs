@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
+using Rk.Messages.Spa.Infrastructure.Dto.WorkProductNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
 namespace Rk.Messages.Spa.Controllers

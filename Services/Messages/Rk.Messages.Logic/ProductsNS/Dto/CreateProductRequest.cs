@@ -31,6 +31,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         /// <summary>Цена</summary>
         public decimal? Price { get; set; }
+        
+        public float? ShareOfForeignComponents { get; set; }
 
         /// <summary>Значения атрибутов</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }

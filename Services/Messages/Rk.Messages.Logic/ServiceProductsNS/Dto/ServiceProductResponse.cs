@@ -22,6 +22,8 @@ namespace Rk.Messages.Logic.ServiceProductsNS.Dto
         public string StatusText { get; set; }
 
         public OrganizationShortDto Organization { get; set; }
+        
+        public bool? AreForeignComponentsUsed { get; set; }
 
         /// <summary>документы</summary>
         public FileDataDto[] Documents { get; set; }

@@ -18,7 +18,7 @@ namespace Rk.Messages.Domain.Entities.Products
             string name,
             string fullname,
             string description, 
-            decimal? price, 
+            decimal? price,
             IReadOnlyCollection<AttributeValue> attributeValues
        
             ) 
@@ -52,7 +52,9 @@ namespace Rk.Messages.Domain.Entities.Products
         [Required]
         public AvailableStatus AvailableStatus { get; private set; } = AvailableStatus.OnStock;
 
-
+        [Range(0f, 100f)]
+        public float? ShareOfForeignComponents { get; private set; } = 0f;
+        
         private readonly List<string> _applicationAreas = new List<string>();
         public virtual IReadOnlyCollection<string> ApplicationAreas => _applicationAreas;
 
@@ -81,7 +83,7 @@ namespace Rk.Messages.Domain.Entities.Products
         }
 
         /// <summary>
-        /// Установить статус достпности
+        /// Установить статус достпуности
         /// </summary>        
         public void SetAvailableStatus(AvailableStatus availableStatus)
         { 
@@ -111,7 +113,13 @@ namespace Rk.Messages.Domain.Entities.Products
             return this;
         }
 
-        
+        /// <summary>
+        /// Установить долю посторонних компонентов, в процентах
+        /// </summary>
+        public void SetShareOfForeignComponents(float value)
+        {
+            this.ShareOfForeignComponents = value;
+        }
 
 
 

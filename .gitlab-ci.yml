@@ -97,6 +97,8 @@ messages_api_build_push_registry:
 versioning:
   image: registry.dev.roscosmos.digital/versioning/gitlab-semantic-release:latest  
   stage: versioning
+  variables:
+    GITLAB_TOKEN: "$AUTOVERSIONING"
   script:
     - env
     - npx semantic-release

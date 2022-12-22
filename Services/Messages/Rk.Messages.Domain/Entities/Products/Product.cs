@@ -52,6 +52,7 @@ namespace Rk.Messages.Domain.Entities.Products
         [Required]
         public AvailableStatus AvailableStatus { get; private set; } = AvailableStatus.OnStock;
 
+        [Range(0f, 100f)]
         public float? ShareOfForeignComponents { get; private set; } = 0f;
         
         private readonly List<string> _applicationAreas = new List<string>();

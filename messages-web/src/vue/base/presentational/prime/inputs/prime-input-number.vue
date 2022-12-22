@@ -2,7 +2,7 @@
 <template>
   <div class="field">
     <span class="p-float-label">
-      <input-number :id="id" v-model="value" v-bind="{ disabled }" />
+      <input-number :id="id" v-model="value" v-bind="{ disabled, max, min }" />
       <label :for="id">{{ label }}</label>
     </span>
   </div>
@@ -14,6 +14,14 @@ import { inputProps } from './input-props';
 
 export default defineComponent({
   props: {
+    max: {
+      type: Number,
+      default: null
+    },
+    min: {
+      type: Number,
+      default: null
+    },
     modelValue: {
       type: Number,
     },
@@ -42,4 +50,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

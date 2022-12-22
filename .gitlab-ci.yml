@@ -97,6 +97,11 @@ release:
     - npx semantic-release
   only:
     - develop
+  except:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TITLE =~ /^RELEASE:.+$/
 
 
 deploy_marketplace:

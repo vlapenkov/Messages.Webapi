@@ -4,6 +4,7 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
 import { organizationHttpService } from '@/app/organization-full/infrastructure/organozation-full.http-service';
 import { KeycloakTokenParsed } from 'keycloak-js';
+import { computed } from 'vue';
 import { IKeycloakToken } from './@types/IKeycloakToken';
 
 export interface IUserStore {
@@ -11,6 +12,8 @@ export interface IUserStore {
   org: IOrganizationFullModel | null;
   status: DataStatus;
 }
+
+export type UserRoles = 'manager_org_seller' | 'manager_org_buyer' | 'content_manager';
 
 const setTokenKey = 'set-token';
 
@@ -46,6 +49,16 @@ export const userInfo = getter('get-user-info', (state) =>
       },
 );
 
+export const userRoles = computed(() => userInfo.value?.role ?? []);
+
+export const userRoleContains = (...roles: UserRoles[]) =>
+  getter<boolean>(['check-roles-', ...roles].join('-'), (state) => {
+    if (state.token == null) {
+      return false;
+    }
+    return state.token.role.some((r) => roles.some((role) => role === r));
+  });
+
 export const setToken = mutation(setTokenKey, (state, token: KeycloakTokenParsed | null) => {
   state.token = token as IKeycloakToken | null;
 });
@@ -69,4 +82,3 @@ onMutationSuccess(setTokenKey, (p) => {
 });
 
 export { userState };
-

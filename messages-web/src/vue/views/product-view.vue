@@ -110,7 +110,14 @@
           <tab-panel header="Описание">
             <data-table class="no-head p-datatable-sm" :value="tableRows">
               <column field="name"></column>
-              <column field="value"></column>
+              <column field="value">
+                <template #body="{ data }">
+                  <router-link class="no-underline" v-if="data.to" :to="data.to">
+                    <app-text mode="primary">{{ data.value }}</app-text>
+                  </router-link>
+                  <app-text v-else>{{ data.value }}</app-text>
+                </template>
+              </column>
             </data-table>
           </tab-panel>
           <tab-panel v-if="productionType === 'product'" header="Технические характеристики">
@@ -140,7 +147,14 @@ import { isNullOrEmpty } from '@/tools/string-tools';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { computed, defineComponent, PropType, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouteLocationRaw, useRoute } from 'vue-router';
+
+interface IRowItem {
+  name: string;
+  value: string;
+  forTypes: ProductType[] | 'all';
+  to?: RouteLocationRaw;
+}
 
 export default defineComponent({
   components: { Toast },
@@ -198,50 +212,76 @@ export default defineComponent({
 
     const { list: sectionsList } = useSections();
 
-    const tableRows = computed<{ name: string; value: string }[]>(() => [
-      {
-        name: 'Код по ОКПД 2',
-        value: item.value.codeOkpd2,
-      },
-      {
-        name: 'Код ТН ВЭД',
-        value: item.value.codeTnVed,
-      },
-      {
-        name: 'Полное наименование',
-        value: item.value.fullName,
-      },
-      {
-        name: 'Сокращённое наименование',
-        value: item.value.name,
-      },
-      {
-        name: 'Единицы измерения',
-        value: item.value.measuringUnit,
-      },
-      {
-        name: 'Отрасли применения',
-        value:
-          sectionsList.value?.find((x) => x.id === item.value?.catalogSectionId)?.name ??
-          'Не указаны',
-      },
-      {
-        name: 'Страна происхождения',
-        value: item.value.country,
-      },
-      {
-        name: 'Организация производства',
-        value: item.value.organization.name,
-      },
-      {
-        name: 'Адрес производства',
-        value: isNullOrEmpty(item.value.address) ? 'Не указан' : item.value.address,
-      },
-      {
-        name: 'Описание',
-        value: item.value.description,
-      },
-    ]);
+    const tableRows = computed<IRowItem[]>(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const rows: IRowItem[] = [
+        {
+          name: 'Код по ОКПД 2',
+          value: item.value.codeOkpd2,
+          forTypes: ['product'],
+        },
+        {
+          name: 'Код ТН ВЭД',
+          value: item.value.codeTnVed,
+          forTypes: ['product'],
+        },
+        {
+          name: 'Полное наименование',
+          value: item.value.fullName,
+          forTypes: 'all',
+        },
+        {
+          name: 'Сокращённое наименование',
+          value: item.value.name,
+          forTypes: 'all',
+        },
+        {
+          name: 'Единицы измерения',
+          value: item.value.measuringUnit,
+          forTypes: ['product'],
+        },
+        {
+          name: 'Отрасли применения',
+          value:
+            sectionsList.value?.find((x) => x.id === item.value.catalogSectionId)?.name ??
+            'Не указаны',
+          forTypes: 'all',
+          to: {
+            name: 'catalog',
+            query: {
+              sectionId: item.value.catalogSectionId,
+            },
+          },
+        },
+        {
+          name: 'Страна происхождения',
+          value: item.value.country,
+          forTypes: 'all',
+        },
+        {
+          name: 'Организация производства',
+          value: item.value.organization.name,
+          forTypes: 'all',
+          to: {
+            name: 'organization',
+            params: { id: item.value.organization.id },
+          },
+        },
+        {
+          name: 'Адрес производства',
+          value: isNullOrEmpty(item.value.address) ? 'Не указан' : item.value.address,
+          forTypes: 'all',
+        },
+        {
+          name: 'Описание',
+          value: item.value.description,
+          forTypes: 'all',
+        },
+      ];
+      return rows.filter(
+        (row) => row.forTypes === 'all' || row.forTypes.some((t) => t === props.productionType),
+      );
+    });
 
     const productTypeText = computed(() => {
       switch (props.productionType) {

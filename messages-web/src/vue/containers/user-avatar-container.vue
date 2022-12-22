@@ -1,14 +1,22 @@
 <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
   <div>
-    <div aria-controls="overlay_menu" aria-haspopup="true" @click="toggleMenu"
-      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl" v-if="isAuthenticated">
+    <div
+      aria-controls="overlay_menu"
+      aria-haspopup="true"
+      @click="toggleMenu"
+      class="flex flex-row align-items-center gap-2 p-1 pl-3 avatar border-round-3xl"
+      v-if="isAuthenticated"
+    >
       <div>{{ userShortName }}</div>
       <avatar shape="circle" icon="pi pi-user"></avatar>
     </div>
     <div v-else>
-      <prime-button label="Вход/Регистрация" class="p-button-sm ml-3"
-        @click="showRegisterDialog = !showRegisterDialog" />
+      <prime-button
+        label="Вход/Регистрация"
+        class="p-button-sm ml-3"
+        @click="showRegisterDialog = !showRegisterDialog"
+      />
     </div>
     <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
     </prime-menu>
@@ -16,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { isAuthenticated, userInfo } from '@/store/user.store';
+import { isAuthenticated, userInfo, userRoleContains } from '@/store/user.store';
 import { computed, defineComponent, ref } from 'vue';
 // import { url } from 'gravatar';
 import { screenMiddle } from '@/app/core/services/window/window.service';
@@ -64,8 +72,7 @@ export default defineComponent({
 
     const menuItems = computed(() => {
       const items = [];
-      const roles = userInfo.value?.role;
-      if (roles != null && roles.indexOf('manager_org_seller') >= 0) {
+      if (userRoleContains('manager_org_seller').value) {
         items.push(
           {
             label: 'Управление товарами',
@@ -84,7 +91,7 @@ export default defineComponent({
           },
         );
       }
-      if (roles != null && roles.indexOf('manager_org_buyer') >= 0) {
+      if (userRoleContains('manager_org_buyer').value) {
         items.push(
           {
             label: 'Каталог товаров',
@@ -92,10 +99,11 @@ export default defineComponent({
             icon: 'pi pi-th-large',
           },
           {
-            label: `Корзина${shoppingCartStore.totalQuantity.value > 0
+            label: `Корзина${
+              shoppingCartStore.totalQuantity.value > 0
                 ? ` (${shoppingCartStore.totalQuantity.value})`
                 : ''
-              }`,
+            }`,
             to: { name: 'shopping-cart' },
             icon: 'pi pi-shopping-cart',
             badge: 5,
@@ -112,7 +120,7 @@ export default defineComponent({
           },
         );
       }
-      if (roles != null && roles.indexOf('content_manager') >= 0) {
+      if (userRoleContains('content_manager').value) {
         items.push(
           {
             label: 'Управление товарами',

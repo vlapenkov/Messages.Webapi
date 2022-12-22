@@ -16,7 +16,7 @@ const status = computeState((state) => state.status);
 
 const items = computeState((state) => state.cartItems);
 
-const getDataAsync = action('get-data', async () => {
+const getDataAsync = action('Get shopping cart data', async () => {
   if (!isAuthenticated.value) {
     return;
   }

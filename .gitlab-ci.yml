@@ -1,3 +1,8 @@
+stages:
+  - build
+  - versioning
+  - deploy
+
 messages_ui_build_push_registry:
   stage: build
   variables:
@@ -89,9 +94,9 @@ messages_api_build_push_registry:
   tags:
     - artifactory_eip_rkp
 
-release:
+versioning:
   image: registry.dev.roscosmos.digital/versioning/gitlab-semantic-release:latest  
-  stage: release
+  stage: versioning
   script:
     - env
     - npx semantic-release

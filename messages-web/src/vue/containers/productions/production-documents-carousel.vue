@@ -1,21 +1,31 @@
 <template>
-  <carousel
-    class="re-skin"
-    ref="carouselRef"
-    :numVisible="1"
-    :numScroll="1"
-    circular
-    :value="images"
-  >
-    <template #item="{ data }">
-      <div
-        class="flex h-full align-items-center justify-content-center max-h-full"
-        style="line-height: 0"
-      >
-        <prime-image :style="itemStyle" preview :src="data.src" alt="document image" />
-      </div>
+  <div ref="containerRef" :style="itemStyle">
+    <carousel
+      v-if="images.length > 1"
+      :numVisible="1"
+      :numScroll="1"
+      class="re-skin-caroulsel"
+      circular
+      :value="images"
+    >
+      <template #item="{ data }">
+        <div class="flex h-full align-items-center justify-content-center max-h-full lh-0">
+          <prime-image class="image-rounded" preview :src="data.src" :alt="data.name" />
+        </div>
+      </template>
+    </carousel>
+    <template v-else-if="images.length === 1" v-for="{ src, name } in images" :key="src">
+      <prime-image class="lh-0 image-rounded image-full-width" preview :src="src" :alt="name" />
     </template>
-  </carousel>
+    <template v-else>
+      <img
+        class="lh-0 w-full"
+        preview
+        :src="require('@/assets/images/fallback-image.png')"
+        alt="placeholder"
+      />
+    </template>
+  </div>
 </template>
 
 <script lang="ts">
@@ -37,24 +47,27 @@ export default defineComponent({
       props.docs.map((doc) => {
         const splitted = doc.fileName.split('.');
         const ext = splitted[splitted.length - 1];
-        return { src: `${process.env.VUE_APP_API_URL}api/files/${doc.fileId}/${ext}` };
+        return {
+          src: `${process.env.VUE_APP_API_URL}api/files/${doc.fileId}/${ext}`,
+          name: doc.fileName,
+        };
       }),
     );
-    const carouselRef = ref();
-    const { width: carouselWidth } = useElementSize(carouselRef);
+    const containerRef = ref();
+    const { width: carouselWidth } = useElementSize(containerRef);
 
     const itemStyle = computed<CSSProperties>(() => ({
-      '--prime-image-max-width': `${carouselWidth.value - 96}px`,
+      '--prime-image-carousel-max-width': `${carouselWidth.value - 96}px`,
+      '--prime-image-max-width': `${carouselWidth.value}px`,
     }));
 
-    return { images, carouselRef, itemStyle };
+    return { images, containerRef, itemStyle };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-$radius: var(--border-radius);
-.re-skin {
+.re-skin-caroulsel {
   :deep(.p-carousel-indicator) {
     button {
       background: #686b76;
@@ -62,11 +75,29 @@ $radius: var(--border-radius);
     }
   }
   :deep(img) {
-    max-width: var(--prime-image-max-width);
+    max-width: var(--prime-image-carousel-max-width);
+    width: var(--prime-image-carousel-max-width);
+  }
+}
+
+$radius: var(--border-radius);
+.image-rounded {
+  :deep(img) {
     border-radius: $radius;
   }
   :deep(.p-image-preview-indicator) {
     border-radius: $radius;
   }
+}
+
+.image-full-width {
+  :deep(img) {
+    max-width: var(--prime-image-max-width);
+    width: var(--prime-image-max-width);
+  }
+}
+
+.lh-0 {
+  line-height: 0;
 }
 </style>

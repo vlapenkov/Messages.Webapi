@@ -25,17 +25,18 @@
           />
         </div>
       </div>
-      <!-- <data-table :value="[]" responsiveLayout="scroll">
-        <column header="Дата">
+      <data-table :value="exchangesList" responsiveLayout="scroll">
+        <column field="productExchangeText" header="Вид" headerStyle="width: 25%" />
+        <column header="Дата" headerStyle="width: 25%">
           <template #body="slopProps">
             <span class="p-component">
-              {{ formatDateString(slopProps.data.lastLoaded) }}
+              {{ formatDateString(slopProps.data.lastModified) }}
             </span>
           </template>
         </column>
-        <column header="Ответственный" field="itemsCount" />
-        <column field="Загружено" header="Выгружено заказов" />
-      </data-table> -->
+        <column field="createdBy" header="Ответственный" headerStyle="width: 25%" />
+        <column field="productsLoaded" header="Загружено товаров" headerStyle="width: 25%" />
+      </data-table>
     </template>
   </card>
   <teleport to="body">
@@ -48,26 +49,32 @@
 <script lang="ts">
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { productFullHttpService } from '@/app/product-full/infrastructure/product-full.http-service';
+import { exchangeService } from '@/app/productions/services/exchange.service';
+import { productionsService } from '@/app/productions/services/productions.service';
+import { exchangesStore } from '@/app/productions/state/exchanges.store';
+import { productionsStore } from '@/app/productions/state/productions.store';
+import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
   components: { Toast },
   setup() {
+    onMounted(async () => {
+      await exchangeService.load();
+    });
+    const { list: exchangesList, status: exchangesStatus } = exchangesStore;
     const toast = useToast();
     const vidibleselectDialog = ref(false);
     const vidibleLoadingDialog = ref(false);
     const formatDateString = (d: Date) => {
       const date = new Date(d);
       if (date == null) return '';
-      return date.toLocaleString('ru-RU', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      });
+      return date.toLocaleString('ru-RU');
     };
-
+    const { pageNumber, pageSize } = productionsStore;
+    const { searchQuery, orderBy } = catalogFiltersStore;
     const handleFile = async (data: { name: string; b64: string }) => {
       const b64 = data.b64.replace(/(^data:.*\/.*;base64,)/gi, '');
       // console.log(data.name, b64,);
@@ -83,6 +90,16 @@ export default defineComponent({
             summary: 'Успех',
             detail: 'Загрузка из Excel завершилась уcпешно',
             life: 4000,
+          });
+          await exchangeService.load();
+          await productionsService.loadPage({
+            name: searchQuery.value ?? null,
+            pageNumber: pageNumber.value,
+            pageSize: pageSize.value,
+            producerName: null,
+            region: null,
+            orderBy: orderBy.value,
+            status: null,
           });
         } else {
           toast.add({
@@ -105,8 +122,14 @@ export default defineComponent({
         });
       }
     };
-
-    return { formatDateString, handleFile, vidibleselectDialog, vidibleLoadingDialog };
+    return {
+      vidibleselectDialog,
+      vidibleLoadingDialog,
+      exchangesList,
+      exchangesStatus,
+      formatDateString,
+      handleFile,
+    };
   },
 });
 </script>

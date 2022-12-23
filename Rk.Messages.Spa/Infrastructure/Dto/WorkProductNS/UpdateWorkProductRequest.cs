@@ -1,6 +1,4 @@
-﻿using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
-
-namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
+﻿namespace Rk.Messages.Spa.Infrastructure.Dto.WorkProductNS
 {
     /// <summary>
     /// Изменение работы
@@ -15,7 +13,9 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Description { get; set; }       
 
-        public decimal? Price { get; set; }        
+        public decimal? Price { get; set; }       
+        
+        public bool? AreForeignComponentsUsed { get; set; }
 
     }
 }

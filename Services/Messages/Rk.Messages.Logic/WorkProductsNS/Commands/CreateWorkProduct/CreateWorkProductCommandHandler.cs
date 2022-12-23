@@ -68,7 +68,7 @@ namespace Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 
             product.AddProductDocuments(productDocuments);
-
+            product.SetAreForeignComponentsUsed(request.AreForeignComponentsUsed ?? false);
             _dbContext.WorkProducts.Add(product);
 
             await _dbContext.SaveChangesAsync();

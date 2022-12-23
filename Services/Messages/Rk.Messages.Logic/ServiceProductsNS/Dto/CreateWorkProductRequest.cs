@@ -17,6 +17,8 @@ namespace Rk.Messages.Logic.ServiceProductsNS.Dto
         public string Description { get; set; }
 
         public decimal? Price { get; set; }
+        
+        public bool? AreForeignComponentsUsed { get; set; }
 
         /// <summary>Информация о файлах для услуги</summary>
         public List<FileDataDto> Documents { get; set; } 

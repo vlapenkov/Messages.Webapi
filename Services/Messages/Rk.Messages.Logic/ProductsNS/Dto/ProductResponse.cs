@@ -52,6 +52,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         /// <summary>документы</summary>
         public List<FileDataDto> Documents { get; set; } = new List<FileDataDto>();
+        
+        public float? ShareOfForeignComponents { get; set; }
 
        
     }

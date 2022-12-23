@@ -93,6 +93,12 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
   @hidden()
   lastModifiedBy = '';
 
+  @description('Доля иностранных комплектующих, %')
+  shareOfForeignComponents = 0;
+
+  @description('Используются иностранные компоненты')
+  areForeignComponentsUsed = false;
+
   fromResponse(model: IProductFullModel): boolean {
     try {
       Object.assign(this, model);
@@ -129,6 +135,8 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
       this.currency === mb.currency &&
       this.status === mb.status &&
       this.attributeValues.length === mb.attributeValues.length &&
+      this.shareOfForeignComponents === mb.shareOfForeignComponents &&
+      this.areForeignComponentsUsed === mb.areForeignComponentsUsed &&
       this.attributeValues.every((item, index) => {
         const { attributeId, value } = mb.attributeValues[index];
         return item.attributeId === attributeId && item.value === value;
@@ -151,3 +159,4 @@ export class ProductFullModel extends ModelBase<IProductFullModel> implements IP
     return cloned;
   }
 }
+

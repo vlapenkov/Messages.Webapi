@@ -70,6 +70,7 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
             .SetAddress(request.Address);
 
             product.SetArticle(request.Article);
+            product.SetShareOfForeignComponents(request.ShareOfForeignComponents ?? 0f);
 
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 

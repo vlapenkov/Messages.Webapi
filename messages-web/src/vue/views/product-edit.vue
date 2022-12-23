@@ -10,29 +10,18 @@
               <app-text mode="subheader">1. Основные данные</app-text>
             </template>
             <div class="p-fluid grid mt-4">
-              <prime-input-text
-                class="col-12 md:col-6"
-                id="--prodct-short-name"
-                v-model="models.name.value"
-                label="Сокращённое наименование"
-              />
-              <prime-input-text
-                id="--prodct-full-name"
-                class="col-12 md:col-6"
-                v-model="models.fullName.value"
-                label="Полное наименование"
-              />
-              <prime-input-tree-select
-                :options="sectionsTree"
-                v-model="categoryId"
-                class="col-12 md:col-6"
-                label="Категория"
-              />
-              <prime-input-textarea
-                class="col-12"
-                label="Описание"
-                v-model="models.description.value"
-              />
+              <prime-input-text class="col-12 md:col-6" id="--prodct-short-name" v-model="models.name.value"
+                label="Сокращённое наименование" />
+              <prime-input-text id="--prodct-full-name" class="col-12 md:col-6" v-model="models.fullName.value"
+                label="Полное наименование" />
+              <prime-input-tree-select :options="sectionsTree" v-model="categoryId" class="col-12 md:col-6"
+                label="Категория" />
+              <prime-input-textarea class="col-12" label="Описание" v-model="models.description.value" />
+              <div class="col-12">
+                <checkbox inputId="hasForeign" v-if="productionType !== 'product'" class="mr-2"
+                  v-model="models.areForeignComponentsUsed.value" :binary="true" />
+                <label for="hasForeign">Используются иностранные компоненты</label>
+              </div>
             </div>
           </prime-card>
         </div>
@@ -41,30 +30,17 @@
         </div>
         <div v-if="productionType === 'product'" class="col-12">
           <div class="p-fluid grid mt-2">
-            <prime-input-text
-              id="--prodct-articule"
-              class="col-12 md:col-4"
-              v-model="models.article.value"
-              label="Артикул"
-            />
-            <prime-input-text
-              id="--prodct-code-okpd"
-              class="col-12 md:col-4"
-              v-model="models.codeOkpd2.value"
-              label="Код ОКПД 2"
-            />
-            <prime-input-text
-              id="--prodct-code"
-              class="col-12 md:col-4"
-              v-model="models.codeTnVed.value"
-              label="Код товара"
-            />
-            <prime-input-text
-              id="--prodct-adress"
-              class="col-12 md:col-8"
-              v-model="models.address.value"
-              label="Адрес"
-            />
+            <prime-input-text id="--prodct-articule" class="col-12 md:col-4" v-model="models.article.value"
+              label="Артикул" />
+            <prime-input-text id="--prodct-code-okpd" class="col-12 md:col-4" v-model="models.codeOkpd2.value"
+              label="Код ОКПД 2" />
+            <prime-input-text id="--prodct-code" class="col-12 md:col-4" v-model="models.codeTnVed.value"
+              label="Код товара" />
+            <prime-input-text id="--prodct-adress" class="col-12 md:col-8" v-model="models.address.value"
+              label="Адрес" />
+            <prime-input-number label="Доля иностранных комплектующих, %" v-if="productionType === 'product'"
+              class="col-12 md:col-4" :max="100" v-model="models.shareOfForeignComponents.value"
+              id="--product-foreign"></prime-input-number>
           </div>
         </div>
         <template v-if="productionType === 'product'">
@@ -85,12 +61,8 @@
               <app-text mode="subheader">3. Цена</app-text>
             </template>
             <div class="flex flex-row gap-3 mt-5">
-              <prime-input-number
-                :disabled="isPriceEmpty"
-                label="Цена"
-                v-model="models.price.value"
-                id="--product-price"
-              ></prime-input-number>
+              <prime-input-number :disabled="isPriceEmpty" label="Цена" v-model="models.price.value"
+                id="--product-price"></prime-input-number>
               <div class="field-checkbox">
                 <checkbox inputId="binary" v-model="isPriceEmpty" :binary="true" />
                 <label for="binary">Договорная</label>
@@ -330,6 +302,8 @@ export default defineComponent({
       article: getModelFor('article', ''),
       address: getModelFor('address', ''),
       codeOkpd2: getModelFor('codeOkpd2', ''),
+      shareOfForeignComponents: getModelFor('shareOfForeignComponents', 0),
+      areForeignComponentsUsed: getModelFor('areForeignComponentsUsed', false)
     };
 
     const addAttribute = () => {

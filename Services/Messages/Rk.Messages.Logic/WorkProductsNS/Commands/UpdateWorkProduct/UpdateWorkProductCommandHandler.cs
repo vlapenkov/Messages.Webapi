@@ -28,7 +28,7 @@ namespace Rk.Messages.Logic.WorkProductsNS.Commands.UpdateWorkProduct
             .FirstOrDefaultAsync(self => self.Id == command.ProductId) ?? throw new EntityNotFoundException($"Работа с Id= {command.ProductId} не найдена.");
 
             productFound.Update(request.CatalogSectionId, request.Name, request.FullName, request.Description, request.Price);
-
+            productFound.SetAreForeignComponentsUsed(request.AreForeignComponentsUsed ?? false);
 
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

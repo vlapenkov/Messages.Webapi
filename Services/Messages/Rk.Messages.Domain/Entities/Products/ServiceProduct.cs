@@ -19,6 +19,23 @@ namespace Rk.Messages.Domain.Entities.Products
             base(organizationId,catalogSectionId, name, fullname, description, price, attributeValues)
         {
         }
+        
+        #region Private Members
+        
+        #endregion
+        
+        #region Methods
+        
+        /// <summary>
+        /// Используются ли иностранные компоненты
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetAreForeignComponentsUsed(bool value)
+        {
+            this.AreForeignComponentsUsed = value;
+        }
+        
+        #endregion
 
         public override string GetProductionType()
         {

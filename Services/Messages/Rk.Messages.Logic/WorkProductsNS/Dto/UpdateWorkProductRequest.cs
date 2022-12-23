@@ -19,6 +19,8 @@ namespace Rk.Messages.Logic.WorkProductsNS.Dto
         public string Description { get; set; }
 
         public decimal? Price { get; set; }
+        
+        public bool? AreForeignComponentsUsed { get; set; }
        
     }
 }

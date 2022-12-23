@@ -25,7 +25,7 @@ namespace Rk.Messages.Logic.ServiceProductsNS.Commands.UpdateServiceProduct
             .FirstOrDefaultAsync(self => self.Id == command.ProductId, cancellationToken: cancellationToken) ?? throw new EntityNotFoundException($"Услуга с Id= {command.ProductId} не найдена.");
 
             productFound.Update(request.CatalogSectionId, request.Name, request.FullName, request.Description, request.Price);
-
+            productFound.SetAreForeignComponentsUsed(request.AreForeignComponentsUsed ?? false);
 
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

@@ -25,6 +25,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
         public decimal? Price { get; set; }
 
         public string Article { get; set; }
+        
+        public float? ShareOfForeignComponents { get; set; }
 
         /// <summary>Значения атрибутов</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; } = new List<AttributeValueDto>();

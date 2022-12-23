@@ -39,15 +39,17 @@
     </div>
 
     <transition-fade>
-      <div v-if="selectedMode === Modes.MAP" class="map">
-        <yandex-map
-          :settings="settings"
-          :coords="coords"
-          :zoom="zoom"
-          :style="{
-            height: '50vh',
-          }"
-        >
+      <div v-if="selectedMode === Modes.MAP" class="map-container">
+        <yandex-map :settings="settings" :coords="coords" :zoom="zoom" class="map">
+          <ymap-marker
+            v-for="o in filteredOrgs"
+            :key="o.id"
+            :marker-id="o.id"
+            :coords="[o.latitude, o.longitude]"
+            :icon="markerIcon"
+            :hint-content="o.city"
+            :balloon-template="tooltipHtmlTemplate(o)"
+          ></ymap-marker>
         </yandex-map>
       </div>
       <div v-if="selectedMode === Modes.LIST">
@@ -87,11 +89,13 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
-import { yandexMap } from 'vue-yandex-maps';
+import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+import { OrganizationModel } from '@/app/organizations/model/organization.model';
 
 export default defineComponent({
   components: {
     yandexMap,
+    ymapMarker,
   },
   setup() {
     enum Modes {
@@ -107,6 +111,20 @@ export default defineComponent({
     };
     const zoom = 3;
     const coords = [65, 90];
+    const markerIcon = {
+      layout: 'islands#redDotIcon',
+    };
+    const tooltipHtmlTemplate = (org: OrganizationModel) => `
+      <div class="w-full" style="max-height: 200px">
+        <div><span style="font-weight: 600">${org.name}</span></div>
+        <div class="mt-1"><span style="font-weight: 500">${org.region}</span></div>
+        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
+          <a href="/organization/${org.id}" class="text-white" style="text-decoration: none">
+            <span>Перейти к организации</span>
+          </a>
+        </div>
+      </div>`;
+
     const selectedMode = ref(Modes.MAP);
     const regionModel = ref();
     const organizationModel = ref();
@@ -129,6 +147,8 @@ export default defineComponent({
       settings,
       coords,
       zoom,
+      markerIcon,
+      tooltipHtmlTemplate,
     };
   },
 });
@@ -140,9 +160,13 @@ export default defineComponent({
     padding: 0;
   }
 }
-.map {
+.map-container {
   :deep(.ymap-container) {
     height: 100%;
+  }
+
+  .map {
+    height: 50vh;
   }
 }
 </style>

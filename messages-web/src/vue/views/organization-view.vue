@@ -80,7 +80,7 @@
         v-if="organizationId"
         title="Каталог товаров и услуг организации"
         link-text="Перейти к каталогу"
-        :to="{ name: 'catalog', query: { sectionId: organizationId } }"
+        :to="{ name: 'catalog', query: { organization: item?.name } }"
       >
         <popular-products-for-organization
           :organizationId="organizationId"

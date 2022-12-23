@@ -48,7 +48,8 @@
             :coords="[o.latitude, o.longitude]"
             :icon="markerIcon"
             :balloon-template="balloonTemplate(o)"
-          ></ymap-marker>
+          >
+          </ymap-marker>
         </yandex-map>
       </div>
       <div v-if="selectedMode === Modes.LIST">
@@ -102,18 +103,17 @@ export default defineComponent({
       LIST,
     }
     const settings = {
-      apiKey: '4a0f40df-6a9a-477e-842c-27bf707c8e45',
-      lang: 'ru_RU',
-      coordorder: 'latlong',
-      enterprise: false,
-      version: '2.1',
+      apiKey: process.env.VUE_APP_YANDEX_MAP_API_KEY,
+      lang: process.env.VUE_APP_YANDEX_MAP_LANG,
+      coordorder: process.env.VUE_APP_YANDEX_MAP_COORDORDER,
+      version: process.env.VUE_APP_YANDEX_MAP_VERSION,
     };
     const markerIcon = {
       layout: 'default#image',
       // eslint-disable-next-line global-require
       imageHref: require('@/assets/icons/marker.png'),
-      imageSize: [22, 32],
-      // imageOffset: [0, 0],
+      imageSize: [22, 35],
+      imageOffset: [0, 0],
     };
     const balloonTemplate = (org: OrganizationModel) => `
       <div class="w-full" style="max-height: 200px">

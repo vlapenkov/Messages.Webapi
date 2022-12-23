@@ -20,7 +20,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
     public async Task<TokenResponse?> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var realm = _configuration["Oidc:Realm"];
-        var clientId = _configuration["Oidc:Realm"];
+        var clientId = _configuration["Oidc:ClientId"];
         var grantType = _configuration["Oidc:GrantType"] ?? "password";
         var userName = _configuration["Oidc:AdminUserName"];
         var password = _configuration["Oidc:AdminPassword"];

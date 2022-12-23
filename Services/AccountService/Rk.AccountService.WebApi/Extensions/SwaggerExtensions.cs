@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace Rk.Messages.Webapi.Extensions
+namespace Rk.AccountService.WebApi.Extensions
 {
     public static class SwaggerExtensions
     {
@@ -45,7 +39,7 @@ namespace Rk.Messages.Webapi.Extensions
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, IConfiguration config, string title)
+        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, IConfiguration config, string title)
         {
             app.UseSwagger(c =>
             {

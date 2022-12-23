@@ -61,7 +61,7 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-app.UseSwaggerUI(builder.Configuration, "Api Marketplace V1");
+app.UseSwaggerUi(builder.Configuration, "Api Marketplace V1");
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

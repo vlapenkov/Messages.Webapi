@@ -8,13 +8,13 @@ namespace Rk.Messages.Common.Extensions
     /// </summary>
     public static class SerilogRkExtensions
     {
-        public static IHostBuilder UseTneSerilog(this IHostBuilder hostBuilder)
+        public static IHostBuilder UseRkSerilog(this IHostBuilder hostBuilder)
         {
 
             hostBuilder.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                 .ReadFrom.Configuration(hostingContext.Configuration) // на 10.01.2020 берем только MinimumLevel, остальное определяем в коде. 
-                 .Enrich.FromLogContext()
-                 .Enrich.WithMachineName()
+                .ReadFrom.Configuration(hostingContext.Configuration) // на 10.01.2020 берем только MinimumLevel, остальное определяем в коде. 
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
             );
 
             return hostBuilder;

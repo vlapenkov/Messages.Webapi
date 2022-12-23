@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     AppLayout: typeof import('./src/vue/presentational/app-layout.vue')['default']
     AppPage: typeof import('./src/vue/presentational/app-page.vue')['default']
     AppPrice: typeof import('./src/vue/presentational/productions/app-price.vue')['default']
+    AppRating: typeof import('./src/vue/presentational/app-rating.vue')['default']
     AppRoot: typeof import('./src/vue/app-root.vue')['default']
     AppScroller: typeof import('./src/vue/presentational/app-scroller.vue')['default']
     AppSection: typeof import('./src/vue/presentational/app-section.vue')['default']

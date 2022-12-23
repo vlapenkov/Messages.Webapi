@@ -20,15 +20,8 @@
             >
               {{ item.article || '123456' }}</app-text
             >
-            <div
-              v-if="(item.rating ?? 0) > 0"
-              class="flex flex-row gap-1 align-content-center text-md"
-            >
-              <i class="star-filled star-yellow"></i>
-              <span>
-                {{ item.rating ?? 0 }}
-              </span>
-            </div>
+
+            <app-rating :value="item.rating"></app-rating>
             <div class="flex flex-row gap-1 mt-2">
               <div>
                 <prime-button-weak disabled small>

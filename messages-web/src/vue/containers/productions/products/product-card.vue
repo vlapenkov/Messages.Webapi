@@ -40,7 +40,7 @@
           class="text-sm font-normal article"
           :class="{ 'opacity-0': product.article == null || product.article === '' }"
         >
-          {{ product.article || '' }}
+          {{ product.article || '-' }}
         </div>
         <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 name-font">
@@ -56,15 +56,8 @@
             </prime-button>
           </div>
           <div class="text-sm article">{{ product.organization.region }}</div>
-          <div
-            class="flex flex-row gap-1 align-content-center text-md"
-            :style="{ opacity: (product.rating ?? 0) > 0 ? 1 : 0 }"
-          >
-            <i class="star-filled star-yellow"></i>
-            <span>
-              {{ product.rating ?? 0 }}
-            </span>
-          </div>
+
+          <app-rating :value="product.rating"></app-rating>
           <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
             <prime-button
               :disabled="isNotProduct"

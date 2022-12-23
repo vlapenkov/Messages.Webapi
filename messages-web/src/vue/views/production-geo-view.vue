@@ -53,6 +53,7 @@
             :marker-id="o.id"
             :coords="[o.latitude, o.longitude]"
             :icon="markerIcon"
+            :balloon="{ header: o.name, body: o.id }"
             :balloon-template="balloonTemplate(o)"
             cluster-name="cluster"
           >
@@ -109,6 +110,16 @@ export default defineComponent({
       MAP,
       LIST,
     }
+    const balloonTemplate = (org: OrganizationModel) => `
+      <div class="w-full" style="max-height: 200px">
+        <div><span class="font-semibold">${org.name}</span></div>
+        <div class="mt-1"><span class="font-medium">${org.region}</span></div>
+        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
+          <a href="/organization/${org.id}" class="text-white no-underline">
+            <span>Перейти к организации</span>
+          </a>
+        </div>
+      </div>`;
     const settings = {
       apiKey: process.env.VUE_APP_YANDEX_MAP_API_KEY,
       lang: process.env.VUE_APP_YANDEX_MAP_LANG,
@@ -125,18 +136,18 @@ export default defineComponent({
     const clusterOptions = {
       cluster: {
         gridSize: 128,
+        preset: 'islands#redClusterIcons',
+        clusterDisableClickZoom: false,
+        clusterBalloonLayout: `
+          {% for geoObj in properties.geoObjects %}
+            <div class="my-1">
+              <a href="/organization/{{ geoObj.properties.balloonContentBody | raw }}" class="text-color">
+                <div class="font-semibold">{{ geoObj.properties.balloonContentHeader | raw }}</div>
+              </a>            
+            </div>
+          {% endfor %}`,
       },
     };
-    const balloonTemplate = (org: OrganizationModel) => `
-      <div class="w-full" style="max-height: 200px">
-        <div><span style="font-weight: 600">${org.name}</span></div>
-        <div class="mt-1"><span style="font-weight: 500">${org.region}</span></div>
-        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
-          <a href="/organization/${org.id}" class="text-white" style="text-decoration: none">
-            <span>Перейти к организации</span>
-          </a>
-        </div>
-      </div>`;
     const selectedMode = ref(Modes.MAP);
     const regionModel = ref();
     const organizationModel = ref();

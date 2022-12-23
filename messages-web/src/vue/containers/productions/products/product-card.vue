@@ -1,12 +1,10 @@
 <template>
-  <card
+  <prime-card
+    image-header
+    transparent
+    no-padding
     @click="viewProduct(product)"
-    class="h-full re-padding-card trans-shadow relative"
-    :class="{
-      'shadow-none': !isCardHovered,
-      'shadow-2': isCardHovered,
-    }"
-    ref="cardRef"
+    class="h-full relative"
     :style="cardStyle"
   >
     <template #header>
@@ -67,10 +65,7 @@
               {{ product.rating ?? 0 }}
             </span>
           </div>
-          <div
-            :class="{ 'half-transparent': isNotProduct }"
-            class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
-          >
+          <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
             <prime-button
               :disabled="isNotProduct"
               @click.stop="addToCart(product)"
@@ -99,13 +94,13 @@
         </div>
       </div>
     </template>
-  </card>
+  </prime-card>
 </template>
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { useIsInCart } from '@/composables/shopping-cart.composables';
-import { useElementHover, useElementSize } from '@vueuse/core';
+import { useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
@@ -137,9 +132,6 @@ export default defineComponent({
       emit('viewProduct', p);
     };
 
-    const cardRef = ref();
-    const isCardHovered = useElementHover(cardRef);
-
     const headerRef = ref<HTMLElement>();
     const { height: headerHeight } = useElementSize(headerRef);
     const cardStyle = computed<CSSProperties>(() => ({
@@ -165,12 +157,10 @@ export default defineComponent({
 
     return {
       headerRef,
-      cardRef,
       cardStyle,
       addToCart,
       viewProduct,
       viewOrganization,
-      isCardHovered,
       isNotProduct,
       productType,
       isInFavorites,
@@ -234,24 +224,7 @@ export default defineComponent({
   transition: transform 0.3s;
 }
 
-.half-transparent {
-  opacity: 0.5;
-}
-.re-padding-card {
-  :deep(.p-card-header) {
-    line-height: 0;
-    text-align: center;
-  }
-
-  :deep(.p-card-body) {
-    padding: 0;
-    height: var(--p-card-body-height) !important;
-  }
-
-  :deep(.p-card-content) {
-    padding-bottom: 0;
-    padding-top: 0;
-    height: 100% !important;
-  }
+:deep(.p-card-body) {
+  height: var(--p-card-body-height) !important;
 }
 </style>

@@ -37,9 +37,3 @@ async function updateStatus(id: number, status: number) {
   if (response.statusText === 'OK') return true;
   return false;
 }
-
-export const productionsService = {
-  loadPage,
-  isProductInShoppingCart,
-  updateStatus,
-};

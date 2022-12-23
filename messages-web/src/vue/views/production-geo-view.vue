@@ -66,19 +66,42 @@
             <card class="w-full h-full production-geo-card">
               <template #content>
                 <router-link :to="`/organization/${org.id}`" class="no-underline">
-                  <div class="flex flex-column">
-                    <div class="flex flex-row">
-                      <span
-                        class="w-full font-semibold text-900"
-                        :style="{ overflowWrap: 'break-word' }"
-                      >
-                        {{ org.name }}
-                      </span>
+                  <div class="w-full h-full flex flex-row align-items-center">
+                    <div>
+                      <img
+                        v-if="org.documentId == null"
+                        :src="require('@/assets/images/profile.svg')"
+                        alt="Изображение профиля"
+                        width="50"
+                        height="50"
+                        :style="{
+                          objectFit: 'cover',
+                          borderRadius: '0.5rem',
+                        }"
+                        class="mr-3"
+                      />
+                      <file-store-image
+                        v-if="org.documentId != null"
+                        :max-width="50"
+                        :max-height="50"
+                        :id="org.documentId"
+                        class="mr-3"
+                      ></file-store-image>
                     </div>
-                    <div class="flex flex-row mt-1">
-                      <span class="w-full text-700" :style="{ overflowWrap: 'break-word' }">
-                        {{ org.region }}
-                      </span>
+                    <div class="flex flex-column">
+                      <div class="flex flex-row">
+                        <span
+                          class="w-full font-semibold text-900"
+                          :style="{ overflowWrap: 'break-word' }"
+                        >
+                          {{ org.name }}
+                        </span>
+                      </div>
+                      <div class="flex flex-row mt-1">
+                        <span class="w-full text-700" :style="{ overflowWrap: 'break-word' }">
+                          {{ org.region }}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </router-link>

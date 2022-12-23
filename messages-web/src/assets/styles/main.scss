@@ -74,16 +74,6 @@ body {
   }
 }
 
-.star-filled {
-  &::before {
-    content: url('@/assets/icons/star.svg');
-  }
-}
-
-.star-yellow {
-  color: map-get($map: $colors, $key: 'yellow');
-}
-
 .p-tabview {
   .p-tabview-panels,
   .p-tabview-nav,

@@ -33,4 +33,15 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import '@/assets/styles/_variables.scss';
+.star-filled {
+  &::before {
+    content: url('@/assets/icons/star.svg');
+  }
+}
+
+.star-yellow {
+  color: map-get($map: $colors, $key: 'yellow');
+}
+</style>

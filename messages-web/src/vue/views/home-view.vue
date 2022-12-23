@@ -7,7 +7,7 @@
         <prime-divider class="mt-2"></prime-divider>
         <popular-sections-carousel class="w-full"></popular-sections-carousel>
       </div>
-      <div class="col-12 mt-5">
+      <!-- <div class="col-12 mt-5">
         <div class="flex flex-row justify-content-between align-items-end mr-1">
           <app-text mode="header" class="p-component">Популярные товары</app-text>
           <router-link class="no-underline" :to="{ name: 'catalog' }">
@@ -23,8 +23,16 @@
         </div>
         <prime-divider class="mt-2"></prime-divider>
         <popular-products-list></popular-products-list>
-      </div>
-      <div class="col-12 mt-5">
+      </div> -->
+      <app-section
+        class="col-12 mt-5"
+        title="Популярные товары"
+        link-text="Все товары и услуги"
+        :to="{ name: 'catalog' }"
+      >
+        <popular-products-list></popular-products-list>
+      </app-section>
+      <!-- <div class="col-12 mt-5">
         <div class="flex flex-row justify-content-between align-content-end">
           <app-text mode="header" class="p-component">Производители</app-text>
           <router-link v-if="isContentManager" class="no-underline" :to="{ name: 'organizations' }">
@@ -41,7 +49,16 @@
 
         <prime-divider class="mt-2"></prime-divider>
         <popular-organizations-list></popular-organizations-list>
-      </div>
+      </div> -->
+      <app-section
+        class="col-12 mt-5"
+        title="Производители"
+        :hide-link="!isContentManager"
+        link-text="Все производители"
+        :to="{ name: 'catalog' }"
+      >
+        <popular-organizations-list></popular-organizations-list>
+      </app-section>
       <div class="col-12 mt-5">
         <app-text mode="header" class="p-component">Дайджесты</app-text>
         <prime-divider class="mt-2"></prime-divider>

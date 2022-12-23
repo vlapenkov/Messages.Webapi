@@ -100,6 +100,7 @@ export function useCatalogFilters() {
         producerName: organizationModel.value ?? null,
         region: regionModel.value,
         orderBy: orderBy.value,
+        ProducerId: null,
         status: ProductStatus.Active,
         catalogSectionId: sectionId.value ?? undefined,
       });

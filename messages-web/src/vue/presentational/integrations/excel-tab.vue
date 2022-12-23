@@ -97,6 +97,7 @@ export default defineComponent({
             pageNumber: pageNumber.value,
             pageSize: pageSize.value,
             producerName: null,
+            ProducerId: null,
             region: null,
             orderBy: orderBy.value,
             status: null,

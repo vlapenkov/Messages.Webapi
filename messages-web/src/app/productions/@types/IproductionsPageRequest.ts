@@ -12,6 +12,7 @@ export interface IproductionsPageRequest extends IPagedRequest {
   name: string | null;
   region: string | null;
   producerName: string | null;
+  ProducerId: number | null;
   orderBy: OrderByProduct | null;
   status: ProductStatus.Active | null;
 }

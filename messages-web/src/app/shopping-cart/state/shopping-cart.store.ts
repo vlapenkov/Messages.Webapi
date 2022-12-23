@@ -16,7 +16,6 @@ const status = computeState((state) => state.status);
 const items = computeState((state) => state.cartItems);
 
 const getDataAsync = action('Get shopping cart data', async () => {
-  console.trace('load cart data');
   status.value = new DataStatus('loading');
   const response = await shoppingCartHttpService.get();
   if (response.status === HttpStatus.Success && response.data != null) {

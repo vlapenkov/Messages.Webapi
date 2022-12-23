@@ -8,21 +8,27 @@ import {
   ProductStatus,
 } from '@/app/productions/@types/IproductionsPageRequest';
 import { OrderByProduct } from '@/store/catalog-filters.store';
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
-  setup() {
-    const request: IproductionsPageRequest = {
+  props: {
+    organizationId: {
+      type: Number,
+      required: true,
+    },
+  },
+  setup(props) {
+    const request = computed<IproductionsPageRequest>(() => ({
       name: null,
       catalogSectionId: undefined,
       pageNumber: 1,
-      pageSize: 12,
+      pageSize: 4,
       producerName: null,
-      ProducerId: null,
+      ProducerId: props.organizationId,
       region: null,
       orderBy: OrderByProduct.RatingByDesc,
       status: ProductStatus.Active,
-    };
+    }));
     return { request };
   },
 });

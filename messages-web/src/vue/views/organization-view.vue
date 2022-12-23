@@ -1,7 +1,7 @@
 <template>
   <app-page title="Данные об организации">
-    <card class="re-padding">
-      <template #content>
+    <div class="flex flex-column gap-6 mt-5">
+      <prime-card no-padding transparent shadow-hover="none">
         <div>
           <div class="w-full h-full grid">
             <div class="col-3">
@@ -26,7 +26,7 @@
                 />
               </div>
             </div>
-            <div class="col-8">
+            <div class="col-9 pl-5">
               <div class="flex flex-column">
                 <div class="text-xl font-medium mb-3">{{ mainInfo.name }}</div>
                 <div class="text-base mt-1">
@@ -55,11 +55,9 @@
             </div>
           </div>
         </div>
-      </template>
-    </card>
+      </prime-card>
 
-    <card class="re-padding mt-3">
-      <template #content>
+      <prime-card no-padding transparent shadow-hover="none">
         <tab-view ref="tabview1">
           <tab-panel v-for="i in info" :key="i.header" :header="i.header">
             <data-view :value="i.data" responsiveLayout="scroll">
@@ -76,15 +74,26 @@
             </data-view>
           </tab-panel>
         </tab-view>
-      </template>
-    </card>
+      </prime-card>
+
+      <app-section
+        v-if="organizationId"
+        title="Каталог товаров и услуг организации"
+        link-text="Перейти к каталогу"
+        :to="{ name: 'catalog', query: { sectionId: organizationId } }"
+      >
+        <popular-products-for-organization
+          :organizationId="organizationId"
+        ></popular-products-for-organization>
+      </app-section>
+    </div>
   </app-page>
 </template>
 
 <script lang="ts">
 import { organizationFullStore } from '@/app/organization-full/state/organization-full.store';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
-import { defineComponent, watch, computed } from 'vue';
+import { defineComponent, watch, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 interface IKeyValue {
@@ -105,6 +114,7 @@ export default defineComponent({
     const statusColor = computed(
       () => statuses.value.find((x) => x.name === item.value?.statusText)?.color,
     );
+    const organizationId = ref<number>();
     watch(
       () => route.params.id as string | undefined,
       (id) => {
@@ -112,6 +122,7 @@ export default defineComponent({
           return;
         }
         organizationFullStore.getDataAsync(+id);
+        organizationId.value = +id;
       },
       {
         immediate: true,
@@ -181,7 +192,7 @@ export default defineComponent({
       },
     ]);
 
-    return { item, info, mainInfo, statusColor };
+    return { item, info, organizationId, mainInfo, statusColor };
   },
 });
 </script>

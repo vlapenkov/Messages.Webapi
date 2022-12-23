@@ -114,6 +114,7 @@ export default defineComponent({
           pageNumber: pnum,
           pageSize: psize,
           producerName: null,
+          ProducerId: null,
           region: null,
           orderBy: ob,
           status: null,

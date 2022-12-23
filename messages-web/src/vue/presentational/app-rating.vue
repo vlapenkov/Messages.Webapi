@@ -23,7 +23,7 @@ export default defineComponent({
   setup(props) {
     const displayVal = computed(() => {
       const splittedValue = String(props.value).split('.');
-      if (splittedValue.length === 1) {
+      if (props.value > 0 && splittedValue.length === 1) {
         splittedValue.push('0');
       }
       return splittedValue.join('.');

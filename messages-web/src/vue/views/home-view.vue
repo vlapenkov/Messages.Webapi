@@ -173,9 +173,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { userInfo } from '@/store/user.store';
+import { useCartTotalQuantity } from '@/composables/shopping-cart.composables';
 
 export default defineComponent({
   setup() {
@@ -183,7 +183,7 @@ export default defineComponent({
 
     const hasPhoto = ref(false);
 
-    const cartCapacity = shoppingCartStore.totalQuantity;
+    const cartCapacity = useCartTotalQuantity();
 
     const isContentManager = computed(() =>
       userInfo.value?.role.find((r) => r === 'content_manager'),

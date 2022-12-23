@@ -97,8 +97,8 @@
 </template>
 
 <script lang="ts">
-import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
+import { useCartTotalQuantity } from '@/composables/shopping-cart.composables';
 import { useElementSize } from '@vueuse/core';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -114,7 +114,7 @@ export default defineComponent({
         showFilters.value = false;
       }
     });
-    const { totalQuantity: cartCapacity } = shoppingCartStore;
+    const cartCapacity = useCartTotalQuantity();
     const searchRef = ref();
 
     const { height: searchHeight } = useElementSize(searchRef);

@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
-import { useIsInCart } from '@/composables/is-in-cart.composable';
+import { useIsInCart } from '@/composables/shopping-cart.composables';
 import { useElementHover, useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 

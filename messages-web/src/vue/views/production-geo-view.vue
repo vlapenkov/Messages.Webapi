@@ -40,7 +40,13 @@
 
     <transition-fade>
       <div v-if="selectedMode === Modes.MAP" class="map-container">
-        <yandex-map :settings="settings" :coords="[65, 90]" :zoom="3" class="map">
+        <yandex-map
+          :settings="settings"
+          :cluster-options="clusterOptions"
+          :coords="[65, 90]"
+          :zoom="3"
+          class="map"
+        >
           <ymap-marker
             v-for="o in filteredOrgs"
             :key="o.id"
@@ -48,6 +54,7 @@
             :coords="[o.latitude, o.longitude]"
             :icon="markerIcon"
             :balloon-template="balloonTemplate(o)"
+            cluster-name="cluster"
           >
           </ymap-marker>
         </yandex-map>
@@ -115,6 +122,11 @@ export default defineComponent({
       imageSize: [22, 35],
       imageOffset: [0, 0],
     };
+    const clusterOptions = {
+      cluster: {
+        gridSize: 128,
+      },
+    };
     const balloonTemplate = (org: OrganizationModel) => `
       <div class="w-full" style="max-height: 200px">
         <div><span style="font-weight: 600">${org.name}</span></div>
@@ -125,7 +137,6 @@ export default defineComponent({
           </a>
         </div>
       </div>`;
-
     const selectedMode = ref(Modes.MAP);
     const regionModel = ref();
     const organizationModel = ref();
@@ -147,6 +158,7 @@ export default defineComponent({
       regionOptions,
       settings,
       markerIcon,
+      clusterOptions,
       balloonTemplate,
     };
   },

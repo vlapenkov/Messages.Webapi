@@ -11,25 +11,42 @@
               <div class="w-full h-full grid">
                 <div class="col-4 field">
                   <label for="fio" class="text-600">ФИО</label>
-                  <input-text id="fio" type="text" class="w-full p-inputtext-sm rk-input" v-model="userState.fio" />
+                  <input-text
+                    id="fio"
+                    type="text"
+                    class="w-full p-inputtext-sm rk-input"
+                    v-model="userState.fio"
+                  />
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
                   <label for="phone" class="text-600">Контактный телефон</label>
-                  <input-mask id="phone" mask="9 (999) 999-99-99" class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.phone" />
+                  <input-mask
+                    id="phone"
+                    mask="9 (999) 999-99-99"
+                    class="w-full p-inputtext-sm rk-input"
+                    v-model="userState.phone"
+                  />
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
                   <label for="email" class="text-600">E-mail</label>
-                  <input-text id="email" type="email" class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.email" />
+                  <input-text
+                    id="email"
+                    type="email"
+                    class="w-full p-inputtext-sm rk-input"
+                    v-model="userState.email"
+                  />
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
                   <label for="password" class="text-600">Пароль</label>
-                  <input-text id="password" type="password" class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.password" />
+                  <input-text
+                    id="password"
+                    type="password"
+                    class="w-full p-inputtext-sm rk-input"
+                    v-model="userState.password"
+                  />
                 </div>
                 <div class="col-8"></div>
               </div>
@@ -41,18 +58,31 @@
                 <div class="w-full h-full grid">
                   <div class="col-3">
                     <div class="w-full flex flex-row justify-content-center align-items-center">
-                      <img :src="file != null ? fileB64 : require('@/assets/images/profile.svg')"
-                        alt="Изображение профиля" width="150" height="150" :style="{
+                      <img
+                        :src="file != null ? fileB64 : require('@/assets/images/profile.svg')"
+                        alt="Изображение профиля"
+                        width="150"
+                        height="150"
+                        :style="{
                           objectFit: 'cover',
                           borderRadius: '0.5rem',
-                        }" />
+                        }"
+                      />
                     </div>
                   </div>
                   <div class="col-8 file-upload">
                     <div class="w-full h-full flex flex-column justify-content-center">
-                      <file-upload mode="basic" id="organization-img" accept="image/*" :maxFileSize="3000000"
-                        @input="onFileInput" :auto="true" :customUpload="true" chooseLabel="Загрузить изображение"
-                        class="p-button-sm" />
+                      <file-upload
+                        mode="basic"
+                        id="organization-img"
+                        accept="image/*"
+                        :maxFileSize="3000000"
+                        @input="onFileInput"
+                        :auto="true"
+                        :customUpload="true"
+                        chooseLabel="Загрузить изображение"
+                        class="p-button-sm"
+                      />
                     </div>
                   </div>
                 </div>
@@ -66,13 +96,21 @@
                       <span class="text-600">Тип профиля</span>
                       <div class="h-full w-full flex flex-row align-items-center">
                         <div class="field mr-5">
-                          <checkbox inputId="isProducer" :binary="true" v-model="formState.isProducer"
-                            :disabled="isModeration" />
+                          <checkbox
+                            inputId="isProducer"
+                            :binary="true"
+                            v-model="formState.isProducer"
+                            :disabled="isModeration"
+                          />
                           <label for="isProducer" class="text-800 m-0 ml-2">Продавец</label>
                         </div>
                         <div class="field">
-                          <checkbox inputId="isBuyer" :binary="true" v-model="formState.isBuyer"
-                            :disabled="isModeration" />
+                          <checkbox
+                            inputId="isBuyer"
+                            :binary="true"
+                            v-model="formState.isBuyer"
+                            :disabled="isModeration"
+                          />
                           <label for="isBuyer" class="text-800 m-0 ml-2">Покупатель</label>
                         </div>
                       </div>
@@ -82,8 +120,13 @@
                     <div class="h-full w-full flex flex-row align-items-center">
                       <div class="field">
                         <label for="status" class="text-600">Статус</label>
-                        <dropdown id="status" :options="statusOptions" class="w-full p-component rk-dropdown"
-                          v-model="formState.statusText" :disabled="!isModeration" />
+                        <dropdown
+                          id="status"
+                          :options="statusOptions"
+                          class="w-full p-component rk-dropdown"
+                          v-model="formState.statusText"
+                          :disabled="!isModeration"
+                        />
                       </div>
                     </div>
                   </div>
@@ -95,30 +138,58 @@
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
                     <label for="ogrn" class="text-600">ОГРН</label>
-                    <input-text id="ogrn" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.ogrn"
-                      :maxlength="13" :disabled="isModeration" />
+                    <input-text
+                      id="ogrn"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.ogrn"
+                      :maxlength="13"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4 field">
                     <label for="full-name" class="text-600">Полное наименование</label>
-                    <input-text id="full-name" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.fullName" :disabled="isModeration" />
+                    <input-text
+                      id="full-name"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.fullName"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
                     <label for="kpp" class="text-600">КПП</label>
-                    <input-text id="kpp" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.kpp"
-                      :maxlength="9" :disabled="isModeration" />
+                    <input-text
+                      id="kpp"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.kpp"
+                      :maxlength="9"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4 field">
                     <label for="short-name" class="text-600">Сокращенное наименование</label>
-                    <input-text id="short-name" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.name" :disabled="isModeration" />
+                    <input-text
+                      id="short-name"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.name"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
                     <label for="inn" class="text-600">ИНН</label>
-                    <input-text id="inn" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.inn"
-                      :maxlength="10" :disabled="isModeration" />
+                    <input-text
+                      id="inn"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.inn"
+                      :maxlength="10"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-8"></div>
                 </div>
@@ -126,13 +197,23 @@
                 <div class="w-full h-full grid">
                   <div class="col-3 field">
                     <label for="okved" class="text-600">ОКВЭД</label>
-                    <input-text id="okved" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.okved"
-                      :disabled="isModeration" />
+                    <input-text
+                      id="okved"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.okved"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-3 field">
                     <label for="okved2" class="text-600">ОКВЭД 2</label>
-                    <input-text id="okved2" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.okved2" :disabled="isModeration" />
+                    <input-text
+                      id="okved2"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.okved2"
+                      :disabled="isModeration"
+                    />
                   </div>
                 </div>
               </div>
@@ -142,45 +223,100 @@
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
                     <label for="region" class="text-600">Регион</label>
-                    <input-text id="region" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.region" :disabled="isModeration" />
+                    <input-text
+                      id="region"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.region"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4 field">
                     <label for="city" class="text-600">Город</label>
-                    <input-text id="city" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.city"
-                      :disabled="isModeration" />
+                    <input-text
+                      id="city"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.city"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-8 field">
                     <label for="legal-address" class="text-600">Юридический адрес</label>
-                    <input-text id="legal-address" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.address" :disabled="isModeration" />
+                    <input-text
+                      id="legal-address"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.address"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-3"></div>
                   <div class="col-8 field">
                     <label for="actual-address" class="text-600">Фактический адрес</label>
-                    <input-text id="actual-address" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.factAddress" :disabled="isModeration" />
+                    <input-text
+                      id="actual-address"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.factAddress"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-3"></div>
                 </div>
               </div>
               <div>
-                <h3 class="mt-4">Географические координаты</h3>
-                <div class="w-full h-full grid">
-                  <div class="col-3 field">
-                    <label for="latitude" class="text-600">Широта</label>
-                    <input-number id="latitude" mode="decimal" locale="ru-RU" class="w-full p-inputtext-sm rk-input"
-                      placeholder="Не указана" :minFractionDigits="1" :maxFractionDigits="12"
-                      v-model="formState.latitude" :disabled="isModeration" />
-                  </div>
-                  <div class="col-3 field">
-                    <label for="longitude" class="text-600">Долгота</label>
-                    <input-number id="longitude" mode="decimal" locale="ru-RU" class="w-full p-inputtext-sm rk-input"
-                      placeholder="Не указана" :minFractionDigits="1" :maxFractionDigits="12"
-                      v-model="formState.longitude" :disabled="isModeration" />
-                  </div>
-                </div>
+                <accordion>
+                  <accordion-tab header="Географические координаты">
+                    <div class="w-full h-full grid">
+                      <div class="col-3 field">
+                        <label for="latitude" class="text-600">Широта</label>
+                        <input-number
+                          id="latitude"
+                          mode="decimal"
+                          locale="ru-RU"
+                          class="w-full p-inputtext-sm rk-input"
+                          placeholder="Не указана"
+                          :minFractionDigits="1"
+                          :maxFractionDigits="12"
+                          v-model="formState.latitude"
+                          :disabled="isModeration"
+                        />
+                      </div>
+                      <div class="col-3 field">
+                        <label for="longitude" class="text-600">Долгота</label>
+                        <input-number
+                          id="longitude"
+                          mode="decimal"
+                          locale="ru-RU"
+                          class="w-full p-inputtext-sm rk-input"
+                          placeholder="Не указана"
+                          :minFractionDigits="1"
+                          :maxFractionDigits="12"
+                          v-model="formState.longitude"
+                          :disabled="isModeration"
+                        />
+                      </div>
+                    </div>
+                    <div class="w-full h-full map-container">
+                      <yandex-map
+                        :settings="settings"
+                        :coords="[formState.latitude ?? 65, formState.longitude ?? 90]"
+                        :zoom="3"
+                        class="map"
+                        @click="handleClick"
+                      >
+                        <ymap-marker
+                          v-if="formState.latitude != null && formState.longitude != null"
+                          :coords="[formState.latitude, formState.longitude]"
+                          :icon="markerIcon"
+                        ></ymap-marker>
+                        <div v-else></div>
+                      </yandex-map>
+                    </div>
+                  </accordion-tab>
+                </accordion>
               </div>
               <prime-divider class="mt-5 mb-5"></prime-divider>
               <div>
@@ -188,24 +324,44 @@
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
                     <label for="bank" class="text-600">Банк</label>
-                    <input-text id="bank" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.bankName" :disabled="isModeration" />
+                    <input-text
+                      id="bank"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.bankName"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4 field">
                     <label for="cor-acc" class="text-600">Корреспондентский счет</label>
-                    <input-text id="cor-acc" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.corrAccount" :disabled="isModeration" />
+                    <input-text
+                      id="cor-acc"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.corrAccount"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
                     <label for="acc-number" class="text-600">Номер счета</label>
-                    <input-text id="acc-number" type="text" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.account" :disabled="isModeration" />
+                    <input-text
+                      id="acc-number"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.account"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4 field">
                     <label for="bik" class="text-600">БИК</label>
-                    <input-text id="bik" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.bik"
-                      :disabled="isModeration" />
+                    <input-text
+                      id="bik"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.bik"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-4"></div>
                 </div>
@@ -216,20 +372,35 @@
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
                     <label for="org-phone" class="text-600">Контактный телефон</label>
-                    <input-mask id="org-phone" mask="9 (999) 999-99-99" class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.phone" :disabled="isModeration" />
+                    <input-mask
+                      id="org-phone"
+                      mask="9 (999) 999-99-99"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.phone"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-8"></div>
                   <div class="col-4 field">
-                    <label for="email" class="text-600">E-mail</label>
-                    <input-text id="email" type="text" class="w-full p-inputtext-sm rk-input" v-model="formState.email"
-                      :disabled="isModeration" />
+                    <label for="org-email" class="text-600">E-mail</label>
+                    <input-text
+                      id="org-email"
+                      type="text"
+                      class="w-full p-inputtext-sm rk-input"
+                      v-model="formState.email"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-8"></div>
                   <div class="col-4 field">
                     <label for="site" class="text-600">Сайт</label>
-                    <input-text id="site" type="text" class="w-full rk-input p-inputtext-sm rk-input"
-                      v-model="formState.site" :disabled="isModeration" />
+                    <input-text
+                      id="site"
+                      type="text"
+                      class="w-full rk-input p-inputtext-sm rk-input"
+                      v-model="formState.site"
+                      :disabled="isModeration"
+                    />
                   </div>
                   <div class="col-8"></div>
                 </div>
@@ -258,9 +429,11 @@ import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
+import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 
 export default defineComponent({
-  components: { Toast },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { Toast, yandexMap, ymapMarker },
   setup() {
     const userState = reactive({
       fio: '',
@@ -313,8 +486,9 @@ export default defineComponent({
         const firstErr = errors != null ? errors[0] : null;
         const title = firstErr != null ? firstErr[0] : null;
         const description = firstErr != null ? firstErr[1] : null;
-        const detail = `${title != null ? title : 'Что-то случилось при добавлении организации'}${description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
-          }`;
+        const detail = `${title != null ? title : 'Что-то случилось при добавлении организации'}${
+          description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
+        }`;
         toast.add({
           severity: 'error',
           group: 'tr',
@@ -352,6 +526,29 @@ export default defineComponent({
       }
       [file.value] = files;
     };
+    const settings = {
+      apiKey: process.env.VUE_APP_YANDEX_MAP_API_KEY,
+      lang: process.env.VUE_APP_YANDEX_MAP_LANG,
+      coordorder: process.env.VUE_APP_YANDEX_MAP_COORDORDER,
+      version: process.env.VUE_APP_YANDEX_MAP_VERSION,
+    };
+    const markerIcon = {
+      layout: 'default#image',
+      // eslint-disable-next-line global-require
+      imageHref: require('@/assets/icons/marker.png'),
+      imageSize: [22, 35],
+      imageOffset: [0, 0],
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleClick = (e: any) => {
+      const propotype = Object.getPrototypeOf(e);
+      // eslint-disable-next-line no-prototype-builtins
+      if (propotype.hasOwnProperty('get')) {
+        const [lat, long] = e.get('coords');
+        formState.latitude = lat;
+        formState.longitude = long;
+      }
+    };
     return {
       userState,
       statusOptions,
@@ -360,8 +557,11 @@ export default defineComponent({
       fileB64,
       status,
       file,
+      settings,
+      markerIcon,
       save,
       onFileInput,
+      handleClick,
     };
   },
 });
@@ -372,6 +572,16 @@ export default defineComponent({
   .p-card-body {
     padding-top: 0;
     padding-bottom: 0;
+  }
+}
+
+.map-container {
+  :deep(.ymap-container) {
+    height: 100%;
+  }
+
+  .map {
+    height: 50vh;
   }
 }
 </style>

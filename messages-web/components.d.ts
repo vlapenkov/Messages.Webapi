@@ -7,6 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Accordion: typeof import('primevue/accordion')['default']
+    AccordionTab: typeof import('primevue/accordiontab')['default']
     AddSectionDialog: typeof import('./src/vue/containers/sections/add-section-dialog.vue')['default']
     AppAffix: typeof import('./src/vue/presentational/app-affix.vue')['default']
     AppContainer: typeof import('./src/vue/presentational/app-container.vue')['default']

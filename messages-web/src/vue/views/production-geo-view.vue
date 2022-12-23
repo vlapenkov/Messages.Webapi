@@ -40,15 +40,14 @@
 
     <transition-fade>
       <div v-if="selectedMode === Modes.MAP" class="map-container">
-        <yandex-map :settings="settings" :coords="coords" :zoom="zoom" class="map">
+        <yandex-map :settings="settings" :coords="[65, 90]" :zoom="3" class="map">
           <ymap-marker
             v-for="o in filteredOrgs"
             :key="o.id"
             :marker-id="o.id"
             :coords="[o.latitude, o.longitude]"
             :icon="markerIcon"
-            :hint-content="o.city"
-            :balloon-template="tooltipHtmlTemplate(o)"
+            :balloon-template="balloonTemplate(o)"
           ></ymap-marker>
         </yandex-map>
       </div>
@@ -109,12 +108,14 @@ export default defineComponent({
       enterprise: false,
       version: '2.1',
     };
-    const zoom = 3;
-    const coords = [65, 90];
     const markerIcon = {
-      layout: 'islands#redDotIcon',
+      layout: 'default#image',
+      // eslint-disable-next-line global-require
+      imageHref: require('@/assets/icons/marker.png'),
+      imageSize: [22, 32],
+      // imageOffset: [0, 0],
     };
-    const tooltipHtmlTemplate = (org: OrganizationModel) => `
+    const balloonTemplate = (org: OrganizationModel) => `
       <div class="w-full" style="max-height: 200px">
         <div><span style="font-weight: 600">${org.name}</span></div>
         <div class="mt-1"><span style="font-weight: 500">${org.region}</span></div>
@@ -145,10 +146,8 @@ export default defineComponent({
       organizationOptions,
       regionOptions,
       settings,
-      coords,
-      zoom,
       markerIcon,
-      tooltipHtmlTemplate,
+      balloonTemplate,
     };
   },
 });

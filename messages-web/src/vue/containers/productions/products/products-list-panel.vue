@@ -14,12 +14,11 @@
 
 <script lang="ts">
 import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
-import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { defineComponent, PropType, watch } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 
 export default defineComponent({
   components: { Toast },
@@ -31,22 +30,13 @@ export default defineComponent({
   },
   setup(props) {
     const toast = useToast();
+    const { getPageState } = productionsStore;
 
-    watch(
-      () => props.request,
-      (request) => {
-        productionsService.loadPage(request);
-        productionsStore.pageNumber.value = request.pageNumber;
-        productionsStore.pageSize.value = request.pageSize;
-      },
-      {
-        immediate: true,
-        deep: true,
-      },
-    );
+    const pageState = computed(() => getPageState(props.request));
+
+    const productions = computed(() => pageState.value.pageData.value?.rows ?? null);
 
     const notifyHandler = useToastNotificationHandler(toast);
-    const { currentPageItems: productions } = productionsStore;
     return { productions, notifyHandler };
   },
 });

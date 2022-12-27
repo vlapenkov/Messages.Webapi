@@ -6,30 +6,23 @@
           <skeleton height="100px"></skeleton>
         </div>
       </template>
-      <hover-tag v-slot="{ hover }" v-else v-for="o in items" :key="o.id" class="col-3">
-        <card
-          class="h-full shadow-none trans-shadow"
-          :class="{ 'shadow-none': !hover, 'shadow-2': hover }"
-          @click="viewOrganization(o)"
-          :style="{ cursor: 'pointer' }"
-        >
-          <template #content>
-            <div class="h-full w-full flex flex-row align-items-start pl-3 py-2 gap-4">
-              <div>
-                <avatar class="flex-shrink-0" :label="o.name[0]" shape="circle"></avatar>
+      <div v-else v-for="o in items" :key="o.id" class="col-3">
+        <prime-card transparent class="h-full" @click="viewOrganization(o)">
+          <div class="h-full w-full flex flex-row align-items-start pl-3 py-2 gap-4">
+            <div>
+              <avatar class="flex-shrink-0" :label="o.name[0]" shape="circle"></avatar>
+            </div>
+            <div>
+              <div class="flex flex-row">
+                <span class="font-semibold">{{ o.name }}</span>
               </div>
-              <div>
-                <div class="flex flex-row">
-                  <span class="font-semibold">{{ o.name }}</span>
-                </div>
-                <div class="flex flex-row">
-                  <span>{{ o.region }}</span>
-                </div>
+              <div class="flex flex-row">
+                <span>{{ o.region }}</span>
               </div>
             </div>
-          </template>
-        </card>
-      </hover-tag>
+          </div>
+        </prime-card>
+      </div>
     </div>
   </div>
 </template>

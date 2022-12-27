@@ -14,14 +14,14 @@
           </div>
           <div class="col-7 pl-4 flex flex-column gap-2">
             <app-text mode="header"> {{ item.name }}</app-text>
-            <app-text :class="{ 'opacity-0': item.article == null || item.article === '' }" mode="weak">
-              {{ item.article || '123456' }}</app-text>
-            <div v-if="(item.rating ?? 0) > 0" class="flex flex-row gap-1 align-content-center text-md">
-              <i class="star-filled star-yellow"></i>
-              <span>
-                {{ item.rating ?? 0 }}
-              </span>
-            </div>
+            <app-text
+              :class="{ 'opacity-0': item.article == null || item.article === '' }"
+              mode="weak"
+            >
+              {{ item.article || '123456' }}</app-text
+            >
+
+            <app-rating :value="item.rating"></app-rating>
             <div class="flex flex-row gap-1 mt-2">
               <div>
                 <prime-button-weak disabled small>
@@ -55,8 +55,11 @@
             </div>
             <div class="flex flex-row gap-2">
               <app-text style="line-height: 19px">Производитель:</app-text>
-              <router-link style="line-height: 19px" class="no-underline"
-                :to="{ name: 'organization', params: { id: item.organization.id } }">
+              <router-link
+                style="line-height: 19px"
+                class="no-underline"
+                :to="{ name: 'organization', params: { id: item.organization.id } }"
+              >
                 <app-text mode="primary">{{ item.organization.name }}</app-text>
               </router-link>
             </div>
@@ -66,7 +69,7 @@
             </div>
             <div class="flex flex-row gap-2">
               <app-text style="line-height: 19px; color: #00ba88">{{
-                  item.availableStatusText
+                item.availableStatusText
               }}</app-text>
             </div>
             <div class="flex flex-row gap-2">
@@ -82,8 +85,13 @@
                 </app-text>
                 <app-text v-else mode="header-strong"> Цена договорная </app-text>
               </div>
-              <prime-button :disabled="isInCart" @click="addToCart(item.id, item.name)" class="p-button-sm mt-3"
-                style="width: 221px; height: 44px" :label="isInCart ? 'В корзине' : 'В корзину'">
+              <prime-button
+                :disabled="isInCart"
+                @click="addToCart(item.id, item.name)"
+                class="p-button-sm mt-3"
+                style="width: 221px; height: 44px"
+                :label="isInCart ? 'В корзине' : 'В корзину'"
+              >
               </prime-button>
             </div>
             <div></div>
@@ -124,7 +132,7 @@
 <script lang="ts">
 import { productFullStore, ProductType } from '@/app/product-full/state/product-full.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { useIsInCart } from '@/composables/is-in-cart.composable';
+import { useIsInCart } from '@/composables/shopping-cart.composables';
 import { useSections } from '@/composables/sections.composable';
 import { showRegisterDialog } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
@@ -227,12 +235,18 @@ export default defineComponent({
         },
         {
           name: 'Доля иностранных комплектующих, %',
-          value: item.value.shareOfForeignComponents != null ? `${item.value.shareOfForeignComponents}` : '0',
+          value:
+            item.value.shareOfForeignComponents != null
+              ? `${item.value.shareOfForeignComponents}`
+              : '0',
           forTypes: ['product'],
         },
         {
           name: 'Используются иностранные компоненты',
-          value: item.value.areForeignComponentsUsed != null && item.value.areForeignComponentsUsed ? 'Да' : 'Нет',
+          value:
+            item.value.areForeignComponentsUsed != null && item.value.areForeignComponentsUsed
+              ? 'Да'
+              : 'Нет',
           forTypes: ['service', 'work'],
         },
         {

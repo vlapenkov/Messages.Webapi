@@ -7,41 +7,25 @@
         <prime-divider class="mt-2"></prime-divider>
         <popular-sections-carousel class="w-full"></popular-sections-carousel>
       </div>
-      <div class="col-12 mt-5">
-        <div class="flex flex-row justify-content-between align-items-end mr-1">
-          <app-text mode="header" class="p-component">Популярные товары</app-text>
-          <router-link class="no-underline" :to="{ name: 'catalog' }">
-            <div class="flex flex-row gap-2 align-items-center">
-              <div class="pb-1">
-                <app-text class="p-component" mode="primary"> Все товары и услуги </app-text>
-              </div>
-              <div>
-                <app-text tag="i" class="pi pi-arrow-right" mode="primary"> </app-text>
-              </div>
-            </div>
-          </router-link>
-        </div>
-        <prime-divider class="mt-2"></prime-divider>
-        <popular-products-list></popular-products-list>
-      </div>
-      <div class="col-12 mt-5">
-        <div class="flex flex-row justify-content-between align-content-end">
-          <app-text mode="header" class="p-component">Производители</app-text>
-          <router-link v-if="isContentManager" class="no-underline" :to="{ name: 'organizations' }">
-            <div class="flex flex-row gap-2 align-items-center">
-              <div class="pb-1">
-                <app-text class="p-component" mode="primary"> Все производители </app-text>
-              </div>
-              <div>
-                <app-text tag="i" class="pi pi-arrow-right" mode="primary"> </app-text>
-              </div>
-            </div>
-          </router-link>
-        </div>
 
-        <prime-divider class="mt-2"></prime-divider>
+      <app-section
+        class="col-12 mt-5"
+        title="Популярные товары"
+        link-text="Все товары и услуги"
+        :to="{ name: 'catalog' }"
+      >
+        <popular-products-list></popular-products-list>
+      </app-section>
+
+      <app-section
+        class="col-12 mt-5"
+        title="Производители"
+        :hide-link="!isContentManager"
+        link-text="Все производители"
+        :to="{ name: 'catalog' }"
+      >
         <popular-organizations-list></popular-organizations-list>
-      </div>
+      </app-section>
       <div class="col-12 mt-5">
         <app-text mode="header" class="p-component">Дайджесты</app-text>
         <prime-divider class="mt-2"></prime-divider>
@@ -173,9 +157,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { userInfo } from '@/store/user.store';
+import { useCartTotalQuantity } from '@/composables/shopping-cart.composables';
 
 export default defineComponent({
   setup() {
@@ -183,7 +167,7 @@ export default defineComponent({
 
     const hasPhoto = ref(false);
 
-    const cartCapacity = shoppingCartStore.totalQuantity;
+    const cartCapacity = useCartTotalQuantity();
 
     const isContentManager = computed(() =>
       userInfo.value?.role.find((r) => r === 'content_manager'),

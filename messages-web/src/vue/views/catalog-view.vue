@@ -14,10 +14,7 @@
 </template>
 
 <script lang="ts">
-import {
-  IproductionsPageRequest,
-  ProductStatus,
-} from '@/app/productions/@types/IproductionsPageRequest';
+import { ProductStatus } from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useElementSize } from '@vueuse/core';
@@ -53,30 +50,28 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      const request: IproductionsPageRequest = {
-        name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
-        catalogSectionId: sectionId.value ?? undefined,
-        pageNumber: pageNumber.value,
-        pageSize: pageSize.value,
-        producerName: organization.value ?? null,
-        region: region.value ?? null,
-        orderBy: orderBy.value,
-        status: ProductStatus.Active,
-      };
-      productionsService.loadPage(request);
+      pageNumber.value = 1;
+      pageSize.value = 16;
     });
 
-    watch([pageNumber, pageSize, orderBy], ([pnum, psize, order]) => {
-      productionsService.loadPage({
-        name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
-        pageNumber: pnum,
-        pageSize: psize,
-        producerName: organization.value ?? null,
-        region: region.value,
-        orderBy: order,
-        status: ProductStatus.Active,
-      });
-    });
+    watch(
+      [pageNumber, pageSize, orderBy],
+      ([pnum, psize, order]) => {
+        productionsService.loadPage({
+          name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
+          pageNumber: pnum,
+          pageSize: psize,
+          producerName: organization.value ?? null,
+          ProducerId: null,
+          region: region.value,
+          orderBy: order,
+          status: ProductStatus.Active,
+        });
+      },
+      {
+        immediate: true,
+      },
+    );
 
     onBeforeRouteLeave(() => {
       pageNumber.value = 1;

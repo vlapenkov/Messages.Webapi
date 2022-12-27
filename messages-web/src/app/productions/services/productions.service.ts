@@ -9,8 +9,8 @@ import { IProductionModel, ProductionModel } from '../models/production.model';
 import { productionsStore } from '../state/productions.store';
 
 async function loadPage(request: IproductionsPageRequest) {
-  const response = await productionsHttpService.getPage(request);
   productionsStore.status.value = new DataStatus('loading');
+  const response = await productionsHttpService.getPage(request);
   if (response.status === HttpStatus.Success && response.data != null) {
     const model = response.data.rows.map((i) => {
       const parsedData = new ProductionModel();

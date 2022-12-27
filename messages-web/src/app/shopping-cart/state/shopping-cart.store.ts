@@ -1,7 +1,6 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { isAuthenticated } from '@/store/user.store';
 import { IAddToShoppingCartRequest } from '../@types/IAddToShoppingCartRequest';
 import { shoppingCartHttpService } from '../infrastructure/shopping-cart.http-service';
 import { ShoppingCartModel } from '../models/shopping-cart.model';
@@ -17,9 +16,6 @@ const status = computeState((state) => state.status);
 const items = computeState((state) => state.cartItems);
 
 const getDataAsync = action('Get shopping cart data', async () => {
-  if (!isAuthenticated.value) {
-    return;
-  }
   status.value = new DataStatus('loading');
   const response = await shoppingCartHttpService.get();
   if (response.status === HttpStatus.Success && response.data != null) {

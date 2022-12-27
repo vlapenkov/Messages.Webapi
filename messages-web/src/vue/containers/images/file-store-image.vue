@@ -1,19 +1,25 @@
 <template>
   <div class="file-store-image">
     <div :style="imageContainerStyle" class="max-height border-round overflow-hidden container">
-      <img
-        class="border-round"
-        :style="imageStyle"
-        :class="{ 'min-w-full max-w-full': fitWidth }"
-        :src="imageData ?? require('@/assets/images/fallback-image.png')"
-        :alt="headerText ?? 'Изображение товара'"
-      />
-      <span
-        v-if="headerText != null && id != null && imageData != null"
-        class="top-left text-xl text-left"
-      >
-        {{ headerText }}
-      </span>
+      <transition-fade>
+        <img
+          v-if="imageData"
+          class="border-round"
+          :style="imageStyle"
+          :class="{ 'min-w-full max-w-full': fitWidth }"
+          :src="imageData"
+          :alt="altText ?? 'Изображение товара'"
+        />
+
+        <img
+          v-else
+          class="border-round"
+          :style="imageStyle"
+          :class="{ 'min-w-full max-w-full': fitWidth }"
+          :src="require('@/assets/images/fallback-image.png')"
+          :alt="altText ?? 'Изображение товара'"
+        />
+      </transition-fade>
     </div>
   </div>
 </template>
@@ -51,7 +57,7 @@ export default defineComponent({
     id: {
       type: String,
     },
-    headerText: {
+    altText: {
       type: String,
       default: null,
     },
@@ -106,11 +112,6 @@ export default defineComponent({
     position: relative;
     text-align: center;
     color: white;
-  }
-  .top-left {
-    position: absolute;
-    top: 8px;
-    left: 16px;
   }
 }
 </style>

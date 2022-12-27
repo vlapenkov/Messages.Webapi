@@ -1,12 +1,10 @@
 <template>
-  <card
+  <prime-card
+    image-header
+    transparent
+    no-padding
     @click="viewProduct(product)"
-    class="h-full re-padding-card trans-shadow relative"
-    :class="{
-      'shadow-none': !isCardHovered,
-      'shadow-2': isCardHovered,
-    }"
-    ref="cardRef"
+    class="h-full relative"
     :style="cardStyle"
   >
     <template #header>
@@ -42,7 +40,7 @@
           class="text-sm font-normal article"
           :class="{ 'opacity-0': product.article == null || product.article === '' }"
         >
-          {{ product.article || '' }}
+          {{ product.article || '-' }}
         </div>
         <app-price :price="product.price"></app-price>
         <div class="flex flex-grow-1 name-font">
@@ -58,19 +56,9 @@
             </prime-button>
           </div>
           <div class="text-sm article">{{ product.organization.region }}</div>
-          <div
-            class="flex flex-row gap-1 align-content-center text-md"
-            :style="{ opacity: (product.rating ?? 0) > 0 ? 1 : 0 }"
-          >
-            <i class="star-filled star-yellow"></i>
-            <span>
-              {{ product.rating ?? 0 }}
-            </span>
-          </div>
-          <div
-            :class="{ 'half-transparent': isNotProduct }"
-            class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2"
-          >
+
+          <app-rating :value="product.rating"></app-rating>
+          <div class="flex flex-row gap-1 align-items-stretch justify-content-between mt-2">
             <prime-button
               :disabled="isNotProduct"
               @click.stop="addToCart(product)"
@@ -99,13 +87,13 @@
         </div>
       </div>
     </template>
-  </card>
+  </prime-card>
 </template>
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
-import { useIsInCart } from '@/composables/is-in-cart.composable';
-import { useElementHover, useElementSize } from '@vueuse/core';
+import { useIsInCart } from '@/composables/shopping-cart.composables';
+import { useElementSize } from '@vueuse/core';
 import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
@@ -137,9 +125,6 @@ export default defineComponent({
       emit('viewProduct', p);
     };
 
-    const cardRef = ref();
-    const isCardHovered = useElementHover(cardRef);
-
     const headerRef = ref<HTMLElement>();
     const { height: headerHeight } = useElementSize(headerRef);
     const cardStyle = computed<CSSProperties>(() => ({
@@ -165,12 +150,10 @@ export default defineComponent({
 
     return {
       headerRef,
-      cardRef,
       cardStyle,
       addToCart,
       viewProduct,
       viewOrganization,
-      isCardHovered,
       isNotProduct,
       productType,
       isInFavorites,
@@ -234,24 +217,7 @@ export default defineComponent({
   transition: transform 0.3s;
 }
 
-.half-transparent {
-  opacity: 0.5;
-}
-.re-padding-card {
-  :deep(.p-card-header) {
-    line-height: 0;
-    text-align: center;
-  }
-
-  :deep(.p-card-body) {
-    padding: 0;
-    height: var(--p-card-body-height) !important;
-  }
-
-  :deep(.p-card-content) {
-    padding-bottom: 0;
-    padding-top: 0;
-    height: 100% !important;
-  }
+:deep(.p-card-body) {
+  height: var(--p-card-body-height) !important;
 }
 </style>

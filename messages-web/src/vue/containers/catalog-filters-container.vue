@@ -3,15 +3,15 @@
   <transition-fade>
     <app-container v-if="showFilters" :style="{ marginTop }" class="absolute left-0 top-0 w-full">
       <div class="z-1">
-        <card class="shadow-7">
+        <card class="shadow-5">
           <template #title>
             <div class="flex flex-row justify-content-end">
-              <prime-button
-                class="p-button-sm p-button-text text-color"
+              <prime-button-weak
+                small
                 icon="pi pi-times"
                 label="Сбросить"
                 @click="undo"
-              ></prime-button>
+              ></prime-button-weak>
             </div>
           </template>
           <template #content>
@@ -69,23 +69,18 @@
 import { useCatalogFilters } from '@/composables/catalog-filters.composable';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { computed, defineComponent } from 'vue';
-import { useRoute } from 'vue-router';
 import { headerHeightProvider } from '../presentational/providers/headerHeightProvider';
 import { searchHeightProvider } from '../views/providers/search-height.provider';
 
 export default defineComponent({
   setup() {
-    const route = useRoute();
     const headerHeight = headerHeightProvider.inject();
     const searchHeight = searchHeightProvider.inject();
-    const marginTop = computed(() => `${headerHeight.value + searchHeight.value + 10}px`);
+    const marginTop = computed(() => `${headerHeight.value + searchHeight.value + 15}px`);
     const { showFilters, ...rest } = useCatalogFilters();
     const undo = () => {
       showFilters.value = false;
       catalogFiltersStore.undoMainFilters();
-      if (route.name === 'catalog') {
-        rest.searchForProducts();
-      }
     };
 
     return { ...rest, showFilters, marginTop, undo };

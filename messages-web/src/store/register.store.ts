@@ -18,24 +18,27 @@ const defaultState: IRegisterStore = {
 
 const { getter, mutation } = defineStore('register', defaultState);
 
-export const showDialog = mutation('show-dialog', (state, to: RouteLocation | undefined) => {
-  state.dialog.show = true;
-  state.dialog.redirectTo = to;
-});
-
-export const hideDialog = mutation('hide-dialog', (state, to: RouteLocation | undefined) => {
-  state.dialog.show = false;
-  state.dialog.redirectTo = to;
-});
-
-export const hasShowDialog = getter('has-show-dialog', (state) => state.dialog.show);
-
-export const redirectToLocation = getter(
-  'get-redirect-to-location',
-  (state) => state.dialog.redirectTo,
+const showDialog = mutation<RouteLocation | undefined>(
+  'show-dialog',
+  (state, to?: RouteLocation) => {
+    state.dialog.show = true;
+    state.dialog.redirectTo = to;
+  },
 );
 
-export const showRegisterDialog = computed({
+const hideDialog = mutation<RouteLocation | undefined>(
+  'hide-dialog',
+  (state, to?: RouteLocation) => {
+    state.dialog.show = false;
+    state.dialog.redirectTo = to;
+  },
+);
+
+const hasShowDialog = getter('has-show-dialog', (state) => state.dialog.show);
+
+const redirectToLocation = getter('get-redirect-to-location', (state) => state.dialog.redirectTo);
+
+const isShowDialog = computed({
   get: () => hasShowDialog.value,
   set: (val) => {
     if (val) {
@@ -45,3 +48,10 @@ export const showRegisterDialog = computed({
     }
   },
 });
+
+export const registerStore = {
+  isShowDialog,
+  redirectToLocation,
+  showDialog,
+  hideDialog,
+};

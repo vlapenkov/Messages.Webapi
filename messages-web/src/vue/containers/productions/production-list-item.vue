@@ -16,7 +16,7 @@
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { showDialog } from '@/store/register.store';
+import { registerStore } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
 import { viewModeProvider } from '@/vue/presentational/providers/view-mode.provider';
 import { ToastMessageOptions } from 'primevue/toast';
@@ -36,29 +36,37 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const router = useRouter();
+    const { showDialog } = registerStore;
     const productShortsItems = computed(() => productionsStore.currentPageItems.value);
     const addProductToShopingCart = async (model: ProductionModel) => {
       if (!isAuthenticated.value) {
         if (props.production == null) {
           return;
         }
+        let routeLocation;
         switch (props.production.productionType) {
           case 'Product':
-            showDialog(router.resolve({ name: 'product', params: { id: props.production.id } }));
+            routeLocation = router.resolve({
+              name: 'product',
+              params: { id: props.production.id },
+            });
             break;
           case 'ServiceProduct':
-            showDialog(
-              router.resolve({ name: 'product-service', params: { id: props.production.id } }),
-            );
+            routeLocation = router.resolve({
+              name: 'product-service',
+              params: { id: props.production.id },
+            });
             break;
           case 'WorkProduct':
-            showDialog(
-              router.resolve({ name: 'product-work', params: { id: props.production.id } }),
-            );
+            routeLocation = router.resolve({
+              name: 'product-work',
+              params: { id: props.production.id },
+            });
             break;
           default:
             break;
         }
+        showDialog(routeLocation);
         return;
       }
       await shoppingCartStore.addToCart({

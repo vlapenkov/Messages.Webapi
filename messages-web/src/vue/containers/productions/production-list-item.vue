@@ -16,7 +16,7 @@
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { showRegisterDialog } from '@/store/register.store';
+import { registerStore } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
 import { viewModeProvider } from '@/vue/presentational/providers/view-mode.provider';
 import { ToastMessageOptions } from 'primevue/toast';
@@ -36,9 +36,36 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const router = useRouter();
+    const { showDialog } = registerStore;
     const addProductToShopingCart = async (model: ProductionModel) => {
       if (!isAuthenticated.value) {
-        showRegisterDialog.value = true;
+        if (props.production == null) {
+          return;
+        }
+        let routeLocation;
+        switch (props.production.productionType) {
+          case 'Product':
+            routeLocation = router.resolve({
+              name: 'product',
+              params: { id: props.production.id },
+            });
+            break;
+          case 'ServiceProduct':
+            routeLocation = router.resolve({
+              name: 'product-service',
+              params: { id: props.production.id },
+            });
+            break;
+          case 'WorkProduct':
+            routeLocation = router.resolve({
+              name: 'product-work',
+              params: { id: props.production.id },
+            });
+            break;
+          default:
+            break;
+        }
+        showDialog(routeLocation);
         return;
       }
       await shoppingCartStore.addToCart({

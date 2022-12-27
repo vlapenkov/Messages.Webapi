@@ -1,40 +1,9 @@
-import { ProductStatus } from '@/app/productions/@types/IproductionsPageRequest';
-import { productionsService } from '@/app/productions/services/productions.service';
-import { productionsStore } from '@/app/productions/state/productions.store';
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { isNullOrEmpty } from '@/tools/string-tools';
-import { TreeNode } from 'primevue/tree';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useOrganizations } from './organizations.composable';
 import { useSections } from './sections.composable';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function findInTree(
-  tree: TreeNode[] | null,
-  predicate: (node: TreeNode) => boolean,
-): TreeNode | null {
-  if (tree == null) {
-    return null;
-  }
-  const findInSingle = (currentNode: TreeNode): TreeNode | null => {
-    const checkResult = predicate(currentNode);
-    if (checkResult) {
-      return currentNode;
-    }
-    if (currentNode.children != null) {
-      const nodeInChildren: TreeNode | undefined = currentNode.children
-        .map((child) => findInSingle(child))
-        .find((i): i is TreeNode => i != null);
-      return nodeInChildren ?? null;
-    }
-    return null;
-  };
-  const resultNode: TreeNode | undefined = tree
-    .map((child) => findInSingle(child))
-    .find((i): i is TreeNode => i != null);
-  return resultNode ?? null;
-}
 
 export function useCatalogFilters() {
   const router = useRouter();
@@ -45,11 +14,46 @@ export function useCatalogFilters() {
     (sectionsList.value ?? []).map((s) => ({ label: s.name, value: s.id })),
   );
 
+  const organization = ref<string | null>(null);
+  watch(
+    catalogFiltersStore.organization,
+    (o) => {
+      if (organization.value !== o) {
+        organization.value = o;
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
+  const region = ref<string | null>(null);
+  watch(
+    catalogFiltersStore.region,
+    (r) => {
+      if (region.value !== r) {
+        region.value = r;
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
+  const sectionId = ref<number | null>(null);
+  watch(
+    catalogFiltersStore.sectionId,
+    (s) => {
+      if (sectionId.value !== s) {
+        sectionId.value = s;
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
+
   const sectionModel = computed<{ label: string; value: number } | undefined>({
     get: () => {
-      const selectedSection = (sectionsList.value ?? []).find(
-        (s) => s.id === catalogFiltersStore.sectionId.value,
-      );
+      const selectedSection = (sectionsList.value ?? []).find((s) => s.id === sectionId.value);
       if (selectedSection == null) {
         return undefined;
       }
@@ -59,63 +63,44 @@ export function useCatalogFilters() {
       };
     },
     set: (val) => {
-      catalogFiltersStore.sectionId.value = val?.value ?? null;
+      sectionId.value = val?.value ?? null;
     },
   });
 
   const sectionModelTree = computed<Record<string, boolean> | undefined>({
-    get: () =>
-      catalogFiltersStore.sectionId.value == null
-        ? undefined
-        : { [`${catalogFiltersStore.sectionId.value}`]: true },
+    get: () => (sectionId.value == null ? undefined : { [`${sectionId.value}`]: true }),
     set: (val) => {
       if (val == null) {
-        catalogFiltersStore.sectionId.value = null;
+        sectionId.value = null;
         return;
       }
       Object.keys(val).forEach((key) => {
         if (val[key] === true) {
-          catalogFiltersStore.sectionId.value = +key;
+          sectionId.value = +key;
         }
       });
     },
   });
 
-  const {
-    region: regionModel,
-    organization: organizationModel,
-    searchQuery,
-    showFilters,
-    orderBy,
-    sectionId,
-  } = catalogFiltersStore;
-
   const searchForProducts = () => {
-    if (route.name === 'catalog') {
-      const { pageNumber, pageSize } = productionsStore;
-      productionsService.loadPage({
-        name: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
-        pageNumber: pageNumber.value,
-        pageSize: pageSize.value,
-        producerName: organizationModel.value ?? null,
-        region: regionModel.value,
-        orderBy: orderBy.value,
-        ProducerId: null,
-        status: ProductStatus.Active,
-        catalogSectionId: sectionId.value ?? undefined,
-      });
-    } else {
+    catalogFiltersStore.sectionId.value = sectionId.value;
+    catalogFiltersStore.region.value = region.value;
+    catalogFiltersStore.organization.value = organization.value;
+    catalogFiltersStore.searchQuery.value = catalogFiltersStore.searchQueryDraft.value;
+    if (['catalog', 'products', 'org-products'].every((i) => i !== route.name)) {
       router.push({
         name: 'catalog',
         query: {
           sectionId: catalogFiltersStore.sectionId.value,
-          region: regionModel.value,
-          organization: organizationModel.value,
-          searchQuery: isNullOrEmpty(searchQuery.value) ? null : searchQuery.value,
+          region: catalogFiltersStore.region.value,
+          organization: catalogFiltersStore.organization.value,
+          searchQuery: isNullOrEmpty(catalogFiltersStore.searchQuery.value)
+            ? null
+            : catalogFiltersStore.searchQuery.value,
         },
       });
     }
-    showFilters.value = false;
+    catalogFiltersStore.showFilters.value = false;
   };
 
   return {
@@ -125,10 +110,10 @@ export function useCatalogFilters() {
     regionOptions,
     sectionModel,
     sectionModelTree,
-    searchQuery,
-    showFilters,
-    organizationModel,
-    regionModel,
+    searchQuery: catalogFiltersStore.searchQueryDraft,
+    showFilters: catalogFiltersStore.showFilters,
+    organization,
+    region,
     searchForProducts,
   };
 }

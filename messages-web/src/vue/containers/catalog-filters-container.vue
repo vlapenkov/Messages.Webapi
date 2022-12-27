@@ -26,7 +26,7 @@
               </div>
               <div class="col-4">
                 <dropdown
-                  v-model="regionModel"
+                  v-model="region"
                   :options="regionOptions"
                   placeholder="Регион"
                   show-clear
@@ -35,7 +35,7 @@
               </div>
               <div class="col-4">
                 <dropdown
-                  v-model="organizationModel"
+                  v-model="organization"
                   :options="organizationOptions"
                   placeholder="Производитель"
                   show-clear

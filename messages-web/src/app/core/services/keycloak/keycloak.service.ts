@@ -1,6 +1,8 @@
+import { redirectToLocation } from '@/store/register.store';
 import { setToken } from '@/store/user.store';
 import Keycloak, { KeycloakTokenParsed } from 'keycloak-js';
 import { watch } from 'vue';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
 import { keycloakToken, keycloakTokenRefresh, userData } from './local-storage.service';
 
 const keycloakInitOptions = {
@@ -74,10 +76,19 @@ export async function initKeycloak() {
   }
 }
 
-export function login() {
+export function login(route: RouteLocationNormalizedLoaded) {
   const { origin } = window.location;
+
+  let redirectUri;
+  if (route.name === 'register') {
+    redirectUri = `${origin}/`;
+  } else {
+    redirectUri = `${origin}${
+      redirectToLocation.value != null ? redirectToLocation.value.fullPath : route.fullPath
+    }`;
+  }
   keycloakInst.login({
-    redirectUri: `${origin}/`,
+    redirectUri,
   });
 }
 
@@ -88,4 +99,3 @@ export function logout() {
     redirectUri: `${origin}/`,
   });
 }
-

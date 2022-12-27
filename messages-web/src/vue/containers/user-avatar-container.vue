@@ -31,8 +31,8 @@ import { screenMiddle } from '@/app/core/services/window/window.service';
 import { login, logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
-import { useRouter } from 'vue-router';
 import { showRegisterDialog } from '@/store/register.store';
+import { useRouter } from 'vue-router';
 
 // const avatarSize = 100;
 export default defineComponent({

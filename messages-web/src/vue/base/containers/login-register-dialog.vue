@@ -19,7 +19,11 @@
         height="70"
         class="col-6 col-offset-3 mb-4"
       />
-      <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-2" @click="login" />
+      <prime-button
+        label="Войти"
+        class="col-6 col-offset-3 p-button-sm mb-2"
+        @click="login(route)"
+      />
       <router-link :to="{ name: 'register' }" class="no-underline">
         <prime-button
           label="Зарегистрироваться"
@@ -35,13 +39,15 @@ import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { showRegisterDialog } from '@/store/register.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { defineComponent } from 'vue';
-import {} from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   components: { PrimeDialog },
   setup() {
+    const route = useRoute();
     return {
       showRegisterDialog,
+      route,
       login,
     };
   },

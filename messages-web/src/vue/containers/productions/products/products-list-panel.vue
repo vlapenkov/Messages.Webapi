@@ -18,7 +18,7 @@ import { productionsStore } from '@/app/productions/state/productions.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { defineComponent, PropType, computed } from 'vue';
+import { defineComponent, PropType, computed, watch } from 'vue';
 
 export default defineComponent({
   components: { Toast },
@@ -30,7 +30,17 @@ export default defineComponent({
   },
   setup(props) {
     const toast = useToast();
-    const { getPageState } = productionsStore;
+    const { getPageState, loadPage } = productionsStore;
+
+    watch(
+      () => props.request,
+      (r) => {
+        loadPage(r);
+      },
+      {
+        immediate: true,
+      },
+    );
 
     const pageState = computed(() => getPageState(props.request));
 

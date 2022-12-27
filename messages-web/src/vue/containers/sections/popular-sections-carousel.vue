@@ -28,7 +28,15 @@
               :fit-width="true"
               :header-text="slotProps.data.name"
               @click="viewSection(slotProps.data)"
-            />
+            >
+              <app-text
+                tag="div"
+                mode="image"
+                class="absolute top-0 left-0 text-white text-left p-3"
+              >
+                {{ slotProps.data.name }}
+              </app-text>
+            </file-store-image>
             <skeleton v-else height="162px"> </skeleton>
           </div>
         </template>

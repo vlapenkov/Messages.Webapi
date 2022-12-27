@@ -4,6 +4,7 @@
   </card>
   <product-card
     v-else-if="viewMode === 'grid'"
+    :id="'product' + production.id"
     :product="production"
     @addToCart="addProductToShopingCart"
     @viewProduct="viewProduct"

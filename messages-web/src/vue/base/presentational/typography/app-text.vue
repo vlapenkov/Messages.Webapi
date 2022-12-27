@@ -44,6 +44,13 @@ export default defineComponent({
     font-size: 16px;
     line-height: 19px;
   }
+  &#{&}-image {
+    color: map-get($map: $colors-text, $key: 'default');
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+  }
   &#{&}-weak {
     color: map-get($map: $colors-text, $key: 'weak');
     font-weight: 400;

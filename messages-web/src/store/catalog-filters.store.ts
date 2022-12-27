@@ -49,6 +49,7 @@ const undoMainFilters = mutation('undo-main-filters', (state) => {
   state.region = null;
   state.sectionId = null;
   state.organization = null;
+  state.serachQueryDraft = null;
   state.serachQuery = null;
 });
 

@@ -54,7 +54,7 @@ export function useCatalogFilters() {
     catalogFiltersStore.region.value = region.value;
     catalogFiltersStore.organization.value = organization.value;
     catalogFiltersStore.searchQuery.value = catalogFiltersStore.searchQueryDraft.value;
-    if (['catalog'].every((i) => route.name !== i)) {
+    if (['catalog', 'products', 'org-products'].every((i) => i !== route.name)) {
       router.push({
         name: 'catalog',
         query: {

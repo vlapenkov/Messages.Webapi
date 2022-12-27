@@ -108,7 +108,7 @@ export default defineComponent({
     const request = computed<IproductionsPageRequest>(() => ({
       name: searchQuery.value ?? null,
       pageNumber: pageNumber.value,
-      pageSize: pageNumber.value,
+      pageSize: pageSize.value,
       producerName: organization.value,
       ProducerId: null,
       catalogSectionId: sectionId.value,

@@ -16,80 +16,79 @@
     </template>
     <tab-view ref="tabs">
       <tab-panel header="Все">
-        <card>
-          <template #content>
-            <div class="grid">
-              <div class="col-12 flex flex-row justify-content-end">
-                <order-by-container v-model="orderBy"></order-by-container>
-              </div>
-              <div class="col-12">
-                <div v-if="pageStatus?.status === 'loaded'">
-                  <data-table :value="productions">
-                    <column header="Артикул" field="article">
-                      <template #body="{ data }">{{ data.article || '123456' }}</template>
-                    </column>
-                    <column header="Наименование" field="name">
-                      <template #body="{ data }">
-                        <div class="flex flex-row gap-2 align-items-center">
-                          <div style="flex-basis: 100px">
-                            <file-store-image
-                              fit-width
-                              :id="data.documentId"
-                              :key="data.documentId"
-                            ></file-store-image>
-                          </div>
-                          <div>{{ data.name }}</div>
-                        </div>
-                      </template>
-                    </column>
-                    <column header="Последнее редактирование" field="lastModifiedBy">
-                      <template #body="{ data }">
-                        <div class="flex flex-column gap-2">
-                          <div>{{ getLastEditTime(data) }}</div>
-                          <div>{{ data.lastModifiedBy }}</div>
-                        </div>
-                      </template>
-                    </column>
-                    <column header="Статус" field="statusText"> </column>
-                    <column header="">
-                      <template #body="{ data }">
-                        <router-link
-                          class="no-underline"
-                          :to="{
-                            name:
-                              data.productionType === 'Product'
-                                ? 'edit-product'
-                                : data.productionType === 'ServiceProduct'
-                                ? 'edit-product-service'
-                                : 'edit-product-work',
-                            params: { id: data.id },
-                          }"
-                        >
-                          <prime-button-weak
-                            class="p-button-rounded edit-button"
-                            icon="pi pi-pencil"
-                          ></prime-button-weak>
-                        </router-link>
-                      </template>
-                    </column>
-                  </data-table>
-                </div>
-                <div v-else class="flex flex-column gap-1">
-                  <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
-                </div>
-                <prime-paginator
-                  class="mt-2"
-                  v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
-                  @page="changePage"
-                  :rows="pageSize"
-                  :first="pageSize * (pageNumber - 1)"
-                  :totalRecords="currentPage?.totalItemCount ?? 0"
-                ></prime-paginator>
-              </div>
-              <div class="col-12"></div>
+        <prime-card shadow="1" shadow-hover="none">
+          <div class="grid">
+            <div class="col-12 flex flex-row justify-content-end">
+              <order-by-container v-model="orderBy"></order-by-container>
             </div>
-          </template>
-        </card>
+            <div class="col-12">
+              <div v-if="pageStatus?.status === 'loaded'">
+                <data-table :value="productions">
+                  <column header="Артикул" field="article">
+                    <template #body="{ data }">{{ data.article || '123456' }}</template>
+                  </column>
+                  <column header="Наименование" field="name">
+                    <template #body="{ data }">
+                      <div class="flex flex-row gap-2 align-items-center">
+                        <div style="flex-basis: 100px">
+                          <file-store-image
+                            fit-width
+                            :id="data.documentId"
+                            :key="data.documentId"
+                          ></file-store-image>
+                        </div>
+                        <div>{{ data.name }}</div>
+                      </div>
+                    </template>
+                  </column>
+                  <column header="Последнее редактирование" field="lastModifiedBy">
+                    <template #body="{ data }">
+                      <div class="flex flex-column gap-2">
+                        <div>{{ getLastEditTime(data) }}</div>
+                        <div>{{ data.lastModifiedBy }}</div>
+                      </div>
+                    </template>
+                  </column>
+                  <column header="Статус" field="statusText"> </column>
+                  <column header="">
+                    <template #body="{ data }">
+                      <router-link
+                        class="no-underline"
+                        :to="{
+                          name:
+                            data.productionType === 'Product'
+                              ? 'edit-product'
+                              : data.productionType === 'ServiceProduct'
+                              ? 'edit-product-service'
+                              : 'edit-product-work',
+                          params: { id: data.id },
+                        }"
+                      >
+                        <prime-button-weak
+                          class="p-button-rounded edit-button"
+                          icon="pi pi-pencil"
+                        ></prime-button-weak>
+                      </router-link>
+                    </template>
+                  </column>
+                </data-table>
+              </div>
+              <div v-else class="flex flex-column gap-1">
+                <skeleton v-for="i in 15" :key="i" height="70px"></skeleton>
+              </div>
+              <prime-paginator
+                class="mt-2"
+                v-if="pageNumber && pageSize && (currentPage?.totalItemCount ?? 0) > 0"
+                @page="changePage"
+                :rows="pageSize"
+                :first="pageSize * (pageNumber - 1)"
+                :totalRecords="currentPage?.totalItemCount ?? 0"
+              ></prime-paginator>
+            </div>
+            <div class="col-12"></div>
+          </div>
+          <template #content> </template>
+        </prime-card>
       </tab-panel>
       <tab-panel header="Обмен">
         <excel-tab></excel-tab>

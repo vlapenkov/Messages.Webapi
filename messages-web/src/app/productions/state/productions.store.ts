@@ -60,7 +60,11 @@ const getPageState = (request: IproductionsPageRequest) => {
       changePage({
         data: {
           ...val.data,
-          rows: val.data.rows.map((r) => r.clone()),
+          rows: val.data.rows.map((r) => {
+            const m = new ProductionModel();
+            Object.assign(m, r);
+            return m;
+          }),
         },
         request: { ...val.request },
         status: new DataStatus(val.status.status, val.status.message),

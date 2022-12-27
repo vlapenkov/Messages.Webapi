@@ -81,7 +81,7 @@ export default defineComponent({
   components: { PrimePaginator, Toast },
   setup() {
     const toast = useToast();
-    const { sectionId, region, organization, searchQuery, showFilters } = catalogFiltersStore;
+    const { sectionId, region, organization, searchQuery } = catalogFiltersStore;
     const { loadPage, getPageState } = productionsStore;
     const notifyHandler = useToastNotificationHandler(toast);
 
@@ -159,7 +159,7 @@ export default defineComponent({
     };
 
     return {
-      showFilters,
+      showFilters: false,
       pageNumber,
       pageSize,
       productsContainerRef,

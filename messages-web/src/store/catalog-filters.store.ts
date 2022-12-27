@@ -15,6 +15,7 @@ export enum ProductionsOrder {
 
 export interface ICatalogFilterState {
   serachQuery: string | null;
+  serachQueryDraft: string | null;
   region: string | null;
   organization: string | null;
   sectionId: number | null;
@@ -22,6 +23,7 @@ export interface ICatalogFilterState {
 }
 
 const catalogFiltersDefault: ICatalogFilterState = {
+  serachQueryDraft: null,
   serachQuery: null,
   region: null,
   organization: null,
@@ -32,6 +34,8 @@ const catalogFiltersDefault: ICatalogFilterState = {
 const { computeState, mutation } = defineStore('search-filters', catalogFiltersDefault);
 
 const searchQuery = computeState((state) => state.serachQuery);
+
+const searchQueryDraft = computeState((state) => state.serachQueryDraft);
 
 const region = computeState((state) => state.region);
 
@@ -50,6 +54,7 @@ const undoMainFilters = mutation('undo-main-filters', (state) => {
 
 export const catalogFiltersStore = {
   searchQuery,
+  searchQueryDraft,
   region,
   organization,
   sectionId,

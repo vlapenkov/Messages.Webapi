@@ -14,7 +14,6 @@ export function useCatalogFilters() {
     (sectionsList.value ?? []).map((s) => ({ label: s.name, value: s.id })),
   );
 
-  const searchQuery = ref<string | null>(null);
   const organization = ref<string | null>(null);
   const region = ref<string | null>(null);
   const sectionId = ref<number | null>(null);
@@ -54,7 +53,7 @@ export function useCatalogFilters() {
     catalogFiltersStore.sectionId.value = sectionId.value;
     catalogFiltersStore.region.value = region.value;
     catalogFiltersStore.organization.value = organization.value;
-    catalogFiltersStore.searchQuery.value = searchQuery.value;
+    catalogFiltersStore.searchQuery.value = catalogFiltersStore.searchQueryDraft.value;
     if (['catalog'].every((i) => route.name !== i)) {
       router.push({
         name: 'catalog',
@@ -78,7 +77,7 @@ export function useCatalogFilters() {
     regionOptions,
     sectionModel,
     sectionModelTree,
-    searchQuery,
+    searchQuery: catalogFiltersStore.searchQueryDraft,
     showFilters: catalogFiltersStore.showFilters,
     organization,
     region,

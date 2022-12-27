@@ -86,7 +86,7 @@ export default defineComponent({
       transform: screenLarge.value ? `scale(${scaleKoef.value},${scaleKoef.value})` : undefined,
     }));
     const viewSection = (item: SectionModel) => {
-      router.push({ name: 'catalog', params: { id: item.id }, query: { sectionId: item.id } });
+      router.push({ name: 'catalog', query: { sectionId: item.id } });
     };
     return { state, items, itemsWithDocumentId, responsiveOptions, viewSection, carouselStyle };
   },

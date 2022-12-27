@@ -1,6 +1,6 @@
 import { catalogFiltersStore } from '@/store/catalog-filters.store';
 import { isNullOrEmpty } from '@/tools/string-tools';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useOrganizations } from './organizations.composable';
 import { useSections } from './sections.composable';
@@ -15,8 +15,41 @@ export function useCatalogFilters() {
   );
 
   const organization = ref<string | null>(null);
+  watch(
+    catalogFiltersStore.organization,
+    (o) => {
+      if (organization.value !== o) {
+        organization.value = o;
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
   const region = ref<string | null>(null);
+  watch(
+    catalogFiltersStore.region,
+    (r) => {
+      if (region.value !== r) {
+        region.value = r;
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
   const sectionId = ref<number | null>(null);
+  watch(
+    catalogFiltersStore.sectionId,
+    (s) => {
+      if (sectionId.value !== s) {
+        sectionId.value = s;
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
 
   const sectionModel = computed<{ label: string; value: number } | undefined>({
     get: () => {

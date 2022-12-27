@@ -55,7 +55,7 @@ export function useCatalogFilters() {
     catalogFiltersStore.region.value = region.value;
     catalogFiltersStore.organization.value = organization.value;
     catalogFiltersStore.searchQuery.value = searchQuery.value;
-    if (route.name !== 'catalog') {
+    if (['catalog'].every((i) => route.name !== i)) {
       router.push({
         name: 'catalog',
         query: {
@@ -65,7 +65,6 @@ export function useCatalogFilters() {
           searchQuery: isNullOrEmpty(catalogFiltersStore.searchQuery.value)
             ? null
             : catalogFiltersStore.searchQuery.value,
-          orderBy: catalogFiltersStore.orderBy.value,
         },
       });
     }

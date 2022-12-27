@@ -20,10 +20,10 @@
           <template #content>
             <div class="grid">
               <div class="col-12 flex flex-row justify-content-end">
-                <sort-by-container></sort-by-container>
+                <order-by-container v-model="orderBy"></order-by-container>
               </div>
               <div class="col-12">
-                <div v-if="status.status === 'loaded'">
+                <div v-if="pageStatus?.status === 'loaded'">
                   <data-table :value="productions">
                     <column header="Артикул" field="article">
                       <template #body="{ data }">{{ data.article || '123456' }}</template>
@@ -102,49 +102,55 @@
 </template>
 
 <script lang="ts">
+import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
 import { ProductionModel } from '@/app/productions/models/production.model';
-import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
-import { catalogFiltersStore, OrderByProduct } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, ProductionsOrder } from '@/store/catalog-filters.store';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import Menu from 'primevue/menu';
 import type { MenuItem } from 'primevue/menuitem';
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
   components: { PrimePaginator, PrimeMenu: Menu },
   setup() {
-    const {
-      status,
-      pageNumber,
-      pageSize,
-      currentPage,
-      showFilters,
-      currentPageItems: productions,
-    } = productionsStore;
-    const { searchQuery, orderBy } = catalogFiltersStore;
+    const { loadPage, getPageState } = productionsStore;
+    const { searchQuery, organization, region, sectionId, showFilters } = catalogFiltersStore;
+    const orderBy = ref(ProductionsOrder.IdByDesc);
+
+    const pageNumber = ref(1);
+    const pageSize = ref(20);
+
+    const request = computed<IproductionsPageRequest>(() => ({
+      name: searchQuery.value,
+      pageNumber: pageNumber.value,
+      pageSize: pageSize.value,
+      producerName: organization.value,
+      ProducerId: null,
+      region: region.value,
+      orderBy: orderBy.value,
+      status: null,
+      catalogSectionId: sectionId.value,
+    }));
+
     watch(
-      [pageNumber, pageSize, searchQuery, orderBy],
-      ([pnum, psize, query, order]) => {
-        productionsService.loadPage({
-          name: query ?? null,
-          pageNumber: pnum,
-          pageSize: psize,
-          producerName: null,
-          ProducerId: null,
-          region: null,
-          orderBy: order,
-          status: null,
-        });
+      request,
+      (r) => {
+        loadPage(r);
       },
       {
         immediate: true,
+        deep: true,
       },
     );
 
-    onMounted(() => {
-      orderBy.value = OrderByProduct.IdByDesc;
-    });
+    const pageState = computed(() => getPageState(request.value));
+
+    const pageStatus = computed(() => pageState.value.pageStatus.value);
+
+    const productions = computed(() => pageState.value.pageData.value?.rows);
+
+    const currentPage = computed(() => pageState.value.pageData.value);
 
     const changePage = ({ page }: { page: number }) => {
       pageNumber.value = page + 1;
@@ -175,7 +181,7 @@ export default defineComponent({
     };
 
     return {
-      status,
+      pageStatus,
       pageSize,
       currentPage,
       showFilters,
@@ -183,6 +189,7 @@ export default defineComponent({
       changePage,
       pageNumber,
       getLastEditTime,
+      orderBy,
       menuItems,
       menu,
       toggleMenu,

@@ -14,13 +14,12 @@
 
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
-import { productionsStore } from '@/app/productions/state/productions.store';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { showRegisterDialog } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
 import { viewModeProvider } from '@/vue/presentational/providers/view-mode.provider';
 import { ToastMessageOptions } from 'primevue/toast';
-import { computed, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -36,7 +35,6 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const router = useRouter();
-    const productShortsItems = computed(() => productionsStore.currentPageItems.value);
     const addProductToShopingCart = async (model: ProductionModel) => {
       if (!isAuthenticated.value) {
         showRegisterDialog.value = true;
@@ -78,7 +76,7 @@ export default defineComponent({
       router.push({ name: 'organization', params: { id: props.production.organization.id } });
     };
     const viewMode = viewModeProvider.inject();
-    return { productShortsItems, addProductToShopingCart, viewProduct, viewOrganization, viewMode };
+    return { addProductToShopingCart, viewProduct, viewOrganization, viewMode };
   },
 });
 </script>

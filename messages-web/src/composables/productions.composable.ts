@@ -12,10 +12,9 @@ export function useProductions(source: WatchSource<IproductionsPageRequest>) {
     },
     {
       immediate: true,
+      deep: true,
     },
   );
 
-  const pageState = computed(() =>
-    lastRequest.value ? getPageState(lastRequest.value) : undefined,
-  );
+  return computed(() => (lastRequest.value ? getPageState(lastRequest.value) : null));
 }

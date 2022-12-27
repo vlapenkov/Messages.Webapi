@@ -1,13 +1,13 @@
 <template>
   <app-page title="Товары" class="products-manager-page">
     <div class="w-full flex flex-row justify-content-end align-items-center mb-3">
-      <sort-by-container></sort-by-container>
+      <order-by-container v-model="orderBy"></order-by-container>
     </div>
     <card class="shadow-none">
       <template #content>
         <div>
-          <div v-if="productShortsStatus.status === 'loaded'">
-            <data-table :value="productShortsItems" responsiveLayout="scroll">
+          <div v-if="productionsStatus?.status === 'loaded'">
+            <data-table :value="productions" responsiveLayout="scroll">
               <column header="Наименование" headerStyle="width: 30%">
                 <template #body="slopProps">
                   <router-link
@@ -87,47 +87,54 @@
 </template>
 
 <script lang="ts">
+import { IproductionsPageRequest } from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsService } from '@/app/productions/services/productions.service';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { IProductStatus, useProductStatuses } from '@/composables/product-statuses.composable';
-import { catalogFiltersStore, OrderByProduct } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, ProductionsOrder } from '@/store/catalog-filters.store';
 import { PrimePaginator } from '@/tools/prime-vue-components';
-import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 export default defineComponent({
   components: { PrimePaginator },
   setup() {
-    const {
-      status: productShortsStatus,
-      pageNumber,
-      pageSize,
-      currentPage,
-      currentPageItems: productShortsItems,
-    } = productionsStore;
+    const pageNumber = ref(1);
+    const pageSize = ref(20);
+    const { loadPage, getPageState } = productionsStore;
+    const { searchQuery, region, organization, sectionId } = catalogFiltersStore;
 
-    const { searchQuery, orderBy } = catalogFiltersStore;
+    const orderBy = ref(ProductionsOrder.IdByDesc);
+
+    const request = computed<IproductionsPageRequest>(() => ({
+      name: searchQuery.value ?? null,
+      pageNumber: pageNumber.value,
+      pageSize: pageNumber.value,
+      producerName: organization.value,
+      ProducerId: null,
+      catalogSectionId: sectionId.value,
+      region: region.value,
+      orderBy: orderBy.value,
+      status: null,
+    }));
+
     watch(
-      [pageNumber, pageSize, searchQuery, orderBy],
-      ([pnum, psize, query, ob]) => {
-        productionsService.loadPage({
-          name: query ?? null,
-          pageNumber: pnum,
-          pageSize: psize,
-          producerName: null,
-          ProducerId: null,
-          region: null,
-          orderBy: ob,
-          status: null,
-        });
+      request,
+      (r) => {
+        loadPage(r);
       },
       {
         immediate: true,
+        deep: true,
       },
     );
 
-    onMounted(() => {
-      orderBy.value = OrderByProduct.IdByDesc;
-    });
+    const currentPageState = computed(() => getPageState(request.value));
+
+    const productions = computed(() => currentPageState.value.pageData.value?.rows);
+
+    const productionsStatus = computed(() => currentPageState.value.pageStatus.value);
+
+    const currentPage = computed(() => currentPageState.value.pageData.value);
 
     const { statuses, initial } = useProductStatuses();
     const formatDateString = (d: Date) => {
@@ -143,7 +150,7 @@ export default defineComponent({
     const productStatuses = computed<Record<number, IProductStatus | undefined>>(() => {
       const res: Record<number, IProductStatus | undefined> = {};
       if (initial.value == null) return res;
-      (productShortsItems.value ?? []).forEach((pr) => {
+      (productions.value ?? []).forEach((pr) => {
         Object.assign(res, {
           ...res,
           [pr.id]: statuses.value.find((s) => s.name === pr.statusText) ?? initial.value,
@@ -170,9 +177,10 @@ export default defineComponent({
     return {
       statuses,
       productStatuses,
+      orderBy,
       productStatusModels,
-      productShortsStatus,
-      productShortsItems,
+      productionsStatus,
+      productions,
       currentPage,
       pageNumber,
       pageSize,

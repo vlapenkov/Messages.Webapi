@@ -2,7 +2,7 @@
   <app-page id="filter-container" class="relative" title="Каталог товаров">
     <template #subheader> </template>
     <div class="flex flex-row justify-content-end">
-      <sort-by-container></sort-by-container>
+      <order-by-container v-model="orderBy"></order-by-container>
     </div>
     <div class="grid mt-1">
       <div v-if="showFilters" class="col-3 gap-2 flex flex-column"></div>
@@ -74,17 +74,18 @@ import { isNullOrEmpty } from '@/tools/string-tools';
 import { PrimePaginator } from '@/tools/prime-vue-components';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, ProductionsOrder } from '@/store/catalog-filters.store';
 import { useToastNotificationHandler } from '@/composables/toast-notification-handler.composable';
 
 export default defineComponent({
   components: { PrimePaginator, Toast },
   setup() {
     const toast = useToast();
-    const { sectionId, region, organization, searchQuery, orderBy, showFilters } =
-      catalogFiltersStore;
+    const { sectionId, region, organization, searchQuery, showFilters } = catalogFiltersStore;
     const { loadPage, getPageState } = productionsStore;
     const notifyHandler = useToastNotificationHandler(toast);
+
+    const orderBy = ref(ProductionsOrder.NameByAsc);
 
     const pageNumber = ref(1);
     const pageSize = ref(16);
@@ -128,6 +129,7 @@ export default defineComponent({
       region: region.value,
       orderBy: orderBy.value,
       status: ProductStatus.Active,
+      catalogSectionId: sectionId.value,
     }));
 
     watch(
@@ -167,6 +169,7 @@ export default defineComponent({
       notifyHandler,
       changePage,
       currentPage,
+      orderBy,
     };
   },
 });

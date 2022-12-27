@@ -1,6 +1,6 @@
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 
-export enum OrderByProduct {
+export enum ProductionsOrder {
   NameByAsc,
   NameByDesc,
   RegionByAsc,
@@ -19,7 +19,6 @@ export interface ICatalogFilterState {
   organization: string | null;
   sectionId: number | null;
   showFilters: boolean;
-  orderBy: OrderByProduct | null;
 }
 
 const catalogFiltersDefault: ICatalogFilterState = {
@@ -28,7 +27,6 @@ const catalogFiltersDefault: ICatalogFilterState = {
   organization: null,
   sectionId: null,
   showFilters: false,
-  orderBy: OrderByProduct.NameByAsc,
 };
 
 const { computeState, mutation } = defineStore('search-filters', catalogFiltersDefault);
@@ -42,8 +40,6 @@ const organization = computeState((state) => state.organization);
 const sectionId = computeState((state) => state.sectionId);
 
 const showFilters = computeState((state) => state.showFilters);
-
-const orderBy = computeState((state) => state.orderBy);
 
 const undoMainFilters = mutation('undo-main-filters', (state) => {
   state.region = null;
@@ -59,5 +55,4 @@ export const catalogFiltersStore = {
   sectionId,
   showFilters,
   undoMainFilters,
-  orderBy,
 };

@@ -7,20 +7,20 @@ import {
   IproductionsPageRequest,
   ProductStatus,
 } from '@/app/productions/@types/IproductionsPageRequest';
-import { OrderByProduct } from '@/store/catalog-filters.store';
+import { ProductionsOrder } from '@/store/catalog-filters.store';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
     const request: IproductionsPageRequest = {
       name: null,
-      catalogSectionId: undefined,
+      catalogSectionId: null,
       pageNumber: 1,
       pageSize: 12,
       producerName: null,
       ProducerId: null,
       region: null,
-      orderBy: OrderByProduct.RatingByDesc,
+      orderBy: ProductionsOrder.RatingByDesc,
       status: ProductStatus.Active,
     };
     return { request };

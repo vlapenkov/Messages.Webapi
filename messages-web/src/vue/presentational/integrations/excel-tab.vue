@@ -50,10 +50,9 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { productFullHttpService } from '@/app/product-full/infrastructure/product-full.http-service';
 import { exchangeService } from '@/app/productions/services/exchange.service';
-import { productionsService } from '@/app/productions/services/productions.service';
 import { exchangesStore } from '@/app/productions/state/exchanges.store';
 import { productionsStore } from '@/app/productions/state/productions.store';
-import { catalogFiltersStore } from '@/store/catalog-filters.store';
+import { catalogFiltersStore, ProductionsOrder } from '@/store/catalog-filters.store';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { defineComponent, onMounted, ref } from 'vue';
@@ -73,8 +72,11 @@ export default defineComponent({
       if (date == null) return '';
       return date.toLocaleString('ru-RU');
     };
-    const { pageNumber, pageSize } = productionsStore;
-    const { searchQuery, orderBy } = catalogFiltersStore;
+    const pageNumber = ref(1);
+    const pageSize = ref(20);
+    const { loadPage } = productionsStore;
+    const orderBy = ref(ProductionsOrder.IdByDesc);
+    const { searchQuery } = catalogFiltersStore;
     const handleFile = async (data: { name: string; b64: string }) => {
       const b64 = data.b64.replace(/(^data:.*\/.*;base64,)/gi, '');
       // console.log(data.name, b64,);
@@ -92,7 +94,7 @@ export default defineComponent({
             life: 4000,
           });
           await exchangeService.load();
-          await productionsService.loadPage({
+          await loadPage({
             name: searchQuery.value ?? null,
             pageNumber: pageNumber.value,
             pageSize: pageSize.value,
@@ -101,6 +103,7 @@ export default defineComponent({
             region: null,
             orderBy: orderBy.value,
             status: null,
+            catalogSectionId: null,
           });
         } else {
           toast.add({

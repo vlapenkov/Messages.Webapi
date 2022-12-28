@@ -16,6 +16,7 @@
 <script lang="ts">
 import { ProductionModel } from '@/app/productions/models/production.model';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { breadcrumbStore } from '@/store/breadcrumb.store';
 import { registerStore } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
 import { viewModeProvider } from '@/vue/presentational/providers/view-mode.provider';
@@ -37,6 +38,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const router = useRouter();
     const { showDialog } = registerStore;
+    const { tree: breadcrumbs, breadcrumb } = breadcrumbStore;
+    console.log(breadcrumb('/catalog?sectionId=4'));
+
     const addProductToShopingCart = async (model: ProductionModel) => {
       if (!isAuthenticated.value) {
         if (props.production == null) {
@@ -104,7 +108,7 @@ export default defineComponent({
       router.push({ name: 'organization', params: { id: props.production.organization.id } });
     };
     const viewMode = viewModeProvider.inject();
-    return { addProductToShopingCart, viewProduct, viewOrganization, viewMode };
+    return { addProductToShopingCart, viewProduct, viewOrganization, viewMode, breadcrumbs };
   },
 });
 </script>

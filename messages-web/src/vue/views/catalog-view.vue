@@ -68,7 +68,7 @@ import {
 } from '@/app/productions/@types/IproductionsPageRequest';
 import { productionsStore } from '@/app/productions/state/productions.store';
 import { useElementSize } from '@vueuse/core';
-import { computed, defineComponent, ref, watch, watchEffect } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { useRouteQueryBinded } from '@/composables/bind-route-query.composable';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import { PrimePaginator } from '@/tools/prime-vue-components';
@@ -89,11 +89,6 @@ export default defineComponent({
 
     const pageNumber = ref(1);
     const pageSize = ref(16);
-
-    watchEffect(() => {
-      console.log('pageNumber', pageNumber.value);
-      console.log('pageSize', pageSize.value);
-    });
 
     useRouteQueryBinded('sectionId', {
       type: 'number',
@@ -130,8 +125,6 @@ export default defineComponent({
     watch(
       pageRequest,
       (r) => {
-        console.log('requesting', r);
-
         loadPage(r);
       },
       {
@@ -152,8 +145,6 @@ export default defineComponent({
     const viewMode = ref<'grid' | 'list'>('grid');
 
     const changePage = ({ page }: { page: number }) => {
-      console.log('page is', page);
-
       pageNumber.value = page + 1;
     };
 

@@ -2,7 +2,6 @@ import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { treeToList } from '@/services/breadcrumb.service';
-import { catalogFiltersStore } from './catalog-filters.store';
 
 export interface ILocation {
   name?: string;
@@ -25,14 +24,9 @@ export interface IListNode {
 
 export interface IBreadcrumbStore {
   list: IListNode[];
-  params: {
-    sectionId: number | null;
-  };
 }
 
 const { sections } = sectionsStore;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { sectionId } = catalogFiltersStore;
 const { product } = productFullStore;
 const tree: ITreeNode = {
   label: () => 'Главная',
@@ -47,15 +41,15 @@ const tree: ITreeNode = {
           route: { name: 'catalog', params: { sectionId: product.value.catalogSectionId } },
           children: [
             {
-              label: () => 'Товар',
+              label: () => product.value.name,
               route: { name: 'product' },
             },
             {
-              label: () => 'Услуга',
+              label: () => product.value.name,
               route: { name: 'product-service' },
             },
             {
-              label: () => 'Работа',
+              label: () => product.value.name,
               route: { name: 'product-work' },
             },
           ],
@@ -67,9 +61,6 @@ const tree: ITreeNode = {
 
 const defaultState: IBreadcrumbStore = {
   list: treeToList(tree),
-  params: {
-    sectionId: null,
-  },
 };
 
 const { getter } = defineStore('breadcrumb', defaultState);
@@ -92,7 +83,6 @@ const breadcrumbItemsByPath = (loc: ILocation) =>
         res.push(node);
       }
     }
-    console.log(res);
     return res.reverse();
   });
 

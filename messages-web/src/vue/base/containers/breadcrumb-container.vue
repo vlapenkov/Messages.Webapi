@@ -1,5 +1,8 @@
 <template>
-  <breadcrumb :home="home" :model="items" class="rk-breadcrumb" />
+  <transition-fade>
+    <breadcrumb v-if="isLoaded" :home="home" :model="items" class="rk-breadcrumb" />
+    <skeleton v-else width="100%" height="40px" />
+  </transition-fade>
 </template>
 
 <script lang="ts">
@@ -28,11 +31,13 @@ export default defineComponent({
     );
     const home = computed(() => breadcrumbs.value[0]);
     const items = computed(() => breadcrumbs.value.slice(1));
+    const isLoaded = computed(() => home.value != null && items.value.length > 0);
     return {
       route,
       list,
       home,
       items,
+      isLoaded,
     };
   },
 });

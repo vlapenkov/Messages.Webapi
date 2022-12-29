@@ -7,7 +7,7 @@ export const treeToList = (t: ITreeNode): IListNode[] => {
   while (nodeStack.length !== 0) {
     const node: ITreeNode | undefined = nodeStack.pop();
     if (node == null) {
-      throw new Error('Something went wrong while flatting tree');
+      throw new Error('Что-то пошло не так при разборе дерева в список');
     }
     const nodeId = Symbol('id');
     const idToPush = parentIdStack.length === 0 ? null : parentIdStack[parentIdStack.length - 1];

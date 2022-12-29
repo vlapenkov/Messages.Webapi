@@ -67,7 +67,7 @@ const { getter } = defineStore('breadcrumb', defaultState);
 const list = getter('get-list', (state) => state.list);
 
 const breadcrumbItemsByPath = (loc: RouteLocation) =>
-  getter(`get-breadcrumb-items--${loc.name?.toString}`, (state) => {
+  getter<readonly IListNode[]>(`get-breadcrumb-items--${loc.name?.toString}`, (state) => {
     const root = state.list.find((x) => x.route().name === loc.name);
     if (root == null) {
       throw new Error('Не удалось найти элемент breadcrumb по заданному пути');
@@ -77,10 +77,11 @@ const breadcrumbItemsByPath = (loc: RouteLocation) =>
     while (node.parentId != null) {
       // eslint-disable-next-line no-loop-func
       const parent = state.list.find((x) => x.id === node.parentId);
-      if (parent != null) {
-        node = parent;
-        res.push(node);
+      if (parent == null) {
+        throw new Error('Не удалось найти элемент breadcrumb по id родителя');
       }
+      node = parent;
+      res.push(node);
     }
     return res.reverse();
   });

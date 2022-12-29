@@ -22,7 +22,7 @@ export default defineComponent({
         (x) =>
           ({
             label: x.label(),
-            to: router.resolve(x.route as RouteLocation).fullPath,
+            to: router.resolve(x.route() as RouteLocation).fullPath,
           } as IBreadcrumbModel),
       ),
     );

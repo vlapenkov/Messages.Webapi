@@ -11,23 +11,23 @@ describe('breadcrumbs', () => {
   test('---', () => {
     const tree: ITreeNode = {
       label: () => 'foo',
-      route: { path: '/foo' } as RouteLocation,
+      route: () => ({ path: '/foo' } as RouteLocation),
       children: [
         {
           label: () => 'bar',
-          route: { path: 'bar' } as RouteLocation,
+          route: () => ({ path: 'bar' } as RouteLocation),
         },
         {
           label: () => 'baz',
-          route: { path: 'baz' } as RouteLocation,
+          route: () => ({ path: 'baz' } as RouteLocation),
           children: [
             {
               label: () => 'bazzer',
-              route: { path: 'bazzer' } as RouteLocation,
+              route: () => ({ path: 'bazzer' } as RouteLocation),
             },
             {
               label: () => 'bazzer2',
-              route: { path: 'bazzer2' } as RouteLocation,
+              route: () => ({ path: 'bazzer2' } as RouteLocation),
             },
           ],
         },

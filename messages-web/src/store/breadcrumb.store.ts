@@ -7,14 +7,14 @@ import { RouteLocation } from 'vue-router';
 export interface ITreeNode {
   children?: ITreeNode[];
   label: () => string | undefined;
-  route: RouteLocation;
+  route: () => RouteLocation;
 }
 
 export interface IListNode {
   id: symbol;
   parentId: symbol | null;
   label: () => string | undefined;
-  route: RouteLocation;
+  route: () => RouteLocation;
 }
 
 export interface IBreadcrumbStore {
@@ -25,30 +25,31 @@ const { sections } = sectionsStore;
 const { product } = productFullStore;
 const tree: ITreeNode = {
   label: () => 'Главная',
-  route: { name: 'home' } as RouteLocation,
+  route: () => ({ name: 'home' } as RouteLocation),
   children: [
     {
       label: () => 'Каталог',
-      route: { name: 'catalog' } as RouteLocation,
+      route: () => ({ name: 'catalog' } as RouteLocation),
       children: [
         {
           label: () => sections.value?.find((x) => x.id === product.value.catalogSectionId)?.name,
-          route: {
-            name: 'catalog',
-            params: { sectionId: product.value.catalogSectionId },
-          } as unknown as RouteLocation,
+          route: () =>
+            ({
+              name: 'catalog',
+              query: { sectionId: product.value.catalogSectionId },
+            } as unknown as RouteLocation),
           children: [
             {
               label: () => product.value.name,
-              route: { name: 'product' } as RouteLocation,
+              route: () => ({ name: 'product' } as RouteLocation),
             },
             {
               label: () => product.value.name,
-              route: { name: 'product-service' } as RouteLocation,
+              route: () => ({ name: 'product-service' } as RouteLocation),
             },
             {
               label: () => product.value.name,
-              route: { name: 'product-work' } as RouteLocation,
+              route: () => ({ name: 'product-work' } as RouteLocation),
             },
           ],
         },
@@ -67,7 +68,7 @@ const list = getter('get-list', (state) => state.list);
 
 const breadcrumbItemsByPath = (loc: RouteLocation) =>
   getter(`get-breadcrumb-items--${loc.name?.toString}`, (state) => {
-    const root = state.list.find((x) => x.route.name === loc.name);
+    const root = state.list.find((x) => x.route().name === loc.name);
     if (root == null) {
       throw new Error('Не удалось найти элемент breadcrumb по заданному пути');
     }

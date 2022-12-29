@@ -5,7 +5,7 @@
 <script lang="ts">
 import { breadcrumbStore } from '@/store/breadcrumb.store';
 import { computed, defineComponent } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { RouteLocation, useRoute, useRouter } from 'vue-router';
 
 interface IBreadcrumbModel {
   label: string;
@@ -18,11 +18,11 @@ export default defineComponent({
     const router = useRouter();
     const { list, breadcrumbItemsByPath } = breadcrumbStore;
     const breadcrumbs = computed<IBreadcrumbModel[]>(() =>
-      breadcrumbItemsByPath({ name: route.name?.toString() }).value.map(
+      breadcrumbItemsByPath(route).value.map(
         (x) =>
           ({
             label: x.label(),
-            to: router.resolve({ name: x.route.name }).fullPath,
+            to: router.resolve(x.route as RouteLocation).fullPath,
           } as IBreadcrumbModel),
       ),
     );

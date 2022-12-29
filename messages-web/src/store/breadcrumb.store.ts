@@ -3,6 +3,7 @@ import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { treeToList } from '@/services/breadcrumb.service';
 import { RouteLocation } from 'vue-router';
+import { catalogFiltersStore } from './catalog-filters.store';
 
 export interface ITreeNode {
   children?: ITreeNode[];
@@ -22,6 +23,7 @@ export interface IBreadcrumbStore {
 }
 
 const { sections } = sectionsStore;
+const { sectionName, sectionId } = catalogFiltersStore;
 const { product } = productFullStore;
 const tree: ITreeNode = {
   label: () => 'Главная',
@@ -32,11 +34,13 @@ const tree: ITreeNode = {
       route: () => ({ name: 'catalog' } as RouteLocation),
       children: [
         {
-          label: () => sections.value?.find((x) => x.id === product.value.catalogSectionId)?.name,
+          label: () =>
+            sectionName.value ??
+            sections.value?.find((x) => x.id === product.value.catalogSectionId)?.name,
           route: () =>
             ({
               name: 'catalog',
-              query: { sectionId: product.value.catalogSectionId },
+              query: { sectionId: sectionId.value ?? product.value.catalogSectionId },
             } as unknown as RouteLocation),
           children: [
             {

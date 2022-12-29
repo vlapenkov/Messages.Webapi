@@ -1,5 +1,8 @@
 <template>
   <app-page id="filter-container" class="relative" title="Каталог товаров">
+    <template #prefix>
+      <breadcrumb-container />
+    </template>
     <template #subheader> </template>
     <div class="flex flex-row justify-content-end">
       <order-by-container v-model="orderBy"></order-by-container>

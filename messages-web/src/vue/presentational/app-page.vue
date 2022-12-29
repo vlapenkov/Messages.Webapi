@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div :class="{ 'mt-4': hasPrefix }">
+    <slot name="prefix"></slot>
     <div class="flex flex-row justify-content-between gap-5 align-items-center">
       <app-text v-if="!hideTitle" class="p-component my-3" mode="header">{{ title }}</app-text>
       <slot name="subheader"></slot>
@@ -10,7 +11,7 @@
 
 <script lang="ts">
 import { useTitle } from '@vueuse/core';
-import { defineComponent, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -23,8 +24,9 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
+  setup(props, { slots }) {
     const title = useTitle();
+    const hasPrefix = computed(() => slots.prefix != null);
     watch(
       () => props.title,
       (titleValue) => {
@@ -34,7 +36,7 @@ export default defineComponent({
         immediate: true,
       },
     );
-    return {};
+    return { hasPrefix };
   },
 });
 </script>

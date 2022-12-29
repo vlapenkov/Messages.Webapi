@@ -38,5 +38,6 @@ describe('breadcrumbs', () => {
     const [{ parentId }, ...rest] = list;
     expect(parentId).toBeNull();
     expect(rest.every((i) => i.parentId != null)).toBe(true);
+    expect(rest.every((i) => i.parentId != i.id)).toBe(true);
   });
 });

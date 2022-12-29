@@ -1,88 +1,73 @@
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { sectionsStore } from '@/app/sections/state/sections.store';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ref, Ref } from 'vue';
-import { RouteLocationRaw } from 'vue-router';
+import { treeToList } from '@/services/breadcrumb.service';
+import { RouteLocation, RouteLocationRaw } from 'vue-router';
+import { catalogFiltersStore } from './catalog-filters.store';
 
 export interface ITreeNode {
   label: () => string | undefined;
-  route: RouteLocationRaw;
+  route: RouteLocationRaw | RouteLocation;
   children?: ITreeNode[];
 }
 
 export interface IListNode {
-  id: string;
-  parentId: string;
-  label?: string;
-  route: RouteLocationRaw;
+  id: symbol;
+  parentId: symbol | null;
+  label: () => string | undefined;
+  route: RouteLocationRaw | RouteLocation;
 }
 
 export interface IBreadcrumbStore {
-  tree: ITreeNode;
+  list: IListNode[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { sections } = sectionsStore;
+const { sectionId } = catalogFiltersStore;
+const tree: ITreeNode = {
+  label: () => 'Главная',
+  route: { name: 'home' },
+  children: [
+    {
+      label: () => 'Каталог',
+      route: { name: 'catalog' },
+      children: [
+        {
+          label: () => sections.value?.find((x) => x.id === sectionId.value)?.name,
+          route: { name: 'catalog', params: { sectionId: sectionId.value } },
+          children: [
+            {
+              label: () => 'Товар',
+              route: { name: 'product' },
+            },
+            {
+              label: () => 'Услуга',
+              route: { name: 'product-service' },
+            },
+            {
+              label: () => 'Работа',
+              route: { name: 'product-work' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 const defaultState: IBreadcrumbStore = {
-  tree: {
-    label: () => 'Главная',
-    route: { name: 'home' },
-    children: [
-      {
-        label: () => 'Продукция',
-        route: { name: 'catalog' },
-      },
-    ],
-  },
+  list: treeToList(tree),
 };
 
 const { getter } = defineStore('breadcrumb', defaultState);
 
-const tree = getter('get-tree', (state) => state.tree);
+const list = getter('get-list', (state) => state.list);
 
-const list = getter('get-list', (state) => {
-  const res: ITreeNode[] = [];
-  const stack = [state.tree];
-  console.log(stack);
-
-  while (stack.length !== 0) {
-    const node: ITreeNode = { ...stack.pop() } as ITreeNode;
-    if (node?.children !== null) {
-      node?.children?.forEach((x) => {
-        stack.push(x);
-      });
-    } else {
-      res.push(node);
-    }
-  }
-  return res;
+const getByPathTest = getter('get-test', (state) => {
+  const name = 'catalog';
+  return state.list.find((x) => (x.route as RouteLocation).name === name);
 });
 
-const breadcrumb = (path: string) => {
-  getter<ITreeNode[]>(`get-breadcrumb-${path}`, (state) => {
-    const res: ITreeNode[] = [];
-
-    console.log(state.tree);
-    const stack = [state.tree];
-    console.log(stack, state.tree);
-
-    while (stack.length !== 0) {
-      const node: ITreeNode = { ...stack.pop() } as ITreeNode;
-      if (node?.children !== null) {
-        node?.children?.forEach((x) => {
-          stack.push(x);
-        });
-      } else {
-        res.push(node);
-      }
-    }
-
-    return res;
-  });
-};
-
 export const breadcrumbStore = {
-  tree,
   list,
-  breadcrumb,
+  getByPathTest,
 };

@@ -6,7 +6,7 @@
 FROM docker-proxy.dev.roscosmos.digital/node:lts-alpine as build-stage
 ARG MODE='production'
 WORKDIR /app
-COPY package*.json ./
+COPY package.json ./
 RUN npm install
 COPY . .
 RUN ["sh","-c","npm run build -- --mode ${MODE}"]

@@ -28,6 +28,15 @@ const treeToList = (t: ITreeNode): IListNode[] => {
   return res;
 };
 
+const hasOrMoreObjectKeys = (
+  aObj: Record<string, unknown> = {},
+  bObj: Record<string, unknown> = {},
+): boolean => {
+  const aKeys = Object.keys(aObj);
+  const bKeys = Object.keys(bObj);
+  return aKeys.every((x) => bKeys.some((y) => x === y));
+};
+
 const isObjectsEqual = (
   aObj: Record<string, unknown> = {},
   bObj: Record<string, unknown> = {},
@@ -52,18 +61,20 @@ const isObjectsEqual = (
 };
 
 /**
- * @param r1 - RouteLocation
- * @param r2 - RouteLocation
+ * @param treeRoute - tree route
+ * @param location - current location
  * @returns Сравнение RouteLocation по name, params, query
  */
-const isRoutesEquals = (r1: RouteLocationState, r2: RouteLocationState): boolean => {
-  const isNamesEquals = r1.name === r2.name;
-  const isQueriesEquals = isObjectsEqual(r1.query, r2.query);
-  const isParamsEquals = isObjectsEqual(r1.params, r2.params);
+const isRoutesEquals = (treeRoute: RouteLocationState, location: RouteLocationState): boolean => {
+  const isNamesEquals = treeRoute.name === location.name;
+  const isQueriesEquals = hasOrMoreObjectKeys(treeRoute.query, location.query);
+  const isParamsEquals = hasOrMoreObjectKeys(treeRoute.params, location.params);
   return isNamesEquals && isQueriesEquals && isParamsEquals;
 };
 
 export const breadcrumbService = {
   treeToList,
+  isObjectsEqual,
   isRoutesEquals,
+  hasOrMoreObjectKeys,
 };

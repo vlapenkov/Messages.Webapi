@@ -7,7 +7,7 @@
           <div class="col-12">
             <breadcrumb-container />
           </div>
-          <div class="col-5 -mt-4">
+          <div class="col-5 mt-4">
             <!-- <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"

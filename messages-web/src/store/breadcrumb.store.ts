@@ -2,20 +2,22 @@ import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { productFullStore } from '@/app/product-full/state/product-full.store';
 import { sectionsStore } from '@/app/sections/state/sections.store';
 import { breadcrumbService } from '@/services/breadcrumb.service';
-import { RouteLocation } from 'vue-router';
+import { RouteLocationNamedRaw, RouteLocationPathRaw } from 'vue-router';
 import { catalogFiltersStore } from './catalog-filters.store';
+
+export type RouteLocationState = Partial<RouteLocationPathRaw & RouteLocationNamedRaw>;
 
 export interface ITreeNode {
   children?: ITreeNode[];
   label: () => string | undefined;
-  route: () => RouteLocation;
+  route: () => RouteLocationState;
 }
 
 export interface IListNode {
   id: symbol;
   parentId: symbol | null;
   label: () => string | undefined;
-  route: () => RouteLocation;
+  route: () => RouteLocationState;
 }
 
 export interface IBreadcrumbStore {
@@ -27,47 +29,43 @@ const { sectionName, sectionId } = catalogFiltersStore;
 const { product } = productFullStore;
 const tree: ITreeNode = {
   label: () => 'Главная',
-  route: () => ({ name: 'home' } as RouteLocation),
+  route: () => ({ name: 'home' }),
   children: [
     {
       label: () => 'Каталог',
-      route: () => ({ name: 'catalog' } as RouteLocation),
+      route: () => ({ name: 'catalog' }),
       children: [
         {
           label: () =>
             sectionName.value ??
             sections.value?.find((x) => x.id === product.value.catalogSectionId)?.name,
-          route: () =>
-            ({
-              name: 'catalog',
-              query: {
-                sectionId: sectionId.value?.toString() ?? product.value.catalogSectionId.toString(),
-              },
-            } as unknown as RouteLocation),
+          route: () => ({
+            name: 'catalog',
+            query: {
+              sectionId: sectionId.value?.toString() ?? product.value.catalogSectionId.toString(),
+            },
+          }),
           children: [
             {
               label: () => product.value.name,
-              route: () =>
-                ({
-                  name: 'product',
-                  params: { id: product.value.id.toString() },
-                } as unknown as RouteLocation),
+              route: () => ({
+                name: 'product',
+                params: { id: product.value.id.toString() },
+              }),
             },
             {
               label: () => product.value.name,
-              route: () =>
-                ({
-                  name: 'product-service',
-                  params: { id: product.value.id.toString() },
-                } as unknown as RouteLocation),
+              route: () => ({
+                name: 'product-service',
+                params: { id: product.value.id.toString() },
+              }),
             },
             {
               label: () => product.value.name,
-              route: () =>
-                ({
-                  name: 'product-work',
-                  params: { id: product.value.id.toString() },
-                } as unknown as RouteLocation),
+              route: () => ({
+                name: 'product-work',
+                params: { id: product.value.id.toString() },
+              }),
             },
           ],
         },
@@ -84,7 +82,7 @@ const { getter } = defineStore('breadcrumb', defaultState);
 
 const list = getter('get-list', (state) => state.list);
 
-const breadcrumbItemsByPath = (loc: RouteLocation) =>
+const breadcrumbItemsByPath = (loc: RouteLocationState) =>
   getter<readonly IListNode[]>(`get-breadcrumb-items--${loc.name?.toString()}`, (state) => {
     const root = state.list.find((x) => breadcrumbService.isRoutesEquals(x.route(), loc));
     if (root == null) {

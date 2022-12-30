@@ -1,5 +1,4 @@
-import type { ITreeNode, IListNode } from '@/store/breadcrumb.store';
-import { RouteLocation } from 'vue-router';
+import type { ITreeNode, IListNode, RouteLocationState } from '@/store/breadcrumb.store';
 
 const treeToList = (t: ITreeNode): IListNode[] => {
   const res: IListNode[] = [];
@@ -57,7 +56,7 @@ const isObjectsEqual = (a?: Record<string, unknown>, b?: Record<string, unknown>
  * @param r2 - RouteLocation
  * @returns Сравнение RouteLocation по name, params, query
  */
-const isRoutesEquals = (r1: RouteLocation, r2: RouteLocation): boolean => {
+const isRoutesEquals = (r1: RouteLocationState, r2: RouteLocationState): boolean => {
   const isNamesEquals = r1.name === r2.name;
   const isQueriesEquals = isObjectsEqual(r1.query, r2.query);
   const isParamsEquals = isObjectsEqual(r1.params, r2.params);

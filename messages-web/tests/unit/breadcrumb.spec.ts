@@ -1,6 +1,5 @@
 import { breadcrumbService } from '@/services/breadcrumb.service';
 import type { ITreeNode } from '@/store/breadcrumb.store';
-import { RouteLocation } from 'vue-router';
 
 describe('breadcrumbs', () => {
   test('simple breadcrumb', () => {
@@ -11,23 +10,23 @@ describe('breadcrumbs', () => {
   test('---', () => {
     const tree: ITreeNode = {
       label: () => 'foo',
-      route: () => ({ path: '/foo' } as RouteLocation),
+      route: () => ({ path: '/foo' }),
       children: [
         {
           label: () => 'bar',
-          route: () => ({ path: 'bar' } as RouteLocation),
+          route: () => ({ path: 'bar' }),
         },
         {
           label: () => 'baz',
-          route: () => ({ path: 'baz' } as RouteLocation),
+          route: () => ({ path: 'baz' }),
           children: [
             {
               label: () => 'bazzer',
-              route: () => ({ path: 'bazzer' } as RouteLocation),
+              route: () => ({ path: 'bazzer' }),
             },
             {
               label: () => 'bazzer2',
-              route: () => ({ path: 'bazzer2' } as RouteLocation),
+              route: () => ({ path: 'bazzer2' }),
             },
           ],
         },

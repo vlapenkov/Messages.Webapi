@@ -6,20 +6,20 @@
 </template>
 
 <script lang="ts">
-import { breadcrumbStore } from '@/store/breadcrumb.store';
+import { breadcrumbStore, RouteLocationState } from '@/store/breadcrumb.store';
 import { computed, defineComponent } from 'vue';
-import { RouteLocation, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 interface IBreadcrumbModel {
   label: string;
-  to: RouteLocation;
+  to: RouteLocationState;
 }
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const { breadcrumbItemsByPath } = breadcrumbStore;
-    const breadcrumbItems = breadcrumbItemsByPath(route);
+    const breadcrumbItems = breadcrumbItemsByPath(route as RouteLocationState);
     const breadcrumbs = computed<IBreadcrumbModel[]>(() =>
       breadcrumbItems.value.map(
         (x): IBreadcrumbModel => ({

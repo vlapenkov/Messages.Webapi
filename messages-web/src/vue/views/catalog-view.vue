@@ -1,5 +1,5 @@
 <template>
-  <app-page id="filter-container" class="relative" title="Каталог товаров">
+  <app-page id="filter-container" class="relative" :title="pageTitle">
     <template #prefix>
       <breadcrumb-container />
     </template>
@@ -151,6 +151,8 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
 
+    const pageTitle = computed(() => catalogFiltersStore.sectionName.value ?? 'Каталог товаров');
+
     return {
       showFilters: false,
       pageNumber,
@@ -163,6 +165,7 @@ export default defineComponent({
       changePage,
       currentPage,
       orderBy,
+      pageTitle,
     };
   },
 });

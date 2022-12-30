@@ -1,4 +1,4 @@
-import { treeToList } from '@/services/breadcrumb.service';
+import { breadcrumbService } from '@/services/breadcrumb.service';
 import type { ITreeNode } from '@/store/breadcrumb.store';
 import { RouteLocation } from 'vue-router';
 
@@ -33,7 +33,7 @@ describe('breadcrumbs', () => {
         },
       ],
     };
-    const list = treeToList(tree);
+    const list = breadcrumbService.treeToList(tree);
     console.log(list);
     const [{ parentId }, ...rest] = list;
     expect(parentId).toBeNull();

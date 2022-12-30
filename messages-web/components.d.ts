@@ -23,6 +23,8 @@ declare module '@vue/runtime-core' {
     AttributesEditorContainer: typeof import('./src/vue/containers/attributes-editor-container.vue')['default']
     AuthGuard: typeof import('./src/vue/base/containers/auth-guard.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
+    Breadcrumb: typeof import('primevue/breadcrumb')['default']
+    BreadcrumbContainer: typeof import('./src/vue/base/containers/breadcrumb-container.vue')['default']
     Card: typeof import('primevue/card')['default']
     Carousel: typeof import('primevue/carousel')['default']
     CatalogFiltersContainer: typeof import('./src/vue/containers/catalog-filters-container.vue')['default']

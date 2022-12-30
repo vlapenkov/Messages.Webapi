@@ -1,4 +1,5 @@
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
+import { sectionsStore } from '@/app/sections/state/sections.store';
 
 export enum ProductionsOrder {
   NameByAsc,
@@ -31,7 +32,7 @@ const catalogFiltersDefault: ICatalogFilterState = {
   showFilters: false,
 };
 
-const { computeState, mutation } = defineStore('search-filters', catalogFiltersDefault);
+const { getter, computeState, mutation } = defineStore('search-filters', catalogFiltersDefault);
 
 const searchQuery = computeState((state) => state.serachQuery);
 
@@ -53,6 +54,14 @@ const undoMainFilters = mutation('undo-main-filters', (state) => {
   state.serachQuery = null;
 });
 
+const sectionName = getter('get-section-name', (state) => {
+  const sections = sectionsStore.sections.value;
+  if (sections == null || state.sectionId == null) {
+    return null;
+  }
+  return sections.find((s) => s.id === state.sectionId)?.name ?? null;
+});
+
 export const catalogFiltersStore = {
   searchQuery,
   searchQueryDraft,
@@ -60,5 +69,6 @@ export const catalogFiltersStore = {
   organization,
   sectionId,
   showFilters,
+  sectionName,
   undoMainFilters,
 };

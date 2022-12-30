@@ -1,5 +1,8 @@
 <template>
-  <app-page id="filter-container" class="relative" title="Каталог товаров">
+  <app-page id="filter-container" class="relative" :title="pageTitle">
+    <template #prefix>
+      <breadcrumb-container />
+    </template>
     <template #subheader> </template>
     <div class="flex flex-row justify-content-end">
       <order-by-container v-model="orderBy"></order-by-container>
@@ -148,6 +151,8 @@ export default defineComponent({
       pageNumber.value = page + 1;
     };
 
+    const pageTitle = computed(() => catalogFiltersStore.sectionName.value ?? 'Каталог товаров');
+
     return {
       showFilters: false,
       pageNumber,
@@ -160,6 +165,7 @@ export default defineComponent({
       changePage,
       currentPage,
       orderBy,
+      pageTitle,
     };
   },
 });

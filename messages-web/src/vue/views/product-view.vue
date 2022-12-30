@@ -2,10 +2,12 @@
   <app-page hide-title :title="item.name">
     <toast position="top-right" group="tr" />
     <div class="flex mt-5 flex-column gap-3">
-      <breadcrumb-container />
       <prime-card transparent shadow-hover="none">
         <div class="grid">
-          <div class="col-5">
+          <div class="col-12">
+            <breadcrumb-container />
+          </div>
+          <div class="col-5 -mt-4">
             <!-- <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"

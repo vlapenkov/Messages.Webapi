@@ -88,7 +88,7 @@ const breadcrumbItemsByPath = (loc: RouteLocationState) =>
   getter<readonly IListNode[]>(`get-breadcrumb-items--${loc.name.toString()}`, (state) => {
     const root = state.list.find((x) => breadcrumbService.isRoutesEquals(x.route(), loc));
     if (root == null) {
-      throw new Error('Не удалось найти элемент breadcrumb по заданному пути');
+      return [];
     }
     const res = [root];
     let node = root;
@@ -96,7 +96,9 @@ const breadcrumbItemsByPath = (loc: RouteLocationState) =>
       // eslint-disable-next-line no-loop-func
       const parent = state.list.find((x) => x.id === node.parentId);
       if (parent == null) {
-        throw new Error('Не удалось найти элемент breadcrumb по id родителя');
+        throw new Error(
+          `Не удалось найти элемент breadcrumb по id родителя: ${node.parentId.toString()}`,
+        );
       }
       node = parent;
       res.push(node);

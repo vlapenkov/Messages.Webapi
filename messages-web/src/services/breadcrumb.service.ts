@@ -28,10 +28,10 @@ const treeToList = (t: ITreeNode): IListNode[] => {
   return res;
 };
 
-const isObjectsEqual = (a?: Record<string, unknown>, b?: Record<string, unknown>): boolean => {
-  const aObj = a == null ? {} : a;
-  const bObj = b == null ? {} : b;
-
+const isObjectsEqual = (
+  aObj: Record<string, unknown> = {},
+  bObj: Record<string, unknown> = {},
+): boolean => {
   const aKeys = Object.keys(aObj);
   const bKeys = Object.keys(bObj);
   if (aKeys.length !== bKeys.length) {

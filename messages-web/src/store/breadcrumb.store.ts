@@ -5,7 +5,9 @@ import { breadcrumbService } from '@/services/breadcrumb.service';
 import { RouteLocationNamedRaw, RouteLocationPathRaw } from 'vue-router';
 import { catalogFiltersStore } from './catalog-filters.store';
 
-export type RouteLocationState = Partial<RouteLocationPathRaw & RouteLocationNamedRaw>;
+type RouteLocationStateBase = RouteLocationNamedRaw & RouteLocationPathRaw;
+export type RouteLocationState = Partial<RouteLocationStateBase> &
+  Required<Pick<RouteLocationStateBase, 'name'>>;
 
 export interface ITreeNode {
   children?: ITreeNode[];
@@ -83,7 +85,7 @@ const { getter } = defineStore('breadcrumb', defaultState);
 const list = getter('get-list', (state) => state.list);
 
 const breadcrumbItemsByPath = (loc: RouteLocationState) =>
-  getter<readonly IListNode[]>(`get-breadcrumb-items--${loc.name?.toString()}`, (state) => {
+  getter<readonly IListNode[]>(`get-breadcrumb-items--${loc.name.toString()}`, (state) => {
     const root = state.list.find((x) => breadcrumbService.isRoutesEquals(x.route(), loc));
     if (root == null) {
       throw new Error('Не удалось найти элемент breadcrumb по заданному пути');

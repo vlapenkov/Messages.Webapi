@@ -10,23 +10,23 @@ describe('breadcrumbs', () => {
   test('---', () => {
     const tree: ITreeNode = {
       label: () => 'foo',
-      route: () => ({ path: '/foo' }),
+      route: () => ({ path: '/foo', name: 'foo' }),
       children: [
         {
           label: () => 'bar',
-          route: () => ({ path: 'bar' }),
+          route: () => ({ path: 'bar', name: 'bar' }),
         },
         {
           label: () => 'baz',
-          route: () => ({ path: 'baz' }),
+          route: () => ({ path: 'baz', name: 'baz' }),
           children: [
             {
               label: () => 'bazzer',
-              route: () => ({ path: 'bazzer' }),
+              route: () => ({ path: 'bazzer', name: 'bazzer' }),
             },
             {
               label: () => 'bazzer2',
-              route: () => ({ path: 'bazzer2' }),
+              route: () => ({ path: 'bazzer2', name: 'bazzer2' }),
             },
           ],
         },

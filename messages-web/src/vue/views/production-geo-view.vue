@@ -53,7 +53,7 @@
             :marker-id="o.id"
             :coords="[o.latitude, o.longitude]"
             :icon="markerIcon"
-            :balloon="{ header: o.name, body: o.id }"
+            :balloon="{ header: o.name, body: o }"
             :balloon-template="balloonTemplate(o)"
             cluster-name="cluster"
           >
@@ -122,6 +122,7 @@ import { computed, defineComponent, ref } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
 import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 import { OrganizationModel } from '@/app/organizations/model/organization.model';
+import markerImage from '@/assets/icons/marker.png';
 
 export default defineComponent({
   components: {
@@ -151,8 +152,7 @@ export default defineComponent({
     };
     const markerIcon = {
       layout: 'default#image',
-      // eslint-disable-next-line global-require
-      imageHref: require('@/assets/icons/marker.png'),
+      imageHref: markerImage,
       imageSize: [22, 35],
       imageOffset: [0, 0],
     };
@@ -163,10 +163,14 @@ export default defineComponent({
         clusterDisableClickZoom: false,
         clusterBalloonLayout: `
           {% for geoObj in properties.geoObjects %}
-            <div class="my-1">
-              <a href="/organization/{{ geoObj.properties.balloonContentBody | raw }}" class="text-color">
-                <div class="font-semibold">{{ geoObj.properties.balloonContentHeader | raw }}</div>
-              </a>            
+            <div class="w-full mb-3" style="max-height: 200px">
+              <div><span class="font-semibold">{{ geoObj.properties.balloonContentBody.name | raw }}</span></div>
+              <div class="mt-1"><span class="font-medium">{{ geoObj.properties.balloonContentBody.region | raw }}</span></div>
+              <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
+                <a href="/organization/{{ geoObj.properties.balloonContentBody.id | raw }}" class="text-white no-underline">
+                  <span>Перейти к организации</span>
+                </a>
+              </div>
             </div>
           {% endfor %}`,
       },

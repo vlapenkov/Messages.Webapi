@@ -541,7 +541,7 @@ export default defineComponent({
       imageSize: [22, 35],
       imageOffset: [0, 0],
     };
-    const handleClick = (e: Event & { get?: (_: string) => [number, number] }) => {
+    const handleClick = (e: { get?: (_: string) => [number, number] }) => {
       if (e.get == null) return;
       const [lat, long] = e.get('coords');
       formState.latitude = lat;

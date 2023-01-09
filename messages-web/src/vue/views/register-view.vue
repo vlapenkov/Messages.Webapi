@@ -300,8 +300,7 @@
                       </div>
                     </div>
                     <div class="w-full h-full map-container">
-                      <yandex-map
-                        :settings="settings"
+                      <ymap-map
                         :coords="[formState.latitude ?? 65, formState.longitude ?? 90]"
                         :zoom="3"
                         class="map"
@@ -314,7 +313,7 @@
                           :icon="markerIcon"
                         />
                         <div v-else></div>
-                      </yandex-map>
+                      </ymap-map>
                     </div>
                   </accordion-tab>
                 </accordion>
@@ -427,15 +426,14 @@ import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
 import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
-import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+import { ymapMarker } from 'vue-yandex-maps';
 import markerImage from '@/assets/icons/marker.png';
 
 export default defineComponent({
-  // eslint-disable-next-line vue/no-unused-components
-  components: { Toast, yandexMap, ymapMarker },
+  components: { Toast, ymapMarker },
   setup() {
     const route = useRoute();
     const userState = reactive({
@@ -445,8 +443,6 @@ export default defineComponent({
       password: '',
     });
     const toast = useToast();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const router = useRouter();
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
     const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
@@ -529,12 +525,6 @@ export default defineComponent({
       }
       [file.value] = files;
     };
-    const settings = {
-      apiKey: process.env.VUE_APP_YANDEX_MAP_API_KEY,
-      lang: process.env.VUE_APP_YANDEX_MAP_LANG,
-      coordorder: process.env.VUE_APP_YANDEX_MAP_COORDORDER,
-      version: process.env.VUE_APP_YANDEX_MAP_VERSION,
-    };
     const markerIcon = {
       layout: 'default#image',
       imageHref: markerImage,
@@ -555,7 +545,6 @@ export default defineComponent({
       fileB64,
       status,
       file,
-      settings,
       markerIcon,
       save,
       onFileInput,

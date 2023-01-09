@@ -148,5 +148,6 @@ declare module '@vue/runtime-core' {
     Trend3Chart: typeof import('./src/vue/presentational/charts/trend3-chart.vue')['default']
     UserAvatarContainer: typeof import('./src/vue/containers/user-avatar-container.vue')['default']
     ViewSwitcher: typeof import('./src/vue/base/presentational/state/collection/components/view-switcher.vue')['default']
+    YmapMap: typeof import('./src/vue/presentational/yandex-map/ymap-map.vue')['default']
   }
 }

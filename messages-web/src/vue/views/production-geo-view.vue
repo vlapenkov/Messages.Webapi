@@ -40,13 +40,7 @@
 
     <transition-fade>
       <div v-if="selectedMode === Modes.MAP" class="map-container">
-        <yandex-map
-          :settings="settings"
-          :cluster-options="clusterOptions"
-          :coords="[65, 90]"
-          :zoom="3"
-          class="map"
-        >
+        <ymap-map :cluster-options="clusterOptions" :coords="[65, 90]" :zoom="3" class="map">
           <ymap-marker
             v-for="o in filteredOrgs"
             :key="o.id"
@@ -58,7 +52,7 @@
             cluster-name="cluster"
           >
           </ymap-marker>
-        </yandex-map>
+        </ymap-map>
       </div>
       <div v-if="selectedMode === Modes.LIST">
         <div v-if="filteredOrgs.length > 0" class="w-full h-full grid mt-1">
@@ -120,13 +114,12 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
-import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+import { ymapMarker } from 'vue-yandex-maps';
 import { OrganizationModel } from '@/app/organizations/model/organization.model';
 import markerImage from '@/assets/icons/marker.png';
 
 export default defineComponent({
   components: {
-    yandexMap,
     ymapMarker,
   },
   setup() {
@@ -144,12 +137,6 @@ export default defineComponent({
           </a>
         </div>
       </div>`;
-    const settings = {
-      apiKey: process.env.VUE_APP_YANDEX_MAP_API_KEY,
-      lang: process.env.VUE_APP_YANDEX_MAP_LANG,
-      coordorder: process.env.VUE_APP_YANDEX_MAP_COORDORDER,
-      version: process.env.VUE_APP_YANDEX_MAP_VERSION,
-    };
     const markerIcon = {
       layout: 'default#image',
       imageHref: markerImage,
@@ -194,7 +181,6 @@ export default defineComponent({
       organizationModel,
       organizationOptions,
       regionOptions,
-      settings,
       markerIcon,
       clusterOptions,
       balloonTemplate,

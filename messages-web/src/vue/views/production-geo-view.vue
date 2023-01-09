@@ -39,26 +39,61 @@
     </div>
 
     <transition-fade>
-      <productions-map v-if="selectedMode === Modes.MAP" :organizations="filteredOrgs" />
+      <div v-if="selectedMode === Modes.MAP" class="map-container">
+        <ymap-map :cluster-options="clusterOptions" :coords="[65, 90]" :zoom="3" class="map">
+          <ymap-placemark
+            v-for="o in filteredOrgs"
+            :key="o.id"
+            :marker-id="o.id"
+            :coords="[o.latitude, o.longitude]"
+            :balloon="{ header: o.name, body: o }"
+            :balloon-template="balloonTemplate(o)"
+            cluster-name="cluster"
+          />
+        </ymap-map>
+      </div>
       <div v-if="selectedMode === Modes.LIST">
         <div v-if="filteredOrgs.length > 0" class="w-full h-full grid mt-1">
           <div v-for="(org, i) in filteredOrgs" :key="i" class="col-4">
             <card class="w-full h-full production-geo-card">
               <template #content>
                 <router-link :to="`/organization/${org.id}`" class="no-underline">
-                  <div class="flex flex-column">
-                    <div class="flex flex-row">
-                      <span
-                        class="w-full font-semibold text-900"
-                        :style="{ overflowWrap: 'break-word' }"
-                      >
-                        {{ org.name }}
-                      </span>
+                  <div class="w-full h-full flex flex-row align-items-center">
+                    <div>
+                      <img
+                        v-if="org.documentId == null"
+                        :src="require('@/assets/images/profile.svg')"
+                        alt="Изображение профиля"
+                        width="50"
+                        height="50"
+                        :style="{
+                          objectFit: 'cover',
+                          borderRadius: '0.5rem',
+                        }"
+                        class="mr-3"
+                      />
+                      <file-store-image
+                        v-if="org.documentId != null"
+                        :max-width="50"
+                        :max-height="50"
+                        :id="org.documentId"
+                        class="mr-3"
+                      ></file-store-image>
                     </div>
-                    <div class="flex flex-row mt-1">
-                      <span class="w-full text-700" :style="{ overflowWrap: 'break-word' }">
-                        {{ org.region }}
-                      </span>
+                    <div class="flex flex-column">
+                      <div class="flex flex-row">
+                        <span
+                          class="w-full font-semibold text-900"
+                          :style="{ overflowWrap: 'break-word' }"
+                        >
+                          {{ org.name }}
+                        </span>
+                      </div>
+                      <div class="flex flex-row mt-1">
+                        <span class="w-full text-700" :style="{ overflowWrap: 'break-word' }">
+                          {{ org.region }}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </router-link>
@@ -77,6 +112,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useOrganizations } from '@/composables/organizations.composable';
+import { OrganizationModel } from '@/app/organizations/model/organization.model';
 
 export default defineComponent({
   setup() {
@@ -84,6 +120,35 @@ export default defineComponent({
       MAP,
       LIST,
     }
+    const balloonTemplate = (org: OrganizationModel) => `
+      <div class="w-full" style="max-height: 200px">
+        <div><span class="font-semibold">${org.name}</span></div>
+        <div class="mt-1"><span class="font-medium">${org.region}</span></div>
+        <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
+          <a href="/organization/${org.id}" class="text-white no-underline">
+            <span>Перейти к организации</span>
+          </a>
+        </div>
+      </div>`;
+    const clusterOptions = {
+      cluster: {
+        gridSize: 128,
+        preset: 'islands#redClusterIcons',
+        clusterDisableClickZoom: false,
+        clusterBalloonLayout: `
+          {% for geoObj in properties.geoObjects %}
+            <div class="w-full mb-3" style="max-height: 200px">
+              <div><span class="font-semibold">{{ geoObj.properties.balloonContentBody.name | raw }}</span></div>
+              <div class="mt-1"><span class="font-medium">{{ geoObj.properties.balloonContentBody.region | raw }}</span></div>
+              <div class="flex flex-row w-full justify-content-center align-items-center mt-1 p-2 bg-primary border-round-sm cursor-pointer">
+                <a href="/organization/{{ geoObj.properties.balloonContentBody.id | raw }}" class="text-white no-underline">
+                  <span>Перейти к организации</span>
+                </a>
+              </div>
+            </div>
+          {% endfor %}`,
+      },
+    };
     const selectedMode = ref(Modes.MAP);
     const regionModel = ref();
     const organizationModel = ref();
@@ -103,6 +168,8 @@ export default defineComponent({
       organizationModel,
       organizationOptions,
       regionOptions,
+      clusterOptions,
+      balloonTemplate,
     };
   },
 });
@@ -112,6 +179,15 @@ export default defineComponent({
 .production-geo-card {
   :deep(.p-card-content) {
     padding: 0;
+  }
+}
+.map-container {
+  :deep(.ymap-container) {
+    height: 100%;
+  }
+
+  .map {
+    height: 50vh;
   }
 }
 </style>

@@ -267,37 +267,55 @@
                 </div>
               </div>
               <div>
-                <h3 class="mt-4">Географические координаты</h3>
-                <div class="w-full h-full grid">
-                  <div class="col-3 field">
-                    <label for="latitude" class="text-600">Широта</label>
-                    <input-number
-                      id="latitude"
-                      mode="decimal"
-                      locale="ru-RU"
-                      class="w-full p-inputtext-sm rk-input"
-                      placeholder="Не указана"
-                      :minFractionDigits="1"
-                      :maxFractionDigits="12"
-                      v-model="formState.latitude"
-                      :disabled="isModeration"
-                    />
-                  </div>
-                  <div class="col-3 field">
-                    <label for="longitude" class="text-600">Долгота</label>
-                    <input-number
-                      id="longitude"
-                      mode="decimal"
-                      locale="ru-RU"
-                      class="w-full p-inputtext-sm rk-input"
-                      placeholder="Не указана"
-                      :minFractionDigits="1"
-                      :maxFractionDigits="12"
-                      v-model="formState.longitude"
-                      :disabled="isModeration"
-                    />
-                  </div>
-                </div>
+                <accordion>
+                  <accordion-tab header="Географические координаты">
+                    <div class="w-full h-full grid">
+                      <div class="col-3 field">
+                        <label for="latitude" class="text-600">Широта</label>
+                        <input-number
+                          id="latitude"
+                          mode="decimal"
+                          locale="ru-RU"
+                          class="w-full p-inputtext-sm rk-input"
+                          placeholder="Не указана"
+                          :minFractionDigits="1"
+                          :maxFractionDigits="12"
+                          v-model="formState.latitude"
+                          :disabled="isModeration"
+                        />
+                      </div>
+                      <div class="col-3 field">
+                        <label for="longitude" class="text-600">Долгота</label>
+                        <input-number
+                          id="longitude"
+                          mode="decimal"
+                          locale="ru-RU"
+                          class="w-full p-inputtext-sm rk-input"
+                          placeholder="Не указана"
+                          :minFractionDigits="1"
+                          :maxFractionDigits="12"
+                          v-model="formState.longitude"
+                          :disabled="isModeration"
+                        />
+                      </div>
+                    </div>
+                    <div class="w-full h-full map-container">
+                      <ymap-map
+                        :coords="[formState.latitude ?? 65, formState.longitude ?? 90]"
+                        :zoom="3"
+                        class="map"
+                        @click="updateCoords"
+                      >
+                        <ymap-placemark
+                          v-if="formState.latitude != null && formState.longitude != null"
+                          :marker-id="'marker'"
+                          :coords="[formState.latitude, formState.longitude]"
+                        />
+                        <div v-else></div>
+                      </ymap-map>
+                    </div>
+                  </accordion-tab>
+                </accordion>
               </div>
               <prime-divider class="mt-5 mb-5"></prime-divider>
               <div>
@@ -363,9 +381,9 @@
                   </div>
                   <div class="col-8"></div>
                   <div class="col-4 field">
-                    <label for="email" class="text-600">E-mail</label>
+                    <label for="org-email" class="text-600">E-mail</label>
                     <input-text
-                      id="email"
+                      id="org-email"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       v-model="formState.email"
@@ -407,7 +425,7 @@ import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
 import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
 
@@ -422,8 +440,6 @@ export default defineComponent({
       password: '',
     });
     const toast = useToast();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const router = useRouter();
     const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
       organizationFullStore;
     const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
@@ -506,6 +522,12 @@ export default defineComponent({
       }
       [file.value] = files;
     };
+    const updateCoords = (e: { get?: (_: string) => [number, number] }) => {
+      if (e.get == null) return;
+      const [lat, long] = e.get('coords');
+      formState.latitude = lat;
+      formState.longitude = long;
+    };
     return {
       userState,
       statusOptions,
@@ -516,6 +538,7 @@ export default defineComponent({
       file,
       save,
       onFileInput,
+      updateCoords,
     };
   },
 });
@@ -526,6 +549,16 @@ export default defineComponent({
   .p-card-body {
     padding-top: 0;
     padding-bottom: 0;
+  }
+}
+
+.map-container {
+  :deep(.ymap-container) {
+    height: 100%;
+  }
+
+  .map {
+    height: 50vh;
   }
 }
 </style>

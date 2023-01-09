@@ -7,6 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Accordion: typeof import('primevue/accordion')['default']
+    AccordionTab: typeof import('primevue/accordiontab')['default']
     AddSectionDialog: typeof import('./src/vue/containers/sections/add-section-dialog.vue')['default']
     AppAffix: typeof import('./src/vue/presentational/app-affix.vue')['default']
     AppContainer: typeof import('./src/vue/presentational/app-container.vue')['default']
@@ -107,7 +109,7 @@ declare module '@vue/runtime-core' {
     ProductionDocumentsCarousel: typeof import('./src/vue/containers/productions/production-documents-carousel.vue')['default']
     ProductionGeoView: typeof import('./src/vue/views/production-geo-view.vue')['default']
     ProductionListItem: typeof import('./src/vue/containers/productions/production-list-item.vue')['default']
-    ProductionsMap: typeof import('./src/vue/presentational/charts/productions-map.vue')['default']
+    ProductionsMapChart: typeof import('./src/vue/presentational/charts/productions-map-chart.vue')['default']
     ProductionToolbarContainer: typeof import('./src/vue/containers/productions/production-toolbar-container.vue')['default']
     ProductServiceView: typeof import('./src/vue/views/product-service-view.vue')['default']
     ProductsListPanel: typeof import('./src/vue/containers/productions/products/products-list-panel.vue')['default']
@@ -146,5 +148,7 @@ declare module '@vue/runtime-core' {
     Trend3Chart: typeof import('./src/vue/presentational/charts/trend3-chart.vue')['default']
     UserAvatarContainer: typeof import('./src/vue/containers/user-avatar-container.vue')['default']
     ViewSwitcher: typeof import('./src/vue/base/presentational/state/collection/components/view-switcher.vue')['default']
+    YmapMap: typeof import('./src/vue/presentational/yandex-map/ymap-map.vue')['default']
+    YmapPlacemark: typeof import('./src/vue/presentational/yandex-map/ymap-placemark.vue')['default']
   }
 }

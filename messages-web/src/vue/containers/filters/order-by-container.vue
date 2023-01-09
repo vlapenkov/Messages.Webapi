@@ -14,60 +14,74 @@
 </template>
 
 <script lang="ts">
-import { catalogFiltersStore, OrderByProduct } from '@/store/catalog-filters.store';
-import { defineComponent } from 'vue';
+import { ProductionsOrder } from '@/store/catalog-filters.store';
+import { computed, defineComponent, PropType } from 'vue';
 
-export interface IOrderByProductWithName {
-  value: OrderByProduct;
+export interface IProductionsOrderWithName {
+  value: ProductionsOrder;
   name: string;
 }
 
-const ordersByProductWithName: IOrderByProductWithName[] = [
+const ordersByProductWithName: IProductionsOrderWithName[] = [
   {
-    value: OrderByProduct.NameByAsc,
+    value: ProductionsOrder.NameByAsc,
     name: 'по названию (возрастание)',
   },
   {
-    value: OrderByProduct.NameByDesc,
+    value: ProductionsOrder.NameByDesc,
     name: 'по названию (убывание)',
   },
   {
-    value: OrderByProduct.RegionByAsc,
+    value: ProductionsOrder.RegionByAsc,
     name: 'по региону (возрастание)',
   },
   {
-    value: OrderByProduct.RegionByDesc,
+    value: ProductionsOrder.RegionByDesc,
     name: 'по региону (убывание)',
   },
   {
-    value: OrderByProduct.ProducerByAsc,
+    value: ProductionsOrder.ProducerByAsc,
     name: 'по названию производителя (возрастание)',
   },
   {
-    value: OrderByProduct.ProducerByDesc,
+    value: ProductionsOrder.ProducerByDesc,
     name: 'по названию производителя (убывание)',
   },
   {
-    value: OrderByProduct.RatingByAsc,
+    value: ProductionsOrder.RatingByAsc,
     name: 'по рейтингу (возрастание)',
   },
   {
-    value: OrderByProduct.RatingByDesc,
+    value: ProductionsOrder.RatingByDesc,
     name: 'по рейтингу (убывание)',
   },
   {
-    value: OrderByProduct.IdByAsc,
+    value: ProductionsOrder.IdByAsc,
     name: 'по дате (от старых к новым)',
   },
   {
-    value: OrderByProduct.IdByDesc,
+    value: ProductionsOrder.IdByDesc,
     name: 'по дате (от новых к старым)',
   },
 ];
 
 export default defineComponent({
-  setup() {
-    const { orderBy } = catalogFiltersStore;
+  props: {
+    modelValue: {
+      type: Number as PropType<ProductionsOrder>,
+      default: null,
+    },
+  },
+  emits: {
+    'update:modelValue': (_: ProductionsOrder | null) => true,
+  },
+  setup(props, { emit }) {
+    const orderBy = computed({
+      get: () => props.modelValue,
+      set: (val) => {
+        emit('update:modelValue', val);
+      },
+    });
     return { ordersByProductWithName, orderBy };
   },
 });

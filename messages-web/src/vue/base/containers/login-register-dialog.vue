@@ -1,6 +1,6 @@
 <template>
   <prime-dialog
-    v-model:visible="showRegisterDialog"
+    v-model:visible="isShowDialog"
     :draggable="false"
     modal
     :breakpoints="{ '900px': '75vw', '720px': '90vw' }"
@@ -19,7 +19,11 @@
         height="70"
         class="col-6 col-offset-3 mb-4"
       />
-      <prime-button label="Войти" class="col-6 col-offset-3 p-button-sm mb-2" @click="login" />
+      <prime-button
+        label="Войти"
+        class="col-6 col-offset-3 p-button-sm mb-2"
+        @click="handleLogin"
+      />
       <router-link :to="{ name: 'register' }" class="no-underline">
         <prime-button
           label="Зарегистрироваться"
@@ -32,17 +36,22 @@
 
 <script lang="ts">
 import { login } from '@/app/core/services/keycloak/keycloak.service';
-import { showRegisterDialog } from '@/store/register.store';
+import { registerStore } from '@/store/register.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { defineComponent } from 'vue';
-import {} from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   components: { PrimeDialog },
   setup() {
+    const route = useRoute();
+    const { isShowDialog } = registerStore;
+    const handleLogin = () => {
+      login(route);
+    };
     return {
-      showRegisterDialog,
-      login,
+      isShowDialog,
+      handleLogin,
     };
   },
 });

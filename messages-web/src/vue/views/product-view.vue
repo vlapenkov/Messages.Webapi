@@ -4,7 +4,10 @@
     <div class="flex mt-5 flex-column gap-3">
       <prime-card transparent shadow-hover="none">
         <div class="grid">
-          <div class="col-5">
+          <div class="col-12">
+            <breadcrumb-container />
+          </div>
+          <div class="col-5 mt-4">
             <!-- <file-store-image
               :id="item?.documents[0]?.fileId"
               :maxHeight="300"
@@ -134,7 +137,7 @@ import { productFullStore, ProductType } from '@/app/product-full/state/product-
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { useIsInCart } from '@/composables/shopping-cart.composables';
 import { useSections } from '@/composables/sections.composable';
-import { showRegisterDialog } from '@/store/register.store';
+import { registerStore } from '@/store/register.store';
 import { isAuthenticated } from '@/store/user.store';
 import { isNullOrEmpty } from '@/tools/string-tools';
 import Toast from 'primevue/toast';
@@ -176,9 +179,10 @@ export default defineComponent({
 
     const isInCart = useIsInCart(item.value.id);
 
+    const { showDialog } = registerStore;
     const addProductToShopingCart = async (id: number, name: string) => {
       if (!isAuthenticated.value) {
-        showRegisterDialog.value = true;
+        showDialog();
         return;
       }
       await shoppingCartStore.addToCart({

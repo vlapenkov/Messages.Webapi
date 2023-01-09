@@ -426,7 +426,7 @@ import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
 import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
 import { yandexMap, ymapMarker } from 'vue-yandex-maps';
@@ -435,6 +435,7 @@ export default defineComponent({
   // eslint-disable-next-line vue/no-unused-components
   components: { Toast, yandexMap, ymapMarker },
   setup() {
+    const route = useRoute();
     const userState = reactive({
       fio: '',
       phone: '',
@@ -501,7 +502,7 @@ export default defineComponent({
       if (status.value.status === 'loaded') {
         // const id = organizationSelected.value?.data.id;
         // if (id !== 0) router.push({ name: 'organization', params: { id } });
-        login();
+        login(route);
       }
     };
 

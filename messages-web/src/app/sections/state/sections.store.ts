@@ -78,7 +78,6 @@ const saveChanges = action(saveChangesKey, async () => {
         });
         status.value = new DataStatus('loaded');
       } catch (error) {
-        console.error(error);
         status.value = new DataStatus(
           'error',
           'Что-то пошло не так в процессе добавления категории',

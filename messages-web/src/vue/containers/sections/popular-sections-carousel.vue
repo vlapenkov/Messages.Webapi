@@ -28,7 +28,15 @@
               :fit-width="true"
               :header-text="slotProps.data.name"
               @click="viewSection(slotProps.data)"
-            />
+            >
+              <app-text
+                tag="div"
+                mode="image"
+                class="absolute top-0 left-0 text-white text-left p-3"
+              >
+                {{ slotProps.data.name }}
+              </app-text>
+            </file-store-image>
             <skeleton v-else height="162px"> </skeleton>
           </div>
         </template>
@@ -78,7 +86,7 @@ export default defineComponent({
       transform: screenLarge.value ? `scale(${scaleKoef.value},${scaleKoef.value})` : undefined,
     }));
     const viewSection = (item: SectionModel) => {
-      router.push({ name: 'catalog', params: { id: item.id }, query: { sectionId: item.id } });
+      router.push({ name: 'catalog', query: { sectionId: item.id } });
     };
     return { state, items, itemsWithDocumentId, responsiveOptions, viewSection, carouselStyle };
   },

@@ -15,7 +15,7 @@
       <prime-button
         label="Вход/Регистрация"
         class="p-button-sm ml-3"
-        @click="showRegisterDialog = !showRegisterDialog"
+        @click="isShowDialog = !isShowDialog"
       />
     </div>
     <prime-menu class="mt-1" id="overlay_menu" ref="menu" :model="menuItems" :popup="true">
@@ -31,17 +31,18 @@ import { screenMiddle } from '@/app/core/services/window/window.service';
 import { login, logout } from '@/app/core/services/keycloak/keycloak.service';
 import Menu from 'primevue/menu';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
+import { registerStore } from '@/store/register.store';
 import { useRouter } from 'vue-router';
-import { showRegisterDialog } from '@/store/register.store';
 
 // const avatarSize = 100;
 export default defineComponent({
   components: { PrimeMenu: Menu },
   setup() {
     const router = useRouter();
+    const { isShowDialog } = registerStore;
     router.beforeEach((to) => {
       if (to.name === 'register') {
-        showRegisterDialog.value = false;
+        isShowDialog.value = false;
       }
     });
 
@@ -162,7 +163,7 @@ export default defineComponent({
     };
 
     return {
-      showRegisterDialog,
+      isShowDialog,
       isAuthenticated,
       gravatarUrl,
       userShortName,

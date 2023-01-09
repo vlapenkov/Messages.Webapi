@@ -20,6 +20,7 @@
           :alt="altText ?? 'Изображение товара'"
         />
       </transition-fade>
+      <slot></slot>
     </div>
   </div>
 </template>

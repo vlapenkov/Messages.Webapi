@@ -304,7 +304,7 @@
                         :coords="[formState.latitude ?? 65, formState.longitude ?? 90]"
                         :zoom="3"
                         class="map"
-                        @click="handleClick"
+                        @click="updateCoords"
                       >
                         <ymap-placemark
                           v-if="formState.latitude != null && formState.longitude != null"
@@ -522,7 +522,7 @@ export default defineComponent({
       }
       [file.value] = files;
     };
-    const handleClick = (e: { get?: (_: string) => [number, number] }) => {
+    const updateCoords = (e: { get?: (_: string) => [number, number] }) => {
       if (e.get == null) return;
       const [lat, long] = e.get('coords');
       formState.latitude = lat;
@@ -538,7 +538,7 @@ export default defineComponent({
       file,
       save,
       onFileInput,
-      handleClick,
+      updateCoords,
     };
   },
 });

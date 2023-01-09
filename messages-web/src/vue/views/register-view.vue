@@ -306,11 +306,10 @@
                         class="map"
                         @click="handleClick"
                       >
-                        <ymap-marker
+                        <ymap-placemark
                           v-if="formState.latitude != null && formState.longitude != null"
                           :marker-id="'marker'"
                           :coords="[formState.latitude, formState.longitude]"
-                          :icon="markerIcon"
                         />
                         <div v-else></div>
                       </ymap-map>
@@ -429,11 +428,9 @@ import { useToast } from 'primevue/usetoast';
 import { useRoute } from 'vue-router';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
-import { ymapMarker } from 'vue-yandex-maps';
-import markerImage from '@/assets/icons/marker.png';
 
 export default defineComponent({
-  components: { Toast, ymapMarker },
+  components: { Toast },
   setup() {
     const route = useRoute();
     const userState = reactive({
@@ -525,12 +522,6 @@ export default defineComponent({
       }
       [file.value] = files;
     };
-    const markerIcon = {
-      layout: 'default#image',
-      imageHref: markerImage,
-      imageSize: [22, 35],
-      imageOffset: [0, 0],
-    };
     const handleClick = (e: { get?: (_: string) => [number, number] }) => {
       if (e.get == null) return;
       const [lat, long] = e.get('coords');
@@ -545,7 +536,6 @@ export default defineComponent({
       fileB64,
       status,
       file,
-      markerIcon,
       save,
       onFileInput,
       handleClick,

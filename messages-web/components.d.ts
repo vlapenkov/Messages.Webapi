@@ -149,5 +149,6 @@ declare module '@vue/runtime-core' {
     UserAvatarContainer: typeof import('./src/vue/containers/user-avatar-container.vue')['default']
     ViewSwitcher: typeof import('./src/vue/base/presentational/state/collection/components/view-switcher.vue')['default']
     YmapMap: typeof import('./src/vue/presentational/yandex-map/ymap-map.vue')['default']
+    YmapPlacemark: typeof import('./src/vue/presentational/yandex-map/ymap-placemark.vue')['default']
   }
 }

@@ -309,9 +309,10 @@
                       >
                         <ymap-marker
                           v-if="formState.latitude != null && formState.longitude != null"
+                          :marker-id="'marker'"
                           :coords="[formState.latitude, formState.longitude]"
                           :icon="markerIcon"
-                        ></ymap-marker>
+                        />
                         <div v-else></div>
                       </yandex-map>
                     </div>
@@ -430,6 +431,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
 import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+import markerImage from '@/assets/icons/marker.png';
 
 export default defineComponent({
   // eslint-disable-next-line vue/no-unused-components
@@ -535,20 +537,15 @@ export default defineComponent({
     };
     const markerIcon = {
       layout: 'default#image',
-      // eslint-disable-next-line global-require
-      imageHref: require('@/assets/icons/marker.png'),
+      imageHref: markerImage,
       imageSize: [22, 35],
       imageOffset: [0, 0],
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleClick = (e: any) => {
-      const propotype = Object.getPrototypeOf(e);
-      // eslint-disable-next-line no-prototype-builtins
-      if (propotype.hasOwnProperty('get')) {
-        const [lat, long] = e.get('coords');
-        formState.latitude = lat;
-        formState.longitude = long;
-      }
+    const handleClick = (e: Event & { get?: (_: string) => [number, number] }) => {
+      if (e.get == null) return;
+      const [lat, long] = e.get('coords');
+      formState.latitude = lat;
+      formState.longitude = long;
     };
     return {
       userState,

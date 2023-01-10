@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Rk.AccountService.Interfaces.Dto.HttpClients;
 using Rk.AccountService.Logic.UserNS.Commands.CreateUser;
@@ -16,7 +17,8 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    public async Task<TokenResponse?> CreateUser(NewUserRequest request)
+    [HttpPost]
+    public async Task<TokenResponse> CreateUser(NewUserRequest request)
     {
         var result = await _mediator.Send(new CreateUserCommand
         {

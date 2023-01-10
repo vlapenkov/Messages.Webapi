@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Rk.AccountService.WebApi.Extensions;
 
 public static class RegisterServicesExtensions

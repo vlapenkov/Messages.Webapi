@@ -1,4 +1,9 @@
-﻿using Rk.AccountService.Infrastructure.HttpClients;
+﻿using System;
+using System.Linq;
+using System.Net.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Rk.AccountService.Infrastructure.HttpClients;
 using Rk.AccountService.Interfaces.HttpClients;
 using Rk.Messages.Common.DelegatingHandlers;
 

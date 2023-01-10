@@ -1,5 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 namespace Rk.AccountService.WebApi.Extensions
@@ -32,7 +38,7 @@ namespace Rk.AccountService.WebApi.Extensions
                     {securityScheme, new string[] { }}
                 });
 
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Messages Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Account Api", Version = "v1" });
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });

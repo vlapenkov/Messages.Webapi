@@ -16,6 +16,7 @@ public class AccountController : ControllerBase
 {
     private readonly IAccountService _account;
 
+    /// <inheritdoc />
     public AccountController(IAccountService account)
     {
         _account = account;

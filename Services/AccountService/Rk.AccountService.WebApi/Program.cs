@@ -1,7 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
 using Rk.AccountService.WebApi.Extensions;
 using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
@@ -33,6 +35,6 @@ app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-app.UseSwaggerUI(builder.Configuration, "Api Marketplace V1");
+app.UseSwaggerUI(builder.Configuration, "Account service V1");
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

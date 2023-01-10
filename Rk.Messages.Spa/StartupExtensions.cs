@@ -66,6 +66,8 @@ namespace Rk.Messages.Spa
             Uri messagesUri = new Uri(config["Services:Messages:BaseUrl"]);
 
             Uri fileStoreUri = new Uri(config["Services:FileStore:BaseUrl"]);
+            
+            Uri accountUri = new Uri(config["Services:AccountService:BaseUrl"]);
 
             services.AddRefitClient<ISectionsServices>(messagesUri)
 
@@ -89,7 +91,9 @@ namespace Rk.Messages.Spa
 
                     .AddRefitClient<IFileStoreService>(fileStoreUri)
 
-                    .AddRefitClient<IProductsPrepareService>(fileStoreUri);
+                    .AddRefitClient<IProductsPrepareService>(fileStoreUri)
+                    
+                    .AddRefitClient<IAccountService>(accountUri);
 
             return services;
         }

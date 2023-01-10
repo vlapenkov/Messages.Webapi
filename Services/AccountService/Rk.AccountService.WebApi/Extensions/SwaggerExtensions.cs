@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace Rk.Messages.Webapi.Extensions
+namespace Rk.AccountService.WebApi.Extensions
 {
     public static class SwaggerExtensions
     {
@@ -38,14 +38,14 @@ namespace Rk.Messages.Webapi.Extensions
                     {securityScheme, new string[] { }}
                 });
 
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Messages Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Account Api", Version = "v1" });
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, IConfiguration config, string title)
+        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, IConfiguration config, string title)
         {
             app.UseSwagger(c =>
             {

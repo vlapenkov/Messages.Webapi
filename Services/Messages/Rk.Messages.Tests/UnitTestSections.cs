@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Rk.Messages.Logic.SectionsNS.Commands.CreateSectionCommand;
-using System.ComponentModel.DataAnnotations;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Messages.Tests
 {

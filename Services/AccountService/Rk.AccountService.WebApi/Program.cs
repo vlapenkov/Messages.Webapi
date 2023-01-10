@@ -12,10 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseRkSerilog();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
+builder.Services.AddDependencies();
 builder.Services.AddHttpClients(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorization();
-builder.Services.AddDependencies();
 builder.Services.AddSwaggerGeneration();
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers().AddJsonOptions(options => 

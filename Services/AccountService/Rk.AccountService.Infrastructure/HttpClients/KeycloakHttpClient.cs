@@ -11,8 +11,7 @@ namespace Rk.AccountService.Infrastructure.HttpClients;
 
 public class KeycloakHttpClient : BaseHttpClient, IKeycloakHttpClient
 {
-    protected KeycloakHttpClient(HttpClient httpClient, 
-        ILogger<KeycloakHttpClient> logger) : base(httpClient, logger)
+    public KeycloakHttpClient(HttpClient httpClient, ILogger<KeycloakHttpClient> logger) : base(httpClient, logger)
     {
     }
     
@@ -36,8 +35,15 @@ public class KeycloakHttpClient : BaseHttpClient, IKeycloakHttpClient
     public async Task CreateUser(string realm, string token, NewUserRequest requestData)
     {
         var request = new HttpRequestMessage(HttpMethod.Post,
-            $"auth/realms/{realm}/users");
-        var bodyView = JsonSerializer.Serialize(requestData, GetJsonOption());
+            $"auth/admin/realms/{realm}/users");
+        var requestWithCredentials = new NewUserWithCredentials(
+            new[] {new UserCredential(requestData.Password)}, 
+            requestData.FirstName, 
+            requestData.LastName, 
+            requestData.Email, 
+            requestData.Username,
+            requestData.Enabled);
+        var bodyView = JsonSerializer.Serialize(requestWithCredentials, GetJsonOption());
         request.Content = new StringContent(bodyView, Encoding.UTF8, "application/json");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         await Send(request);

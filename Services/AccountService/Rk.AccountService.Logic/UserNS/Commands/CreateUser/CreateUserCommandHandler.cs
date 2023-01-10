@@ -11,7 +11,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
     private readonly IConfiguration _configuration;
     private readonly IKeycloakHttpClient _http;
 
-    public CreateUserCommandHandler(IConfiguration configuration, IKeycloakHttpClient http)
+    public CreateUserCommandHandler(IKeycloakHttpClient http, IConfiguration configuration)
     {
         _configuration = configuration;
         _http = http;
@@ -31,7 +31,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
         var adminTokenResponse = await _http.GetToken(realm, new TokenRequest(grantType, clientId, userName, password));
         await _http.CreateUser(realm, adminTokenResponse.AccessToken, request.NewUserData);
         var newUserTokenResponse = await _http.GetToken(realm, 
-            new TokenRequest(grantType, clientId, request.NewUserData.UserName, request.NewUserData.Password));
+            new TokenRequest(grantType, clientId, request.NewUserData.Username, request.NewUserData.Password));
         return newUserTokenResponse;
     }
 }

@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..\..</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>

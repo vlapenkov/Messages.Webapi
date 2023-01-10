@@ -4,7 +4,7 @@
   tasks:
     - name: Check that the docker-compose exists
       stat:
-        path: /opt/marketplacedocker-compose.yml
+        path: /opt/marketplace/docker-compose.yml
       register: stat_result
       
     - name: Tear down existing services

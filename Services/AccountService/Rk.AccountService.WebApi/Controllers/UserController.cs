@@ -18,11 +18,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<TokenResponse> CreateUser(NewUserRequest request)
+    public async Task<TokenResponse> CreateUser(CreateUserRequest request)
     {
         var result = await _mediator.Send(new CreateUserCommand
         {
-            NewUserData = request
+            Request = request
         });
         return result;
     }

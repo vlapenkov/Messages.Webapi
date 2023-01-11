@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Rk.AccountService.Interfaces.Dto.HttpClients;
 using Rk.AccountService.Interfaces.HttpClients;
@@ -10,10 +11,13 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
 {
     private readonly IConfiguration _configuration;
     private readonly IKeycloakHttpClient _http;
+    private readonly IValidator<CreateUserCommand> _validator;
 
-    public CreateUserCommandHandler(IKeycloakHttpClient http, IConfiguration configuration)
+    public CreateUserCommandHandler(IKeycloakHttpClient http, IConfiguration configuration, 
+        IValidator<CreateUserCommand> validator)
     {
         _configuration = configuration;
+        _validator = validator;
         _http = http;
     }
 
@@ -27,11 +31,14 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
 
         if (realm == null || clientId == null || userName == null || password == null)
             throw new RkErrorException("Отсутствуют параметры конфигурации, для создания пользователей.");
+        
+        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
 
         var adminTokenResponse = await _http.GetToken(realm, new TokenRequest(grantType, clientId, userName, password));
-        await _http.CreateUser(realm, adminTokenResponse.AccessToken, request.NewUserData);
+        await _http.CreateUser(realm, adminTokenResponse.AccessToken, request.Request);
         var newUserTokenResponse = await _http.GetToken(realm, 
-            new TokenRequest(grantType, clientId, request.NewUserData.Username, request.NewUserData.Password));
+            new TokenRequest(grantType, clientId, request.Request.Username, request.Request.Credentials[0].Value));
         return newUserTokenResponse;
     }
 }

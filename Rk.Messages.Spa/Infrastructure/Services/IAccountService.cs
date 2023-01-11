@@ -6,5 +6,5 @@ namespace Rk.Messages.Spa.Infrastructure.Services;
 public interface IAccountService
 {
     [Post("/api/v1/user")]
-    Task<TokenResponse> CreateUser([Body] NewUserRequest request);
+    Task<TokenResponse> CreateUser([Body] CreateUserRequest request);
 }

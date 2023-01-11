@@ -15,7 +15,7 @@
                     id="lastName"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userorgFormState.lastName"
+                    v-model="userFormState.lastName"
                   />
                 </div>
                 <div class="col-4 field">
@@ -24,7 +24,7 @@
                     id="firstName"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userorgFormState.firstName"
+                    v-model="userFormState.firstName"
                   />
                 </div>
                 <div class="col-4 field">
@@ -33,7 +33,7 @@
                     id="patronymic"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userorgFormState.patronymic"
+                    v-model="userFormState.patronymic"
                   />
                 </div>
                 <div class="col-4 field">
@@ -42,7 +42,7 @@
                     id="phone"
                     mask="9 (999) 999-99-99"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userorgFormState.phone"
+                    v-model="userFormState.phone"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -52,7 +52,7 @@
                     id="email"
                     type="email"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userorgFormState.email"
+                    v-model="userFormState.email"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -62,7 +62,7 @@
                     id="password"
                     type="password"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userorgFormState.password"
+                    v-model="userFormState.password"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -72,7 +72,7 @@
                     id="role"
                     :options="roleOptions"
                     class="w-full p-component rk-dropdown"
-                    v-model="userorgFormState.role"
+                    v-model="userFormState.role"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -453,9 +453,10 @@ import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
-import { userInfo, UserRoles, status as userStatus } from '@/store/user.store';
+import { UserRoles, status as userStatus } from '@/store/user.store';
 import { userService } from '@/services/user/user.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
+import useVuelidate from '@vuelidate/core';
 
 interface ICreateUser {
   firstName: '';
@@ -470,7 +471,7 @@ interface ICreateUser {
 export default defineComponent({
   components: { Toast },
   setup() {
-    const userorgFormState = reactive<ICreateUser>({
+    const userFormState = reactive<ICreateUser>({
       firstName: '',
       lastName: '',
       patronymic: '',
@@ -479,6 +480,16 @@ export default defineComponent({
       password: '',
       role: '',
     });
+    const userFormRules = {
+      firstName: { required: true },
+      lastName: { required: true },
+      patronymic: { required: true },
+      phone: '',
+      email: { required: true, email: true },
+      password: { required: true },
+      role: { required: true },
+    };
+    const userFormValidate = useVuelidate(userFormRules, userFormState);
     const roleOptions = computed(() => UserRoles.map((x) => x.name));
     const toast = useToast();
     const {
@@ -534,26 +545,26 @@ export default defineComponent({
       showErrorToast(detail);
     };
     const saveUser = async () => {
-      const userRole = UserRoles.find((x) => x.name === userorgFormState.role)?.value;
+      const userRole = UserRoles.find((x) => x.name === userFormState.role)?.value;
       if (userRole == null) {
         showErrorToast('Не выбрана роль');
         return false;
       }
       await userService.createUser({
-        firstName: userorgFormState.firstName,
-        lastName: userorgFormState.lastName,
-        email: userorgFormState.email,
-        username: userorgFormState.email,
+        firstName: userFormState.firstName,
+        lastName: userFormState.lastName,
+        email: userFormState.email,
+        username: userFormState.email,
         credentials: [
           {
-            value: userorgFormState.password,
+            value: userFormState.password,
             type: 'password',
             temporary: false,
           },
         ],
         groups: [userRole],
         attributes: {
-          patronymic: userorgFormState.patronymic,
+          patronymic: userFormState.patronymic,
         },
         enabled: true,
       });
@@ -594,7 +605,6 @@ export default defineComponent({
         // const id = organizationSelected.value?.data.id;
         // if (id !== 0) router.push({ name: 'organization', params: { id } });
         // login(route);
-        console.log(userInfo);
       }
     };
 
@@ -626,7 +636,8 @@ export default defineComponent({
       orgFormState.longitude = long;
     };
     return {
-      userorgFormState,
+      v$: userFormValidate,
+      userFormState,
       roleOptions,
       statusOptions,
       isModeration,

@@ -27,7 +27,7 @@ public class AccountController : ControllerBase
     /// </summary>
     [AllowAnonymous] 
     [HttpPost]
-    public async Task<TokenResponse> Register([FromBody] NewUserRequest request)
+    public async Task<TokenResponse> Register([FromBody] CreateUserRequest request)
     {
         return await _account.CreateUser(request);
     }

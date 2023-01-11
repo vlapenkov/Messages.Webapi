@@ -5,5 +5,5 @@ namespace Rk.AccountService.Logic.UserNS.Commands.CreateUser;
 
 public class CreateUserCommand : IRequest<TokenResponse?>
 {
-    public NewUserRequest NewUserData { get; set; }
+    public CreateUserRequest Request { get; set; }
 }

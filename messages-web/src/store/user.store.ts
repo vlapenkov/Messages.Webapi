@@ -13,7 +13,27 @@ export interface IUserStore {
   status: DataStatus;
 }
 
-export type UserRoles = 'manager_org_seller' | 'manager_org_buyer' | 'content_manager';
+export interface IUserRole {
+  name: string;
+  value: string;
+}
+
+export const UserRoles: IUserRole[] = [
+  {
+    name: 'Продавец',
+    value: 'manager_org_seller',
+  },
+  {
+    name: 'Покупатель',
+    value: 'manager_org_buyer',
+  },
+  {
+    name: 'Администратор',
+    value: 'content_manager',
+  },
+];
+
+export type UserRole = 'manager_org_seller' | 'manager_org_buyer' | 'content_manager';
 
 const setTokenKey = 'set-token';
 
@@ -51,7 +71,7 @@ export const userInfo = getter('get-user-info', (state) =>
 
 export const userRoles = computed(() => userInfo.value?.role ?? []);
 
-export const userRoleContains = (...roles: UserRoles[]) =>
+export const userRoleContains = (...roles: UserRole[]) =>
   getter<boolean>(['check-roles-', ...roles].join('-'), (state) => {
     if (state.token == null) {
       return false;

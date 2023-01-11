@@ -72,8 +72,7 @@ const saveChanges = action('save-changes', async () => {
         Object.assign(copy, data);
         copy.id = resp.data ?? 0;
         updateSelectedItem(copy);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (e instanceof AxiosError) {
           if (e.response == null) return;
           const { errors } = e.response.data;

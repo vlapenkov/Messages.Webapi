@@ -10,22 +10,39 @@
               <h2 class="mt-0">Контактные данные</h2>
               <div class="w-full h-full grid">
                 <div class="col-4 field">
-                  <label for="fio" class="text-600">ФИО</label>
+                  <label for="lastName" class="text-600">Фамилия</label>
                   <input-text
-                    id="fio"
+                    id="lastName"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.fio"
+                    v-model="userorgFormState.lastName"
                   />
                 </div>
-                <div class="col-8"></div>
+                <div class="col-4 field">
+                  <label for="firstName" class="text-600">Имя</label>
+                  <input-text
+                    id="firstName"
+                    type="text"
+                    class="w-full p-inputtext-sm rk-input"
+                    v-model="userorgFormState.firstName"
+                  />
+                </div>
+                <div class="col-4 field">
+                  <label for="patronymic" class="text-600">Отчество</label>
+                  <input-text
+                    id="patronymic"
+                    type="text"
+                    class="w-full p-inputtext-sm rk-input"
+                    v-model="userorgFormState.patronymic"
+                  />
+                </div>
                 <div class="col-4 field">
                   <label for="phone" class="text-600">Контактный телефон</label>
                   <input-mask
                     id="phone"
                     mask="9 (999) 999-99-99"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.phone"
+                    v-model="userorgFormState.phone"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -35,7 +52,7 @@
                     id="email"
                     type="email"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.email"
+                    v-model="userorgFormState.email"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -45,7 +62,17 @@
                     id="password"
                     type="password"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userState.password"
+                    v-model="userorgFormState.password"
+                  />
+                </div>
+                <div class="col-8"></div>
+                <div class="col-4 field">
+                  <label for="role" class="text-600">Роль</label>
+                  <dropdown
+                    id="role"
+                    :options="roleOptions"
+                    class="w-full p-component rk-dropdown"
+                    v-model="userorgFormState.role"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -99,7 +126,7 @@
                           <checkbox
                             inputId="isProducer"
                             :binary="true"
-                            v-model="formState.isProducer"
+                            v-model="orgFormState.isProducer"
                             :disabled="isModeration"
                           />
                           <label for="isProducer" class="text-800 m-0 ml-2">Продавец</label>
@@ -108,7 +135,7 @@
                           <checkbox
                             inputId="isBuyer"
                             :binary="true"
-                            v-model="formState.isBuyer"
+                            v-model="orgFormState.isBuyer"
                             :disabled="isModeration"
                           />
                           <label for="isBuyer" class="text-800 m-0 ml-2">Покупатель</label>
@@ -124,7 +151,7 @@
                           id="status"
                           :options="statusOptions"
                           class="w-full p-component rk-dropdown"
-                          v-model="formState.statusText"
+                          v-model="orgFormState.statusText"
                           :disabled="!isModeration"
                         />
                       </div>
@@ -142,7 +169,7 @@
                       id="ogrn"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.ogrn"
+                      v-model="orgFormState.ogrn"
                       :maxlength="13"
                       :disabled="isModeration"
                     />
@@ -153,7 +180,7 @@
                       id="full-name"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.fullName"
+                      v-model="orgFormState.fullName"
                       :disabled="isModeration"
                     />
                   </div>
@@ -164,7 +191,7 @@
                       id="kpp"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.kpp"
+                      v-model="orgFormState.kpp"
                       :maxlength="9"
                       :disabled="isModeration"
                     />
@@ -175,7 +202,7 @@
                       id="short-name"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.name"
+                      v-model="orgFormState.name"
                       :disabled="isModeration"
                     />
                   </div>
@@ -186,7 +213,7 @@
                       id="inn"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.inn"
+                      v-model="orgFormState.inn"
                       :maxlength="10"
                       :disabled="isModeration"
                     />
@@ -201,7 +228,7 @@
                       id="okved"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.okved"
+                      v-model="orgFormState.okved"
                       :disabled="isModeration"
                     />
                   </div>
@@ -211,7 +238,7 @@
                       id="okved2"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.okved2"
+                      v-model="orgFormState.okved2"
                       :disabled="isModeration"
                     />
                   </div>
@@ -227,7 +254,7 @@
                       id="region"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.region"
+                      v-model="orgFormState.region"
                       :disabled="isModeration"
                     />
                   </div>
@@ -237,7 +264,7 @@
                       id="city"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.city"
+                      v-model="orgFormState.city"
                       :disabled="isModeration"
                     />
                   </div>
@@ -248,7 +275,7 @@
                       id="legal-address"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.address"
+                      v-model="orgFormState.address"
                       :disabled="isModeration"
                     />
                   </div>
@@ -259,7 +286,7 @@
                       id="actual-address"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.factAddress"
+                      v-model="orgFormState.factAddress"
                       :disabled="isModeration"
                     />
                   </div>
@@ -280,7 +307,7 @@
                           placeholder="Не указана"
                           :minFractionDigits="1"
                           :maxFractionDigits="12"
-                          v-model="formState.latitude"
+                          v-model="orgFormState.latitude"
                           :disabled="isModeration"
                         />
                       </div>
@@ -294,22 +321,22 @@
                           placeholder="Не указана"
                           :minFractionDigits="1"
                           :maxFractionDigits="12"
-                          v-model="formState.longitude"
+                          v-model="orgFormState.longitude"
                           :disabled="isModeration"
                         />
                       </div>
                     </div>
                     <div class="w-full h-full map-container">
                       <ymap-map
-                        :coords="[formState.latitude ?? 65, formState.longitude ?? 90]"
+                        :coords="[orgFormState.latitude ?? 65, orgFormState.longitude ?? 90]"
                         :zoom="3"
                         class="map"
                         @click="updateCoords"
                       >
                         <ymap-placemark
-                          v-if="formState.latitude != null && formState.longitude != null"
+                          v-if="orgFormState.latitude != null && orgFormState.longitude != null"
                           :marker-id="'marker'"
-                          :coords="[formState.latitude, formState.longitude]"
+                          :coords="[orgFormState.latitude, orgFormState.longitude]"
                         />
                         <div v-else></div>
                       </ymap-map>
@@ -327,7 +354,7 @@
                       id="bank"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.bankName"
+                      v-model="orgFormState.bankName"
                       :disabled="isModeration"
                     />
                   </div>
@@ -337,7 +364,7 @@
                       id="cor-acc"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.corrAccount"
+                      v-model="orgFormState.corrAccount"
                       :disabled="isModeration"
                     />
                   </div>
@@ -348,7 +375,7 @@
                       id="acc-number"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.account"
+                      v-model="orgFormState.account"
                       :disabled="isModeration"
                     />
                   </div>
@@ -358,7 +385,7 @@
                       id="bik"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.bik"
+                      v-model="orgFormState.bik"
                       :disabled="isModeration"
                     />
                   </div>
@@ -375,7 +402,7 @@
                       id="org-phone"
                       mask="9 (999) 999-99-99"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.phone"
+                      v-model="orgFormState.phone"
                       :disabled="isModeration"
                     />
                   </div>
@@ -386,7 +413,7 @@
                       id="org-email"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="formState.email"
+                      v-model="orgFormState.email"
                       :disabled="isModeration"
                     />
                   </div>
@@ -397,7 +424,7 @@
                       id="site"
                       type="text"
                       class="w-full rk-input p-inputtext-sm rk-input"
-                      v-model="formState.site"
+                      v-model="orgFormState.site"
                       :disabled="isModeration"
                     />
                   </div>
@@ -425,27 +452,46 @@ import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
 import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
-import { useRoute } from 'vue-router';
-import { login } from '@/app/core/services/keycloak/keycloak.service';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
+import { ICreateUserRequest } from '@/services/user/user.http-service';
+import { userInfo, UserRoles, status as userStatus } from '@/store/user.store';
+import { userService } from '@/services/user/user.service';
+
+interface ICreateUser {
+  firstName: '';
+  lastName: '';
+  patronymic: '';
+  phone: '';
+  email: '';
+  password: '';
+  role: '';
+}
 
 export default defineComponent({
   components: { Toast },
   setup() {
-    const route = useRoute();
-    const userState = reactive({
-      fio: '',
+    const userorgFormState = reactive<ICreateUser>({
+      firstName: '',
+      lastName: '',
+      patronymic: '',
       phone: '',
       email: '',
       password: '',
+      role: '',
     });
+    const roleOptions = computed(() => UserRoles.map((x) => x.name));
     const toast = useToast();
-    const { createItem, updateSelectedItem, saveChanges, organizationSelected, status } =
-      organizationFullStore;
+    const {
+      createItem,
+      updateSelectedItem,
+      saveChanges,
+      organizationSelected,
+      status: orgStatus,
+    } = organizationFullStore;
     const isModeration = computed(() => organizationSelected.value?.mode === 'moderate');
     const { statuses } = useOrganizationStatuses();
     const statusOptions = computed(() => statuses.value.map((x) => x.name));
-    const formState = reactive<IOrganizationFullModel>({
+    const orgFormState = reactive<IOrganizationFullModel>({
       ogrn: '',
       inn: '',
       kpp: '',
@@ -466,19 +512,77 @@ export default defineComponent({
       bankName: '',
       account: '',
       corrAccount: '',
-      createdBy: userState.fio,
       bik: '',
     });
+    const saveUser = async () => {
+      const userRole = UserRoles.find((x) => x.name === userorgFormState.role)?.value;
+      if (userRole == null) {
+        throw new Error(`Не удалось найти роль ${userorgFormState.role}`);
+      }
+      const userRequest: ICreateUserRequest = {
+        firstName: userorgFormState.firstName,
+        lastName: userorgFormState.lastName,
+        email: userorgFormState.email,
+        username: userorgFormState.email,
+        credentials: [
+          {
+            value: userorgFormState.password,
+            type: 'password',
+            temporary: false,
+          },
+        ],
+        groups: [userRole],
+        attributes: {
+          patronymic: userorgFormState.patronymic,
+        },
+        enabled: true,
+      };
+      await userService.createUser(userRequest);
 
-    const save = async () => {
+      console.log(userStatus.value);
+
+      if (userStatus.value.status === 'loaded') {
+        return true;
+      }
+
+      if (userStatus.value.status === 'error') {
+        const errors = userStatus.value.payload;
+        const firstErr = errors != null ? errors[0] : null;
+        const title = firstErr != null ? firstErr[0] : null;
+        const description = firstErr != null ? firstErr[1] : null;
+        const detail = `${title != null ? title : 'Что-то случилось при добавлении пользователя'}${
+          description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
+        }`;
+        console.log('toast start');
+
+        toast.add({
+          severity: 'error',
+          group: 'tr',
+          summary: 'Ошибка',
+          detail,
+          life: 4000,
+        });
+
+        console.log('toast stop');
+
+        return false;
+      }
+
+      return false;
+    };
+    const saveOrganization = async () => {
       createItem();
       const item = new OrganizationFullModel();
-      item.fromResponse(formState);
+      item.fromResponse(orgFormState);
       updateSelectedItem(item);
       await saveChanges();
 
-      if (status.value.status === 'error') {
-        const errors = status.value.payload;
+      if (orgStatus.value.status === 'loaded') {
+        return true;
+      }
+
+      if (orgStatus.value.status === 'error') {
+        const errors = orgStatus.value.payload;
         const firstErr = errors != null ? errors[0] : null;
         const title = firstErr != null ? firstErr[0] : null;
         const description = firstErr != null ? firstErr[1] : null;
@@ -492,12 +596,25 @@ export default defineComponent({
           detail,
           life: 4000,
         });
+        return false;
       }
 
-      if (status.value.status === 'loaded') {
+      return false;
+    };
+    const save = async () => {
+      const userIsSaved = await saveUser();
+      console.log(userIsSaved);
+
+      if (!userIsSaved) return;
+      const orgIsSaved = await saveOrganization();
+      console.log(orgIsSaved);
+
+      if (!orgIsSaved) return;
+      if (userIsSaved && orgIsSaved) {
         // const id = organizationSelected.value?.data.id;
         // if (id !== 0) router.push({ name: 'organization', params: { id } });
-        login(route);
+        // login(route);
+        console.log(userInfo);
       }
     };
 
@@ -512,7 +629,7 @@ export default defineComponent({
         fileId: uuidv4(),
         fileName: file.value.name,
       };
-      formState.document = doc;
+      orgFormState.document = doc;
     });
     const onFileInput = (e: Event) => {
       const target = e.target as HTMLInputElement;
@@ -525,16 +642,16 @@ export default defineComponent({
     const updateCoords = (e: { get?: (_: string) => [number, number] }) => {
       if (e.get == null) return;
       const [lat, long] = e.get('coords');
-      formState.latitude = lat;
-      formState.longitude = long;
+      orgFormState.latitude = lat;
+      orgFormState.longitude = long;
     };
     return {
-      userState,
+      userorgFormState,
+      roleOptions,
       statusOptions,
       isModeration,
-      formState,
+      orgFormState,
       fileB64,
-      status,
       file,
       save,
       onFileInput,

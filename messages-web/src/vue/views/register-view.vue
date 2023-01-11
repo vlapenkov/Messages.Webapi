@@ -523,7 +523,7 @@ export default defineComponent({
         life: 4000,
       });
     };
-    const showStatusErrorToast = (status: DataStatus, defaultTitle: string) => {
+    const showErrorFromStatusToast = (status: DataStatus, defaultTitle: string) => {
       const errors = status.payload;
       const firstErr = errors != null ? errors[0] : null;
       const title = firstErr != null ? firstErr[0] : null;
@@ -563,7 +563,7 @@ export default defineComponent({
       }
 
       if (userStatus.value.status === 'error') {
-        showStatusErrorToast(userStatus.value, 'Что-то случилось при добавлении пользователя');
+        showErrorFromStatusToast(userStatus.value, 'Что-то случилось при добавлении пользователя');
       }
 
       return false;
@@ -580,19 +580,15 @@ export default defineComponent({
       }
 
       if (orgStatus.value.status === 'error') {
-        showStatusErrorToast(orgStatus.value, 'Что-то случилось при добавлении организации');
+        showErrorFromStatusToast(orgStatus.value, 'Что-то случилось при добавлении организации');
       }
 
       return false;
     };
     const save = async () => {
       const userIsSaved = await saveUser();
-      console.log(userIsSaved);
-
       if (!userIsSaved) return;
       const orgIsSaved = await saveOrganization();
-      console.log(orgIsSaved);
-
       if (!orgIsSaved) return;
       if (userIsSaved && orgIsSaved) {
         // const id = organizationSelected.value?.data.id;

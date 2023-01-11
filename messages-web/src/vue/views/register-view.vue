@@ -453,9 +453,9 @@ import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
-import { ICreateUserRequest } from '@/services/user/user.http-service';
 import { userInfo, UserRoles, status as userStatus } from '@/store/user.store';
 import { userService } from '@/services/user/user.service';
+import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 
 interface ICreateUser {
   firstName: '';
@@ -514,12 +514,32 @@ export default defineComponent({
       corrAccount: '',
       bik: '',
     });
+    const showErrorToast = (detail: string) => {
+      toast.add({
+        severity: 'error',
+        group: 'tr',
+        summary: 'Ошибка',
+        detail,
+        life: 4000,
+      });
+    };
+    const showStatusErrorToast = (status: DataStatus, defaultTitle: string) => {
+      const errors = status.payload;
+      const firstErr = errors != null ? errors[0] : null;
+      const title = firstErr != null ? firstErr[0] : null;
+      const description = firstErr != null ? firstErr[1] : null;
+      const detail = `${title != null ? title : defaultTitle}${
+        description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
+      }`;
+      showErrorToast(detail);
+    };
     const saveUser = async () => {
       const userRole = UserRoles.find((x) => x.name === userorgFormState.role)?.value;
       if (userRole == null) {
-        throw new Error(`Не удалось найти роль ${userorgFormState.role}`);
+        showErrorToast('Не выбрана роль');
+        return false;
       }
-      const userRequest: ICreateUserRequest = {
+      await userService.createUser({
         firstName: userorgFormState.firstName,
         lastName: userorgFormState.lastName,
         email: userorgFormState.email,
@@ -536,36 +556,14 @@ export default defineComponent({
           patronymic: userorgFormState.patronymic,
         },
         enabled: true,
-      };
-      await userService.createUser(userRequest);
-
-      console.log(userStatus.value);
+      });
 
       if (userStatus.value.status === 'loaded') {
         return true;
       }
 
       if (userStatus.value.status === 'error') {
-        const errors = userStatus.value.payload;
-        const firstErr = errors != null ? errors[0] : null;
-        const title = firstErr != null ? firstErr[0] : null;
-        const description = firstErr != null ? firstErr[1] : null;
-        const detail = `${title != null ? title : 'Что-то случилось при добавлении пользователя'}${
-          description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
-        }`;
-        console.log('toast start');
-
-        toast.add({
-          severity: 'error',
-          group: 'tr',
-          summary: 'Ошибка',
-          detail,
-          life: 4000,
-        });
-
-        console.log('toast stop');
-
-        return false;
+        showStatusErrorToast(userStatus.value, 'Что-то случилось при добавлении пользователя');
       }
 
       return false;
@@ -582,21 +580,7 @@ export default defineComponent({
       }
 
       if (orgStatus.value.status === 'error') {
-        const errors = orgStatus.value.payload;
-        const firstErr = errors != null ? errors[0] : null;
-        const title = firstErr != null ? firstErr[0] : null;
-        const description = firstErr != null ? firstErr[1] : null;
-        const detail = `${title != null ? title : 'Что-то случилось при добавлении организации'}${
-          description != null ? `: ${description[0].toLowerCase() + description.slice(1)}` : ''
-        }`;
-        toast.add({
-          severity: 'error',
-          group: 'tr',
-          summary: 'Ошибка',
-          detail,
-          life: 4000,
-        });
-        return false;
+        showStatusErrorToast(orgStatus.value, 'Что-то случилось при добавлении организации');
       }
 
       return false;

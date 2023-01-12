@@ -200,8 +200,20 @@
                             :binary="true"
                             v-model="orgFormState.isProducer"
                             :disabled="isModeration"
+                            :class="{
+                              'p-invalid': !hasSelectedOrgType && submitted,
+                            }"
                           />
-                          <label for="isProducer" class="text-800 m-0 ml-2">Продавец</label>
+                          <label
+                            for="isProducer"
+                            class="m-0 ml-2"
+                            :class="{
+                              'p-error': !hasSelectedOrgType && submitted,
+                              'text-800': hasSelectedOrgType,
+                            }"
+                          >
+                            Продавец
+                          </label>
                         </div>
                         <div class="field">
                           <checkbox
@@ -209,13 +221,28 @@
                             :binary="true"
                             v-model="orgFormState.isBuyer"
                             :disabled="isModeration"
+                            :class="{
+                              'p-invalid': !hasSelectedOrgType && submitted,
+                            }"
                           />
-                          <label for="isBuyer" class="text-800 m-0 ml-2">Покупатель</label>
+                          <label
+                            for="isBuyer"
+                            class="m-0 ml-2"
+                            :class="{
+                              'p-error': !hasSelectedOrgType && submitted,
+                              'text-800': hasSelectedOrgType,
+                            }"
+                          >
+                            Покупатель
+                          </label>
                         </div>
                       </div>
+                      <!-- <div v-if="!hasSelectedOrgType && submitted">
+                        <small class="p-error"> Должен быть выбран хотя бы один </small>
+                      </div> -->
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-6" v-if="isModeration">
                     <div class="h-full w-full flex flex-row align-items-center">
                       <div class="field">
                         <label for="status" class="text-600">Статус</label>
@@ -236,55 +263,95 @@
                 <h2 class="mt-0">2. Общие сведения об организации</h2>
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
-                    <label for="ogrn" class="text-600">ОГРН</label>
+                    <label
+                      for="ogrn"
+                      :class="{
+                        'p-error': ov$.ogrn.$invalid && submitted,
+                        'text-600': !ov$.ogrn.$invalid,
+                      }"
+                      >ОГРН</label
+                    >
                     <input-text
                       id="ogrn"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.ogrn.$invalid && submitted }"
                       v-model="orgFormState.ogrn"
                       :maxlength="13"
                       :disabled="isModeration"
                     />
                   </div>
                   <div class="col-4 field">
-                    <label for="full-name" class="text-600">Полное наименование</label>
+                    <label
+                      for="full-name"
+                      :class="{
+                        'p-error': ov$.fullName.$invalid && submitted,
+                        'text-600': !ov$.fullName.$invalid,
+                      }"
+                      >Полное наименование</label
+                    >
                     <input-text
                       id="full-name"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.fullName.$invalid && submitted }"
                       v-model="orgFormState.fullName"
                       :disabled="isModeration"
                     />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
-                    <label for="kpp" class="text-600">КПП</label>
+                    <label
+                      for="kpp"
+                      :class="{
+                        'p-error': ov$.kpp.$invalid && submitted,
+                        'text-600': !ov$.kpp.$invalid,
+                      }"
+                      >КПП</label
+                    >
                     <input-text
                       id="kpp"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.kpp.$invalid && submitted }"
                       v-model="orgFormState.kpp"
                       :maxlength="9"
                       :disabled="isModeration"
                     />
                   </div>
                   <div class="col-4 field">
-                    <label for="short-name" class="text-600">Сокращенное наименование</label>
+                    <label
+                      for="short-name"
+                      :class="{
+                        'p-error': ov$.name.$invalid && submitted,
+                        'text-600': !ov$.name.$invalid,
+                      }"
+                      >Сокращенное наименование</label
+                    >
                     <input-text
                       id="short-name"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.name.$invalid && submitted }"
                       v-model="orgFormState.name"
                       :disabled="isModeration"
                     />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
-                    <label for="inn" class="text-600">ИНН</label>
+                    <label
+                      for="inn"
+                      :class="{
+                        'p-error': ov$.inn.$invalid && submitted,
+                        'text-600': !ov$.inn.$invalid,
+                      }"
+                      >ИНН</label
+                    >
                     <input-text
                       id="inn"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.inn.$invalid && submitted }"
                       v-model="orgFormState.inn"
                       :maxlength="10"
                       :disabled="isModeration"
@@ -321,32 +388,56 @@
                 <h2 class="mt-0">3. Адрес</h2>
                 <div class="w-full h-full grid">
                   <div class="col-4 field">
-                    <label for="region" class="text-600">Регион</label>
+                    <label
+                      for="region"
+                      :class="{
+                        'p-error': ov$.region.$invalid && submitted,
+                        'text-600': !ov$.region.$invalid,
+                      }"
+                      >Регион</label
+                    >
                     <input-text
                       id="region"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.region.$invalid && submitted }"
                       v-model="orgFormState.region"
                       :disabled="isModeration"
                     />
                   </div>
                   <div class="col-4 field">
-                    <label for="city" class="text-600">Город</label>
+                    <label
+                      for="city"
+                      :class="{
+                        'p-error': ov$.city.$invalid && submitted,
+                        'text-600': !ov$.city.$invalid,
+                      }"
+                      >Город</label
+                    >
                     <input-text
                       id="city"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.city.$invalid && submitted }"
                       v-model="orgFormState.city"
                       :disabled="isModeration"
                     />
                   </div>
                   <div class="col-4"></div>
                   <div class="col-8 field">
-                    <label for="legal-address" class="text-600">Юридический адрес</label>
+                    <label
+                      for="legal-address"
+                      :class="{
+                        'p-error': ov$.address.$invalid && submitted,
+                        'text-600': !ov$.address.$invalid,
+                      }"
+                      >Юридический адрес</label
+                    >
                     <input-text
                       id="legal-address"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.address.$invalid && submitted }"
                       v-model="orgFormState.address"
                       :disabled="isModeration"
                     />
@@ -485,6 +576,7 @@
                       id="org-email"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
+                      :class="{ 'p-invalid': ov$.email.$invalid && submitted }"
                       v-model="orgFormState.email"
                       :disabled="isModeration"
                     />
@@ -530,6 +622,7 @@ import { userService } from '@/services/user/user.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import useVuelidate from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 
 interface ICreateUser {
   firstName: '';
@@ -544,6 +637,7 @@ interface ICreateUser {
 export default defineComponent({
   components: { Toast },
   setup() {
+    const router = useRouter();
     const userFormState = reactive<ICreateUser>({
       firstName: '',
       lastName: '',
@@ -597,6 +691,19 @@ export default defineComponent({
       corrAccount: '',
       bik: '',
     });
+    const orgFormRules = {
+      ogrn: { required },
+      inn: { required },
+      kpp: { required },
+      fullName: { required },
+      name: { required },
+      region: { required },
+      city: { required },
+      address: { required },
+      email: { required, email },
+    };
+    const hasSelectedOrgType = computed(() => orgFormState.isProducer || orgFormState.isBuyer);
+    const ov$ = useVuelidate(orgFormRules, orgFormState);
     const showErrorToast = (detail: string) => {
       toast.add({
         severity: 'error',
@@ -671,16 +778,15 @@ export default defineComponent({
     const submitted = ref(false);
     const save = async () => {
       submitted.value = true;
-      if (uv$.value.$invalid) return;
+      if (uv$.value.$invalid && ov$.value.$invalid && !hasSelectedOrgType.value) return;
 
       const userIsSaved = await saveUser();
       if (!userIsSaved) return;
       const orgIsSaved = await saveOrganization();
       if (!orgIsSaved) return;
       if (userIsSaved && orgIsSaved) {
-        // const id = organizationSelected.value?.data.id;
-        // if (id !== 0) router.push({ name: 'organization', params: { id } });
-        // login(route);
+        const id = organizationSelected.value?.data.id;
+        if (id !== 0) router.push({ name: 'organization', params: { id } });
       }
     };
 
@@ -713,6 +819,8 @@ export default defineComponent({
     };
     return {
       uv$,
+      ov$,
+      hasSelectedOrgType,
       submitted,
       userFormState,
       roleOptions,

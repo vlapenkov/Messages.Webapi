@@ -10,31 +10,67 @@
               <h2 class="mt-0">Контактные данные</h2>
               <div class="w-full h-full grid">
                 <div class="col-4 field">
-                  <label for="lastName" class="text-600">Фамилия</label>
+                  <label
+                    for="lastName"
+                    :class="{
+                      'p-error': uv$.lastName.$invalid && submitted,
+                      'text-600': !uv$.lastName.$invalid,
+                    }"
+                  >
+                    Фамилия
+                  </label>
                   <input-text
                     id="lastName"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
+                    :class="{ 'p-invalid': uv$.lastName.$invalid && submitted }"
                     v-model="userFormState.lastName"
                   />
+                  <small v-if="uv$.lastName.$invalid && submitted" class="p-error"
+                    >Не указана фамилия</small
+                  >
                 </div>
                 <div class="col-4 field">
-                  <label for="firstName" class="text-600">Имя</label>
+                  <label
+                    for="firstName"
+                    :class="{
+                      'p-error': uv$.firstName.$invalid && submitted,
+                      'text-600': !uv$.firstName.$invalid,
+                    }"
+                  >
+                    Имя
+                  </label>
                   <input-text
                     id="firstName"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
+                    :class="{ 'p-invalid': uv$.firstName.$invalid && submitted }"
                     v-model="userFormState.firstName"
                   />
+                  <small v-if="uv$.firstName.$invalid && submitted" class="p-error"
+                    >Не указано имя</small
+                  >
                 </div>
                 <div class="col-4 field">
-                  <label for="patronymic" class="text-600">Отчество</label>
+                  <label
+                    for="patronymic"
+                    :class="{
+                      'p-error': uv$.patronymic.$invalid && submitted,
+                      'text-600': !uv$.patronymic.$invalid,
+                    }"
+                  >
+                    Отчество
+                  </label>
                   <input-text
                     id="patronymic"
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
+                    :class="{ 'p-invalid': uv$.patronymic.$invalid && submitted }"
                     v-model="userFormState.patronymic"
                   />
+                  <small v-if="uv$.patronymic.$invalid && submitted" class="p-error"
+                    >Не указано отчество</small
+                  >
                 </div>
                 <div class="col-4 field">
                   <label for="phone" class="text-600">Контактный телефон</label>
@@ -47,33 +83,69 @@
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
-                  <label for="email" class="text-600">E-mail</label>
+                  <label
+                    for="email"
+                    :class="{
+                      'p-error': uv$.email.$invalid && submitted,
+                      'text-600': !uv$.email.$invalid,
+                    }"
+                  >
+                    E-mail
+                  </label>
                   <input-text
                     id="email"
                     type="email"
                     class="w-full p-inputtext-sm rk-input"
+                    :class="{ 'p-invalid': uv$.email.$invalid && submitted }"
                     v-model="userFormState.email"
                   />
+                  <small v-if="uv$.email.$invalid && submitted" class="p-error"
+                    >Невалидный E-mail</small
+                  >
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
-                  <label for="password" class="text-600">Пароль</label>
+                  <label
+                    for="password"
+                    :class="{
+                      'p-error': uv$.password.$invalid && submitted,
+                      'text-600': !uv$.password.$invalid,
+                    }"
+                  >
+                    Пароль
+                  </label>
                   <input-text
                     id="password"
                     type="password"
                     class="w-full p-inputtext-sm rk-input"
+                    :class="{ 'p-invalid': uv$.password.$invalid && submitted }"
                     v-model="userFormState.password"
                   />
+                  <small v-if="uv$.password.$invalid && submitted" class="p-error"
+                    >Не указан пароль</small
+                  >
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
-                  <label for="role" class="text-600">Роль</label>
+                  <label
+                    for="role"
+                    :class="{
+                      'p-error': uv$.role.$invalid && submitted,
+                      'text-600': !uv$.role.$invalid,
+                    }"
+                  >
+                    Роль
+                  </label>
                   <dropdown
                     id="role"
                     :options="roleOptions"
                     class="w-full p-component rk-dropdown"
+                    :class="{ 'p-invalid': uv$.role.$invalid && submitted }"
                     v-model="userFormState.role"
                   />
+                  <small v-if="uv$.role.$invalid && submitted" class="p-error"
+                    >Не указана роль</small
+                  >
                 </div>
                 <div class="col-8"></div>
               </div>
@@ -457,6 +529,7 @@ import { UserRoles, status as userStatus } from '@/store/user.store';
 import { userService } from '@/services/user/user.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import useVuelidate from '@vuelidate/core';
+import { email, required } from '@vuelidate/validators';
 
 interface ICreateUser {
   firstName: '';
@@ -481,15 +554,14 @@ export default defineComponent({
       role: '',
     });
     const userFormRules = {
-      firstName: { required: true },
-      lastName: { required: true },
-      patronymic: { required: true },
-      phone: '',
-      email: { required: true, email: true },
-      password: { required: true },
-      role: { required: true },
+      firstName: { required },
+      lastName: { required },
+      patronymic: { required },
+      email: { required, email },
+      password: { required },
+      role: { required },
     };
-    const userFormValidate = useVuelidate(userFormRules, userFormState);
+    const uv$ = useVuelidate(userFormRules, userFormState);
     const roleOptions = computed(() => UserRoles.map((x) => x.name));
     const toast = useToast();
     const {
@@ -596,7 +668,11 @@ export default defineComponent({
 
       return false;
     };
+    const submitted = ref(false);
     const save = async () => {
+      submitted.value = true;
+      if (uv$.value.$invalid) return;
+
       const userIsSaved = await saveUser();
       if (!userIsSaved) return;
       const orgIsSaved = await saveOrganization();
@@ -636,7 +712,8 @@ export default defineComponent({
       orgFormState.longitude = long;
     };
     return {
-      v$: userFormValidate,
+      uv$,
+      submitted,
       userFormState,
       roleOptions,
       statusOptions,

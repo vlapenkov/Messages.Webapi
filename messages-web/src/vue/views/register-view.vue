@@ -4,7 +4,7 @@
     <toast position="top-right" group="tr" />
     <card class="re-padding shadow-none">
       <template #content>
-        <tab-view lazy class="w-full">
+        <tab-view class="w-full">
           <tab-panel header="Профиль пользователя">
             <div>
               <h2 class="mt-0">Контактные данные</h2>
@@ -24,7 +24,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     :class="{ 'p-invalid': uv$.lastName.$invalid && submitted }"
-                    v-model="userFormState.lastName"
+                    v-model="uv$.lastName.$model"
                   />
                   <template v-if="uv$.lastName.$invalid && submitted">
                     <small class="p-error"> Не должно быть пустым </small>
@@ -45,7 +45,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     :class="{ 'p-invalid': uv$.firstName.$invalid && submitted }"
-                    v-model="userFormState.firstName"
+                    v-model="uv$.firstName.$model"
                   />
                   <template v-if="uv$.firstName.$invalid && submitted">
                     <small class="p-error"> Не должно быть пустым </small>
@@ -66,7 +66,7 @@
                     type="text"
                     class="w-full p-inputtext-sm rk-input"
                     :class="{ 'p-invalid': uv$.patronymic.$invalid && submitted }"
-                    v-model="userFormState.patronymic"
+                    v-model="uv$.patronymic.$model"
                   />
                   <template v-if="uv$.patronymic.$invalid && submitted">
                     <small class="p-error"> Не должно быть пустым </small>
@@ -78,7 +78,7 @@
                     id="phone"
                     mask="9 (999) 999-99-99"
                     class="w-full p-inputtext-sm rk-input"
-                    v-model="userFormState.phone"
+                    v-model="uv$.phone.$model"
                   />
                 </div>
                 <div class="col-8"></div>
@@ -97,7 +97,7 @@
                     type="email"
                     class="w-full p-inputtext-sm rk-input"
                     :class="{ 'p-invalid': uv$.email.$invalid && submitted }"
-                    v-model="userFormState.email"
+                    v-model="uv$.email.$model"
                   />
                   <template v-if="uv$.email.$invalid && submitted">
                     <small class="p-error"> Невалидный E-mail</small>
@@ -119,7 +119,7 @@
                     type="password"
                     class="w-full p-inputtext-sm rk-input"
                     :class="{ 'p-invalid': uv$.password.$invalid && submitted }"
-                    v-model="userFormState.password"
+                    v-model="uv$.password.$model"
                   />
                   <template v-if="uv$.password.$invalid && submitted">
                     <small class="p-error"> Не должно быть пустым </small>
@@ -141,7 +141,7 @@
                     :options="roleOptions"
                     class="w-full p-component rk-dropdown"
                     :class="{ 'p-invalid': uv$.role.$invalid && submitted }"
-                    v-model="userFormState.role"
+                    v-model="uv$.role.$model"
                   />
                   <template v-if="uv$.role.$invalid && submitted">
                     <small class="p-error"> Не должно быть пустым </small>
@@ -198,18 +198,18 @@
                           <checkbox
                             inputId="isProducer"
                             :binary="true"
-                            v-model="orgFormState.isProducer"
+                            v-model="ov$.isProducer.$model"
                             :disabled="isModeration"
                             :class="{
-                              'p-invalid': !hasSelectedOrgType && submitted,
+                              'p-invalid': ov$.isProducer.$invalid && submitted,
                             }"
                           />
                           <label
                             for="isProducer"
                             class="m-0 ml-2"
                             :class="{
-                              'p-error': !hasSelectedOrgType && submitted,
-                              'text-800': hasSelectedOrgType,
+                              'p-error': ov$.isProducer.$invalid && submitted,
+                              'text-800': !ov$.isProducer.$invalid,
                             }"
                           >
                             Продавец
@@ -219,18 +219,18 @@
                           <checkbox
                             inputId="isBuyer"
                             :binary="true"
-                            v-model="orgFormState.isBuyer"
+                            v-model="ov$.isBuyer.$model"
                             :disabled="isModeration"
                             :class="{
-                              'p-invalid': !hasSelectedOrgType && submitted,
+                              'p-invalid': ov$.isBuyer.$invalid && submitted,
                             }"
                           />
                           <label
                             for="isBuyer"
                             class="m-0 ml-2"
                             :class="{
-                              'p-error': !hasSelectedOrgType && submitted,
-                              'text-800': hasSelectedOrgType,
+                              'p-error': ov$.isBuyer.$invalid && submitted,
+                              'text-800': !ov$.isBuyer.$invalid,
                             }"
                           >
                             Покупатель
@@ -276,7 +276,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.ogrn.$invalid && submitted }"
-                      v-model="orgFormState.ogrn"
+                      v-model="ov$.ogrn.$model"
                       :maxlength="13"
                       :disabled="isModeration"
                     />
@@ -298,7 +298,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.fullName.$invalid && submitted }"
-                      v-model="orgFormState.fullName"
+                      v-model="ov$.fullName.$model"
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.fullName.$invalid && submitted">
@@ -320,7 +320,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.kpp.$invalid && submitted }"
-                      v-model="orgFormState.kpp"
+                      v-model="ov$.kpp.$model"
                       :maxlength="9"
                       :disabled="isModeration"
                     />
@@ -342,7 +342,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.name.$invalid && submitted }"
-                      v-model="orgFormState.name"
+                      v-model="ov$.name.$model"
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.name.$invalid && submitted">
@@ -364,7 +364,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.inn.$invalid && submitted }"
-                      v-model="orgFormState.inn"
+                      v-model="ov$.inn.$model"
                       :maxlength="10"
                       :disabled="isModeration"
                     />
@@ -382,7 +382,7 @@
                       id="okved"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.okved"
+                      v-model="ov$.okved.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -392,7 +392,7 @@
                       id="okved2"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.okved2"
+                      v-model="ov$.okved2.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -416,7 +416,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.region.$invalid && submitted }"
-                      v-model="orgFormState.region"
+                      v-model="ov$.region.$model"
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.region.$invalid && submitted">
@@ -437,7 +437,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.city.$invalid && submitted }"
-                      v-model="orgFormState.city"
+                      v-model="ov$.city.$model"
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.city.$invalid && submitted">
@@ -459,7 +459,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.address.$invalid && submitted }"
-                      v-model="orgFormState.address"
+                      v-model="ov$.address.$model"
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.address.$invalid && submitted">
@@ -473,7 +473,7 @@
                       id="actual-address"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.factAddress"
+                      v-model="ov$.factAddress.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -541,7 +541,7 @@
                       id="bank"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.bankName"
+                      v-model="ov$.bankName.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -551,7 +551,7 @@
                       id="cor-acc"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.corrAccount"
+                      v-model="ov$.corrAccount.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -562,7 +562,7 @@
                       id="acc-number"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.account"
+                      v-model="ov$.account.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -572,7 +572,7 @@
                       id="bik"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.bik"
+                      v-model="ov$.bik.$modelk"
                       :disabled="isModeration"
                     />
                   </div>
@@ -589,7 +589,7 @@
                       id="org-phone"
                       mask="9 (999) 999-99-99"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="orgFormState.phone"
+                      v-model="ov$.phone.$modele"
                       :disabled="isModeration"
                     />
                   </div>
@@ -608,7 +608,7 @@
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
                       :class="{ 'p-invalid': ov$.email.$invalid && submitted }"
-                      v-model="orgFormState.email"
+                      v-model="ov$.email.$model"
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.email.$invalid && submitted">
@@ -622,7 +622,7 @@
                       id="site"
                       type="text"
                       class="w-full rk-input p-inputtext-sm rk-input"
-                      v-model="orgFormState.site"
+                      v-model="ov$.site.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -655,7 +655,7 @@ import { UserRoles, status as userStatus } from '@/store/user.store';
 import { userService } from '@/services/user/user.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import useVuelidate from '@vuelidate/core';
-import { email, required } from '@vuelidate/validators';
+import { email, minValue, required } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
 
 interface ICreateUser {
@@ -688,6 +688,7 @@ export default defineComponent({
       email: { required, email },
       password: { required },
       role: { required },
+      phone: {},
     };
     const uv$ = useVuelidate(userFormRules, userFormState);
     const roleOptions = computed(() => UserRoles.map((x) => x.name));
@@ -725,18 +726,29 @@ export default defineComponent({
       corrAccount: '',
       bik: '',
     });
+    const hasSelectedOrgType = computed(() => orgFormState.isProducer || orgFormState.isBuyer);
     const orgFormRules = {
-      ogrn: { required },
-      inn: { required },
-      kpp: { required },
-      fullName: { required },
-      name: { required },
-      region: { required },
+      isProducer: { required: () => hasSelectedOrgType.value },
+      isBuyer: { required: () => hasSelectedOrgType.value },
+      ogrn: { required, minLength: minValue(13) },
+      inn: { required, minLength: minValue(10) },
+      kpp: { required, minLength: minValue(9) },
+      fullName: { required, minLength: minValue(5) },
+      name: { required, minLength: minValue(5) },
+      region: { required, minLength: minValue(5) },
       city: { required },
       address: { required },
       email: { required, email },
+      okved: {},
+      okved2: {},
+      factAddress: {},
+      site: {},
+      phone: {},
+      bankName: {},
+      account: {},
+      corrAccount: {},
+      bik: {},
     };
-    const hasSelectedOrgType = computed(() => orgFormState.isProducer || orgFormState.isBuyer);
     const ov$ = useVuelidate(orgFormRules, orgFormState);
     const showErrorToast = (detail: string) => {
       toast.add({

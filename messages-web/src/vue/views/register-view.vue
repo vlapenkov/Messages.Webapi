@@ -192,7 +192,7 @@
                 <div class="w-full h-full grid">
                   <div class="col-6">
                     <div class="h-full w-full flex flex-column">
-                      <span class="text-600">Тип профиля</span>
+                      <span class="text-600 mb-2">Тип профиля</span>
                       <div class="h-full w-full flex flex-row align-items-center">
                         <div class="field mr-5">
                           <checkbox

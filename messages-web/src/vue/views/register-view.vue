@@ -19,11 +19,6 @@
                   >
                     Фамилия
                   </label>
-                  <!-- <prime-input-text
-                    label="Фамилия"
-                    :class="{ 'p-invalid': uv$.lastName.$invalid && submitted }"
-                    v-model="userFormState.lastName"
-                  ></prime-input-text> -->
                   <input-text
                     id="lastName"
                     type="text"
@@ -32,7 +27,7 @@
                     v-model="userFormState.lastName"
                   />
                   <template v-if="uv$.lastName.$invalid && submitted">
-                    <small class="p-error"> Не указана фамилия </small>
+                    <small class="p-error"> Не должно быть пустым </small>
                   </template>
                 </div>
                 <div class="col-4 field">
@@ -53,7 +48,7 @@
                     v-model="userFormState.firstName"
                   />
                   <template v-if="uv$.firstName.$invalid && submitted">
-                    <small class="p-error"> Не указано имя </small>
+                    <small class="p-error"> Не должно быть пустым </small>
                   </template>
                 </div>
                 <div class="col-4 field">
@@ -74,7 +69,7 @@
                     v-model="userFormState.patronymic"
                   />
                   <template v-if="uv$.patronymic.$invalid && submitted">
-                    <small class="p-error"> Не указано отчество </small>
+                    <small class="p-error"> Не должно быть пустым </small>
                   </template>
                 </div>
                 <div class="col-4 field">
@@ -127,7 +122,7 @@
                     v-model="userFormState.password"
                   />
                   <template v-if="uv$.password.$invalid && submitted">
-                    <small class="p-error"> Не указан пароль </small>
+                    <small class="p-error"> Не должно быть пустым </small>
                   </template>
                 </div>
                 <div class="col-8"></div>
@@ -149,7 +144,7 @@
                     v-model="userFormState.role"
                   />
                   <template v-if="uv$.role.$invalid && submitted">
-                    <small class="p-error"> Не указана роль </small>
+                    <small class="p-error"> Не должно быть пустым </small>
                   </template>
                 </div>
                 <div class="col-8"></div>

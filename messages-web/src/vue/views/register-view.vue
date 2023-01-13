@@ -4,7 +4,7 @@
     <toast position="top-right" group="tr" />
     <card class="re-padding shadow-none">
       <template #content>
-        <tab-view class="w-full">
+        <tab-view lazy class="w-full">
           <tab-panel header="Профиль пользователя">
             <div>
               <h2 class="mt-0">Контактные данные</h2>
@@ -19,6 +19,11 @@
                   >
                     Фамилия
                   </label>
+                  <!-- <prime-input-text
+                    label="Фамилия"
+                    :class="{ 'p-invalid': uv$.lastName.$invalid && submitted }"
+                    v-model="userFormState.lastName"
+                  ></prime-input-text> -->
                   <input-text
                     id="lastName"
                     type="text"
@@ -26,9 +31,9 @@
                     :class="{ 'p-invalid': uv$.lastName.$invalid && submitted }"
                     v-model="userFormState.lastName"
                   />
-                  <small v-if="uv$.lastName.$invalid && submitted" class="p-error"
-                    >Не указана фамилия</small
-                  >
+                  <template v-if="uv$.lastName.$invalid && submitted">
+                    <small class="p-error"> Не указана фамилия </small>
+                  </template>
                 </div>
                 <div class="col-4 field">
                   <label
@@ -47,9 +52,9 @@
                     :class="{ 'p-invalid': uv$.firstName.$invalid && submitted }"
                     v-model="userFormState.firstName"
                   />
-                  <small v-if="uv$.firstName.$invalid && submitted" class="p-error"
-                    >Не указано имя</small
-                  >
+                  <template v-if="uv$.firstName.$invalid && submitted">
+                    <small class="p-error"> Не указано имя </small>
+                  </template>
                 </div>
                 <div class="col-4 field">
                   <label
@@ -68,9 +73,9 @@
                     :class="{ 'p-invalid': uv$.patronymic.$invalid && submitted }"
                     v-model="userFormState.patronymic"
                   />
-                  <small v-if="uv$.patronymic.$invalid && submitted" class="p-error"
-                    >Не указано отчество</small
-                  >
+                  <template v-if="uv$.patronymic.$invalid && submitted">
+                    <small class="p-error"> Не указано отчество </small>
+                  </template>
                 </div>
                 <div class="col-4 field">
                   <label for="phone" class="text-600">Контактный телефон</label>
@@ -99,9 +104,9 @@
                     :class="{ 'p-invalid': uv$.email.$invalid && submitted }"
                     v-model="userFormState.email"
                   />
-                  <small v-if="uv$.email.$invalid && submitted" class="p-error"
-                    >Невалидный E-mail</small
-                  >
+                  <template v-if="uv$.email.$invalid && submitted">
+                    <small class="p-error"> Невалидный E-mail</small>
+                  </template>
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
@@ -121,9 +126,9 @@
                     :class="{ 'p-invalid': uv$.password.$invalid && submitted }"
                     v-model="userFormState.password"
                   />
-                  <small v-if="uv$.password.$invalid && submitted" class="p-error"
-                    >Не указан пароль</small
-                  >
+                  <template v-if="uv$.password.$invalid && submitted">
+                    <small class="p-error"> Не указан пароль </small>
+                  </template>
                 </div>
                 <div class="col-8"></div>
                 <div class="col-4 field">
@@ -143,9 +148,9 @@
                     :class="{ 'p-invalid': uv$.role.$invalid && submitted }"
                     v-model="userFormState.role"
                   />
-                  <small v-if="uv$.role.$invalid && submitted" class="p-error"
-                    >Не указана роль</small
-                  >
+                  <template v-if="uv$.role.$invalid && submitted">
+                    <small class="p-error"> Не указана роль </small>
+                  </template>
                 </div>
                 <div class="col-8"></div>
               </div>
@@ -237,9 +242,9 @@
                           </label>
                         </div>
                       </div>
-                      <!-- <div v-if="!hasSelectedOrgType && submitted">
-                        <small class="p-error"> Должен быть выбран хотя бы один </small>
-                      </div> -->
+                      <template v-if="!hasSelectedOrgType && submitted">
+                        <small class="p-error"> Должен быть выбран хотя бы один тип профиля </small>
+                      </template>
                     </div>
                   </div>
                   <div class="col-6" v-if="isModeration">
@@ -280,6 +285,9 @@
                       :maxlength="13"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.ogrn.$invalid && submitted">
+                      <small class="p-error"> Состоит из 13 цифр </small>
+                    </template>
                   </div>
                   <div class="col-4 field">
                     <label
@@ -298,6 +306,9 @@
                       v-model="orgFormState.fullName"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.fullName.$invalid && submitted">
+                      <small class="p-error"> Не менее 5 цифр </small>
+                    </template>
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
@@ -318,6 +329,9 @@
                       :maxlength="9"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.kpp.$invalid && submitted">
+                      <small class="p-error"> Состоит из 9 цифр </small>
+                    </template>
                   </div>
                   <div class="col-4 field">
                     <label
@@ -336,6 +350,9 @@
                       v-model="orgFormState.name"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.name.$invalid && submitted">
+                      <small class="p-error"> Не менее 5 цифр </small>
+                    </template>
                   </div>
                   <div class="col-4"></div>
                   <div class="col-4 field">
@@ -356,6 +373,9 @@
                       :maxlength="10"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.inn.$invalid && submitted">
+                      <small class="p-error"> Состоит из 10 цифр </small>
+                    </template>
                   </div>
                   <div class="col-8"></div>
                 </div>
@@ -404,6 +424,9 @@
                       v-model="orgFormState.region"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.region.$invalid && submitted">
+                      <small class="p-error"> Не менее 5 цифр </small>
+                    </template>
                   </div>
                   <div class="col-4 field">
                     <label
@@ -422,6 +445,9 @@
                       v-model="orgFormState.city"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.city.$invalid && submitted">
+                      <small class="p-error"> Не должно быть пустым </small>
+                    </template>
                   </div>
                   <div class="col-4"></div>
                   <div class="col-8 field">
@@ -441,6 +467,9 @@
                       v-model="orgFormState.address"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.address.$invalid && submitted">
+                      <small class="p-error"> Не должно быть пустым </small>
+                    </template>
                   </div>
                   <div class="col-3"></div>
                   <div class="col-8 field">
@@ -571,7 +600,14 @@
                   </div>
                   <div class="col-8"></div>
                   <div class="col-4 field">
-                    <label for="org-email" class="text-600">E-mail</label>
+                    <label
+                      for="org-email"
+                      :class="{
+                        'p-error': ov$.email.$invalid && submitted,
+                        'text-600': !ov$.email.$invalid,
+                      }"
+                      >E-mail</label
+                    >
                     <input-text
                       id="org-email"
                       type="text"
@@ -580,6 +616,9 @@
                       v-model="orgFormState.email"
                       :disabled="isModeration"
                     />
+                    <template v-if="ov$.email.$invalid && submitted">
+                      <small class="p-error"> Невалидный E-mail</small>
+                    </template>
                   </div>
                   <div class="col-8"></div>
                   <div class="col-4 field">

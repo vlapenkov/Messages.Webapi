@@ -4,7 +4,7 @@
     <toast position="top-right" group="tr" />
     <card class="re-padding shadow-none">
       <template #content>
-        <tab-view class="w-full">
+        <tab-view lazy class="w-full">
           <tab-panel header="Профиль пользователя">
             <div>
               <h2 class="mt-0">Контактные данные</h2>

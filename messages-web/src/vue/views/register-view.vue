@@ -572,7 +572,7 @@
                       id="bik"
                       type="text"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="ov$.bik.$modelk"
+                      v-model="ov$.bik.$model"
                       :disabled="isModeration"
                     />
                   </div>
@@ -589,7 +589,7 @@
                       id="org-phone"
                       mask="9 (999) 999-99-99"
                       class="w-full p-inputtext-sm rk-input"
-                      v-model="ov$.phone.$modele"
+                      v-model="ov$.phone.$model"
                       :disabled="isModeration"
                     />
                   </div>

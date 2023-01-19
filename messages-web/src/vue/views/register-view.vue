@@ -302,7 +302,7 @@
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.fullName.$invalid && submitted">
-                      <small class="p-error"> Не менее 5 цифр </small>
+                      <small class="p-error"> Не менее 5 символов </small>
                     </template>
                   </div>
                   <div class="col-4"></div>
@@ -346,7 +346,7 @@
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.name.$invalid && submitted">
-                      <small class="p-error"> Не менее 5 цифр </small>
+                      <small class="p-error"> Не менее 5 символов </small>
                     </template>
                   </div>
                   <div class="col-4"></div>
@@ -420,7 +420,7 @@
                       :disabled="isModeration"
                     />
                     <template v-if="ov$.region.$invalid && submitted">
-                      <small class="p-error"> Не менее 5 цифр </small>
+                      <small class="p-error"> Не менее 5 символов </small>
                     </template>
                   </div>
                   <div class="col-4 field">
@@ -655,7 +655,7 @@ import { UserRoles, status as userStatus } from '@/store/user.store';
 import { userService } from '@/services/user/user.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import useVuelidate from '@vuelidate/core';
-import { email, minValue, required } from '@vuelidate/validators';
+import { email, minLength, numeric, required } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
 
 interface ICreateUser {
@@ -730,12 +730,12 @@ export default defineComponent({
     const orgFormRules = {
       isProducer: { required: () => hasSelectedOrgType.value },
       isBuyer: { required: () => hasSelectedOrgType.value },
-      ogrn: { required, minLength: minValue(13) },
-      inn: { required, minLength: minValue(10) },
-      kpp: { required, minLength: minValue(9) },
-      fullName: { required, minLength: minValue(5) },
-      name: { required, minLength: minValue(5) },
-      region: { required, minLength: minValue(5) },
+      ogrn: { required, numeric, minLength: minLength(13) },
+      inn: { required, numeric, minLength: minLength(10) },
+      kpp: { required, numeric, minLength: minLength(9) },
+      fullName: { required, minLength: minLength(5) },
+      name: { required, minLength: minLength(5) },
+      region: { required, minLength: minLength(5) },
       city: { required },
       address: { required },
       email: { required, email },
@@ -824,7 +824,7 @@ export default defineComponent({
     const submitted = ref(false);
     const save = async () => {
       submitted.value = true;
-      if (uv$.value.$invalid && ov$.value.$invalid && !hasSelectedOrgType.value) return;
+      if (uv$.value.$invalid || ov$.value.$invalid) return;
 
       const userIsSaved = await saveUser();
       if (!userIsSaved) return;

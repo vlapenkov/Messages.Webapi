@@ -1,3 +1,10 @@
+## [0.0.3](https://gitlab.dev.roscosmos.digital/templates/net-core-messages/compare/0.0.2...0.0.3) (2023-01-18)
+
+
+### Bug Fixes
+
+* **test:** add test file ([c21dbc7](https://gitlab.dev.roscosmos.digital/templates/net-core-messages/commit/c21dbc7ef1fe8ea3dbe0fdd2720e87bc0acca8ff))
+
 ## [0.0.2](https://gitlab.dev.roscosmos.digital/templates/net-core-messages/compare/0.0.1...0.0.2) (2022-12-22)
 
 

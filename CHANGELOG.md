@@ -1,3 +1,10 @@
+## [0.1.1](https://gitlab.dev.roscosmos.digital/templates/net-core-messages/compare/0.1.0...0.1.1) (2023-01-20)
+
+
+### Performance Improvements
+
+* remove test ([53a504f](https://gitlab.dev.roscosmos.digital/templates/net-core-messages/commit/53a504f328128a9efb12c562cd3aa55c59f8b3f2))
+
 ## [0.1.0](https://gitlab.dev.roscosmos.digital/templates/net-core-messages/compare/0.0.3...0.1.0) (2023-01-20)
 
 

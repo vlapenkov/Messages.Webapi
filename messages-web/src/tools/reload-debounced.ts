@@ -10,16 +10,25 @@ export function initReloader({
 }) {
   const counter = useSessionStorage('__window_reload_counter', 0);
   let timeout: ReturnType<typeof setTimeout> | null = null;
-  watch(counter, (cnt) => {
-    if (cnt > 1) {
-      timeout = setTimeout(() => {
-        counter.value = 0;
-      }, debounceInSeconds * 1000);
-    }
-  });
+  watch(
+    counter,
+    (cnt) => {
+      if (cnt >= 0) {
+        timeout = setTimeout(() => {
+          counter.value = 0;
+        }, debounceInSeconds * 1000);
+      }
+    },
+    {
+      immediate: true,
+    },
+  );
 
   return () => {
     if (counter.value > maxReloads) {
+      console.error(
+        `За последние ${debounceInSeconds} секунд произошло слишком много неудачных попыток авторизации.`,
+      );
       return;
     }
     if (timeout) {

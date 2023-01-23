@@ -25,7 +25,7 @@ services:
     hostname: "gateway-api"
     restart: always
     ports:
-      - 5000:5000
+      - 5000:80
     environment:
       ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
       ASPNETCORE_SUBDIR: ${SUBDIR}

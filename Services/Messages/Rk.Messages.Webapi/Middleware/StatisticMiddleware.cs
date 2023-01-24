@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Confluent.Kafka;
@@ -40,10 +41,10 @@ public class StatisticMiddleware
     /// <param name="context"></param>
     public async Task Invoke(HttpContext context)
     {
-        if (context.Request.Path.StartsWithSegments("/product") && context.Request.Method == "GET")
+        if (context.Request.Path.StartsWithSegments("/api/v1/Products") && context.Request.Method == "GET")
         {
             var originalBody = context.Response.Body;
-
+            var userName = context.User?.Identity?.Name;
             try
             {
                 await using var memStream = new MemoryStream();
@@ -52,23 +53,21 @@ public class StatisticMiddleware
                 await _next(context);
 
                 memStream.Position = 0; 
-                var res = await JsonSerializer.DeserializeAsync<ProductResponse>(memStream); 
+                var res = await JsonDocument.ParseAsync(memStream); 
                 memStream.Position = 0;
                 await memStream.CopyToAsync(originalBody);
-                if (res != null)
+                var msg = new ProductStatisticEvent
                 {
-                    _producer.Produce(nameof(ProductStatisticEvent), 
-                        new Message<Null, ProductStatisticEvent>{Value = new ProductStatisticEvent
-                        {
-                            Production = res.Name,
-                            Category = res.CatalogSectionId.ToString(),
-                            Created = DateTime.Now,
-                            Page = context.Request.Path,
-                            Producer = res.Organization.Name,
-                            UserName = context.User?.Identity?.Name ?? "Anonymous"
-                        }},
-                        DeliveryReportHandler);
-                }
+                    Created = DateTime.Now,
+                    Page = context.Request.Path,
+                    Production = res.RootElement.GetProperty("name").GetString(),
+                    Category = res.RootElement.GetProperty("catalogSectionId").GetRawText(),
+                    Producer = res.RootElement.GetProperty("organization").GetProperty("name").GetString() ?? "undefined",
+                    UserName = userName ?? "Anonymous"
+                };
+                _producer.Produce(nameof(ProductStatisticEvent), 
+                    new Message<Null, ProductStatisticEvent>{Value = msg},
+                    DeliveryReportHandler);
                 
             }
             finally

@@ -6,4 +6,6 @@ namespace RK.Statistic.Interfaces;
 public interface IClickHouseConnectionFactory
 {
     ClickHouseConnection GetConnection();
+
+    Task<ClickHouseConnection> GetConnectionAsync();
 }

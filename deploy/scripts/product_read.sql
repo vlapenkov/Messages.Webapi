@@ -1,5 +1,5 @@
 create table product_read (
-id Int32 ,
+id UUID ,
 page String(1024),
 production String(512),
 category String(512),

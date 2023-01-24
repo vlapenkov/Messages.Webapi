@@ -21,4 +21,11 @@ public class ClickHouseConnectionFactory : IClickHouseConnectionFactory
         connection.Open();
         return connection;
     }
+
+    public async Task<ClickHouseConnection> GetConnectionAsync()
+    {
+        var connection = new ClickHouseConnection(_connectionString);
+        await connection.OpenAsync();
+        return connection;
+    }
 }

@@ -49,14 +49,13 @@ app.UseRouting();
 app.UseReverseProxy(builder.Configuration);
 
 app.UseAuthentication();
-
+app.UseAuthorization();
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
 app.UseMiddleware<StatisticMiddleware>();
-app.UseProblemDetails();
 
-app.UseAuthorization();
+app.UseProblemDetails();
 
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {

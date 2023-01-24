@@ -6,28 +6,28 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RK.Messages.Shared.Contracts;
 using RK.Messages.Shared.Kafka;
-using RK.Statistic.Interfaces;
+using RK.Statistic.Interfaces.StatisticWriters;
 
 namespace RK.Statistic.Logic
 {
-    public class ProductReadEventConsumer : BackgroundService, IDisposable
+    public class ProductReadEventConsumer : BackgroundService
     {
         private readonly ILogger<ProductReadEventConsumer> _logger;
-        private readonly IClickHouseConnectionFactory _factory;
-        private readonly IConsumer<Null, ProductStatisticEvent> _kafkaConsumer;
+        private readonly IProductViewStatisticWriter _writer;
+        private readonly IConsumer<Null, ProductViewStatisticEvent> _kafkaConsumer;
         private readonly IAdminClient _adminClient;
 
         public ProductReadEventConsumer(ILogger<ProductReadEventConsumer> logger, 
-            IClickHouseConnectionFactory factory, IConfiguration config)
+            IProductViewStatisticWriter writer, IConfiguration config)
         {
             _logger = logger;
-            _factory = factory;
+            _writer = writer;
 
             var conf = new ConsumerConfig();
             config.GetSection("Kafka:ConsumerSettings").Bind(conf);
             var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-            var serializer = new ObjectSerializerDeserializer<ProductStatisticEvent>(jsonOptions);
-            _kafkaConsumer = new ConsumerBuilder<Null, ProductStatisticEvent>(conf)
+            var serializer = new ObjectSerializerDeserializer<ProductViewStatisticEvent>(jsonOptions);
+            _kafkaConsumer = new ConsumerBuilder<Null, ProductViewStatisticEvent>(conf)
                 .SetValueDeserializer(serializer!).Build();
 
 
@@ -43,9 +43,8 @@ namespace RK.Statistic.Logic
 
         private async Task StartConsumerLoop(CancellationToken cancellationToken)
         {
-            await CreateTopicMaybe(nameof(ProductStatisticEvent), 1, 1, _adminClient);
-            await using var connection = await _factory.GetConnectionAsync();
-            _kafkaConsumer.Subscribe(nameof(ProductStatisticEvent));
+            await CreateTopicMaybe(nameof(ProductViewStatisticEvent), 1, 1, _adminClient);
+            _kafkaConsumer.Subscribe(nameof(ProductViewStatisticEvent));
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
@@ -53,18 +52,7 @@ namespace RK.Statistic.Logic
                     var consumeResult = _kafkaConsumer.Consume(cancellationToken);
                     var res = consumeResult.Message.Value;
                     if(res == null) continue;
-                    await using var writer = await connection.CreateColumnWriterAsync($"INSERT INTO product_read VALUES", cancellationToken);
-                    var columns = new object?[writer.FieldCount];
-
-                    columns[writer.GetOrdinal("id")] = new List<Guid>(1) { Guid.NewGuid() };
-                    columns[writer.GetOrdinal("page")] = new List<string?>(1) {res.Page};
-                    columns[writer.GetOrdinal("production")] = new List<string?>(1) {res.Production};
-                    columns[writer.GetOrdinal("category")] = new List<string?>(1) {res.Category};
-                    columns[writer.GetOrdinal("producer")] = new List<string?>(1) {res.Producer};
-                    columns[writer.GetOrdinal("username")] = new List<string?>(1) {res.UserName};
-                    columns[writer.GetOrdinal("created")] = new List<DateTime>(1) {res.Created };
-                    await writer.WriteTableAsync(columns, 1, cancellationToken);
-                    await writer.EndWriteAsync(cancellationToken);
+                    await _writer.InsertRowAsync(res, cancellationToken);
                 }
                 catch (OperationCanceledException)
                 {
@@ -92,9 +80,15 @@ namespace RK.Statistic.Logic
             }
             catch (CreateTopicsException e)
             {
-                _logger.LogError(e.Results[0].Error.Code != ErrorCode.TopicAlreadyExists
-                    ? $"Ошибка создания темы {name}: {e.Results[0].Error.Reason}"
-                    : "Тема уже существует");
+                if (e.Results[0].Error.Code != ErrorCode.TopicAlreadyExists)
+                {
+                    _logger.LogError($"Ошибка создания темы {name}: {e.Results[0].Error.Reason}");
+                }
+                else
+                {
+                    _logger.LogInformation("Тема уже существует");
+                }
+                
             }
         }
 

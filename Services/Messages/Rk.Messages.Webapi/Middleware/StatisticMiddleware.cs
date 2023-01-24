@@ -19,7 +19,7 @@ public class StatisticMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<StatisticMiddleware> _logger;
-    private readonly KafkaObjectProducer<Null, ProductStatisticEvent> _producer;
+    private readonly KafkaObjectProducer<Null, ProductViewStatisticEvent> _producer;
 
     /// <summary>
     /// 
@@ -28,7 +28,7 @@ public class StatisticMiddleware
     /// <param name="logger"> логгер</param>
     /// <param name="producer">продюсер, для отправки сообщения в кафку</param>
     public StatisticMiddleware(RequestDelegate next, ILogger<StatisticMiddleware> logger, 
-        KafkaObjectProducer<Null, ProductStatisticEvent> producer)
+        KafkaObjectProducer<Null, ProductViewStatisticEvent> producer)
     {
         _next = next;
         _logger = logger;
@@ -56,7 +56,7 @@ public class StatisticMiddleware
                 var res = await JsonDocument.ParseAsync(memStream); 
                 memStream.Position = 0;
                 await memStream.CopyToAsync(originalBody);
-                var msg = new ProductStatisticEvent
+                var msg = new ProductViewStatisticEvent
                 {
                     Created = DateTime.Now,
                     Page = context.Request.Path,
@@ -65,8 +65,8 @@ public class StatisticMiddleware
                     Producer = res.RootElement.GetProperty("organization").GetProperty("name").GetString() ?? "undefined",
                     UserName = userName ?? "Anonymous"
                 };
-                _producer.Produce(nameof(ProductStatisticEvent), 
-                    new Message<Null, ProductStatisticEvent>{Value = msg},
+                _producer.Produce(nameof(ProductViewStatisticEvent), 
+                    new Message<Null, ProductViewStatisticEvent>{Value = msg},
                     DeliveryReportHandler);
                 
             }
@@ -81,7 +81,7 @@ public class StatisticMiddleware
         }
     }
 
-    private void DeliveryReportHandler(DeliveryReport<Null, ProductStatisticEvent> deliveryReport)
+    private void DeliveryReportHandler(DeliveryReport<Null, ProductViewStatisticEvent> deliveryReport)
     {
         if (deliveryReport.Status == PersistenceStatus.NotPersisted)
         {

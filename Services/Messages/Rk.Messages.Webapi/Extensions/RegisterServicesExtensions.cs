@@ -51,7 +51,7 @@ namespace Rk.Messages.Webapi.Extensions
             services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
 
             services.AddSingleton<KafkaClientHandle>();
-            services.AddSingleton<KafkaObjectProducer<Null, ProductStatisticEvent>>();
+            services.AddSingleton<KafkaObjectProducer<Null, ProductViewStatisticEvent>>();
         }
     }
 }

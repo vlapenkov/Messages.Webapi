@@ -1,6 +1,6 @@
 ﻿namespace RK.Messages.Shared.Contracts;
 
-public class ProductStatisticEvent
+public class ProductViewStatisticEvent
 {
     public string? Page { get; set; }
     public string? Production { get; set; }

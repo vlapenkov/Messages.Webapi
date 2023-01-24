@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
+using RK.Statistic.Infrastructure.ClickHouse;
+using RK.Statistic.Interfaces;
+using RK.Statistic.Logic;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +20,8 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
     .Enrich.WithMachineName()
 );
 builder.Services.AddHealthChecks();
+builder.Services.AddSingleton<IClickHouseConnectionFactory, ClickHouseConnectionFactory>();
+builder.Services.AddHostedService<ProductReadEventConsumer>();
 
 var app = builder.Build();
 app.UseRouting();

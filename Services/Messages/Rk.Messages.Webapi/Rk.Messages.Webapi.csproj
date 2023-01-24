@@ -39,8 +39,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Rk.Messages.Logic\Rk.Messages.Logic.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Middleware\" />
-	</ItemGroup>
 </Project>

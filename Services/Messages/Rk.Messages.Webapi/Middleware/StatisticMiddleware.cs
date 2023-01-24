@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Rk.Messages.Infrastructure.Kafka;
+using Rk.Messages.Logic.ProductsNS.Dto;
 using RK.Messages.Shared.Contracts;
 
 namespace Rk.Messages.Webapi.Middleware;
@@ -38,11 +42,44 @@ public class StatisticMiddleware
     {
         if (context.Request.Path.StartsWithSegments("/product") && context.Request.Method == "GET")
         {
-            _producer.Produce(nameof(ProductStatisticEvent), 
-                new Message<Null, ProductStatisticEvent>{Value = new ProductStatisticEvent()},
-                DeliveryReportHandler);
+            var originalBody = context.Response.Body;
+
+            try
+            {
+                await using var memStream = new MemoryStream();
+                context.Response.Body = memStream;
+
+                await _next(context);
+
+                memStream.Position = 0; 
+                var res = await JsonSerializer.DeserializeAsync<ProductResponse>(memStream); 
+                memStream.Position = 0;
+                await memStream.CopyToAsync(originalBody);
+                if (res != null)
+                {
+                    _producer.Produce(nameof(ProductStatisticEvent), 
+                        new Message<Null, ProductStatisticEvent>{Value = new ProductStatisticEvent
+                        {
+                            Production = res.Name,
+                            Category = res.CatalogSectionId.ToString(),
+                            Created = DateTime.Now,
+                            Page = context.Request.Path,
+                            Producer = res.Organization.Name,
+                            UserName = context.User?.Identity?.Name ?? "Anonymous"
+                        }},
+                        DeliveryReportHandler);
+                }
+                
+            }
+            finally
+            {
+                context.Response.Body = originalBody;
+            }
         }
-        await _next(context);
+        else
+        {
+            await _next(context);
+        }
     }
 
     private void DeliveryReportHandler(DeliveryReport<Null, ProductStatisticEvent> deliveryReport)

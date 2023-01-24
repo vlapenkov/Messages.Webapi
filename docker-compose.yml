@@ -94,6 +94,23 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
 
+  clickhouse:
+    image: yandex/clickhouse-server
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+      - "9009:9009"
+    volumes:
+      - ./deploy/scripts:/docker-entrypoint-initdb.d
+
+  db:
+    image: docker-proxy.dev.roscosmos.digital/postgres:14.2
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - 5432:5432
 
 
 volumes:

@@ -13,6 +13,9 @@ using MediatR;
 using System.Reflection;
 using Confluent.Kafka;
 using Rk.Messages.Infrastructure.Kafka;
+using Rk.Messages.Logic.ProductsNS.Dto;
+using Rk.Messages.Logic.ProductsNS.PipelineBehaviour;
+using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
 using Rk.Messages.Logic.ProductsNS.Validations;
 using Rk.Messages.Logic.ServiceProductsNS.Commands.CreateServiceProduct;
 using Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct;
@@ -47,6 +50,7 @@ namespace Rk.Messages.Webapi.Extensions
             services.AddTransient<IValidator<CreateOrganizationRequest>, CreateOrganizationValidator>();
 
             services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
+            services.AddScoped(typeof(IPipelineBehavior<GetProductQuery, ProductResponse>), typeof(ProductViewStatisticBehavior));
 
             services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
 

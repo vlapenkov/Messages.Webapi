@@ -53,7 +53,7 @@ app.UseAuthorization();
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
-app.UseMiddleware<StatisticMiddleware>();
+//app.UseMiddleware<StatisticMiddleware>();
 
 app.UseProblemDetails();
 

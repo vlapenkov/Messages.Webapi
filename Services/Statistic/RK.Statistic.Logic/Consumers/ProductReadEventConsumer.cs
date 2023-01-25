@@ -8,7 +8,7 @@ using RK.Messages.Shared.Contracts;
 using RK.Messages.Shared.Kafka;
 using RK.Statistic.Interfaces.StatisticWriters;
 
-namespace RK.Statistic.Logic
+namespace RK.Statistic.Logic.Consumers
 {
     public class ProductReadEventConsumer : BackgroundService
     {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Rk.Messages.Infrastructure.Kafka;
-using Rk.Messages.Logic.ProductsNS.Dto;
 using RK.Messages.Shared.Contracts;
 
 namespace Rk.Messages.Webapi.Middleware;
@@ -61,7 +59,8 @@ public class StatisticMiddleware
                     Created = DateTime.Now,
                     Page = context.Request.Path,
                     Production = res.RootElement.GetProperty("name").GetString(),
-                    Category = res.RootElement.GetProperty("catalogSectionId").GetRawText(),
+                    ProductionId = res.RootElement.GetProperty("id").GetInt64(),
+                    CategoryId = res.RootElement.GetProperty("catalogSectionId").GetInt64(),
                     Producer = res.RootElement.GetProperty("organization").GetProperty("name").GetString() ?? "undefined",
                     UserName = userName ?? "Anonymous"
                 };

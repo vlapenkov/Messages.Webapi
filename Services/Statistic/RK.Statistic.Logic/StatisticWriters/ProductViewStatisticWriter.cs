@@ -26,7 +26,8 @@ public class ProductViewStatisticWriter : IProductViewStatisticWriter
         columns[writer.GetOrdinal("id")] = new List<Guid>(1) { Guid.NewGuid() };
         columns[writer.GetOrdinal("page")] = new List<string?>(1) {data.Page};
         columns[writer.GetOrdinal("production")] = new List<string?>(1) {data.Production};
-        columns[writer.GetOrdinal("category")] = new List<string?>(1) {data.Category};
+        columns[writer.GetOrdinal("productionId")] = new List<long>(1) {data.ProductionId};
+        columns[writer.GetOrdinal("categoryId")] = new List<long>(1) {data.CategoryId};
         columns[writer.GetOrdinal("producer")] = new List<string?>(1) {data.Producer};
         columns[writer.GetOrdinal("username")] = new List<string?>(1) {data.UserName};
         columns[writer.GetOrdinal("created")] = new List<DateTime>(1) {data.Created };

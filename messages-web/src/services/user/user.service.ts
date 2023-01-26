@@ -1,9 +1,28 @@
 import { HttpResult } from '@/app/core/handlers/http/results/base/http-result';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { status, setToken } from '@/store/user.store';
+import {
+  keycloakToken,
+  keycloakTokenRefresh,
+  userData,
+} from '@/app/core/services/keycloak/local-storage.service';
+import { IKeycloakToken } from '@/store/@types/IKeycloakToken';
+import { status } from '@/store/user.store';
 import { AxiosError } from 'axios';
 import { ICreateUserRequest, ITokenResponse, userHttpService } from './user.http-service';
+
+function parseJwt(token: string): IKeycloakToken {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+      .join(''),
+  );
+  return JSON.parse(jsonPayload);
+}
 
 async function createUser(request: ICreateUserRequest) {
   status.value = new DataStatus('loading');
@@ -27,17 +46,28 @@ async function createUser(request: ICreateUserRequest) {
 
   if (response?.status === HttpStatus.Success && response?.data != null) {
     status.value = new DataStatus('loaded');
-    setToken({
-      scope: response.data.scope,
-      sid: response.data.sessionState,
-      email_verified: false,
-      name: `${request.firstName} ${request.lastName}`,
-      preferred_username: request.email,
-      given_name: request.firstName,
-      family_name: request.lastName,
-      email: request.email,
-      role: request.groups,
-    });
+    // const token: IKeycloakToken = {
+    //   scope: response.data.scope,
+    //   sid: response.data.sessionState,
+    //   email_verified: false,
+    //   name: `${request.firstName} ${request.lastName}`,
+    //   preferred_username: request.email,
+    //   given_name: request.firstName,
+    //   family_name: request.lastName,
+    //   email: request.email,
+    //   role: request.groups,
+    //   exp: response.data.expiresIn,
+    // };
+
+    const token = parseJwt(response.data.accessToken);
+    console.log('token', token);
+
+    keycloakToken.value = response.data.accessToken;
+    keycloakTokenRefresh.value = response.data.refreshToken;
+    userData.value = JSON.stringify(token);
+
+    localStorage.setItem('vue-token', response.data.accessToken);
+    localStorage.setItem('vue-refresh-token', response.data.refreshToken);
   }
 }
 

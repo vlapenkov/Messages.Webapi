@@ -1,6 +1,6 @@
 import { registerStore } from '@/store/register.store';
 import { setToken } from '@/store/user.store';
-import Keycloak, { KeycloakTokenParsed } from 'keycloak-js';
+import Keycloak, { KeycloakInitOptions, KeycloakTokenParsed } from 'keycloak-js';
 import { watch } from 'vue';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 import { keycloakToken, keycloakTokenRefresh, userData } from './local-storage.service';
@@ -18,11 +18,6 @@ const tokenRefreshInterval =
 
 const keycloakInst = new Keycloak(keycloakInitOptions);
 
-// function setKeycloakToken(token: string, refreshToken: string) {
-//   localStorage.setItem('vue-token', token);
-//   localStorage.setItem('vue-refresh-token', refreshToken);
-// }
-
 function refreshTokens() {
   userData.value =
     keycloakInst.tokenParsed == null ? null : JSON.stringify(keycloakInst.tokenParsed);
@@ -38,35 +33,60 @@ function cleanTokens() {
 
 /** Этот метод надо обязательно вызвать, но ровно один раз  */
 export async function initKeycloak() {
+  console.log('start init keycloak');
   watch(
     userData,
     (val) => {
+      console.log('from watch, start parse json', val);
+
       const parsedToken = val != null ? (JSON.parse(val) as KeycloakTokenParsed) : val;
       // if (parsedToken != null && parsedToken.exp != null) {
       //   console.log('Token expires', new Date(parsedToken.exp * 1000));
       // }
+      console.log('from watch', {
+        parsedToken,
+        userData: userData.value,
+        keycloakToken: keycloakToken.value,
+        keycloakTokenRefresh: keycloakTokenRefresh.value,
+      });
       setToken(parsedToken);
     },
     {
       immediate: true,
     },
   );
-  const authSuccess = await keycloakInst.init({
+  const initOptions: KeycloakInitOptions = {
     checkLoginIframe: false,
     onLoad: 'check-sso',
+    token: keycloakToken.value != null ? keycloakToken.value : undefined,
+    refreshToken: keycloakTokenRefresh.value != null ? keycloakTokenRefresh.value : undefined,
+    enableLogging: true,
     // silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
-  });
+  };
+  console.log('initOptions', initOptions);
+
+  const authSuccess = await keycloakInst.init(initOptions);
+  console.log('authSuccess', authSuccess);
+
   if (!authSuccess) {
-    cleanTokens();
+    console.log('cleanTokens');
+    // cleanTokens();
   } else {
+    console.log('refreshTokens and set interval');
     refreshTokens();
+    console.log('tokenRefreshInterval', tokenRefreshInterval);
     setInterval(async () => {
       try {
         const success = await keycloakInst.updateToken(tokenRefreshInterval * 2);
+        console.log('success', success);
+
         if (success) {
+          console.log('success and refreshTokens', refreshTokens);
           refreshTokens();
         }
       } catch (error) {
+        console.log('unsuccess and error', error);
+
         cleanTokens();
         setTimeout(() => {
           window.location.reload();
@@ -85,6 +105,7 @@ export function login(route: RouteLocationNormalizedLoaded) {
     redirectUri = `${origin}/`;
   } else {
     redirectUri = `${origin}${to.value != null ? to.value.fullPath : route.fullPath}`;
+    console.log(to.value?.fullPath, route.fullPath);
   }
   keycloakInst.login({
     redirectUri,

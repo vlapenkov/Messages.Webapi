@@ -46,28 +46,11 @@ async function createUser(request: ICreateUserRequest) {
 
   if (response?.status === HttpStatus.Success && response?.data != null) {
     status.value = new DataStatus('loaded');
-    // const token: IKeycloakToken = {
-    //   scope: response.data.scope,
-    //   sid: response.data.sessionState,
-    //   email_verified: false,
-    //   name: `${request.firstName} ${request.lastName}`,
-    //   preferred_username: request.email,
-    //   given_name: request.firstName,
-    //   family_name: request.lastName,
-    //   email: request.email,
-    //   role: request.groups,
-    //   exp: response.data.expiresIn,
-    // };
-
     const token = parseJwt(response.data.accessToken);
-    console.log('token', token);
 
     keycloakToken.value = response.data.accessToken;
     keycloakTokenRefresh.value = response.data.refreshToken;
     userData.value = JSON.stringify(token);
-
-    localStorage.setItem('vue-token', response.data.accessToken);
-    localStorage.setItem('vue-refresh-token', response.data.refreshToken);
   }
 }
 

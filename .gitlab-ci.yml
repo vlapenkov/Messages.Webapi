@@ -37,7 +37,7 @@ statistic_service_api_build_push_registry:
     - if [[ $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "test" ]]; then IMAGE_NAME_WITH_TAG="$PROD_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$PROJECT_SUBNAME:$CI_COMMIT_BRANCH"; else IMAGE_NAME_WITH_TAG="$REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$PROJECT_SUBNAME:$CI_COMMIT_BRANCH"; fi
     - echo $IMAGE_NAME_WITH_TAG
     
-    - docker build --pull -t "$IMAGE_NAME_WITH_TAG" -f ./Services/Statistic/Rk.Statistic.Webapi/Dockerfile .
+    - docker build --pull -t "$IMAGE_NAME_WITH_TAG" -f ./Services/Statistic/RK.Statistic.Webapi/Dockerfile .
     - docker push "$IMAGE_NAME_WITH_TAG"
     - docker rmi "$IMAGE_NAME_WITH_TAG" -f
   only:

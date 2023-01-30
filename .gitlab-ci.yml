@@ -25,6 +25,28 @@ account_service_api_build_push_registry:
   tags:
     - artifactory_eip_rkp
 
+statistic_service_api_build_push_registry:
+  stage: build
+  variables:
+    PROJECT_SUBNAME: "statistic-service-api"
+  before_script:
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $REGISTRY
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $DOCKER_PROXY
+    - docker login -u "$PROD_REGISTRY_USER" -p "$PROD_REGISTRY_PASSWORD" $PROD_REGISTRY
+  script:
+    - if [[ $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "test" ]]; then IMAGE_NAME_WITH_TAG="$PROD_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$PROJECT_SUBNAME:$CI_COMMIT_BRANCH"; else IMAGE_NAME_WITH_TAG="$REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$PROJECT_SUBNAME:$CI_COMMIT_BRANCH"; fi
+    - echo $IMAGE_NAME_WITH_TAG
+    
+    - docker build --pull -t "$IMAGE_NAME_WITH_TAG" -f ./Services/Statistic/Rk.Statistic.WebApi/Dockerfile .
+    - docker push "$IMAGE_NAME_WITH_TAG"
+    - docker rmi "$IMAGE_NAME_WITH_TAG" -f
+  only:
+    - develop
+    - test
+    - master
+  tags:
+    - artifactory_eip_rkp
+
 messages_ui_build_push_registry:
   stage: build
   variables:

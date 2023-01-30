@@ -9,6 +9,15 @@ services:
       - 5300:5000
     environment:
       ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
+  
+  statistic-service-api:
+    image: registry.dev.roscosmos.digital/templates/net-core-messages/statistic-service-api:develop
+    hostname: "statistic-service-api"
+    restart: always
+    ports:
+      - 5400:5000
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
 
   messages-ui:
     image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-ui:develop

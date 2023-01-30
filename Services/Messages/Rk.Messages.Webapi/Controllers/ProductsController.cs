@@ -1,17 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rk.Messages.Domain.Enums;
-using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
-using Rk.Messages.Logic.ProductsNS.Commands.DeleteProduct;
-using Rk.Messages.Logic.ProductsNS.Commands.SetStatus;
 using Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
-using Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery;
 
 namespace Rk.Messages.Webapi.Controllers
 {

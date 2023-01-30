@@ -1,34 +1,16 @@
-﻿using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Builder;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Rk.Messages.Common.Extensions;
 using Rk.Messages.Common.Middlewares;
-using Rk.Messages.Infrastructure.EFCore;
-using Rk.Messages.Interfaces.Interfaces.DAL;
-using Rk.Messages.Webapi.Extensions;
+using RK.Statistic.Webapi.Extensions;
 using Serilog;
-using System;
-using Rk.Messages.Webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddErrorHandling(builder.Environment);
-builder.Services.AddHttpClients(builder.Configuration);
 
-builder.Services.AddDbContext<IAppDbContext, AppDbContext>(
-    options => options
-        .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-        .UseLowerCaseNamingConvention()
-        .UseLazyLoadingProxies()
-);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorization();
-
-builder.Services.AddDependencies();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGeneration();
@@ -37,31 +19,26 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
     .Enrich.FromLogContext()
     .Enrich.WithMachineName()
 );
-
 builder.Services.AddHealthChecks();
-
+builder.Services.AddDependencies();
 
 var app = builder.Build();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
 app.UseRouting();
-
 app.UseReverseProxy(builder.Configuration);
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
-//app.UseMiddleware<StatisticMiddleware>();
-
 app.UseProblemDetails();
 
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-app.UseSwaggerUi(builder.Configuration, "Api Marketplace V1");
+app.UseSwaggerUi(builder.Configuration, "Api Marketplace Statistics V1");
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

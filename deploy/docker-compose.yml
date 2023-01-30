@@ -1,12 +1,24 @@
 version: '3.4'
 
 services:
+  account-service-api:
+    image: registry.dev.roscosmos.digital/templates/net-core-messages/account-service-api:develop
+    hostname: "account-service-api"
+    restart: always
+    ports:
+      - 5300:5000
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
+
   messages-ui:
     image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-ui:develop
     hostname: "messages-ui"
     restart: always
     ports:
       - 80:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
+
 
   gateway-api:
     image: registry.dev.roscosmos.digital/templates/net-core-messages/gateway-api:develop
@@ -19,7 +31,7 @@ services:
       ASPNETCORE_SUBDIR: ${SUBDIR}
       ASPNETCORE_USE_REVERSE_PROXY: ${USE_REVERSE_PROXY}
 
-
+  
   messages-api:
     image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-api:develop
     hostname: "messages-api"
@@ -67,4 +79,3 @@ volumes:
     driver: local
   db_data:
     driver: local
-

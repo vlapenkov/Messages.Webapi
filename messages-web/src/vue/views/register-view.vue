@@ -651,7 +651,7 @@ import { useBase64 } from '@vueuse/core';
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from 'primevue/usetoast';
 import { useOrganizationStatuses } from '@/composables/organization-statuses.composable';
-import { UserRoles, status as userStatus } from '@/store/user.store';
+import { UserRoles, status as userStatus, isAuthenticated } from '@/store/user.store';
 import { userService } from '@/services/user/user.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import useVuelidate from '@vuelidate/core';
@@ -826,7 +826,15 @@ export default defineComponent({
       submitted.value = true;
       if (uv$.value.$invalid || ov$.value.$invalid) return;
 
-      const userIsSaved = await saveUser();
+      /**
+       * нужно, если при сохранении организации произошла
+       * непредвиденная ошибка на сервере, чтобы не создавать
+       * второго пользователя
+       */
+      let userIsSaved = isAuthenticated.value;
+      if (!isAuthenticated.value) {
+        userIsSaved = await saveUser();
+      }
       if (!userIsSaved) return;
       const orgIsSaved = await saveOrganization();
       if (!orgIsSaved) return;

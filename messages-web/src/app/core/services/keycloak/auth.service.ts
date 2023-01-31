@@ -55,7 +55,7 @@ async function loginRedirect(route: RouteLocationNormalizedLoaded) {
   } else {
     redirectUri = `${origin}${to.value != null ? to.value.fullPath : route.fullPath}`;
   }
-  await userManager.signinRedirect({ redirect_uri: redirectUri, state: { foo: 'bar' } });
+  await userManager.signinRedirect({ redirect_uri: redirectUri });
 }
 
 async function loginResourceOwnerCredentials(username: string, password: string) {

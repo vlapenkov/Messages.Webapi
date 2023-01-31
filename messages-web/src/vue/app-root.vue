@@ -19,12 +19,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+import { authService } from '@/app/core/services/keycloak/auth.service';
 import AppLayout from './presentational/app-layout.vue';
 import MainMenuContainer from './containers/main-menu-container.vue';
 
 export default defineComponent({
   components: { AppLayout, MainMenuContainer },
+  setup() {
+    onMounted(async () => {
+      await authService.init();
+    });
+    return {};
+  },
 });
 </script>
 

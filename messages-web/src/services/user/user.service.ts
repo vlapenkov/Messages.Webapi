@@ -11,7 +11,7 @@ import { status } from '@/store/user.store';
 import { AxiosError } from 'axios';
 import { ICreateUserRequest, ITokenResponse, userHttpService } from './user.http-service';
 
-function parseJwt(token: string): IKeycloakToken {
+export function parseJwt(token: string): IKeycloakToken {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(

@@ -8,17 +8,32 @@ using Rk.Messages.Common.Json;
 
 namespace Rk.AccountService.Infrastructure.HttpClients;
 
+/// <summary>
+/// Базовый HttpClient
+/// </summary>
 public abstract class BaseHttpClient
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger _logger;
     
+    /// <summary>
+    /// Базовый конструктор
+    /// </summary>
+    /// <param name="httpClient">httpClient</param>
+    /// <param name="logger">логгер</param>
     protected BaseHttpClient(HttpClient httpClient, ILogger logger)
     {
         _httpClient = httpClient;
         _logger = logger;
     }
     
+    /// <summary>
+    /// Получить ответ с дальней десериализацией
+    /// </summary>
+    /// <param name="request">запрос</param>
+    /// <param name="jsonOption">опции десереализатора</param>
+    /// <typeparam name="T">Тип в который будет десереализован ответ</typeparam>
+    /// <returns>десереализованный ответ</returns>
     protected async Task<T?> GetResponse<T>(HttpRequestMessage request, JsonSerializerOptions? jsonOption = null)
     {
         var response = await _httpClient.SendAsync(request);
@@ -29,6 +44,11 @@ public abstract class BaseHttpClient
         return result;
     }
 
+    /// <summary>
+    /// Отправить запрос без разбора ответа
+    /// </summary>
+    /// <param name="request">запрос</param>
+    /// <returns>сообщение ответа</returns>
     protected async Task<HttpResponseMessage> Send(HttpRequestMessage request)
     {
         var response = await _httpClient.SendAsync(request);
@@ -36,6 +56,10 @@ public abstract class BaseHttpClient
         return response.EnsureSuccessStatusCode();
     }
     
+    /// <summary>
+    /// Получить ответ в виде потока(например для файлов)
+    /// </summary>
+    /// <param name="request">запрос</param>
     protected async Task<Stream?> GetResponseStream(HttpRequestMessage request)
     {
         var response = await _httpClient.SendAsync(request);
@@ -46,6 +70,9 @@ public abstract class BaseHttpClient
     }
 
 
+    /// <summary>
+    /// Получить настройки сериализатора
+    /// </summary>
     protected static JsonSerializerOptions GetJsonOption(
         JsonNamingPolicy? namingPolicy = null,
         JsonIgnoreCondition jsonCondition = JsonIgnoreCondition.WhenWritingNull, 

@@ -5,6 +5,9 @@ using Rk.Messages.Common.Exceptions;
 
 namespace RK.Statistic.Webapi.Extensions
 {
+    /// <summary>
+    /// Расширения для подключения обработки ошибок
+    /// </summary>
     public static class ErrorHandlingExtensions
     {
        

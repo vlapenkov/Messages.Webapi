@@ -9,12 +9,14 @@ using RK.Statistic.Logic.StatisticWriters;
 
 namespace RK.Statistic.Webapi.Extensions;
 
+/// <summary>
+/// Расширение для регистрации зависимостей
+/// </summary>
 public static class RegisterServicesExtensions
 {
-    // <summary>
+    /// <summary>
     /// Загруза внутренних зависимостей
     /// </summary>
-    /// <param name="services"></param>
     public static void AddDependencies(this IServiceCollection services)
     {
         services.AddMediatR(typeof(PopularProductQuery).GetTypeInfo().Assembly);

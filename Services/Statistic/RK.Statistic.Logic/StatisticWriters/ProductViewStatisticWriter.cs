@@ -1,15 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
-using RK.Messages.Shared.Contracts;
+using RK.Messages.Shared;
 using RK.Statistic.Interfaces;
 using RK.Statistic.Interfaces.StatisticWriters;
 
 namespace RK.Statistic.Logic.StatisticWriters;
 
+/// <inheritdoc />
 public class ProductViewStatisticWriter : IProductViewStatisticWriter
 {
     private readonly ILogger<ProductViewStatisticWriter> _logger;
     private readonly IClickHouseConnectionFactory _factory;
 
+    /// <summary>
+    /// </summary>
     public ProductViewStatisticWriter(ILogger<ProductViewStatisticWriter> logger, IClickHouseConnectionFactory factory)
     {
         _logger = logger;
@@ -17,6 +20,7 @@ public class ProductViewStatisticWriter : IProductViewStatisticWriter
     }
 
 
+    /// <inheritdoc />
     public async Task InsertRowAsync(ProductViewStatisticEvent data, CancellationToken token = default)
     {
         await using var connection = await _factory.GetConnectionAsync();

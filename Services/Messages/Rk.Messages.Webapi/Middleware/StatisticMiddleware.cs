@@ -6,7 +6,7 @@ using Confluent.Kafka;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Rk.Messages.Infrastructure.Kafka;
-using RK.Messages.Shared.Contracts;
+using RK.Messages.Shared;
 
 namespace Rk.Messages.Webapi.Middleware;
 

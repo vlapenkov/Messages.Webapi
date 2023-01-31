@@ -8,7 +8,7 @@ using Rk.Messages.Infrastructure.Kafka;
 using Rk.Messages.Interfaces.Services;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
-using RK.Messages.Shared.Contracts;
+using RK.Messages.Shared;
 
 namespace Rk.Messages.Logic.ProductsNS.PipelineBehaviour;
 

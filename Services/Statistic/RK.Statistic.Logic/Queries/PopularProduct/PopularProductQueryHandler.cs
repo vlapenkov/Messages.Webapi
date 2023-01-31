@@ -3,15 +3,19 @@ using RK.Statistic.Interfaces;
 
 namespace RK.Statistic.Logic.Queries.PopularProduct;
 
+/// <inheritdoc />
 public class PopularProductQueryHandler : IRequestHandler<PopularProductQuery, IReadOnlyCollection<Dto.PopularProduct>>
 {
     private readonly IClickHouseConnectionFactory _factory;
 
+    /// <summary>
+    /// </summary>
     public PopularProductQueryHandler(IClickHouseConnectionFactory factory)
     {
         _factory = factory;
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyCollection<Dto.PopularProduct>> Handle(PopularProductQuery request, CancellationToken cancellationToken)
     {
         await using var connection = await _factory.GetConnectionAsync();

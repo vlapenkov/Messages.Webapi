@@ -4,6 +4,9 @@ using Confluent.Kafka;
 
 namespace Rk.Messages.Infrastructure.Kafka;
 
+/// <summary>
+/// Продюсер для отправки данных простых типов
+/// </summary>
 public class KafkaSimpleProducer<TK, TV>
 {
     private readonly IProducer<TK, TV> _kafkaHandle;

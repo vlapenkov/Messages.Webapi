@@ -21,7 +21,7 @@ using Rk.Messages.Logic.ServiceProductsNS.Commands.CreateServiceProduct;
 using Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct;
 using Rk.Messages.Logic.WorkProductsNS.Validations;
 using Rk.Messages.Logic.ServiceProductsNS.Validations;
-using RK.Messages.Shared.Contracts;
+using RK.Messages.Shared;
 
 namespace Rk.Messages.Webapi.Extensions
 {

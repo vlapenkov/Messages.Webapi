@@ -4,8 +4,14 @@ using Microsoft.OpenApi.Models;
 
 namespace RK.Statistic.Webapi.Extensions
 {
+    /// <summary>
+    /// Методы расширений для подключения Swagger
+    /// </summary>
     public static class SwaggerExtensions
     {
+        /// <summary>
+        /// Включение генерации сваггер документа
+        /// </summary>
         public static IServiceCollection AddSwaggerGeneration(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
@@ -39,6 +45,9 @@ namespace RK.Statistic.Webapi.Extensions
             return services;
         }
 
+        /// <summary>
+        /// Добавление Swagger UI
+        /// </summary>
         public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, IConfiguration config, string title)
         {
             app.UseSwagger(c =>

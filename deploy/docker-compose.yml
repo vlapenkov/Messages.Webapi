@@ -83,6 +83,18 @@ services:
       ELASTICSEARCH_URL: http://es01:9200
       ELASTICSEARCH_HOSTS: http://es01:9200
 
+  db:
+    image: docker-proxy.dev.roscosmos.digital/postgres:14.3
+    hostname: "db"
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "5432:5432"
+
 volumes:
   data01:
     driver: local

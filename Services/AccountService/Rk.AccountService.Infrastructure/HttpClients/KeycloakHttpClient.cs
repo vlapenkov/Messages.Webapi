@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Rk.AccountService.Interfaces.Dto.HttpClients;
 using Rk.AccountService.Interfaces.HttpClients;
 using Rk.Messages.Common.Exceptions;
+using Rk.Messages.Common.HttpClients;
 using Rk.Messages.Common.Json;
 
 namespace Rk.AccountService.Infrastructure.HttpClients;

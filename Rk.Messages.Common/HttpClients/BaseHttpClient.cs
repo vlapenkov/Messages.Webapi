@@ -1,12 +1,15 @@
-﻿using System.Text.Encodings.Web;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
+using System.Threading.Tasks;
 using DateOnlyTimeOnly.AspNet.Converters;
 using Microsoft.Extensions.Logging;
-using Rk.Messages.Common.Json;
 
-namespace Rk.AccountService.Infrastructure.HttpClients;
+namespace Rk.Messages.Common.HttpClients;
 
 /// <summary>
 /// Базовый HttpClient
@@ -34,7 +37,7 @@ public abstract class BaseHttpClient
     /// <param name="jsonOption">опции десереализатора</param>
     /// <typeparam name="T">Тип в который будет десереализован ответ</typeparam>
     /// <returns>десереализованный ответ</returns>
-    protected async Task<T?> GetResponse<T>(HttpRequestMessage request, JsonSerializerOptions? jsonOption = null)
+    protected async Task<T> GetResponse<T>(HttpRequestMessage request, JsonSerializerOptions? jsonOption = null)
     {
         var response = await _httpClient.SendAsync(request);
         await Log(request, response);

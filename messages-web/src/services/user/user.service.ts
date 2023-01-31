@@ -1,11 +1,12 @@
 import { HttpResult } from '@/app/core/handlers/http/results/base/http-result';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import {
-  keycloakToken,
-  keycloakTokenRefresh,
-  userData,
-} from '@/app/core/services/keycloak/local-storage.service';
+import { authService } from '@/app/core/services/keycloak/auth.service';
+// import {
+//   keycloakToken,
+//   keycloakTokenRefresh,
+//   userData,
+// } from '@/app/core/services/keycloak/local-storage.service';
 import { IKeycloakToken } from '@/store/@types/IKeycloakToken';
 import { status } from '@/store/user.store';
 import { AxiosError } from 'axios';
@@ -46,11 +47,11 @@ async function createUser(request: ICreateUserRequest) {
 
   if (response?.status === HttpStatus.Success && response?.data != null) {
     status.value = new DataStatus('loaded');
-    const token = parseJwt(response.data.accessToken);
-
-    keycloakToken.value = response.data.accessToken;
-    keycloakTokenRefresh.value = response.data.refreshToken;
-    userData.value = JSON.stringify(token);
+    const { username, credentials } = request;
+    const password = credentials.find((x) => x.type === 'password')?.value;
+    if (password != null) {
+      await authService.loginResourceOwnerCredentials(username, password);
+    }
   }
 }
 

@@ -1,29 +1,10 @@
 import { HttpResult } from '@/app/core/handlers/http/results/base/http-result';
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
-import { authService } from '@/app/core/services/keycloak/auth.service';
-// import {
-//   keycloakToken,
-//   keycloakTokenRefresh,
-//   userData,
-// } from '@/app/core/services/keycloak/local-storage.service';
-import { IKeycloakToken } from '@/store/@types/IKeycloakToken';
+import { authService } from '@/app/core/services/auth/auth.service';
 import { status } from '@/store/user.store';
 import { AxiosError } from 'axios';
 import { ICreateUserRequest, ITokenResponse, userHttpService } from './user.http-service';
-
-export function parseJwt(token: string): IKeycloakToken {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
-      .join(''),
-  );
-  return JSON.parse(jsonPayload);
-}
 
 async function createUser(request: ICreateUserRequest) {
   status.value = new DataStatus('loading');

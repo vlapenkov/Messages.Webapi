@@ -32,7 +32,7 @@ import Menu from 'primevue/menu';
 import { shoppingCartStore } from '@/app/shopping-cart/state/shopping-cart.store';
 import { registerStore } from '@/store/register.store';
 import { useRouter } from 'vue-router';
-import { authService } from '@/app/core/services/keycloak/auth.service';
+import { authService } from '@/app/core/services/auth/auth.service';
 
 // const avatarSize = 100;
 export default defineComponent({

@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { authService } from '@/app/core/services/keycloak/auth.service';
+import { authService } from '@/app/core/services/auth/auth.service';
 import { registerStore } from '@/store/register.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { defineComponent } from 'vue';

@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import { authService } from '@/app/core/services/keycloak/auth.service';
+import { authService } from '@/app/core/services/auth/auth.service';
 import AppLayout from './presentational/app-layout.vue';
 import MainMenuContainer from './containers/main-menu-container.vue';
 

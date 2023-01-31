@@ -1,8 +1,8 @@
 import { registerStore } from '@/store/register.store';
-import { setToken } from '@/store/user.store';
-import { KeycloakTokenParsed } from 'keycloak-js';
+import { setUser } from '@/store/user.store';
 import { UserManager, UserManagerSettings, WebStorageStateStore } from 'oidc-client-ts';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
+import { token } from './local-storage.service';
 
 const url: string = process.env.VUE_APP_KEYCLOACK_URL ?? '';
 const realm: string = process.env.VUE_APP_KEYCLOACK_REALM ?? '';
@@ -36,12 +36,12 @@ async function init() {
   if (user == null) {
     try {
       const userFromCallback = await userManager.signinRedirectCallback();
-      setToken(userFromCallback.profile as KeycloakTokenParsed);
+      setUser(userFromCallback);
     } catch (e: unknown) {
       console.warn('User not found');
     }
   } else {
-    setToken(user?.profile as KeycloakTokenParsed);
+    setUser(user);
   }
 }
 
@@ -60,10 +60,11 @@ async function loginRedirect(route: RouteLocationNormalizedLoaded) {
 
 async function loginResourceOwnerCredentials(username: string, password: string) {
   const user = await userManager.signinResourceOwnerCredentials({ username, password });
-  setToken(user?.profile as KeycloakTokenParsed);
+  setUser(user);
 }
 
 async function logoutRedirect() {
+  token.value = null;
   await userManager.signoutRedirect();
 }
 

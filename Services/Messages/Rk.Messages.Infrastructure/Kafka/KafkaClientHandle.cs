@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Rk.Messages.Infrastructure.Kafka;
 
+/// <summary>
+/// Класс обертка на kafka клиентом для регистрации в DI
+/// </summary>
 public class KafkaClientHandle : IDisposable
 {
     private readonly IProducer<byte[], byte[]> _kafkaProducer;

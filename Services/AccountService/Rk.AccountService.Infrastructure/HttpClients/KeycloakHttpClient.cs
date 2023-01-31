@@ -5,16 +5,23 @@ using Microsoft.Extensions.Logging;
 using Rk.AccountService.Interfaces.Dto.HttpClients;
 using Rk.AccountService.Interfaces.HttpClients;
 using Rk.Messages.Common.Exceptions;
+using Rk.Messages.Common.HttpClients;
 using Rk.Messages.Common.Json;
 
 namespace Rk.AccountService.Infrastructure.HttpClients;
 
+
+/// <summary>
+/// Реализация клиента взаимодействия с keycloak
+/// </summary>
 public class KeycloakHttpClient : BaseHttpClient, IKeycloakHttpClient
 {
+    /// <inheritdoc />
     public KeycloakHttpClient(HttpClient httpClient, ILogger<KeycloakHttpClient> logger) : base(httpClient, logger)
     {
     }
-    
+
+    /// <inheritdoc />
     public async Task<TokenResponse> GetToken(string realm, TokenRequest requestData)
     {
         var request = new HttpRequestMessage(HttpMethod.Post,
@@ -32,6 +39,7 @@ public class KeycloakHttpClient : BaseHttpClient, IKeycloakHttpClient
         return response;
     }
 
+    /// <inheritdoc />
     public async Task CreateUser(string realm, string token, CreateUserRequest requestData)
     {
         var request = new HttpRequestMessage(HttpMethod.Post,

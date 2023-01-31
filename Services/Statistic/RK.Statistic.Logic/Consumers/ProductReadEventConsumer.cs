@@ -4,12 +4,15 @@ using Confluent.Kafka.Admin;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using RK.Messages.Shared.Contracts;
-using RK.Messages.Shared.Kafka;
+using RK.Messages.Shared;
+using RK.Messages.Shared.Serializers;
 using RK.Statistic.Interfaces.StatisticWriters;
 
 namespace RK.Statistic.Logic.Consumers
 {
+    /// <summary>
+    /// Консьюмер для обработки события просмотра продукта
+    /// </summary>
     public class ProductReadEventConsumer : BackgroundService
     {
         private readonly ILogger<ProductReadEventConsumer> _logger;
@@ -17,6 +20,7 @@ namespace RK.Statistic.Logic.Consumers
         private readonly IConsumer<Null, ProductViewStatisticEvent> _kafkaConsumer;
         private readonly IAdminClient _adminClient;
 
+        /// <inheritdoc />
         public ProductReadEventConsumer(ILogger<ProductReadEventConsumer> logger, 
             IProductViewStatisticWriter writer, IConfiguration config)
         {
@@ -36,6 +40,7 @@ namespace RK.Statistic.Logic.Consumers
             _adminClient = new AdminClientBuilder(adminConf).Build();
         }
 
+        /// <inheritdoc />
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             return StartConsumerLoop(stoppingToken);
@@ -92,6 +97,7 @@ namespace RK.Statistic.Logic.Consumers
             }
         }
 
+        /// <inheritdoc />
         public override void Dispose()
         {
             _kafkaConsumer.Close(); 

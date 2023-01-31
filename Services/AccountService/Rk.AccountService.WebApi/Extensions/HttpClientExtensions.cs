@@ -8,8 +8,14 @@ using Rk.AccountService.Interfaces.HttpClients;
 
 namespace Rk.AccountService.WebApi.Extensions
 {
+    /// <summary>
+    /// Расширение для регистрации Http клиентов
+    /// </summary>
     public static class HttpClientExtensions
     {
+        /// <summary>
+        /// Регистрация Http клиентов
+        /// </summary>
         public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration config)
         {
             services.AddHttpClient<IKeycloakHttpClient, KeycloakHttpClient>(httpClient =>

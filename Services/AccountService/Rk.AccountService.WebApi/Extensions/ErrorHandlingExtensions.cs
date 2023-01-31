@@ -10,6 +10,9 @@ using Rk.Messages.Common.Exceptions;
 
 namespace Rk.AccountService.WebApi.Extensions
 {
+    /// <summary>
+    /// Расширения для подключения обработки ошибок
+    /// </summary>
     public static class ErrorHandlingExtensions
     {
        

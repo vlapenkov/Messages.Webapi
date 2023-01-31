@@ -31,19 +31,11 @@ const settings: UserManagerSettings = {
 
 const userManager = new UserManager(settings);
 
-async function loginCallback() {
-  const user = await userManager.signinRedirectCallback();
-  return user;
-}
-
 async function init() {
   const user = await userManager.getUser();
-  console.log('user', user);
-
   if (user == null) {
     try {
-      const userFromCallback = await loginCallback();
-      console.log('user from callback', userFromCallback);
+      const userFromCallback = await userManager.signinRedirectCallback();
       setToken(userFromCallback.profile as KeycloakTokenParsed);
     } catch (e: unknown) {
       console.warn('User not found');
@@ -80,5 +72,4 @@ export const authService = {
   loginRedirect,
   loginResourceOwnerCredentials,
   logoutRedirect,
-  loginCallback,
 };

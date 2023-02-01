@@ -62,5 +62,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrganizationsNS
         /// <summary>документ для картинки</summary>
         public FileDataDto Document { get; set; }
 
+        /// <summary>Вложения</summary>
+        public List<FileDataDto> Documents { get; set; } = new List<FileDataDto>();
     }
 }

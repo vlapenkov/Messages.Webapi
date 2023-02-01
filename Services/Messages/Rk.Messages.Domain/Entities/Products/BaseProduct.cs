@@ -122,8 +122,6 @@ namespace Rk.Messages.Domain.Entities.Products
                         
         }
         
-
-
         public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
 
         public void SetStatus(ProductStatus newStatus) { 

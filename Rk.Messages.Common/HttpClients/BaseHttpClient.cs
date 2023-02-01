@@ -37,7 +37,7 @@ public abstract class BaseHttpClient
     /// <param name="jsonOption">опции десереализатора</param>
     /// <typeparam name="T">Тип в который будет десереализован ответ</typeparam>
     /// <returns>десереализованный ответ</returns>
-    protected async Task<T> GetResponse<T>(HttpRequestMessage request, JsonSerializerOptions? jsonOption = null)
+    protected async Task<T> GetResponse<T>(HttpRequestMessage request, JsonSerializerOptions jsonOption = null)
     {
         var response = await _httpClient.SendAsync(request);
         await Log(request, response);
@@ -63,7 +63,7 @@ public abstract class BaseHttpClient
     /// Получить ответ в виде потока(например для файлов)
     /// </summary>
     /// <param name="request">запрос</param>
-    protected async Task<Stream?> GetResponseStream(HttpRequestMessage request)
+    protected async Task<Stream> GetResponseStream(HttpRequestMessage request)
     {
         var response = await _httpClient.SendAsync(request);
         await Log(request, response);
@@ -77,10 +77,10 @@ public abstract class BaseHttpClient
     /// Получить настройки сериализатора
     /// </summary>
     protected static JsonSerializerOptions GetJsonOption(
-        JsonNamingPolicy? namingPolicy = null,
+        JsonNamingPolicy namingPolicy = null,
         JsonIgnoreCondition jsonCondition = JsonIgnoreCondition.WhenWritingNull, 
-        JavaScriptEncoder? javaScriptEncoder = null, 
-        IEnumerable<JsonConverter>? converters = null)
+        JavaScriptEncoder javaScriptEncoder = null, 
+        IEnumerable<JsonConverter> converters = null)
     {
         var option = new JsonSerializerOptions
         {

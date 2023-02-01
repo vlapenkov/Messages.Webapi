@@ -5,12 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-
-	<ItemGroup>
-		<ProjectReference Include="..\Rk.FileStore.Logic\Rk.FileStore.Logic.csproj" />
-	</ItemGroup>
-
+	
 	<ItemGroup>		
 		<PackageReference Include="FluentValidation" Version="11.4.0" />
 	</ItemGroup>
@@ -25,5 +20,9 @@
 		</PackageReference>
 		<PackageReference Include="NPOI" Version="2.6.0" />
 		<PackageReference Include="EPPlus" Version="4.5.3.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Rk.FileStore.Interfaces\Rk.FileStore.Interfaces.csproj" />
 	</ItemGroup>
 </Project>

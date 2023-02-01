@@ -17,7 +17,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
     private readonly IValidator<CreateUserCommand> _validator;
 
     /// <summary>
-    /// Конструктор обработчика команда добавления нового пользщователя
+    /// Конструктор обработчика команда добавления нового пользователя
     /// </summary>
     public CreateUserCommandHandler(IKeycloakHttpClient http, IConfiguration configuration, 
         IValidator<CreateUserCommand> validator)

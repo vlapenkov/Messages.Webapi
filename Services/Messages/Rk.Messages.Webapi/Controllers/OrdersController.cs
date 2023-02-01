@@ -11,32 +11,34 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Webapi.Controllers
 {
-    /// <summary>
-    /// Работа с заказами
-    /// </summary>
+    /// <summary> Работа с заказами </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
 
+        /// <inheritdoc />
         public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        /// <summary> Создать заказ </summary>
         [HttpPost]        
         public async Task<long[]> CreateOrders()
         {
             return await _mediator.Send(new CreateOrderCommand { });
         }
 
+        /// <summary> Получить заказ </summary>
         [HttpGet("{orderId:long}")]
         public async Task<OrderResponse> GetOrder(long orderId)
         {
             return await _mediator.Send(new GetOrderQuery {OrderId = orderId });
         }
 
+        /// <summary> Получить список заказов </summary>
         [HttpGet]
         public async Task<PagedResponse<OrderShortDto>> GetOrders([FromQuery] FilterOrdersRequest request)
         {

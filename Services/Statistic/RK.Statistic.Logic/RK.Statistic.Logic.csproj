@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
     <ProjectReference Include="..\RK.Statistic.Interfaces\RK.Statistic.Interfaces.csproj" />
   </ItemGroup>
 

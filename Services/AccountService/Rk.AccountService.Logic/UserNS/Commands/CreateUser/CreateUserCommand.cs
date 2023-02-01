@@ -8,5 +8,8 @@ namespace Rk.AccountService.Logic.UserNS.Commands.CreateUser;
 /// </summary>
 public class CreateUserCommand : IRequest<TokenResponse?>
 {
-    public CreateUserRequest Request { get; set; }
+    /// <summary></summary>
+#pragma warning disable CS8618
+    public CreateUserRequest Request { get; init; }
+#pragma warning restore CS8618
 }

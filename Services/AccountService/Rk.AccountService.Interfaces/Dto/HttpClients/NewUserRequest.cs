@@ -20,17 +20,3 @@ public record CreateUserRequest(
     string[] Groups, 
     UserAttributes Attributes,
     bool Enabled = true);
-
-/// <summary>
-/// Реквизиты для входа
-/// </summary>
-/// <param name="Value">значение</param>
-/// <param name="Type">тип</param>
-/// <param name="Temporary">временный</param>
-public record UserCredential(string Value, string Type = "password",  bool Temporary = false);
-
-/// <summary>
-/// Атрибуты пользователя
-/// </summary>
-/// <param name="Patronymic">Отчество</param>
-public record UserAttributes(string Patronymic);

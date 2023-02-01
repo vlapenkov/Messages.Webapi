@@ -8,5 +8,6 @@ namespace Rk.AccountService.Logic.UserNS.Commands.CreateUser;
 /// </summary>
 public class CreateUserCommand : IRequest<TokenResponse?>
 {
+    /// <summary></summary>
     public CreateUserRequest Request { get; set; }
 }

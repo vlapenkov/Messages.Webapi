@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Octonica.ClickHouseClient;
 using RK.Statistic.Interfaces;
 
@@ -9,12 +8,9 @@ namespace RK.Statistic.Infrastructure.ClickHouse;
 public class ClickHouseConnectionFactory : IClickHouseConnectionFactory
 {
     private readonly string _connectionString;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="config">конфигурация</param>
-    /// <exception cref="NullReferenceException">отсуствет строка подключения</exception>
+    /// <summary> </summary>
+    /// <param name="config">Конфигурация</param>
+    /// <exception cref="NullReferenceException">Отсутствует строка подключения</exception>
     public ClickHouseConnectionFactory(IConfiguration config)
     {
         _connectionString = config.GetConnectionString("ClickHouse") 

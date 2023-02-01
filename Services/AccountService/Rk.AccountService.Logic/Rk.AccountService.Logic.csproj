@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
-      <ProjectReference Include="..\Rk.AccountService.Interfaces\Rk.AccountService.Interfaces.csproj" />
+      <ProjectReference Include="..\Rk.AccountService.Infrastructure\Rk.AccountService.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace RK.Statistic.Interfaces.StatisticWriters;
 public interface IProductViewStatisticWriter
 {
     /// <summary>
-    /// Метод добавление строки в БД
+    /// Метод вставки строки в БД
     /// </summary>
     Task InsertRowAsync(ProductViewStatisticEvent data, CancellationToken token = default);
 }

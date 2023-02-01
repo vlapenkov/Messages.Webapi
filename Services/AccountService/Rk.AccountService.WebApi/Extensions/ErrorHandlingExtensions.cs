@@ -17,7 +17,7 @@ namespace Rk.AccountService.WebApi.Extensions
     {
        
         /// <summary>
-        /// Обработка ошибок рефит на фронте
+        /// Обработка ошибок refit на фронте
         /// </summary>
         /// <param name="services"></param>
         /// <param name="env"></param>
@@ -28,14 +28,14 @@ namespace Rk.AccountService.WebApi.Extensions
                 {
                     //TODO: (ctx, ex) => env.IsDevelopment()
                     // options.IncludeExceptionDetails = (ctx, ex) => env.IsDevelopment();
-                    options.IncludeExceptionDetails = (ctx, ex) => false;
+                    options.IncludeExceptionDetails = (_, _) => false;
 
                     options.Map(
 
                            delegate (ValidationException exception)
                            {
                                var result = new ValidationProblemDetails(exception.Errors.GroupBy(x => x.PropertyName).ToDictionary(
-                                x => x.Key, x => x.Select(x => x.ErrorMessage).ToArray()))
+                                x => x.Key, x => x.Select(z => z.ErrorMessage).ToArray()))
                                {
                                    Title = "Ошибка",
                                    Type = nameof(ValidationException),
@@ -57,7 +57,7 @@ namespace Rk.AccountService.WebApi.Extensions
                     options.Map<RkUnauthorizedAccessException>(exception => new ProblemDetails
                     {
                         Type = nameof(RkUnauthorizedAccessException),
-                        Title = "Ошибка aвторизации",
+                        Title = "Ошибка авторизации",
                         Detail = exception.Message,
                         Status = StatusCodes.Status401Unauthorized
                     });

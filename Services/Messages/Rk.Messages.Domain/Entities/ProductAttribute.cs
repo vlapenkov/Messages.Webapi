@@ -7,8 +7,7 @@ namespace Rk.Messages.Domain.Entities
     /// Атрибут
     /// </summary>
     public  class ProductAttribute :BaseEntity
-    {
-      // private ProductAttribute() {}
+    {    
 
         public ProductAttribute(long id, string name)
         {             

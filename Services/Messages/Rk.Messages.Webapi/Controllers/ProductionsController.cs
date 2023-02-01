@@ -15,10 +15,7 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Webapi.Controllers
 {
-    /// <summary>
-    /// Управление продукцией, услугами, технологиями
-    /// </summary>
-
+    /// <summary> Управление продукцией, услугами, технологиями </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
@@ -26,6 +23,7 @@ namespace Rk.Messages.Webapi.Controllers
     {
         private readonly IMediator _mediator;
 
+        /// <inheritdoc />
         public ProductionsController(IMediator mediator)
         {
             _mediator = mediator;
@@ -78,6 +76,7 @@ namespace Rk.Messages.Webapi.Controllers
             await _mediator.Send(new RegisterProductExchangeCommand { ExchangeType = request.ExchangeType,ProductsLoaded = request.ProductsLoaded });
         }
 
+        /// <summary>Получить информацию о регистрации</summary>  
         [HttpGet("exchanges")]
         public async Task<IReadOnlyCollection<ProductsExchangeDto>> GetExchanges()
         {

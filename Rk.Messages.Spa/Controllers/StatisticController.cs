@@ -25,7 +25,8 @@ public class StatisticController : ControllerBase
     /// <param name="count">количество</param>
     /// <param name="from">с</param>
     /// <param name="to">по</param>
-    public async Task<IReadOnlyCollection<PopularProduct>> TopProduct(int count, DateTime from, DateTime to)
+    [HttpGet("topProducts")]
+    public async Task<IReadOnlyCollection<PopularProduct>> TopProducts(int count, DateTime from, DateTime to)
     {
         var result = await _statistic.TopProducts(count, from, to);
         return result;

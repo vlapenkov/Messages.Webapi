@@ -13,6 +13,7 @@ using Rk.Messages.Logic.OrganizationsNS.Queries.GetOrganizationByInn;
 
 namespace Rk.Messages.Webapi.Controllers
 {
+    /// <summary>  Контроллер работы с организациями </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     //[Authorize]
@@ -20,29 +21,34 @@ namespace Rk.Messages.Webapi.Controllers
     {
         private readonly IMediator _mediator;
 
+        /// <inheritdoc />
         public OrganizationsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        /// <summary> Получить организацию по id </summary>
         [HttpGet("{id:long}")]
         public async Task<OrganizationDto> GetOrganization(long id)
         {
             return await _mediator.Send(new GetOrganizationQuery { Id = id });
         }
         
+        /// <summary> Получить организацию по ИНН </summary>
         [HttpGet("inn/{inn}")]
         public async Task<OrganizationDto> GetOrganization(string inn)
         {
             return await _mediator.Send(new GetOrganizationByInnQuery { Inn = inn });
         }
-
+        
+        /// <summary> Получить список организаций </summary>
         [HttpGet()]
         public async Task<PagedResponse<OrganizationDto>> GetOrganizations()
         {
             return await _mediator.Send(new GetOrganizationsQuery { });
         }
 
+        /// <summary> Создать новую организацию </summary>
         [HttpPost]
         public async Task<long> CreateOrganization([FromBody] CreateOrganizationRequest request)
         {

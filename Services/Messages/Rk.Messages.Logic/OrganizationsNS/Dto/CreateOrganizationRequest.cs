@@ -1,4 +1,4 @@
-﻿using Rk.Messages.Logic.ProductsNS.Dto;
+﻿using System.Collections.Generic;
 
 namespace Rk.Messages.Logic.OrganizationsNS.Dto
 {
@@ -60,5 +60,8 @@ namespace Rk.Messages.Logic.OrganizationsNS.Dto
 
         /// <summary>документ для картинки</summary>
         public FileDataDto Document { get; set; }
+
+        /// <summary>Вложения</summary>
+        public List<FileDataDto> Documents { get; set; }
     }
 }

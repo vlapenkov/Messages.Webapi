@@ -6,6 +6,7 @@ using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Domain.Enums;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,6 +66,10 @@ namespace Rk.Messages.Logic.OrganizationsNS.Commands.CreateOrganization
             if (request.FactAddress != null) organization.SetFactAddress(request.FactAddress);
             
             if (request.Document!=null) organization.SetDocumentId(request.Document.FileId);
+
+            var organizationDocuments = request.Documents.Select(fd => new OrganizationDocument(new Document(fd.FileName, fd.FileId))).ToArray();
+
+            organization.AddOrganizationDocuments(organizationDocuments);
 
             _dbContext.Organizations.Add(organization);
 

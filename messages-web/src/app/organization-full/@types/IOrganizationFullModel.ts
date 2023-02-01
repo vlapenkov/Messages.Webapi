@@ -1,4 +1,5 @@
 import { IModel } from '@/app/core/models/@types/IModel';
+import { IOrganizationDocument } from './IOrganizationDocument';
 
 export interface IOrganizationFullModel extends IModel {
   id?: number;
@@ -25,11 +26,8 @@ export interface IOrganizationFullModel extends IModel {
   corrAccount: string;
   bik: string;
   documentId?: string;
-  document?: {
-    fileName: string;
-    data: string;
-    fileId: string;
-  };
+  document?: IOrganizationDocument;
+  documents?: IOrganizationDocument[];
   statusText?: string;
   lastModified?: string;
   lastModifiedBy?: string;

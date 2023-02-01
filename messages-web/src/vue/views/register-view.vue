@@ -158,7 +158,9 @@
                   <div class="col-3">
                     <div class="w-full flex flex-row justify-content-center align-items-center">
                       <img
-                        :src="file != null ? fileB64 : require('@/assets/images/profile.svg')"
+                        :src="
+                          document != null ? documentBase64 : require('@/assets/images/profile.svg')
+                        "
                         alt="Изображение профиля"
                         width="150"
                         height="150"
@@ -169,9 +171,9 @@
                       />
                     </div>
                   </div>
-                  <div class="col-8 file-upload">
+                  <div class="col-8 document-upload">
                     <div class="w-full h-full flex flex-column justify-content-center">
-                      <file-upload
+                      <document-upload
                         mode="basic"
                         id="organization-img"
                         accept="image/*"
@@ -633,8 +635,8 @@
               <div>
                 <h2 class="mt-0">6. Вложения</h2>
                 <div class="w-full h-full grid">
-                  <file-upload
-                    @upload="applicationUpload"
+                  <document-upload
+                    @select="applicationSelected"
                     :multiple="true"
                     accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     :maxFileSize="30000000"
@@ -645,7 +647,7 @@
                     <template #empty>
                       <p>Перетащите сюда файлы для загрузки.</p>
                     </template>
-                  </file-upload>
+                  </document-upload>
                 </div>
               </div>
             </div>
@@ -676,6 +678,7 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import useVuelidate from '@vuelidate/core';
 import { email, minLength, numeric, required } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
+import { IOrganizationDocument } from '@/app/organization-full/@types/IOrganizationDocument';
 
 interface ICreateUser {
   firstName: '';
@@ -863,26 +866,43 @@ export default defineComponent({
       }
     };
 
-    const file = ref() as Ref<File>;
-    const { base64: fileB64 } = useBase64(file);
-    watch(fileB64, (b64) => {
-      if (file.value == null || b64 == null) {
+    const document = ref() as Ref<File>;
+    const { base64: documentBase64 } = useBase64(document);
+    watch(documentBase64, (b64) => {
+      if (document.value == null || b64 == null) {
         return;
       }
       const doc = {
         data: b64.replace(/(^data:image\/[a-z]+;base64,)/gi, ''),
         fileId: uuidv4(),
-        fileName: file.value.name,
+        fileName: document.value.name,
       };
       orgFormState.document = doc;
     });
+    const documents = ref() as Ref<File[]>;
+    watch(documents, (docs) => {
+      if (docs == null) return;
+      const encodedDocs: IOrganizationDocument[] = [];
+      docs.forEach((doc) => {
+        const { base64 } = useBase64(doc);
+        encodedDocs.push({
+          data: base64.value.replace(/(^data:image\/[a-z]+;base64,)/gi, ''),
+          fileId: uuidv4(),
+          fileName: doc.name,
+        });
+      });
+      orgFormState.documents = encodedDocs;
+    });
+    const applicationSelected = (e: { files: File[]; originalEvent: Event }) => {
+      documents.value = e.files;
+    };
     const onFileInput = (e: Event) => {
       const target = e.target as HTMLInputElement;
       const { files } = target;
       if (files == null) {
         return;
       }
-      [file.value] = files;
+      [document.value] = files;
     };
     const updateCoords = (e: { get?: (_: string) => [number, number] }) => {
       if (e.get == null) return;
@@ -890,11 +910,6 @@ export default defineComponent({
       orgFormState.latitude = lat;
       orgFormState.longitude = long;
     };
-
-    const applicationUpload = () => {
-      console.log('applicationUpload');
-    };
-
     return {
       uv$,
       ov$,
@@ -905,12 +920,13 @@ export default defineComponent({
       statusOptions,
       isModeration,
       orgFormState,
-      fileB64,
-      file,
+      documentBase64,
+      document,
+      documents,
       save,
       onFileInput,
       updateCoords,
-      applicationUpload,
+      applicationSelected,
     };
   },
 });

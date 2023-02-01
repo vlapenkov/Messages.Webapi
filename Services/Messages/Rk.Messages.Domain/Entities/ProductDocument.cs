@@ -13,7 +13,7 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class ProductDocument :BaseEntity
     {
-        //private ProductDocument() { }
+       
         public ProductDocument(Document document)
         {
             Document = document;

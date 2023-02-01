@@ -629,6 +629,25 @@
                   <div class="col-8"></div>
                 </div>
               </div>
+              <prime-divider class="mt-5 mb-5"></prime-divider>
+              <div>
+                <h2 class="mt-0">6. Вложения</h2>
+                <div class="w-full h-full grid">
+                  <file-upload
+                    @upload="applicationUpload"
+                    :multiple="true"
+                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    :maxFileSize="30000000"
+                    :showUploadButton="false"
+                    chooseLabel="Выбрать"
+                    cancelLabel="Отмена"
+                  >
+                    <template #empty>
+                      <p>Перетащите сюда файлы для загрузки.</p>
+                    </template>
+                  </file-upload>
+                </div>
+              </div>
             </div>
           </tab-panel>
         </tab-view>
@@ -871,6 +890,11 @@ export default defineComponent({
       orgFormState.latitude = lat;
       orgFormState.longitude = long;
     };
+
+    const applicationUpload = () => {
+      console.log('applicationUpload');
+    };
+
     return {
       uv$,
       ov$,
@@ -886,6 +910,7 @@ export default defineComponent({
       save,
       onFileInput,
       updateCoords,
+      applicationUpload,
     };
   },
 });

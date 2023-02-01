@@ -171,9 +171,9 @@
                       />
                     </div>
                   </div>
-                  <div class="col-8 document-upload">
+                  <div class="col-8 file-upload">
                     <div class="w-full h-full flex flex-column justify-content-center">
-                      <document-upload
+                      <file-upload
                         mode="basic"
                         id="organization-img"
                         accept="image/*"
@@ -635,7 +635,7 @@
               <div>
                 <h2 class="mt-0">6. Вложения</h2>
                 <div class="w-full h-full grid">
-                  <document-upload
+                  <file-upload
                     @select="applicationSelected"
                     :multiple="true"
                     accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -647,7 +647,7 @@
                     <template #empty>
                       <p>Перетащите сюда файлы для загрузки.</p>
                     </template>
-                  </document-upload>
+                  </file-upload>
                 </div>
               </div>
             </div>

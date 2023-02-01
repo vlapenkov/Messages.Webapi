@@ -4,8 +4,12 @@ using Rk.Messages.Common.Helpers;
 
 namespace Rk.AccountService.Logic.UserNS.Validations;
 
+/// <summary>
+/// Валидатор для команды добавления нового пользователя 
+/// </summary>
 public class CreateUserValidator : AbstractValidator<CreateUserCommand>
 {
+    /// <inheritdoc />
     public CreateUserValidator()
     {
         RuleFor(x => x.Request)

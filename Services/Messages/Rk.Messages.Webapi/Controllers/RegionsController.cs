@@ -12,7 +12,8 @@ namespace Rk.Messages.Webapi.Controllers
     public class RegionsController : ControllerBase
     {
         private readonly IMediator _mediator;
-               
+
+        /// <inheritdoc />
         public RegionsController(IMediator mediator)
         {
             _mediator = mediator;

@@ -3,34 +3,40 @@ using RK.Statistic.Interfaces;
 
 namespace RK.Statistic.Logic.Queries.PopularProduct;
 
+/// <inheritdoc />
 public class PopularProductQueryHandler : IRequestHandler<PopularProductQuery, IReadOnlyCollection<Dto.PopularProduct>>
 {
     private readonly IClickHouseConnectionFactory _factory;
 
+    /// <summary>
+    /// </summary>
     public PopularProductQueryHandler(IClickHouseConnectionFactory factory)
     {
         _factory = factory;
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyCollection<Dto.PopularProduct>> Handle(PopularProductQuery request, CancellationToken cancellationToken)
     {
         await using var connection = await _factory.GetConnectionAsync();
         var cmd = connection.CreateCommand(@$"
 SELECT 
-    production, 
-    categoryId, 
-    producer, 
+    {Tables.ProductReadTable.ProductionColumn}, 
+    {Tables.ProductReadTable.CategoryIdColumn}, 
+    {Tables.ProductReadTable.ProducerColumn}, 
     count(*) count 
 FROM 
-    {Tables.ProductReadTable} 
+    {Tables.ProductReadTable.TableName} 
 WHERE 
-    created BETWEEN @from AND @to 
+    {Tables.ProductReadTable.CreatedColumn} BETWEEN @from AND @to 
 GROUP BY 
-    productionId, production, categoryId, producer 
-ORDER BY 
-    count 
-LIMIT 
-    {request.Count} BY count");
+    {Tables.ProductReadTable.ProductionIdColumn}, 
+    {Tables.ProductReadTable.ProductionColumn}, 
+    {Tables.ProductReadTable.CategoryIdColumn}, 
+    {Tables.ProductReadTable.ProducerColumn} 
+ORDER BY count 
+LIMIT {request.Count} BY count");
+        
         cmd.Parameters.AddWithValue("from", request.From);
         cmd.Parameters.AddWithValue("to", request.To);
         await using var reader = await cmd.ExecuteReaderAsync(cancellationToken);

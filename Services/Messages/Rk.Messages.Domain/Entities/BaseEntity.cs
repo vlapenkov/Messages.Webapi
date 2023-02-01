@@ -7,6 +7,9 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class BaseEntity
     {
+
+        protected BaseEntity() { }
+
         long _id;
 
         /// <summary>

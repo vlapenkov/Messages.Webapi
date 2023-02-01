@@ -24,6 +24,8 @@ namespace Rk.Messages.Infrastructure.EFCore
         public DbSet<ProductAttribute> Attributes { get; set; }
         public DbSet<AttributeValue> AttributeValues { get; set; }
 
+        public DbSet<OrganizationDocument> OrganizationDocuments { get; set; }
+
         public DbSet<CatalogSection> CatalogSections { get; set; }
 
         public DbSet<BaseProduct> BaseProduct { get; set; }
@@ -161,13 +163,23 @@ namespace Rk.Messages.Infrastructure.EFCore
 
             });
 
-            // Ограничение на ОГРН  - должен быть уникальным
-
             builder.Entity<Organization>(entity =>
             {
+                // Ограничение на ОГРН  - должен быть уникальным
                 entity.HasIndex(self => self.Ogrn).IsUnique();
+
+                entity.HasMany(self => self.OrganizationDocuments)
+                   .WithOne(self => self.Organization)
+                   .HasForeignKey(self => self.OrganizationId);
             });
 
+            builder.Entity<OrganizationDocument>(entity =>
+            {
+                entity.HasOne(self => self.Document)
+                    .WithMany()
+                    .HasForeignKey(self => self.DocumentId);
+
+            });
 
             Seed(builder);
         }

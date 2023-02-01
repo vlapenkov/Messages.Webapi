@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Confluent.Kafka;
+using Rk.Messages.Interfaces;
 
 namespace Rk.Messages.Infrastructure.Kafka;
 
-public class KafkaSimpleProducer<TK, TV>
+/// <summary>
+/// Продюсер для отправки данных простых типов
+/// </summary>
+public class KafkaSimpleProducer<TK, TV> : IKafkaProducer<TK, TV>
 {
     private readonly IProducer<TK, TV> _kafkaHandle;
 

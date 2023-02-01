@@ -14,12 +14,16 @@ using Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree;
 
 namespace Rk.Messages.Webapi.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     public class SectionsController : ControllerBase
     {
         private readonly IMediator _mediatr;
 
+        /// <inheritdoc />
         public SectionsController(IMediator mediatr)
         {
             _mediatr = mediatr;

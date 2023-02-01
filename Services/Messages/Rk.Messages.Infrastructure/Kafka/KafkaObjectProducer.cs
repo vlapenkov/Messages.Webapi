@@ -2,11 +2,17 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using RK.Messages.Shared.Kafka;
+using Rk.Messages.Interfaces;
+using RK.Messages.Shared.Serializers;
 
 namespace Rk.Messages.Infrastructure.Kafka;
 
-public class KafkaObjectProducer<TK, TV> where TV : class
+/// <summary>
+/// Продюсер для отправки комплексных типов для которых понадобиться сериализация
+/// </summary>
+/// <typeparam name="TK"></typeparam>
+/// <typeparam name="TV"></typeparam>
+public class KafkaObjectProducer<TK, TV> : IKafkaProducer<TK, TV> where TV : class
 {
     private readonly IProducer<TK, TV> _kafkaHandle;
 

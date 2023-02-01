@@ -56,6 +56,17 @@ namespace Rk.Messages.Spa.Controllers
                 request.Document.FileId = fileGlobalIds.First(); 
             }
 
+            if (request.Documents.Count > 0)
+            {
+                var fileGlobalIds = await _filesService.CreateFiles(request.Documents.Select(doc => new CreateFileRequest { FileName = doc.FileName, Data = doc.Data }).ToArray());
+
+                var fileGlobalIdsArray = fileGlobalIds.ToArray();
+
+                byte counter = 0;
+
+                request.Documents.ForEach(doc => doc.FileId = fileGlobalIdsArray[counter++]);
+            }
+
             return await _service.CreateOrganization(request);
         }
 

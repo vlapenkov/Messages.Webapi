@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Rk.Messages.Domain.Enums;
 
@@ -163,8 +164,16 @@ namespace Rk.Messages.Domain.Entities
         [StringLength(512)]
         public string Bik { get; private set; }
 
-        
+        /// <summary>
+        /// Изображение логотипа организации
+        /// </summary>
         public Guid? DocumentId { get; private set; }
+
+        /// <summary>
+        /// Документы организации
+        /// </summary>
+        private readonly List<OrganizationDocument> _organizationDocuments = new List<OrganizationDocument>();
+        public virtual IReadOnlyList<OrganizationDocument> OrganizationDocuments => _organizationDocuments;
 
         #endregion
 
@@ -191,6 +200,10 @@ namespace Rk.Messages.Domain.Entities
             Bik = bik;
         }
 
+        /// <summary>
+        /// Добавить id логотипа организации
+        /// </summary>
+        /// <param name="documentId"></param>
         public void  SetDocumentId(Guid? documentId) { 
             DocumentId = documentId;
         }
@@ -198,6 +211,15 @@ namespace Rk.Messages.Domain.Entities
         public void SetStatus(OrganizationStatus status)
         {
             Status = status;
+        }
+
+        /// <summary>
+        /// Добавить вложения
+        /// </summary>
+        /// <param name="files"></param>
+        public void AddOrganizationDocuments(IReadOnlyCollection<OrganizationDocument> files)
+        {
+            _organizationDocuments.AddRange(files);
         }
     }
 }

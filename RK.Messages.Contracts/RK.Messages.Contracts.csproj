@@ -4,10 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RootNamespace>RK.Messages.Shared</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Kafka\" />
+    <Folder Include="Serializers\" />
   </ItemGroup>
 
   <ItemGroup>

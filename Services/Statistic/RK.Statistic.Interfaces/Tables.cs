@@ -13,7 +13,7 @@ public static class Tables
         /// <summary>
         /// Название таблицы
         /// </summary>
-        public const string TableName = "product_read";
+        public const string TableName = "product_read_1";
         
 #pragma warning disable CS1591
         public const string IdColumn = "id";

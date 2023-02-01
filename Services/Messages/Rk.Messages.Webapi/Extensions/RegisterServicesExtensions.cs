@@ -13,6 +13,7 @@ using MediatR;
 using System.Reflection;
 using Confluent.Kafka;
 using Rk.Messages.Infrastructure.Kafka;
+using Rk.Messages.Interfaces;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.PipelineBehaviour;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
@@ -29,7 +30,7 @@ namespace Rk.Messages.Webapi.Extensions
     {
 
         /// <summary>
-        /// Загруза внутренних зависимостей
+        /// Загрузка внутренних зависимостей
         /// </summary>
         /// <param name="services"></param>
         public static void AddDependencies(this IServiceCollection services)
@@ -55,7 +56,7 @@ namespace Rk.Messages.Webapi.Extensions
             services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
 
             services.AddSingleton<KafkaClientHandle>();
-            services.AddSingleton<KafkaObjectProducer<Null, ProductViewStatisticEvent>>();
+            services.AddSingleton<IKafkaProducer<Null, ProductViewStatisticEvent>, KafkaObjectProducer<Null, ProductViewStatisticEvent>>();
         }
     }
 }

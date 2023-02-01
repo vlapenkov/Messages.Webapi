@@ -4,53 +4,54 @@ using System.Threading.Tasks;
 using Confluent.Kafka;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Rk.Messages.Infrastructure.Kafka;
+using Rk.Messages.Interfaces;
 using Rk.Messages.Interfaces.Services;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
 using RK.Messages.Shared;
 
-namespace Rk.Messages.Logic.ProductsNS.PipelineBehaviour;
-
-public class ProductViewStatisticBehavior: IPipelineBehavior<GetProductQuery, ProductResponse>
+namespace Rk.Messages.Logic.ProductsNS.PipelineBehaviour
 {
-    private readonly ILogger<ProductViewStatisticBehavior> _logger;
-    private readonly KafkaObjectProducer<Null, ProductViewStatisticEvent> _producer;
-    private readonly IUserService _user;
-
-    public ProductViewStatisticBehavior(KafkaObjectProducer<Null, ProductViewStatisticEvent> producer, 
-        ILogger<ProductViewStatisticBehavior> logger, IUserService user)
+    public class ProductViewStatisticBehavior: IPipelineBehavior<GetProductQuery, ProductResponse>
     {
-        _producer = producer;
-        _logger = logger;
-        _user = user;
-    }
+        private readonly ILogger<ProductViewStatisticBehavior> _logger;
+        private readonly IKafkaProducer<Null, ProductViewStatisticEvent> _producer;
+        private readonly IUserService _user;
 
-    public async Task<ProductResponse> Handle(GetProductQuery request, RequestHandlerDelegate<ProductResponse> next, CancellationToken cancellationToken)
-    {
-        var response = await next();
-        if (response == null) return null;
-
-        var msg = new ProductViewStatisticEvent
+        public ProductViewStatisticBehavior(IKafkaProducer<Null, ProductViewStatisticEvent> producer, 
+            ILogger<ProductViewStatisticBehavior> logger, IUserService user)
         {
-            Created = DateTime.Now,
-            Page = $"/api/v1/products/{response.Id}",
-            Production = response.Name,
-            ProductionId = response.Id,
-            CategoryId = response.CatalogSectionId,
-            Producer = response.Organization?.Name ?? "undefined",
-            UserName = _user.UserName ?? "Anonymous"
-        };
-        _producer.Produce(nameof(ProductViewStatisticEvent), new Message<Null, ProductViewStatisticEvent>{Value = msg},
-            DeliveryReportHandler);
-        return response;
-    }
+            _producer = producer;
+            _logger = logger;
+            _user = user;
+        }
 
-    private void DeliveryReportHandler(DeliveryReport<Null, ProductViewStatisticEvent> deliveryReport)
-    {
-        if (deliveryReport.Status == PersistenceStatus.NotPersisted)
+        public async Task<ProductResponse> Handle(GetProductQuery request, RequestHandlerDelegate<ProductResponse> next, CancellationToken cancellationToken)
         {
-            _logger.Log(LogLevel.Warning, $"Проблема отправки собщения: {deliveryReport.Message.Value}");
+            var response = await next();
+            if (response == null) return null;
+
+            var msg = new ProductViewStatisticEvent
+            {
+                Created = DateTime.Now,
+                Page = $"/api/v1/products/{response.Id}",
+                Production = response.Name,
+                ProductionId = response.Id,
+                CategoryId = response.CatalogSectionId,
+                Producer = response.Organization?.Name ?? "undefined",
+                UserName = _user.UserName ?? "Anonymous"
+            };
+            _producer.Produce(nameof(ProductViewStatisticEvent), new Message<Null, ProductViewStatisticEvent>{Value = msg},
+                DeliveryReportHandler);
+            return response;
+        }
+
+        private void DeliveryReportHandler(DeliveryReport<Null, ProductViewStatisticEvent> deliveryReport)
+        {
+            if (deliveryReport.Status == PersistenceStatus.NotPersisted)
+            {
+                _logger.Log(LogLevel.Warning, $"Проблема отправки собщения: {deliveryReport.Message.Value}");
+            }
         }
     }
 }

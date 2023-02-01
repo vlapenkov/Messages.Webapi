@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Rk.AccountService.Infrastructure\Rk.AccountService.Infrastructure.csproj" />
       <ProjectReference Include="..\Rk.AccountService.Logic\Rk.AccountService.Logic.csproj" />
     </ItemGroup>
 

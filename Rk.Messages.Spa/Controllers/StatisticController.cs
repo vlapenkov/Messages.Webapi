@@ -26,11 +26,7 @@ public class StatisticController : ControllerBase
     /// <param name="from">с</param>
     /// <param name="to">по</param>
     [HttpGet("topProducts")]
-<<<<<<< HEAD
-    public async Task<IReadOnlyCollection<PopularProduct>> TopProduct(int count, DateTime from, DateTime to)
-=======
     public async Task<IReadOnlyCollection<PopularProduct>> TopProducts(int count, DateTime from, DateTime to)
->>>>>>> develop
     {
         var result = await _statistic.TopProducts(count, from, to);
         return result;

@@ -634,11 +634,11 @@
               <prime-divider class="mt-5 mb-5"></prime-divider>
               <div>
                 <h2 class="mt-0">6. Вложения</h2>
-                <div class="w-full h-full grid">
+                <div class="w-full h-full grid file-upload">
                   <file-upload
                     @select="applicationSelected"
                     :multiple="true"
-                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    accept=".pdf,.xlsx,.xls,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     :maxFileSize="30000000"
                     :showUploadButton="false"
                     chooseLabel="Выбрать"
@@ -933,6 +933,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scopped>
+.file-upload {
+  .p-fileupload-advanced {
+    flex-grow: 1;
+  }
+}
+
 .re-padding {
   .p-card-body {
     padding-top: 0;

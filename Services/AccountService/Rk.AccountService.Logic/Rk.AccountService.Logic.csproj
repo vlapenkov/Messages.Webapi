@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,7 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
-      <ProjectReference Include="..\Rk.AccountService.Infrastructure\Rk.AccountService.Infrastructure.csproj" />
+      <ProjectReference Include="..\Rk.AccountService.Interfaces\Rk.AccountService.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>

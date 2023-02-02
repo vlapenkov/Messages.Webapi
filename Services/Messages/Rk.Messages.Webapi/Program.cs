@@ -11,6 +11,7 @@ using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Webapi.Extensions;
 using Serilog;
 using System;
+using Rk.Messages.Webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,14 +49,13 @@ app.UseRouting();
 app.UseReverseProxy(builder.Configuration);
 
 app.UseAuthentication();
-
+app.UseAuthorization();
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
-app.UseProblemDetails();
+//app.UseMiddleware<StatisticMiddleware>();
 
-app.UseAuthorization();
-app.UseAuthorization();
+app.UseProblemDetails();
 
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {

@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Webapi.Controllers
 {
+    /// <summary>
+    /// Контроллер новостей
+    /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
+        /// <inheritdoc />
         public NewsController(IMediator mediator)
         {
             _mediator = mediator;
@@ -38,6 +42,10 @@ namespace Rk.Messages.Webapi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Получить новости
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<PagedResponse<NewsResponse>> GetNews()
         {

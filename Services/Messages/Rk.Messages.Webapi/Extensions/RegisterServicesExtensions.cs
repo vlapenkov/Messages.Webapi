@@ -11,11 +11,18 @@ using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Logic.OrganizationsNS.Dto;
 using MediatR;
 using System.Reflection;
+using Confluent.Kafka;
+using Rk.Messages.Infrastructure.Kafka;
+using Rk.Messages.Interfaces;
+using Rk.Messages.Logic.ProductsNS.Dto;
+using Rk.Messages.Logic.ProductsNS.PipelineBehaviour;
+using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
 using Rk.Messages.Logic.ProductsNS.Validations;
 using Rk.Messages.Logic.ServiceProductsNS.Commands.CreateServiceProduct;
 using Rk.Messages.Logic.WorkProductsNS.Commands.CreateWorkProduct;
 using Rk.Messages.Logic.WorkProductsNS.Validations;
 using Rk.Messages.Logic.ServiceProductsNS.Validations;
+using RK.Messages.Shared;
 
 namespace Rk.Messages.Webapi.Extensions
 {
@@ -23,7 +30,7 @@ namespace Rk.Messages.Webapi.Extensions
     {
 
         /// <summary>
-        /// Загруза внутренних зависимостей
+        /// Загрузка внутренних зависимостей
         /// </summary>
         /// <param name="services"></param>
         public static void AddDependencies(this IServiceCollection services)
@@ -44,8 +51,12 @@ namespace Rk.Messages.Webapi.Extensions
             services.AddTransient<IValidator<CreateOrganizationRequest>, CreateOrganizationValidator>();
 
             services.AddMediatR(typeof(CreateSectionCommand).GetTypeInfo().Assembly);
+            services.AddScoped(typeof(IPipelineBehavior<GetProductQuery, ProductResponse>), typeof(ProductViewStatisticBehavior));
 
             services.AddAutoMapper(typeof(ProductsMappingProfile).GetTypeInfo().Assembly);
+
+            services.AddSingleton<KafkaClientHandle>();
+            services.AddSingleton<IKafkaProducer<Null, ProductViewStatisticEvent>, KafkaObjectProducer<Null, ProductViewStatisticEvent>>();
         }
     }
 }

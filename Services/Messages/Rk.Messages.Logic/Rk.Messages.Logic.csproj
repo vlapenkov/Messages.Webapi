@@ -20,7 +20,8 @@
 	
 		<ItemGroup>
 		  <ProjectReference Include="..\..\..\Rk.Messages.Common\Rk.Messages.Common.csproj" />
-		  <ProjectReference Include="..\Rk.Messages.Infrastructure\Rk.Messages.Infrastructure.csproj" />
+		  <ProjectReference Include="..\..\..\RK.Messages.Contracts\RK.Messages.Contracts.csproj" />
+		  <ProjectReference Include="..\Rk.Messages.Interfaces\Rk.Messages.Interfaces.csproj" />
 		</ItemGroup>
 	
 	

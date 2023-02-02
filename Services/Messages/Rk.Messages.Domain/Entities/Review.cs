@@ -9,10 +9,11 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class Review : AuditableEntity
     {
-        //protected Review() { }
+        private static readonly byte _maxRating = 5;
+       
         public Review(long baseProductId, string description, byte rating)
         {
-            if (rating > 5 || rating <= 0) throw new Exception("Рейтинг товара должен быть от 1 до 5");
+            if (rating > _maxRating || rating <= 0) throw new Exception("Рейтинг товара должен быть от 1 до 5");
 
             Description = description;
             BaseProductId = baseProductId;

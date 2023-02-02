@@ -9,6 +9,9 @@ using Rk.Messages.Common.DelegatingHandlers;
 
 namespace Rk.AccountService.WebApi.Extensions;
 
+/// <summary>
+/// Расширение для регистрации зависимостей
+/// </summary>
 public static class RegisterServicesExtensions
 {
 

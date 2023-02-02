@@ -7,12 +7,18 @@ using Rk.Messages.Common.Exceptions;
 
 namespace Rk.AccountService.Logic.UserNS.Commands.CreateUser;
 
+/// <summary>
+/// Обработчик команды добавление нового пользователя
+/// </summary>
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, TokenResponse?>
 {
     private readonly IConfiguration _configuration;
     private readonly IKeycloakHttpClient _http;
     private readonly IValidator<CreateUserCommand> _validator;
 
+    /// <summary>
+    /// Конструктор обработчика команда добавления нового пользователя
+    /// </summary>
     public CreateUserCommandHandler(IKeycloakHttpClient http, IConfiguration configuration, 
         IValidator<CreateUserCommand> validator)
     {
@@ -21,6 +27,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Token
         _http = http;
     }
 
+    /// <inheritdoc />
     public async Task<TokenResponse?> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var realm = _configuration["Oidc:Realm"];

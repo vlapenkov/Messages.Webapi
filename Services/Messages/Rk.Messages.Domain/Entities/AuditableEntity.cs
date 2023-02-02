@@ -11,6 +11,8 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class AuditableEntity :BaseEntity
     {
+        protected AuditableEntity() { 
+        }
 
         public string CreatedBy { get; protected set; }
 

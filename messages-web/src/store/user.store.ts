@@ -4,11 +4,11 @@ import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
 import { token } from '@/app/core/services/auth/local-storage.service';
 import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
 import { organizationHttpService } from '@/app/organization-full/infrastructure/organozation-full.http-service';
-import { User } from 'oidc-client-ts';
 import { computed } from 'vue';
+import type { UserExtended } from '@/types/user';
 
 export interface IUserStore {
-  user: User | null;
+  user: UserExtended | null;
   org: IOrganizationFullModel | null;
   status: DataStatus;
 }
@@ -67,8 +67,8 @@ export const userInfo = getter('get-user-info', (state) =>
         familyName: state.user.profile.family_name,
         email: state.user.profile.email,
         accountName: state.user.profile.preferred_username,
-        inn: state.user.profile.inn as string,
-        role: state.user.profile.role as string[],
+        inn: state.user.profile.inn,
+        role: state.user.profile.role,
         org: state.org as IOrganizationFullModel | null,
       },
 );
@@ -80,10 +80,10 @@ export const userRoleContains = (...roles: UserRole[]) =>
     if (state.user == null || state.user.profile == null) {
       return false;
     }
-    return (state.user.profile.role as string[]).some((r) => roles.some((role) => role === r));
+    return state.user.profile.role.some((r) => roles.some((role) => role === r));
   });
 
-export const setUser = mutation(setUserKey, (state, user: User | null) => {
+export const setUser = mutation(setUserKey, (state, user: UserExtended | null) => {
   state.user = user;
 });
 
@@ -100,7 +100,7 @@ const getOrganization = action<string>('get-user-organization', async (inn) => {
 });
 
 onMutationSuccess(setUserKey, (p) => {
-  const user: User | null = p.payload;
+  const user: UserExtended | null = p.payload;
   token.value = user == null ? null : user.access_token;
   if (user?.profile.inn != null && status.value.status !== 'loading') {
     getOrganization(p.payload.profile.inn);

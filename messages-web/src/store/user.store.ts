@@ -5,7 +5,7 @@ import { token } from '@/app/core/services/auth/local-storage.service';
 import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
 import { organizationHttpService } from '@/app/organization-full/infrastructure/organozation-full.http-service';
 import { computed } from 'vue';
-import type { UserExtended } from '@/types/user';
+import type { UserExtended, UserRole } from '@/types/user';
 
 export interface IUserStore {
   user: UserExtended | null;
@@ -15,7 +15,7 @@ export interface IUserStore {
 
 export interface IUserRole {
   name: string;
-  value: string;
+  value: UserRole;
 }
 
 export const UserRoles: IUserRole[] = [
@@ -32,8 +32,6 @@ export const UserRoles: IUserRole[] = [
     value: 'content_manager',
   },
 ];
-
-export type UserRole = 'manager_org_seller' | 'manager_org_buyer' | 'content_manager';
 
 const setUserKey = 'set-user';
 

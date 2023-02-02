@@ -637,15 +637,39 @@
                 <div class="w-full h-full grid file-upload">
                   <file-upload
                     @select="applicationSelected"
+                    accept=".pdf,.xlsx,.xls,.doc,.docx,.xml"
                     :multiple="true"
-                    accept=".pdf,.xlsx,.xls,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    :previewWidth="0"
+                    :fileLimit="10"
                     :maxFileSize="30000000"
-                    :showUploadButton="false"
-                    chooseLabel="Выбрать"
-                    cancelLabel="Отмена"
+                    invalidFileSizeMessage="{0}: Неверный размер файла, файл должен быть меньше {1}."
+                    invalidFileLimitMessage="Превышено максимальное количество файлов, ограничение не более {0}."
+                    invalidFileTypeMessage="{0} недопустимый тип файла, разрешенные типы: {1}"
                   >
+                    <template #header="{ chooseCallback, clearCallback, files }">
+                      <div
+                        class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+                      >
+                        <div class="flex gap-2">
+                          <prime-button
+                            @click="chooseCallback()"
+                            icon="pi pi-plus"
+                            class="p-button-sm"
+                            label="Выбрать"
+                          />
+
+                          <prime-button
+                            @click="clearCallback()"
+                            icon="pi pi-times"
+                            class="p-button-sm p-button-secondary"
+                            label="Отмена"
+                            :disabled="!files || files.length === 0"
+                          />
+                        </div>
+                      </div>
+                    </template>
                     <template #empty>
-                      <p>Перетащите сюда файлы для загрузки.</p>
+                      <span class="p-component">Перетащите сюда файлы для загрузки.</span>
                     </template>
                   </file-upload>
                 </div>
@@ -936,6 +960,12 @@ export default defineComponent({
 .file-upload {
   .p-fileupload-advanced {
     flex-grow: 1;
+  }
+  .p-fileupload-file-badge {
+    display: none;
+  }
+  .p-progressbar {
+    display: none;
   }
 }
 

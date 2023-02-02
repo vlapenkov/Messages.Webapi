@@ -2,6 +2,7 @@ import { registerStore } from '@/store/register.store';
 import { setUser } from '@/store/user.store';
 import { UserManager, UserManagerSettings, WebStorageStateStore } from 'oidc-client-ts';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
+import type { UserExtended } from '@/types/user';
 import { token } from './local-storage.service';
 
 const url: string = process.env.VUE_APP_KEYCLOACK_URL ?? '';
@@ -36,12 +37,12 @@ async function init() {
   if (user == null) {
     try {
       const userFromCallback = await userManager.signinRedirectCallback();
-      setUser(userFromCallback);
+      setUser(userFromCallback as UserExtended);
     } catch (e: unknown) {
       console.warn('User not found');
     }
   } else {
-    setUser(user);
+    setUser(user as UserExtended);
   }
 }
 
@@ -60,7 +61,7 @@ async function loginRedirect(route: RouteLocationNormalizedLoaded) {
 
 async function loginResourceOwnerCredentials(username: string, password: string) {
   const user = await userManager.signinResourceOwnerCredentials({ username, password });
-  setUser(user);
+  setUser(user as UserExtended);
 }
 
 async function logoutRedirect() {

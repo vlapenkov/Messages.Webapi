@@ -6,8 +6,8 @@ export const http = axios.create({
 });
 http.interceptors.request.use(
   (config) => {
-    if (token != null && config.headers != null) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (token.value != null && config.headers != null) {
+      config.headers.Authorization = `Bearer ${token.value}`;
     }
     return config;
   },

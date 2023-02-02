@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { login } from '@/app/core/services/keycloak/keycloak.service';
+import { authService } from '@/app/core/services/auth/auth.service';
 import { registerStore } from '@/store/register.store';
 import { PrimeDialog } from '@/tools/prime-vue-components';
 import { defineComponent } from 'vue';
@@ -46,8 +46,8 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const { isShowDialog } = registerStore;
-    const handleLogin = () => {
-      login(route);
+    const handleLogin = async () => {
+      await authService.loginRedirect(route);
     };
     return {
       isShowDialog,

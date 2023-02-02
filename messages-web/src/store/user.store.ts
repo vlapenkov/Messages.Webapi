@@ -1,24 +1,42 @@
 import { HttpStatus } from '@/app/core/handlers/http/results/base/http-status';
 import { defineStore } from '@/app/core/services/harlem/harlem.service';
 import { DataStatus } from '@/app/core/services/harlem/tools/data-status';
+import { token } from '@/app/core/services/auth/local-storage.service';
 import { IOrganizationFullModel } from '@/app/organization-full/@types/IOrganizationFullModel';
 import { organizationHttpService } from '@/app/organization-full/infrastructure/organozation-full.http-service';
-import { KeycloakTokenParsed } from 'keycloak-js';
 import { computed } from 'vue';
-import { IKeycloakToken } from './@types/IKeycloakToken';
+import type { UserExtended, UserRole } from '@/types/user';
 
 export interface IUserStore {
-  token: IKeycloakToken | null;
+  user: UserExtended | null;
   org: IOrganizationFullModel | null;
   status: DataStatus;
 }
 
-export type UserRoles = 'manager_org_seller' | 'manager_org_buyer' | 'content_manager';
+export interface IUserRole {
+  name: string;
+  value: UserRole;
+}
 
-const setTokenKey = 'set-token';
+export const UserRoles: IUserRole[] = [
+  {
+    name: 'Продавец',
+    value: 'manager_org_seller',
+  },
+  {
+    name: 'Покупатель',
+    value: 'manager_org_buyer',
+  },
+  {
+    name: 'Администратор',
+    value: 'content_manager',
+  },
+];
+
+const setUserKey = 'set-user';
 
 const defaultState: IUserStore = {
-  token: null,
+  user: null,
   org: null,
   status: new DataStatus(),
 };
@@ -32,35 +50,39 @@ const {
   computeState,
 } = defineStore('user', defaultState);
 
-export const isAuthenticated = getter('is-auth', (state) => state.token != null);
+export const isAuthenticated = getter('is-auth', (state) => state.user != null);
+
+export const accessToken = getter('get-access-token', (state) =>
+  state.user == null ? null : state.user.access_token,
+);
 
 export const userInfo = getter('get-user-info', (state) =>
-  state.token == null
+  state.user == null
     ? null
     : {
-        name: state.token.name,
-        givenName: state.token.given_name,
-        familyName: state.token.family_name,
-        email: state.token.email,
-        accountName: state.token.preferred_username,
-        inn: state.token.inn,
-        role: state.token.role,
-        org: state.org,
+        name: state.user.profile.name,
+        givenName: state.user.profile.given_name,
+        familyName: state.user.profile.family_name,
+        email: state.user.profile.email,
+        accountName: state.user.profile.preferred_username,
+        inn: state.user.profile.inn,
+        role: state.user.profile.role,
+        org: state.org as IOrganizationFullModel | null,
       },
 );
 
 export const userRoles = computed(() => userInfo.value?.role ?? []);
 
-export const userRoleContains = (...roles: UserRoles[]) =>
+export const userRoleContains = (...roles: UserRole[]) =>
   getter<boolean>(['check-roles-', ...roles].join('-'), (state) => {
-    if (state.token == null) {
+    if (state.user == null || state.user.profile == null) {
       return false;
     }
-    return state.token.role.some((r) => roles.some((role) => role === r));
+    return state.user.profile.role.some((r) => roles.some((role) => role === r));
   });
 
-export const setToken = mutation(setTokenKey, (state, token: KeycloakTokenParsed | null) => {
-  state.token = token as IKeycloakToken | null;
+export const setUser = mutation(setUserKey, (state, user: UserExtended | null) => {
+  state.user = user;
 });
 
 export const organization = computeState((state) => state.org);
@@ -75,9 +97,11 @@ const getOrganization = action<string>('get-user-organization', async (inn) => {
   status.value = new DataStatus('loaded');
 });
 
-onMutationSuccess(setTokenKey, (p) => {
-  if (p?.payload?.inn != null && status.value.status !== 'loading') {
-    getOrganization(p.payload.inn);
+onMutationSuccess(setUserKey, (p) => {
+  const user: UserExtended | null = p.payload;
+  token.value = user == null ? null : user.access_token;
+  if (user?.profile.inn != null && status.value.status !== 'loading') {
+    getOrganization(p.payload.profile.inn);
   }
 });
 

@@ -34,7 +34,7 @@
     "primeicons": "^5.0.0",
     "primevue": "3.23.0",
     "uuid": "^9.0.0",
-    "vue": "^3.2.41",
+    "vue": "3.2.41",
     "vue-affix": "^0.5.2",
     "vue-echarts": "^6.2.3",
     "vue-router": "^4.0.3",

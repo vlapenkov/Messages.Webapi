@@ -28,7 +28,7 @@ public class ProductViewStatisticWriter : IProductViewStatisticWriter
 
         columns[writer.GetOrdinal(Tables.ProductReadTable.IdColumn)] = new[]{ Guid.NewGuid() };
         columns[writer.GetOrdinal(Tables.ProductReadTable.PageColumn)] = new[] {data.Page};
-        columns[writer.GetOrdinal(Tables.ProductReadTable.ProducerColumn)] = new[] {data.Production};
+        columns[writer.GetOrdinal(Tables.ProductReadTable.ProductionColumn)] = new[] {data.Production};
         columns[writer.GetOrdinal(Tables.ProductReadTable.ProductionIdColumn)] = new[] {data.ProductionId};
         columns[writer.GetOrdinal(Tables.ProductReadTable.CategoryIdColumn)] = new[] {data.CategoryId};
         columns[writer.GetOrdinal(Tables.ProductReadTable.ProducerColumn)] = new[] {data.Producer};

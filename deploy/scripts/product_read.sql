@@ -1,4 +1,4 @@
-create table product_read (
+CREATE TABLE IF NOT EXISTS product_read (
     id UUID ,
     page String(1024),
     production String(512),

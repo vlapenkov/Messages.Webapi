@@ -29,7 +29,7 @@ services:
   #   environment:
   #     ASPNETCORE_ENVIRONMENT: ${STAGE_ENV}
 
-  
+
   # messages-api:
   #   image: registry.dev.roscosmos.digital/templates/net-core-messages/messages-api:develop
   #   hostname: "messages-api"
@@ -102,15 +102,14 @@ services:
       - "9009:9009"
     volumes:
       - ./deploy/scripts:/docker-entrypoint-initdb.d
-
-  db:
-    image: docker-proxy.dev.roscosmos.digital/postgres:14.2
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: "123456"
-    ports:
-      - 5432:5432
+  # db:
+  #   image: docker-proxy.dev.roscosmos.digital/postgres:14.2
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_PASSWORD: "123456"
+  #   ports:
+  #     - 5432:5432
 
 
 volumes:

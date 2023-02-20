@@ -21,7 +21,7 @@ namespace Rk.Messages.Domain.Entities
 
         public long ProductId { get; private set; }
 
-        public virtual BaseProduct Product { get; }
+        public virtual BaseProduct Product { get; } = null!;
 
         public decimal Price { get; private set; }
 

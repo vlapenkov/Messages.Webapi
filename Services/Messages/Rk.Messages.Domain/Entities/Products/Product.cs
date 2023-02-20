@@ -30,15 +30,15 @@ namespace Rk.Messages.Domain.Entities.Products
         #region Private Members
 
         [StringLength(256)]
-        public string CodeTnVed { get; private set; }
+        public string CodeTnVed { get; private set; } = null!;
 
         [StringLength(256)]
-        public string CodeOkpd2 { get; private set; }
+        public string? CodeOkpd2 { get; private set; }
                
 
         /// <summary>Адрес производства</summary>
         [StringLength(4096)]
-        public string Address { get; private set; }
+        public string? Address { get; private set; }
 
         [StringLength(128)]
         public string MeasuringUnit { get; private set; } = "шт.";
@@ -49,7 +49,7 @@ namespace Rk.Messages.Domain.Entities.Products
         [StringLength(3)]
         public string Currency { get; private set; } = "RUB";
 
-        [Required]
+        //[Required]
         public AvailableStatus AvailableStatus { get; private set; } = AvailableStatus.OnStock;
 
         [Range(0f, 100f)]

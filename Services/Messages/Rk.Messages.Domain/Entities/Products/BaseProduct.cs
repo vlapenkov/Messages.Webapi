@@ -36,25 +36,25 @@ namespace Rk.Messages.Domain.Entities.Products
         /// <summary>Организация</summary>
         public long OrganizationId { get; protected set; }
 
-        public Organization Organization{ get; }
+        public virtual Organization Organization { get; } = null!;
 
-        public virtual CatalogSection CatalogSection { get;  }
+        public virtual CatalogSection CatalogSection { get; } = null!;
 
         /// <summary>Наименование продукции</summary>
         [StringLength(512)]
-        [Required]
-        public string Name { get; protected set; }
+
+        public string Name { get; protected set; } = null!;
 
 
         [StringLength(1024)]
-        public string FullName { get; protected set; }
+        public string? FullName { get; protected set; }
 
         /// <summary>Описание продукции</summary>        
         [StringLength(4096)]
-        public string Description { get; protected set; }
+        public string? Description { get; protected set; }
 
         [StringLength(1024)]
-        public string Article { get; protected set; }
+        public string? Article { get; protected set; }
 
         /// <summary>Цена, если null, то договорная</summary>        
         public decimal? Price { get; protected set; }
@@ -122,7 +122,7 @@ namespace Rk.Messages.Domain.Entities.Products
                         
         }
         
-        public ProductDocument GetProductDocument()=> _productDocuments.FirstOrDefault();
+        public ProductDocument GetProductDocument()=> _productDocuments.First();
 
         public void SetStatus(ProductStatus newStatus) { 
         

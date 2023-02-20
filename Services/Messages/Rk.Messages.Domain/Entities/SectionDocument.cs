@@ -21,11 +21,11 @@ namespace Rk.Messages.Domain.Entities
 
         public long CatalogSectionId { get; private set; }
 
-        public virtual CatalogSection Section { get;  }
+        public virtual CatalogSection Section { get; } = null!;
 
         public long DocumentId { get; private set; }
 
-        public virtual Document Document { get; }
+        public virtual Document Document { get; } = null!;
 
     }
 }

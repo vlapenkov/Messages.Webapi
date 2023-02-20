@@ -23,14 +23,14 @@ namespace Rk.Messages.Domain.Entities
         public long OrganizationId { get; private set; }
 
         /// <summary>Покупатель</summary>
-        public virtual Organization Organization { get; }
+        public virtual Organization Organization { get; } = null!;
 
 
         /// <summary>Id организация производителя</summary>
         public long ProducerId { get; private set; }
 
         /// <summary>Покупатель</summary>
-        public virtual Organization Producer { get; }
+        public virtual Organization Producer { get; } = null!;
 
         /// <summary>Имя пользователя</summary>        
         [StringLength(255)]
@@ -38,7 +38,7 @@ namespace Rk.Messages.Domain.Entities
 
         /// <summary>Комментарий</summary>        
         [StringLength(1024)]
-        public string Comments { get; private set; }
+        public string? Comments { get; private set; }
 
         /// <summary>Статус заказа</summary>        
         public OrderStatus Status { get; private set; } = OrderStatus.New;

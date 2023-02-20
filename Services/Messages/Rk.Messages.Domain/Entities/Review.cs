@@ -20,7 +20,7 @@ namespace Rk.Messages.Domain.Entities
             Rating = rating;
         }
 
-        public virtual BaseProduct BaseProduct { get; }
+        public virtual BaseProduct BaseProduct { get; } = null!;
         public long BaseProductId { get; protected set; }
 
         [StringLength(4096)]

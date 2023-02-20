@@ -99,43 +99,43 @@ namespace Rk.Messages.Domain.Entities
         #region Private Members
 
         [StringLength(512)]
-        public string Name { get; private set; }
+        public string Name { get; private set; } = null!;
 
         [StringLength(1024)]
-        public string FullName { get; private set; }
+        public string FullName { get; private set; } = null!;
 
         [StringLength(20)]
-        public string Ogrn { get; private set; }
+        public string Ogrn { get; private set; } = null!;
 
         [StringLength(12)]
-        public string Inn { get; private set; }
+        public string Inn { get; private set; } = null!;
 
         [StringLength(9)]
-        public string Kpp { get; private set; }
+        public string Kpp { get; private set; } = null!;
 
         [StringLength(512)]
-        public string Region { get; private set; }
+        public string? Region { get; private set; }
 
         [StringLength(512)]
-        public string City { get; private set; }
+        public string? City { get; private set; }
 
         [StringLength(1024)]
-        public string Address { get; private set; }
+        public string? Address { get; private set; }
 
         [StringLength(512)]
-        public string Site { get; private set; }
+        public string? Site { get; private set; }
 
         [StringLength(1024)]
-        public string Okved { get; private set; }
+        public string? Okved { get; private set; } = null!;
 
         [StringLength(1024)]
-        public string Okved2 { get; private set; }
+        public string? Okved2 { get; private set; }
 
         [StringLength(512)]
-        public string Phone { get; private set; }
+        public string? Phone { get; private set; }
 
         [StringLength(512)]
-        public string Email { get; private set; }
+        public string? Email { get; private set; }
 
         public OrganizationStatus Status { get; private set; }
 
@@ -150,19 +150,19 @@ namespace Rk.Messages.Domain.Entities
         public bool IsBuyer { get; private set; }
 
         [StringLength(1024)]
-        public string FactAddress { get; private set; }
+        public string? FactAddress { get; private set; }
 
         [StringLength(512)]
-        public string BankName { get; private set; }
+        public string? BankName { get; private set; }
 
         [StringLength(512)]
-        public string Account { get; private set; }
+        public string? Account { get; private set; }
 
         [StringLength(512)]
-        public string CorrAccount { get; private set; }
+        public string? CorrAccount { get; private set; }
 
         [StringLength(512)]
-        public string Bik { get; private set; }
+        public string?  Bik { get; private set; }
 
         /// <summary>
         /// Изображение логотипа организации
@@ -172,7 +172,7 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>
         /// Документы организации
         /// </summary>
-        private readonly List<OrganizationDocument> _organizationDocuments = new List<OrganizationDocument>();
+        private readonly List<OrganizationDocument> _organizationDocuments = new() ;
         public virtual IReadOnlyList<OrganizationDocument> OrganizationDocuments => _organizationDocuments;
 
         #endregion

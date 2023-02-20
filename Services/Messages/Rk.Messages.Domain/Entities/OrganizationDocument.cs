@@ -20,11 +20,11 @@
 
         public long OrganizationId { get; private set; }
 
-        public virtual Organization Organization { get; }
+        public virtual Organization Organization { get; } = null!;
 
         public long DocumentId { get; private set; }
 
-        public virtual Document Document { get; }
+        public virtual Document Document { get; } = null!;
 
     }
 }

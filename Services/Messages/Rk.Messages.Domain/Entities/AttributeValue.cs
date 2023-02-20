@@ -14,16 +14,14 @@ namespace Rk.Messages.Domain.Entities
             AttributeId = attributeId;
             Value = value;
         }
-
-        //private  AttributeValue()
-        //{}
+               
 
         public long  BaseProductId { get; private set; }
-        public virtual BaseProduct BaseProduct { get; set; }
+        public virtual BaseProduct BaseProduct { get; set; } = null!;
 
 
         public long AttributeId { get; private set; }
-        public virtual ProductAttribute Attribute { get; set; }
+        public virtual ProductAttribute Attribute { get; set; } = null!;
 
         [StringLength(1024)]
         public string Value { get; private set; }

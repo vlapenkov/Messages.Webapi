@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Domain.Enums;
+using Rk.Messages.Infrastructure.EFCore.Configurations;
 using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Interfaces.Services;
 
@@ -52,144 +54,149 @@ namespace Rk.Messages.Infrastructure.EFCore
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-                      
-
-            builder.Entity<BaseProduct>(entity =>
-            {
-                entity.HasDiscriminator<int>("ItemType")
-                  .HasValue<Product>(1)
-                  .HasValue<ServiceProduct>(2)
-                  .HasValue<WorkProduct>(3);
-
-              //  entity.HasIndex(self => self.Name);//.IsUnique();
-
-                
-                entity.HasMany(self => self.AttributeValues)
-                .WithOne(self => self.BaseProduct)
-                .HasForeignKey(self => self.BaseProductId);
+            builder.ApplyConfiguration(new BaseProductConfiguration())
+            .ApplyConfiguration(new CatalogSectionConfiguration())
+            .ApplyConfiguration(new ProductDocumentConfiguration())
+            .ApplyConfiguration(new SectionDocumentConfiguration())
+            .ApplyConfiguration(new AttributeValueConfiguration())
+            .ApplyConfiguration(new OrderConfiguration())
+            .ApplyConfiguration(new OrderItemConfiguration())
+            .ApplyConfiguration(new OrganizationConfiguration())
+            .ApplyConfiguration(new OrganizationDocumentConfiguration())
+            .ApplyConfiguration(new ShoppingCartItemConfiguration());
 
 
-                entity.HasMany(self => self.ProductDocuments)
-               .WithOne(self => self.BaseProduct)
-               .HasForeignKey(self => self.BaseProductId);
+            #region hidden
+            //builder.Entity<BaseProduct>(entity =>
+            //{
+            //    entity.HasDiscriminator<int>("ItemType")
+            //      .HasValue<Product>(1)
+            //      .HasValue<ServiceProduct>(2)
+            //      .HasValue<WorkProduct>(3);
 
-                entity.HasMany(self => self.Reviews)
-              .WithOne(self => self.BaseProduct)
-              .HasForeignKey(self => self.BaseProductId);
+            //  //  entity.HasIndex(self => self.Name);//.IsUnique();
 
 
-                entity.HasOne(self => self.Organization)
-                  .WithMany()
-                  .HasForeignKey(self => self.OrganizationId);
+            //    entity.HasMany(self => self.AttributeValues)
+            //    .WithOne(self => self.BaseProduct)
+            //    .HasForeignKey(self => self.BaseProductId);
 
-                
-            });
 
-            builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
+            //    entity.HasMany(self => self.ProductDocuments)
+            //   .WithOne(self => self.BaseProduct)
+            //   .HasForeignKey(self => self.BaseProductId);
 
-            builder.Entity<CatalogSection>(entity =>
-            {
-                entity.HasOne(self => self.Parent)
-                    .WithMany(self => self.Children)
-                    .HasForeignKey(self => self.ParentCatalogSectionId)
-                    .OnDelete(DeleteBehavior.Cascade);
+            //    entity.HasMany(self => self.Reviews)
+            //  .WithOne(self => self.BaseProduct)
+            //  .HasForeignKey(self => self.BaseProductId);
 
-                entity.HasMany(self => self.Products)
-                   .WithOne(self => self.CatalogSection)
-                   .HasForeignKey(self => self.CatalogSectionId);
 
-                entity.HasMany(self => self.SectionDocuments)
-                  .WithOne(self => self.Section)
-                  .HasForeignKey(self => self.CatalogSectionId);
-            });
+            //    entity.HasOne(self => self.Organization)
+            //      .WithMany()
+            //      .HasForeignKey(self => self.OrganizationId);
 
-            builder.Entity<AttributeValue>(entity =>
-            {
-                entity.HasOne(self => self.Attribute)
-                    .WithMany()
-                    .HasForeignKey(self => self.AttributeId);
 
-            });
+            //});
 
-            builder.Entity<ProductDocument>(entity =>
-            {
-                entity.HasOne(self => self.Document)
-                    .WithMany()
-                    .HasForeignKey(self => self.DocumentId);
+            //builder.Entity<Product>(entity => entity.Property(t => t.AvailableStatus).IsRequired());
 
-            });
+            //builder.Entity<CatalogSection>(entity =>
+            //{
+            //    entity.HasOne(self => self.Parent)
+            //        .WithMany(self => self.Children)
+            //        .HasForeignKey(self => self.ParentCatalogSectionId)
+            //        .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<SectionDocument>(entity =>
-            {
-                entity.HasOne(self => self.Document)
-                    .WithMany()
-                    .HasForeignKey(self => self.DocumentId);
+            //    entity.HasMany(self => self.Products)
+            //       .WithOne(self => self.CatalogSection)
+            //       .HasForeignKey(self => self.CatalogSectionId);
 
-                //entity.HasOne(self => self.Section)
-                //   .WithMany()
-                //   .HasForeignKey(self => self.CatalogSectionId);
+            //    entity.HasMany(self => self.SectionDocuments)
+            //      .WithOne(self => self.Section)
+            //      .HasForeignKey(self => self.CatalogSectionId);
+            //});
 
-            });
 
-            builder.Entity<Order>(entity =>
-            {
-                entity.HasMany(self => self.OrderItems)
-                    .WithOne(oi=>oi.Order)
-                    .HasForeignKey(self => self.OrderId);
 
-                entity.HasOne(self => self.Organization)
-                   .WithMany()
-                   .HasForeignKey(self => self.OrganizationId);
+            //builder.Entity<ProductDocument>(entity =>
+            //{
+            //    entity.HasOne(self => self.Document)
+            //        .WithMany()
+            //        .HasForeignKey(self => self.DocumentId);
 
-                entity.HasOne(self => self.Producer)
-                 .WithMany()
-                 .HasForeignKey(self => self.ProducerId);
+            //});
 
-            });
+            //builder.Entity<SectionDocument>(entity =>
+            //{
+            //    entity.HasOne(self => self.Document)
+            //        .WithMany()
+            //        .HasForeignKey(self => self.DocumentId);
 
-            builder.Entity<OrderItem>(entity =>
-            {
-                entity.HasOne(self => self.Product)
-                    .WithMany()
-                    .HasForeignKey(self => self.ProductId);
+            //    //entity.HasOne(self => self.Section)
+            //    //   .WithMany()
+            //    //   .HasForeignKey(self => self.CatalogSectionId);
 
-            });
+            //});
 
-            builder.Entity<ShoppingCartItem>(entity =>
-            {
-                entity.HasOne(self => self.Product)
-                    .WithMany()
-                    .HasForeignKey(self => self.ProductId);
+            //builder.Entity<Order>(entity =>
+            //{
+            //    entity.HasMany(self => self.OrderItems)
+            //        .WithOne(oi=>oi.Order)
+            //        .HasForeignKey(self => self.OrderId);
 
-            });
+            //    entity.HasOne(self => self.Organization)
+            //       .WithMany()
+            //       .HasForeignKey(self => self.OrganizationId);
 
-            builder.Entity<Organization>(entity =>
-            {
-                // Ограничение на ОГРН  - должен быть уникальным
-                entity.HasIndex(self => self.Ogrn).IsUnique();
+            //    entity.HasOne(self => self.Producer)
+            //     .WithMany()
+            //     .HasForeignKey(self => self.ProducerId);
 
-                entity.HasMany(self => self.OrganizationDocuments)
-                   .WithOne(self => self.Organization)
-                   .HasForeignKey(self => self.OrganizationId);
-            });
+            //});
 
-            builder.Entity<OrganizationDocument>(entity =>
-            {
-                entity.HasOne(self => self.Document)
-                    .WithMany()
-                    .HasForeignKey(self => self.DocumentId);
+            //builder.Entity<OrderItem>(entity =>
+            //{
+            //    entity.HasOne(self => self.Product)
+            //        .WithMany()
+            //        .HasForeignKey(self => self.ProductId);
 
-            });
+            //});
 
+            //builder.Entity<ShoppingCartItem>(entity =>
+            //{
+            //    entity.HasOne(self => self.Product)
+            //        .WithMany()
+            //        .HasForeignKey(self => self.ProductId);
+
+            //});
+
+            //builder.Entity<Organization>(entity =>
+            //{
+            //    // Ограничение на ОГРН  - должен быть уникальным
+            //    entity.HasIndex(self => self.Ogrn).IsUnique();
+
+            //    entity.HasMany(self => self.OrganizationDocuments)
+            //       .WithOne(self => self.Organization)
+            //       .HasForeignKey(self => self.OrganizationId);
+            //});
+
+            //builder.Entity<OrganizationDocument>(entity =>
+            //{
+            //    entity.HasOne(self => self.Document)
+            //        .WithMany()
+            //        .HasForeignKey(self => self.DocumentId);
+
+            //});
+            #endregion
             Seed(builder);
         }
 
         protected virtual void Seed(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Organization>().HasData(
-          new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null,null,null,null, null,OrganizationStatus.Working),
-          new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/", null, null, null, null,OrganizationStatus.Working)
-          );
+          //  modelBuilder.Entity<Organization>().HasData(
+          //new Organization(1, "Прогресс", "Ракетно-космический центр «Прогресс», Самара", "1146312005344", "6312139922", "631201001", "Самарская область","Самара", "Самарская обл., г. Самара, ул. Земеца, д. 18",null,null,null,null, null,OrganizationStatus.Working),
+          //new Organization(2,  "Златоустовский машиностроительный завод", "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"", "1146312005344", "7404052938", "631201001","Челябинская область","Златоуст", "456227, Челябинская область, город Златоуст, Парковый проезд, 1", "http://www.zlatmash.ru/", null, null, null, null,OrganizationStatus.Working)
+          //);
 
             modelBuilder.Entity<ProductAttribute>().HasData(
                 new ProductAttribute(1,"Масса, кг"),

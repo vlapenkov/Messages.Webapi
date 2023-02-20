@@ -18,7 +18,7 @@ namespace Rk.Messages.Domain.Entities
         /// <summary>Родительский id раздела</summary>
         public long? ParentCatalogSectionId { get; private set; }
 
-        public virtual CatalogSection Parent { get; }
+        public virtual CatalogSection Parent { get; } = null!;
 
 
         /// <summary>Наименование раздела</summary>
@@ -26,11 +26,11 @@ namespace Rk.Messages.Domain.Entities
         public string Name { get; private set; }
 
         /// <summary>Разделы внутри текущего</summary>
-        private readonly List<CatalogSection> _children;
+        private readonly List<CatalogSection> _children = new();
         public virtual IReadOnlyCollection<CatalogSection> Children => _children;
 
         /// <summary>Продукция внутри текущего раздела</summary>
-        private readonly List<BaseProduct> _products;
+        private readonly List<BaseProduct> _products = new();
         public virtual IReadOnlyCollection<BaseProduct> Products => _products;
 
         /// <summary>Документы текущего раздела</summary>

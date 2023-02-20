@@ -12,11 +12,13 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
     /// Информация о заказе
     /// </summary>
     public record OrderResponse :AuditableEntityDto
-    {
-        public long Id { get; set; }
+    {        
 
         /// <summary>Название организации</summary>
         public string OrganisationName  { get; set; }
+
+        /// <summary>Название производителя</summary>
+        public string ProducerName { get; set; }
 
         /// <summary>Имя пользователя</summary>
         public string UserName { get; set; }
@@ -27,5 +29,7 @@ namespace Rk.Messages.Logic.OrdersNS.Dto
         public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
 
         public decimal Sum  => OrderItems.Sum(oi => oi.Sum);
+
+        public string StatusText { get; set; }
     }
 }

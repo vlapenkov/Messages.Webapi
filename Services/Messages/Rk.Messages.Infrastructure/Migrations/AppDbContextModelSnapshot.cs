@@ -17,7 +17,10 @@ namespace Rk.Messages.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -40,6 +43,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("baseproductid");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("value");
@@ -70,6 +74,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("created");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
@@ -78,10 +83,12 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("lastmodified");
 
                     b.Property<string>("LastModifiedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("lastmodifiedby");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("name");
@@ -124,6 +131,55 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.ToTable("documents", (string)null);
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.News", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("documentid");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_news");
+
+                    b.ToTable("news", (string)null);
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Order", b =>
                 {
                     b.Property<long>("Id")
@@ -143,6 +199,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("created");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
@@ -151,6 +208,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("lastmodified");
 
                     b.Property<string>("LastModifiedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("lastmodifiedby");
 
@@ -158,7 +216,16 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("organizationid");
 
+                    b.Property<long>("ProducerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("producerid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("username");
@@ -168,6 +235,9 @@ namespace Rk.Messages.Infrastructure.Migrations
 
                     b.HasIndex("OrganizationId")
                         .HasDatabaseName("ix_orders_organizationid");
+
+                    b.HasIndex("ProducerId")
+                        .HasDatabaseName("ix_orders_producerid");
 
                     b.ToTable("orders", (string)null);
                 });
@@ -218,40 +288,128 @@ namespace Rk.Messages.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Account")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("account");
+
                     b.Property<string>("Address")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("address");
+
+                    b.Property<string>("BankName")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("bankname");
+
+                    b.Property<string>("Bik")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("bik");
 
                     b.Property<string>("City")
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("city");
 
+                    b.Property<string>("CorrAccount")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("corraccount");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("documentid");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FactAddress")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("factaddress");
+
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("fullname");
 
                     b.Property<string>("Inn")
+                        .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("character varying(12)")
                         .HasColumnName("inn");
 
+                    b.Property<bool>("IsBuyer")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isbuyer");
+
+                    b.Property<bool>("IsProducer")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isproducer");
+
                     b.Property<string>("Kpp")
+                        .IsRequired()
                         .HasMaxLength(9)
                         .HasColumnType("character varying(9)")
                         .HasColumnName("kpp");
 
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("latitude");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("longitude");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("name");
 
                     b.Property<string>("Ogrn")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
                         .HasColumnName("ogrn");
+
+                    b.Property<string>("Okved")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("okved");
+
+                    b.Property<string>("Okved2")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("okved2");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("phone");
 
                     b.Property<string>("Region")
                         .HasMaxLength(512)
@@ -270,36 +428,40 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_organizations");
 
-                    b.ToTable("organizations", (string)null);
+                    b.HasIndex("Ogrn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_organizations_ogrn");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Address = "Самарская обл., г. Самара, ул. Земеца, д. 18",
-                            City = "Самара",
-                            FullName = "Ракетно-космический центр «Прогресс», Самара",
-                            Inn = "6312139922",
-                            Kpp = "631201001",
-                            Name = "Прогресс",
-                            Ogrn = "1146312005344",
-                            Region = "Самарская область",
-                            Status = 0
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Address = "456227, Челябинская область, город Златоуст, Парковый проезд, 1",
-                            City = "Златоуст",
-                            FullName = "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ЗЛАТОУСТОВСКИЙ МАШИНОСТРОИТЕЛЬНЫЙ ЗАВОД\"",
-                            Inn = "7404052938",
-                            Kpp = "631201001",
-                            Name = "Златоустовский машиностроительный завод",
-                            Ogrn = "1146312005344",
-                            Region = "Челябинская область",
-                            Site = "http://www.zlatmash.ru/",
-                            Status = 0
-                        });
+                    b.ToTable("organizations", (string)null);
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.OrganizationDocument", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("DocumentId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("documentid");
+
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("organizationid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_organizationdocuments");
+
+                    b.HasIndex("DocumentId")
+                        .HasDatabaseName("ix_organizationdocuments_documentid");
+
+                    b.HasIndex("OrganizationId")
+                        .HasDatabaseName("ix_organizationdocuments_organizationid");
+
+                    b.ToTable("organizationdocuments", (string)null);
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ProductAttribute", b =>
@@ -312,6 +474,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("name");
@@ -325,17 +488,17 @@ namespace Rk.Messages.Infrastructure.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "Вес"
+                            Name = "Масса, кг"
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "Длина"
+                            Name = "Длина, м"
                         },
                         new
                         {
                             Id = 3L,
-                            Name = "Ширина"
+                            Name = "Ширина, м "
                         },
                         new
                         {
@@ -345,7 +508,37 @@ namespace Rk.Messages.Infrastructure.Migrations
                         new
                         {
                             Id = 5L,
-                            Name = "Объем"
+                            Name = "Объем, куб. м"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            Name = "Диапазон измерений,  Дб"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            Name = "Частотный диапазон,  Гц"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            Name = "Срок службы,  лет"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            Name = "Погрешность, не более,  Дб"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            Name = "Напряжение питания постоянного тока,  В"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            Name = "Ток потребления, не более,  мА"
                         });
                 });
 
@@ -387,6 +580,15 @@ namespace Rk.Messages.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<bool?>("AreForeignComponentsUsed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("areforeigncomponentsused");
+
+                    b.Property<string>("Article")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)")
+                        .HasColumnName("article");
+
                     b.Property<long>("CatalogSectionId")
                         .HasColumnType("bigint")
                         .HasColumnName("catalogsectionid");
@@ -396,13 +598,19 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("created");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
                     b.Property<string>("Description")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("FullName")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
-                        .HasColumnName("description");
+                        .HasColumnName("fullname");
 
                     b.Property<int>("ItemType")
                         .HasColumnType("integer")
@@ -413,10 +621,12 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("lastmodified");
 
                     b.Property<string>("LastModifiedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("lastmodifiedby");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("name");
@@ -424,6 +634,18 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Property<long>("OrganizationId")
                         .HasColumnType("bigint")
                         .HasColumnName("organizationid");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
+
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real")
+                        .HasColumnName("rating");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
                     b.HasKey("Id")
                         .HasName("pk_baseproduct");
@@ -437,6 +659,128 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.ToTable("baseproduct", (string)null);
 
                     b.HasDiscriminator<int>("ItemType");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.ProductsExchange", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<int>("ExchangeType")
+                        .HasColumnType("integer")
+                        .HasColumnName("exchangetype");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<long>("ProductsLoaded")
+                        .HasColumnType("bigint")
+                        .HasColumnName("productsloaded");
+
+                    b.HasKey("Id")
+                        .HasName("pk_productsexchanges");
+
+                    b.ToTable("productsexchanges", (string)null);
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Review", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BaseProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("baseproductid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lastmodified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("lastmodifiedby");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
+
+                    b.HasKey("Id")
+                        .HasName("pk_reviews");
+
+                    b.HasIndex("BaseProductId")
+                        .HasDatabaseName("ix_reviews_baseproductid");
+
+                    b.ToTable("reviews", (string)null);
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CatalogSectionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("catalogsectionid");
+
+                    b.Property<long>("DocumentId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("documentid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_sectiondocuments");
+
+                    b.HasIndex("CatalogSectionId")
+                        .HasDatabaseName("ix_sectiondocuments_catalogsectionid");
+
+                    b.HasIndex("DocumentId")
+                        .HasDatabaseName("ix_sectiondocuments_documentid");
+
+                    b.ToTable("sectiondocuments", (string)null);
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ShoppingCartItem", b =>
@@ -453,6 +797,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("created");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("createdby");
 
@@ -461,6 +806,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("lastmodified");
 
                     b.Property<string>("LastModifiedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("lastmodifiedby");
 
@@ -477,6 +823,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .HasColumnName("quantity");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("username");
@@ -494,38 +841,47 @@ namespace Rk.Messages.Infrastructure.Migrations
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(4096)
+                        .HasColumnType("character varying(4096)")
+                        .HasColumnName("address");
+
+                    b.Property<int>("AvailableStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("availablestatus");
+
+                    b.Property<string>("CodeOkpd2")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("codeokpd2");
+
                     b.Property<string>("CodeTnVed")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)")
                         .HasColumnName("codetnved");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("country");
 
                     b.Property<string>("Currency")
+                        .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("character varying(3)")
                         .HasColumnName("currency");
 
-                    b.Property<string>("FullName")
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)")
-                        .HasColumnName("fullname");
-
                     b.Property<string>("MeasuringUnit")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("measuringunit");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
-                        .HasColumnName("price");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
+                    b.Property<float?>("ShareOfForeignComponents")
+                        .HasColumnType("real")
+                        .HasColumnName("shareofforeigncomponents");
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -537,7 +893,7 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(2);
                 });
 
-            modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.Technology", b =>
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.WorkProduct", b =>
                 {
                     b.HasBaseType("Rk.Messages.Domain.Entities.Products.BaseProduct");
 
@@ -585,7 +941,16 @@ namespace Rk.Messages.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_orders_organizations_organizationid");
 
+                    b.HasOne("Rk.Messages.Domain.Entities.Organization", "Producer")
+                        .WithMany()
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_orders_organizations_producerid");
+
                     b.Navigation("Organization");
+
+                    b.Navigation("Producer");
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.OrderItem", b =>
@@ -607,6 +972,27 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.OrganizationDocument", b =>
+                {
+                    b.HasOne("Rk.Messages.Domain.Entities.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_organizationdocuments_documents_documentid");
+
+                    b.HasOne("Rk.Messages.Domain.Entities.Organization", "Organization")
+                        .WithMany("OrganizationDocuments")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_organizationdocuments_organizations_organizationid");
+
+                    b.Navigation("Document");
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ProductDocument", b =>
@@ -651,6 +1037,39 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("Rk.Messages.Domain.Entities.Products.BaseProduct", "BaseProduct")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BaseProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_reviews_baseproduct_baseproductid");
+
+                    b.Navigation("BaseProduct");
+                });
+
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.SectionDocument", b =>
+                {
+                    b.HasOne("Rk.Messages.Domain.Entities.CatalogSection", "Section")
+                        .WithMany("SectionDocuments")
+                        .HasForeignKey("CatalogSectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_sectiondocuments_catalogsections_catalogsectionid");
+
+                    b.HasOne("Rk.Messages.Domain.Entities.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_sectiondocuments_documents_documentid");
+
+                    b.Navigation("Document");
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.ShoppingCartItem", b =>
                 {
                     b.HasOne("Rk.Messages.Domain.Entities.Products.BaseProduct", "Product")
@@ -668,6 +1087,8 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Products");
+
+                    b.Navigation("SectionDocuments");
                 });
 
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Order", b =>
@@ -675,11 +1096,18 @@ namespace Rk.Messages.Infrastructure.Migrations
                     b.Navigation("OrderItems");
                 });
 
+            modelBuilder.Entity("Rk.Messages.Domain.Entities.Organization", b =>
+                {
+                    b.Navigation("OrganizationDocuments");
+                });
+
             modelBuilder.Entity("Rk.Messages.Domain.Entities.Products.BaseProduct", b =>
                 {
                     b.Navigation("AttributeValues");
 
                     b.Navigation("ProductDocuments");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

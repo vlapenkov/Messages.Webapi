@@ -11,14 +11,15 @@ namespace Rk.Messages.Spa.Infrastructure.Services
     {
         /// <summary>Создать продукцию</summary>         
         [Post("/api/v1/Products")]
-        Task<long> CreateProduct([Body] CreateProductRequest request);
-
-        /// <summary>Получить пагинированный список продукции</summary>  
-        [Get("/api/v1/Products")]
-        Task<PagedResponse<ProductShortDto>> GetProducts([Query] FilterProductsRequest request);
+        Task<long> CreateProduct([Body] CreateProductRequest request);       
 
         /// <summary>Получить инфо о продукции</summary>  
         [Get("/api/v1/Products/{id}")]
-        Task<ProductResponse> GetProduct(long id);
+        Task<ProductResponse> GetProduct(long id);          
+
+        /// <summary>Апдейт товара</summary>  
+        [Put("/api/v1/Products/{id}")]
+        Task UpdateProduct(long id, [Body]UpdateProductRequest request);
+        
     }
 }

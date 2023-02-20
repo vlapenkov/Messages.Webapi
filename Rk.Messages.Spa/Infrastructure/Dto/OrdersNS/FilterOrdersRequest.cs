@@ -7,11 +7,17 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrdersNS
     /// </summary>
     public record FilterOrdersRequest : PagedRequest
     {
-        public string? OrganisationName { get; set; }
+        public string OrganisationName { get; set; }
 
-        public string? UserName { get; set; }
+        public long? OrganisationId { get; set; }
 
-        public string? ProductName { get; set; }
+        public string ProducerName { get; set; }
+
+        public long? ProducerId { get; set; }
+
+        public string UserName { get; set; }
+
+        public string ProductName { get; set; }
 
         public DateTime? DateFrom { get; set; }
 

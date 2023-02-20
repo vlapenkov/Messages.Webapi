@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Rk.Messages.Common.Exceptions;
 using Rk.Messages.Domain.Entities;
 using Rk.Messages.Domain.Entities.Products;
 using Rk.Messages.Interfaces.Interfaces.DAL;
@@ -14,21 +16,21 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
     {
         private readonly IAppDbContext _dbContext;
 
-        private readonly IValidator<CreateProductCommand> _validator;
+        private readonly IUserService _userService;
 
-        private readonly IFileStoreService _fileService;
+        private readonly IValidator<CreateProductCommand> _validator;        
 
-        private static readonly long _defaultOrganizationId = 1L;
-
-        public CreateProductCommandHandler(IAppDbContext dbContext, IValidator<CreateProductCommand> validator, IFileStoreService fileService)
+        
+        public CreateProductCommandHandler(IAppDbContext dbContext, IUserService userService, IValidator<CreateProductCommand> validator)
         {
             _dbContext = dbContext;
+            _userService = userService;
             _validator = validator;
-            _fileService = fileService;
         }
 
         public async Task<long> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
+            //1. валидация запроса
             var validationResult = await _validator.ValidateAsync(command);
 
             if (!validationResult.IsValid)
@@ -36,22 +38,39 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
                 throw new ValidationException(validationResult.Errors);
             }
 
+            //2. получение организации
+
+            string inn = _userService.GetClaimValue("inn");
+
+            if (inn == null) throw new RkUnauthorizedAccessException("У данного пользователя не задан ИНН");
+
+            var userOrganizationFound = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Inn == inn);
+
+            if (userOrganizationFound == null) throw new EntityNotFoundException($"Для ИНН пользователя {inn} нет организации") ;
+
+            // 3. Создание товара
+
             var request = command.Request;
 
-            var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.BaseProductId, av.AttributeId, av.Value)).ToArray();
+            var attributeValues = request.AttributeValues.Select(av => new AttributeValue(av.AttributeId, av.Value)).ToArray();
 
-            Product product = new Product
-                (
-                _defaultOrganizationId, 
-                request.CatalogSectionId, 
-                request.Name, 
-                request.FullName, 
-                request.Description, 
-                request.Price, 
+            Product product = new(
+                userOrganizationFound.Id,
+                request.CatalogSectionId,
+                request.Name,
+                request.FullName,
+                request.Description,
+                request.Price,
                 attributeValues
                 );
 
-            //  await CreateDocuments(request.Documents);
+            product
+            .SetCodeTnVed(request.CodeTnVed)
+            .SetCodeOkpd2(request.CodeOkpd2)            
+            .SetAddress(request.Address);
+
+            product.SetArticle(request.Article);
+            product.SetShareOfForeignComponents(request.ShareOfForeignComponents ?? 0f);
 
             var productDocuments = request.Documents.Select(fd => new ProductDocument(new Document(fd.FileName, fd.FileId))).ToArray();
 
@@ -64,7 +83,6 @@ namespace Rk.Messages.Logic.ProductsNS.Commands.CreateProduct
             return product.Id;
 
         }
-
 
     }
 }

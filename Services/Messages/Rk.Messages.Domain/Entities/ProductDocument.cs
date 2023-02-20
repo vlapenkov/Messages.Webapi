@@ -13,7 +13,7 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class ProductDocument :BaseEntity
     {
-        //private ProductDocument() { }
+       
         public ProductDocument(Document document)
         {
             Document = document;
@@ -28,11 +28,11 @@ namespace Rk.Messages.Domain.Entities
 
         public long BaseProductId { get; private set; }
 
-        public virtual BaseProduct BaseProduct { get;  }
+        public virtual BaseProduct BaseProduct { get; } = null!;
 
         public long DocumentId { get; private set; }
 
-        public virtual Document Document { get; }
+        public virtual Document Document { get; } = null!;
 
     }
 }

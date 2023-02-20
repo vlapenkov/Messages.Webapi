@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Rk.Messages.Webapi.Controllers
 {
+    /// <summary>  Контроллер корзины </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
@@ -18,6 +19,7 @@ namespace Rk.Messages.Webapi.Controllers
     {
         private readonly IMediator _mediatr;
 
+        /// <inheritdoc />
         public ShoppingCartController(IMediator mediatr)
         {
             _mediatr = mediatr;
@@ -30,6 +32,7 @@ namespace Rk.Messages.Webapi.Controllers
 
             await _mediatr.Send(new AddToShoppingCartCommand {Request = request });
         }
+
 
         /// <summary>Удалить товар из корзины</summary>           
         [HttpDelete("{productId:long}")]

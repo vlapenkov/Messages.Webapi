@@ -11,10 +11,12 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class AuditableEntity :BaseEntity
     {
+        protected AuditableEntity() { 
+        }
 
-        public string CreatedBy { get; protected set; }
+        public string CreatedBy { get; protected set; } = null!;
 
-        public string LastModifiedBy { get; protected set; }
+        public string LastModifiedBy { get; protected set; } = null!;
 
         public DateTime Created { get; protected set; }
 

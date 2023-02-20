@@ -20,12 +20,12 @@ namespace Rk.Messages.Spa.Controllers
         }
 
         /// <summary>
-        /// Создать заказ
+        /// Создать заказы
         /// </summary>        
         [HttpPost]
-        public async Task<long> CreateOrder()
+        public async Task<long[]> CreateOrder()
         {
-            return await _service.CreateOrder();
+            return await _service.CreateOrders();
         }
 
         /// <summary>
@@ -47,6 +47,13 @@ namespace Rk.Messages.Spa.Controllers
             var result = await _service.GetOrders(request);
 
             return result;
+        }
+
+        /// <summary>Установить статус</summary>
+        [HttpPatch("{id:long}/status")]
+        public async Task SetStatus(long id, [FromBody] long status)
+        {
+            await _service.SetStatus(id, status);
         }
 
     }

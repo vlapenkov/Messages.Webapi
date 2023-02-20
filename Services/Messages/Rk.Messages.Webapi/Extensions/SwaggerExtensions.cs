@@ -45,7 +45,7 @@ namespace Rk.Messages.Webapi.Extensions
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, IConfiguration config, string title)
+        public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, IConfiguration config, string title)
         {
             app.UseSwagger(c =>
             {

@@ -9,13 +9,23 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
     public interface IAppDbContext
     {
         DbSet<Organization> Organizations { get; }
+
         DbSet<ProductAttribute> Attributes { get; }
+
         DbSet<AttributeValue> AttributeValues { get; }
+
         DbSet<CatalogSection> CatalogSections { get; }
 
+        DbSet<BaseProduct> BaseProduct { get; }
+
         DbSet<Product> Products { get; }
+
         DbSet<ServiceProduct> ServiceProducts { get; }
-        DbSet<Technology> TechnologyProducts { get; }
+
+        DbSet<WorkProduct> WorkProducts { get; }
+
+        DbSet<SectionDocument> SectionDocuments { get; }
+
         DbSet<ProductDocument> ProductDocuments { get; }
 
         DbSet<Document> Documents { get; }
@@ -25,6 +35,12 @@ namespace Rk.Messages.Interfaces.Interfaces.DAL
         DbSet<OrderItem> OrderItems { get; set; }
 
         DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        DbSet<News> News { get; set; }
+
+        DbSet<Review> Reviews { get; set; }
+
+        DbSet<ProductsExchange> ProductsExchanges { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

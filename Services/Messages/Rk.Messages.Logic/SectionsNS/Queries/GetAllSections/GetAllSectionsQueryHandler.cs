@@ -12,10 +12,10 @@ using Rk.Messages.Logic.SectionsNS.Dto;
 
 namespace Rk.Messages.Logic.SectionsNS.Queries.GetAllSections
 {
-    public class GetAllSectionsQueryHandler :IRequestHandler<GetAllSectionsQuery, IReadOnlyCollection<SectionDto>>
+    public class GetAllSectionsQueryHandler : IRequestHandler<GetAllSectionsQuery, IReadOnlyCollection<SectionDto>>
     {
         private readonly IAppDbContext _appDbContext;
-        private readonly IMapper _mapper;       
+        private readonly IMapper _mapper;
 
         public GetAllSectionsQueryHandler(IAppDbContext appDbContext, IMapper mapper)
         {
@@ -25,12 +25,18 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetAllSections
 
         public async Task<IReadOnlyCollection<SectionDto>> Handle(GetAllSectionsQuery request, CancellationToken cancellationToken)
         {
-            var result =await _appDbContext.CatalogSections
-                .Where(self => request.ParentSectionId == null || self.ParentCatalogSectionId == request.ParentSectionId)
-                .ProjectTo<SectionDto>(_mapper.ConfigurationProvider).
-                ToListAsync(cancellationToken);
+            var sectionsToFilter = _appDbContext.CatalogSections.AsQueryable();
+            if(request.ParentSectionId != null)
+            {
+                sectionsToFilter = sectionsToFilter.Where(self => self.ParentCatalogSectionId == request.ParentSectionId);
+            }
+            var sectionsToReturn = sectionsToFilter
+                  .Include(self => self.Children)
+                  .Include(section => section.SectionDocuments)
+                     .ThenInclude(pd => pd.Document)
+                .ProjectTo<SectionDto>(_mapper.ConfigurationProvider);               
 
-                return result;
+            return await sectionsToReturn.ToListAsync(); 
         }
     }
 }

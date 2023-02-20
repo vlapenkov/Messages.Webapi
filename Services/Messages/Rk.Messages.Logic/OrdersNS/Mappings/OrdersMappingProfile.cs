@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using X.PagedList;
 using Rk.Messages.Logic.OrdersNS.Dto;
 using Rk.Messages.Logic.CommonNS.Dto;
+using Rk.Messages.Common.Helpers;
 
 namespace Rk.Messages.Logic.OrdersNS.Mappings
 {
@@ -26,12 +27,17 @@ namespace Rk.Messages.Logic.OrdersNS.Mappings
                .ReverseMap();
 
             CreateMap<Order, OrderResponse>()
-                .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))                
+                .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))
+                .ForMember(dest => dest.ProducerName, opt => opt.MapFrom(src => src.Producer.FullName))
+                .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
                 .ReverseMap();
 
             CreateMap<Order, OrderShortDto>()
               .ForMember(dest => dest.OrganisationName, opt => opt.MapFrom(src => src.Organization.FullName))
-              .ForMember(dest => dest.Sum, opt => opt.MapFrom(src => src.OrderItems.Sum(oi=>oi.Sum)))
+              .ForMember(dest => dest.ProducerName, opt => opt.MapFrom(src => src.Producer.FullName))
+              .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.OrderItems.Sum(oi=>oi.Quantity)))
+              .ForMember(dest => dest.Sum, opt => opt.MapFrom(src => src.OrderItems.Sum(oi => oi.Sum)))
+              .ForMember(dest => dest.StatusText, opt => opt.MapFrom(src => src.Status.GetDescription()))
               .ReverseMap();
 
         }

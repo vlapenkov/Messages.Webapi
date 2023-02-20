@@ -14,14 +14,22 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string FullName { get; set; }
 
-        public string Description { get; set; }
-
-        /// <summary>Значения атрибутов</summary>
-        public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; } = new List<AttributeValueDto>();
+        public string Description { get; set; }      
 
         public string CodeTnVed { get; set; }
 
-        public decimal Price { get; set; }
+        public string CodeOkpd2 { get; set; }
+
+        public string Address { get; set; }
+
+        public decimal? Price { get; set; }
+
+        public string Article { get; set; }
+        
+        public float? ShareOfForeignComponents { get; set; }
+
+        /// <summary>Значения атрибутов</summary>
+        public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; } = new List<AttributeValueDto>();
 
         /// <summary>Информация о файлах для продукции</summary>
         public List<FileDataDto> Documents { get; set; } = new List<FileDataDto>();

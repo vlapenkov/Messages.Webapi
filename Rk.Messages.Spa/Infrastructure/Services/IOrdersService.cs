@@ -10,9 +10,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <summary>
         /// Создать заказ
         /// </summary>
-        /// <returns>Номер заказа</returns>
+        /// <returns>Номера заказов</returns>
         [Post("/api/v1/Orders")]
-        Task<long> CreateOrder();
+        Task<long[]> CreateOrders();
 
         /// <summary>
         /// Получить заказ
@@ -29,5 +29,9 @@ namespace Rk.Messages.Spa.Infrastructure.Services
         /// <returns>пагинированный список заказов</returns>
         [Get("/api/v1/Orders")]
         Task<PagedResponse<OrderShortDto>> GetOrders([Query] FilterOrdersRequest request);
+
+        /// <summary>Установить статус продукции</summary>  
+        [Patch("/api/v1/Orders/{id}/status")]
+        Task SetStatus(long id, [Body] long status);
     }
 }

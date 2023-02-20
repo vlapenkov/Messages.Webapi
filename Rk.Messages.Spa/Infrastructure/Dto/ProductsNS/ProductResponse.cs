@@ -5,10 +5,8 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
     /// <summary>
     /// Информация о товаре
     /// </summary>
-    public record ProductResponse
-    {
-        public long Id { get; set; }
-
+    public record ProductResponse :AuditableEntityDto
+    {      
         /// <summary>наименование</summary>
         public string Name { get; set; }
 
@@ -20,7 +18,13 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string CodeTnVed { get; set; }
 
-        public decimal Price { get; set; }     
+        public string CodeOkpd2 { get; set; }
+
+        public string Address { get; set; }
+
+        public string Article { get; set; }
+
+        public decimal? Price { get; set; }     
 
         public string MeasuringUnit { get; set; }
 
@@ -28,13 +32,21 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.ProductsNS
 
         public string Currency { get; set; }
 
-        public int Status { get; set; }
+        public float? Rating { get; set; }
+
+        public string StatusText { get; set; }
+
+        public string AvailableStatusText { get; set; }
+
+        public OrganizationShortDto Organization { get; set; }
 
         /// <summary>атрибуты</summary>
         public IReadOnlyCollection<AttributeValueDto> AttributeValues { get; set; }
 
         /// <summary>документы</summary>
-        public IReadOnlyCollection<FileDataDto> Documents { get; set; }
+        public FileDataDto[] Documents { get; set; }
+        
+        public float? ShareOfForeignComponents { get; set; }
 
        
     }

@@ -51,7 +51,11 @@ namespace Rk.Messages.Logic.SectionsNS.Queries.GetSectionsTree
 
             if (query.ParentSectionId != null)
             {
-                rootSectionFound = await _appDbContext.CatalogSections.FirstOrDefaultAsync(self => self.Id == query.ParentSectionId)
+                rootSectionFound = await _appDbContext.CatalogSections
+                    .Include(product => product.SectionDocuments)
+                     .ThenInclude(pd => pd.Document)
+                     .AsNoTracking()
+                    .FirstOrDefaultAsync(self => self.Id == query.ParentSectionId)
                    ?? throw new EntityNotFoundException($"Категория с Id = {query.ParentSectionId} не найдена");
 
                var sectionDto = _mapper.Map<SectionDto>(rootSectionFound);

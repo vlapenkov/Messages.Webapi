@@ -66,10 +66,12 @@ namespace Rk.Messages.Spa
             Uri messagesUri = new Uri(config["Services:Messages:BaseUrl"]);
 
             Uri fileStoreUri = new Uri(config["Services:FileStore:BaseUrl"]);
+            
+            Uri accountUri = new Uri(config["Services:AccountService:BaseUrl"]);
+            
+            Uri statisticsUri = new Uri(config["Services:StatisticService:BaseUrl"]);
 
-            services.AddRefitClient<IMessagesServices>(messagesUri)
-
-                    .AddRefitClient<ISectionsServices>(messagesUri)
+            services.AddRefitClient<ISectionsServices>(messagesUri)
 
                     .AddRefitClient<IProductsService>(messagesUri)
 
@@ -79,7 +81,23 @@ namespace Rk.Messages.Spa
 
                     .AddRefitClient<IOrganizationsService>(messagesUri)
 
-                    .AddRefitClient<IFileStoreService>(fileStoreUri);           
+                    .AddRefitClient<INewsService>(messagesUri)
+
+                    .AddRefitClient<IProductionsService>(messagesUri)
+
+                    .AddRefitClient<IRegionsService>(messagesUri)
+
+                    .AddRefitClient<IWorkProductsService>(messagesUri)
+                    
+                    .AddRefitClient<IServiceProductsService>(messagesUri)
+
+                    .AddRefitClient<IFileStoreService>(fileStoreUri)
+
+                    .AddRefitClient<IProductsPrepareService>(fileStoreUri)
+                    
+                    .AddRefitClient<IAccountService>(accountUri)
+                    
+                    .AddRefitClient<IStatisticService>(statisticsUri);
 
             return services;
         }
@@ -145,14 +163,17 @@ namespace Rk.Messages.Spa
         /// <param name="config"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, IConfiguration config, string title)
+        public static IApplicationBuilder UseSwaggerUI(this IApplicationBuilder app, WebApplicationBuilder builder, string title)
         {
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
                 {
-                    var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["Host"]}{config["SUBDIR"]}";
-                    swaggerDoc.Servers = new List<OpenApiServer> { new() { Url = serverUrl } };
+                    var schema = httpRequest.Scheme;
+                    var host = httpRequest.Headers["Host"];
+                    var subDir = builder.Configuration["SUBDIR"] ?? "";
+                    var serverUrl = $"{schema}://{host}{subDir}";
+                    swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
                 });
             });
 

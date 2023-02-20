@@ -1,0 +1,105 @@
+@import '_variables.scss';
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--surface-ground);
+  overflow-y: scroll;
+}
+.no-label {
+  .p-button-label {
+    display: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  &:horizontal {
+    height: 6px;
+  }
+  &-track {
+    border-radius: var(--border-radius);
+  }
+  &-thumb {
+    background-color: var(--surface-500);
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.p-component-overlay {
+  backdrop-filter: blur(1rem);
+}
+
+.trans-shadow {
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+}
+
+$background-color: map-get(
+  $map: $colors,
+  $key: 'background',
+);
+
+body {
+  --surface-ground: #{$background-color};
+}
+
+.p-card {
+  background-color: map-get($map: $colors, $key: 'white');
+  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.02);
+}
+
+.no-background-table {
+  table.p-datatable-table {
+    thead {
+      th {
+        background-color: $background-color;
+        color: #898989;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+      }
+    }
+    tbody {
+      td {
+        background-color: $background-color;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 140%;
+      }
+    }
+  }
+}
+
+.p-tabview {
+  .p-tabview-panels,
+  .p-tabview-nav,
+  .p-tabview-header,
+  .p-tabview-nav-link,
+  .p-tabview-header-action {
+    background: none !important;
+  }
+}
+$zoomIn: 1.1;
+.hover-zoom {
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale($zoomIn, $zoomIn);
+  }
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.p-image {
+  &-toolbar {
+    z-index: 1 !important;
+  }
+  &-preview {
+    border-radius: 0.8rem;
+  }
+}

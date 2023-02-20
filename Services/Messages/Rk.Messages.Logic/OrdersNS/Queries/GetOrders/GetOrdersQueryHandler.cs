@@ -35,12 +35,22 @@ namespace Rk.Messages.Logic.OrdersNS.Queries.GetOrders
 
             IQueryable<Order> ordersQuery = _dbContext.Orders
                 .Include(self => self.Organization)
+                .Include(self => self.Producer)
                 .Include(self => self.OrderItems)
                     .ThenInclude(oi => oi.Product)
                 .AsNoTracking();
 
             if (request.OrganisationName != null)
                 ordersQuery = ordersQuery.Where(order => order.Organization.Name.ToLower().Contains(request.OrganisationName.ToLower()));
+
+            if (request.OrganisationId != null)
+                ordersQuery = ordersQuery.Where(order => order.OrganizationId == request.OrganisationId);
+
+            if (request.ProducerName != null)
+                ordersQuery = ordersQuery.Where(order => order.Producer.Name.ToLower().Contains(request.ProducerName.ToLower()));
+
+            if (request.ProducerId != null)
+                ordersQuery = ordersQuery.Where(order => order.ProducerId == request.ProducerId);
 
             if (request.UserName != null)
                 ordersQuery = ordersQuery.Where(order => order.UserName.ToLower().Contains(request.UserName.ToLower()));
@@ -56,7 +66,7 @@ namespace Rk.Messages.Logic.OrdersNS.Queries.GetOrders
                 ordersQuery = ordersQuery.Where(order => order.Created < request.DateTo);
 
 
-            IPagedList<Order> queryResult = await ordersQuery.OrderBy(order => order.Id).ToPagedListAsync(request.PageNumber, request.PageSize);
+            IPagedList<Order> queryResult = await ordersQuery.OrderByDescending(order => order.Id).ToPagedListAsync(request.PageNumber, request.PageSize, cancellationToken);
 
 
             // преобразование из IPagedList<Order> -> PagedResponse<OrderShortDto>

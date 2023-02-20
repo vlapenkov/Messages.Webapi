@@ -35,6 +35,8 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Queries.GetCartItems
             var userName = _userService.UserName;
 
            var cartItems = await _appDbContext.ShoppingCartItems
+                 .Include(product => product.Product)
+                        .ThenInclude(product => product.Organization)
                 .Include(self=>self.Product)
                     .ThenInclude(product => product.ProductDocuments)
                         .ThenInclude(pd => pd.Document)

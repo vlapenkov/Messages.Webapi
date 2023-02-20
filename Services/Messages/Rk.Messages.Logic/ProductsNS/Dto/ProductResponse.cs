@@ -1,4 +1,5 @@
-﻿using Rk.Messages.Domain.Entities;
+﻿using Rk.Messages.Domain.Enums;
+using Rk.Messages.Logic.CommonNS.Dto;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,9 +8,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
     /// <summary>
     /// Информация о товаре
     /// </summary>
-    public record ProductResponse
-    {
-        public long Id { get; set; }
+    public record ProductResponse: AuditableEntityDto
+    {        
 
         /// <summary>наименование</summary>
         public string Name { get; set; }
@@ -22,7 +22,13 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string CodeTnVed { get; set; }
 
-        public decimal Price { get; set; }        
+        public string CodeOkpd2 { get; set; }
+
+        public string Address { get; set; }
+
+        public string Article { get; set; }
+
+        public decimal? Price { get; set; }        
 
         public string MeasuringUnit { get; set; }
 
@@ -30,7 +36,15 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         public string Currency { get; set; }
 
-        public ProductStatus Status { get; set; }
+        public float? Rating { get; set; }
+
+        //public ProductStatus Status { get; set; }
+
+        public string StatusText { get; set; }
+
+        public string AvailableStatusText { get; set; }
+
+        public OrganizationShortDto Organization { get; set; }
 
 
         /// <summary>значения атрибутов</summary>
@@ -38,6 +52,8 @@ namespace Rk.Messages.Logic.ProductsNS.Dto
 
         /// <summary>документы</summary>
         public List<FileDataDto> Documents { get; set; } = new List<FileDataDto>();
+        
+        public float? ShareOfForeignComponents { get; set; }
 
        
     }

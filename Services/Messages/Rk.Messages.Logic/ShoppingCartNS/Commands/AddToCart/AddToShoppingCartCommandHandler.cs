@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -41,11 +43,21 @@ namespace Rk.Messages.Logic.ShoppingCartNS.Commands.AddToShoppingCartCommand
 
             if (cartItemFound != null)
             {
+                if (cartItemFound.Quantity + request.Quantity < 0)
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.Quantity), $"Количество продукции {product.Name} в корзине {cartItemFound.Quantity}.")});                                               
+
+
                 cartItemFound.Increment(request.Quantity);
+
+                // если вычли и осталось 0 - удаляем из корзины
+                if (cartItemFound.Quantity == 0)
+                    _appDbContext.ShoppingCartItems.Remove(cartItemFound);
             }
             else
             {
-                var cartItem = new ShoppingCartItem(_userService.UserName, product.Id, product.Price, request.Quantity);
+                if (!product.Price.HasValue) throw new RkErrorException($"У данного продукта {product.Name} не задана цена.");
+
+                var cartItem = new ShoppingCartItem(_userService.UserName, product.Id, product.Price.Value, request.Quantity);
 
                 _appDbContext.ShoppingCartItems.Add(cartItem);
             }

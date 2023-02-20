@@ -1,5 +1,4 @@
-using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
+ï»¿using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,7 @@ using Rk.Messages.Interfaces.Interfaces.DAL;
 using Rk.Messages.Webapi.Extensions;
 using Serilog;
 using System;
+using Rk.Messages.Webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,16 +33,15 @@ builder.Services.AddDependencies();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGeneration();
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-     .ReadFrom.Configuration(hostingContext.Configuration)
-     .Enrich.FromLogContext()
-     .Enrich.WithMachineName()
+    .ReadFrom.Configuration(hostingContext.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
 );
 
 builder.Services.AddHealthChecks();
 
 
 var app = builder.Build();
-
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseRouting();
@@ -50,23 +49,19 @@ app.UseRouting();
 app.UseReverseProxy(builder.Configuration);
 
 app.UseAuthentication();
-
+app.UseAuthorization();
 app.UseMiddleware<LogUserNameMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<LogCorrelationIdMiddleware>();
-app.UseProblemDetails();
+//app.UseMiddleware<StatisticMiddleware>();
 
-app.UseAuthorization();
-app.UseAuthorization();
+app.UseProblemDetails();
 
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     ResponseWriter = HealthCheckUiExtensions.WriteResponse
 });
-app.UseSwaggerUI(builder.Configuration, "Api äëÿ ðàáîòû ñ Marketplace V1");
+app.UseSwaggerUi(builder.Configuration, "Api Marketplace V1");
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();

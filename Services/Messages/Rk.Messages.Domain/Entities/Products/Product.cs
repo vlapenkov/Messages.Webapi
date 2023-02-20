@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Rk.Messages.Domain.Enums;
 
 namespace Rk.Messages.Domain.Entities.Products
 {
     /// <summary>
-    /// Продукция
+    /// Товар
     /// </summary>
     public class Product : BaseProduct
     {
@@ -15,27 +18,27 @@ namespace Rk.Messages.Domain.Entities.Products
             string name,
             string fullname,
             string description, 
-            decimal price, 
+            decimal? price,
             IReadOnlyCollection<AttributeValue> attributeValues
        
             ) 
-            : base(organizationId, catalogSectionId, name, description, attributeValues)
-        {
-            FullName = fullname;
-            Price = price;
-            
+            : base(organizationId, catalogSectionId, name, fullname, description, price, attributeValues)
+        { 
+           
         }
 
         #region Private Members
 
         [StringLength(256)]
-        public string CodeTnVed { get; private set; }
+        public string CodeTnVed { get; private set; } = null!;
 
-        public decimal Price { get; private set; }
+        [StringLength(256)]
+        public string? CodeOkpd2 { get; private set; }
+               
 
-        [StringLength(1024)]
-        public string FullName { get; private set; }
-
+        /// <summary>Адрес производства</summary>
+        [StringLength(4096)]
+        public string? Address { get; private set; }
 
         [StringLength(128)]
         public string MeasuringUnit { get; private set; } = "шт.";
@@ -46,15 +49,21 @@ namespace Rk.Messages.Domain.Entities.Products
         [StringLength(3)]
         public string Currency { get; private set; } = "RUB";
 
-        public ProductStatus Status { get; private set; } = ProductStatus.OnStock;
+        //[Required]
+        public AvailableStatus AvailableStatus { get; private set; } = AvailableStatus.OnStock;
 
-
-
+        [Range(0f, 100f)]
+        public float? ShareOfForeignComponents { get; private set; } = 0f;
+        
         private readonly List<string> _applicationAreas = new List<string>();
         public virtual IReadOnlyCollection<string> ApplicationAreas => _applicationAreas;
 
 
+
         #endregion
+
+        #region Methods
+       
 
         /// <summary>
         /// Установить цену продукции
@@ -73,7 +82,47 @@ namespace Rk.Messages.Domain.Entities.Products
             this._applicationAreas.AddRange( applicationAreas);
         }
 
+        /// <summary>
+        /// Установить статус достпуности
+        /// </summary>        
+        public void SetAvailableStatus(AvailableStatus availableStatus)
+        { 
+            AvailableStatus = availableStatus;
+        }
+
+        public override string GetProductionType()
+        {
+            return nameof(Product);
+        }
+
+        public Product SetCodeTnVed(string codeTnVed)
+        {
+           CodeTnVed = codeTnVed;
+            return this;
+        }
+
+        public Product SetCodeOkpd2(string codeOkpd2)
+        {
+            CodeOkpd2 = codeOkpd2;
+            return this;
+        }
+
+        public Product SetAddress(string address)
+        {
+            Address = address;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить долю посторонних компонентов, в процентах
+        /// </summary>
+        public void SetShareOfForeignComponents(float value)
+        {
+            this.ShareOfForeignComponents = value;
+        }
 
 
+
+        #endregion
     }
 }

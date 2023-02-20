@@ -16,11 +16,11 @@ namespace Rk.Messages.Domain.Entities
 
         public long OrderId { get; private set; }
 
-        public virtual Order Order { get; }
+        public virtual Order Order { get; } = null!;
 
         public long ProductId { get; private set; }
 
-        public virtual BaseProduct Product { get; }
+        public virtual BaseProduct Product { get; } = null!;
 
         public decimal Price { get; private set; }
 

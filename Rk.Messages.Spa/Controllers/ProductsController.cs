@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.CommonNS;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Dto.ProductsNS;
@@ -7,11 +8,10 @@ using Rk.Messages.Spa.Infrastructure.Services;
 namespace Rk.Messages.Spa.Controllers
 {
     /// <summary>
-    /// Работа с продукцией
-    /// </summary>
-    
+    /// Управление товарами
+    /// </summary>    
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     
     public class ProductsController : ControllerBase
     {
@@ -19,16 +19,26 @@ namespace Rk.Messages.Spa.Controllers
 
         private readonly IFileStoreService _filesService;
 
+        private readonly IProductsPrepareService _productsPrepareService;
 
-        public ProductsController(IProductsService productsService, IFileStoreService fileService)
+        private readonly IProductionsService _productionsService;
+
+        
+
+        public ProductsController(IProductsService productsService, IFileStoreService filesService, IProductsPrepareService productsPrepareService, IProductionsService productionsService)
         {
             _productsService = productsService;
-            _filesService = fileService;
+            _filesService = filesService;
+            _productsPrepareService = productsPrepareService;
+            _productionsService = productionsService;
+        
         }
 
-        /// <summary>Создать продукт </summary>
-        [HttpPost]
-        //[Authorize]
+
+
+
+        /// <summary>Создать товар</summary>
+        [HttpPost]        
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
         {
 
@@ -44,19 +54,60 @@ namespace Rk.Messages.Spa.Controllers
 
         }
 
-        /// <summary>Получить список товаров с отбором и пагинацией </summary>
-        [HttpGet]
-        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
+        /// <summary>Создать товары из excel </summary>
+        [HttpPost("fromexcel")]
+        public async Task<IReadOnlyCollection<CreateProductRequest>> CreateProducts([FromBody] CreateProductsFromFileRequest request)
         {
-            return await _productsService.GetProducts(request);
+            IReadOnlyCollection<CreateProductRequest> productsPrepared = await _productsPrepareService.PrepareProductsFromExcel(request);
+
+            foreach (var productRequest in productsPrepared)
+            {
+                var productId = await _productsService.CreateProduct(productRequest);
+
+              //  _logger.LogInformation($"Создана продукция id={productId}");
+            }
+
+            await _productionsService.RegisterExchange(new RegisterProductsExchangeRequest { ExchangeType = (int)ProductExchangeType.Excel, ProductsLoaded = productsPrepared.Count });
+
+            return productsPrepared;
+
         }
 
-        /// <summary>Получить информацию о продукции</summary>
+        /// <summary>Получить информацию о товаре</summary>
+        [AllowAnonymous]
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
-            return await _productsService.GetProduct(id);
+            byte[][] resultFiles = Array.Empty<byte[]>();
 
+            var product =  await _productsService.GetProduct(id);
+
+            if (product.Documents.Any())
+            {
+                var tasks = new Task<byte[]>[product.Documents.Count()];
+
+                for (int i = 0; i < product.Documents.Count(); i++)
+                {
+                    tasks[i] = _filesService.GetFileContent(product.Documents[i].FileId);
+                }
+
+                resultFiles = await Task.WhenAll(tasks);
+
+            }
+
+            for (int i = 0; i < resultFiles.Length; i++)           
+             
+                product.Documents[i].Data = resultFiles[i];            
+
+            return product;
         }
+
+        /// <summary>Апдейт товара</summary>
+        [HttpPut("{id:long}")]
+        public async Task UpdateProduct(long id, [FromBody] UpdateProductRequest request)
+        {
+            await _productsService.UpdateProduct(id, request);
+        }
+
     }
 }

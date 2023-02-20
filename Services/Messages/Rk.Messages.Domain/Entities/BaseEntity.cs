@@ -7,6 +7,9 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class BaseEntity
     {
+
+        protected BaseEntity() { }
+
         long _id;
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace Rk.Messages.Domain.Entities
 
         private static bool IsTransient(BaseEntity obj)
         {
-            return obj != null && Equals(obj.Id, default(long));
+            return /*obj != null && */ Equals(obj.Id, default(long));
         }
 
         private Type GetUnproxiedType()
@@ -41,8 +44,8 @@ namespace Rk.Messages.Domain.Entities
 
         public virtual bool Equals(BaseEntity other)
         {
-            if (other == null)
-                return false;
+          /*  if (other == null)
+                return false; */
 
             if (ReferenceEquals(this, other))
                 return true;

@@ -2,11 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rk.Messages.Logic.CommonNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Commands.CreateProduct;
+using Rk.Messages.Logic.ProductsNS.Commands.UpdateProductAttributes;
 using Rk.Messages.Logic.ProductsNS.Dto;
 using Rk.Messages.Logic.ProductsNS.Queries.GetProductQuery;
-using Rk.Messages.Logic.ProductsNS.Queries.GetProductsQuery;
 
 namespace Rk.Messages.Webapi.Controllers
 {
@@ -15,6 +14,7 @@ namespace Rk.Messages.Webapi.Controllers
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController :ControllerBase
     {
         private readonly IMediator _mediator;
@@ -27,9 +27,7 @@ namespace Rk.Messages.Webapi.Controllers
 
         /// <summary>
         /// Создать продукцию
-        /// </summary>
-        /// <param name="request">запрос создания</param>
-        /// <returns></returns>
+        /// </summary>       
         [HttpPost]
        // [Authorize(Roles = "manager,admin")]
         public async Task<long> CreateProduct([FromBody] CreateProductRequest request)
@@ -37,15 +35,8 @@ namespace Rk.Messages.Webapi.Controllers
             return await _mediator.Send(new CreateProductCommand { Request = request });
         }
 
-        /// <summary>Получить список продукции с отбором и пагинацией </summary>
-        [HttpGet]
-        public async Task<PagedResponse<ProductShortDto>> GetProducts([FromQuery] FilterProductsRequest request)
-        {
-            var result = await _mediator.Send(new GetProductsQuery {Request = request });
-            return result;
-        }
-
         /// <summary>Получить информацию о продукции</summary>
+        [AllowAnonymous]
         [HttpGet("{id:long}")]
         public async Task<ProductResponse> GetProduct(long id)
         {
@@ -53,6 +44,12 @@ namespace Rk.Messages.Webapi.Controllers
             return result;
         }
 
-
+        /// <summary>Апдейт значений атрибутов товара</summary>
+        [HttpPut("{id:long}")]
+        public async Task UpdateProduct(long id, [FromBody] UpdateProductRequest request)
+        {
+            await _mediator.Send(new UpdateProductCommand { ProductId = id , Request = request });            
+        }       
+        
     }
 }

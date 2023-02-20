@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Elasticsearch.Net;
+using Microsoft.AspNetCore.Mvc;
 using Rk.Messages.Spa.Infrastructure.Dto.FileStoreNS;
 using Rk.Messages.Spa.Infrastructure.Services;
 
@@ -48,6 +49,20 @@ namespace Rk.Messages.Spa.Controllers
         {
             return await _fileService.GetFileContent(globalId);
 
+        }
+
+        /// <summary>
+        /// Получить содержимое файла как картинку в определенном формете
+        /// </summary>
+        /// <param name="globalId">Идентификатор документа</param>
+        /// <param name="pictureType">тип картинки (пр-р jpeg)</param>
+        /// <returns>картинка</returns>
+
+        [HttpGet("{globalId}/{pictureType}")]
+        public async Task<IActionResult> Get(Guid globalId, string pictureType)
+        {
+            var bytes =  await _fileService.GetFileContent(globalId);
+            return File(bytes, $"image/{pictureType}");
         }
     }
 }

@@ -17,7 +17,10 @@ namespace Rk.Messages.Common.Extensions
         {
             _ = bool.TryParse(config["USE_REVERSE_PROXY"], out var behindReverseProxy);
             if (!behindReverseProxy) return app;
-
+        
+            var subDirPath = config["SUBDIR"];
+            if (!string.IsNullOrWhiteSpace(subDirPath)) app.UsePathBase(new PathString(subDirPath));
+        
             var forwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -25,9 +28,6 @@ namespace Rk.Messages.Common.Extensions
             forwardedHeaderOptions.KnownNetworks.Clear();
             forwardedHeaderOptions.KnownProxies.Clear();
             app.UseForwardedHeaders(forwardedHeaderOptions);
-            var subDirPath = config["SUBDIR"];
-
-            if (!string.IsNullOrWhiteSpace(subDirPath)) app.UsePathBase(new PathString(subDirPath));
 
             return app;
         }

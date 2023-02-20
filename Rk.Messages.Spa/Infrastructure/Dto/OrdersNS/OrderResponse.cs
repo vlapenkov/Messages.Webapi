@@ -4,9 +4,10 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrdersNS
 {
     public record OrderResponse : AuditableEntityDto
     {
-        public long Id { get; set; }
-
         public string OrganisationName { get; set; }
+
+        /// <summary>Название производителя</summary>
+        public string ProducerName { get; set; }
 
         public string UserName { get; set; }
 
@@ -15,5 +16,7 @@ namespace Rk.Messages.Spa.Infrastructure.Dto.OrdersNS
         public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
 
         public decimal Sum => OrderItems.Sum(oi=>oi.Sum);
+
+        public string StatusText { get; set; }
     }
 }

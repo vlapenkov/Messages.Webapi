@@ -10,7 +10,7 @@ namespace Rk.Messages.Domain.Entities
     /// </summary>
     public class Organization : AuditableEntity
     {
-        protected Organization() { }
+      //  protected Organization() { }
         
 
         public Organization(
@@ -99,19 +99,19 @@ namespace Rk.Messages.Domain.Entities
         #region Private Members
 
         [StringLength(512)]
-        public string Name { get; private set; } = null!;
+        public string Name { get; private set; }
 
         [StringLength(1024)]
-        public string FullName { get; private set; } = null!;
+        public string FullName { get; private set; }
 
         [StringLength(20)]
-        public string Ogrn { get; private set; } = null!;
+        public string Ogrn { get; private set; }
 
         [StringLength(12)]
-        public string Inn { get; private set; } = null!;
+        public string Inn { get; private set; }
 
         [StringLength(9)]
-        public string Kpp { get; private set; } = null!;
+        public string Kpp { get; private set; }
 
         [StringLength(512)]
         public string? Region { get; private set; }

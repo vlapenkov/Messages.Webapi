@@ -49,11 +49,11 @@ namespace Rk.Messages.Webapi.Controllers
         }
 
         /// <summary> Создать новую организацию </summary>
-        [HttpPost]
-        public async Task<long> CreateOrganization([FromBody] CreateOrganizationRequest request)
-        {
-            return await _mediator.Send(new CreateOrganizationCommand { Request = request });
-        }
+        //[HttpPost]
+        //public async Task<long> CreateOrganization([FromBody] CreateOrganizationRequest request)
+        //{
+        //    return await _mediator.Send(new CreateOrganizationCommand { Request = request });
+        //}
 
         /// <summary>Установить статус</summary>
         [HttpPatch("{id:long}/status")]
